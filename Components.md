@@ -44,7 +44,7 @@ The **Phase** column refers to the [roadmap](ROADMAP.md); "–" means not yet sc
 | DropDownList, ComboBox, MultiSelect, AutoComplete | Tom Select | Apache 2.0 | 4 ✅ (`->searchable()`, `->multiple()`, `->remote()`) |
 | DatePicker, TimePicker, DateTimePicker, DateRangePicker | Native (`input type=date`, `time`, `datetime-local`): keyboard, screen reader and mobile pickers from the browser | – | 4 ✅ (`Field::date`, `time`, `datetime`, `dateRange`) |
 | Tags input (Telerik ChipList) | Tom Select (create mode) | Apache 2.0 | 4 ✅ (`Field::tags`) |
-| Rating | Native (radio buttons) | – | 4 |
+| Rating | Native (radio buttons) | – | 4 ✅ (`Field::rating`) |
 | OTP input | Native | – | 4 |
 | Key-value list, repeater (Filament) | Native | – | 4 (repeater ✅ `Repeater::make()`; key-value list to do) |
 | RangeSlider | noUiSlider | MIT | – |

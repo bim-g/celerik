@@ -14,6 +14,13 @@
   --celerik-editor-min-height: #{$celerik-editor-min-height};
   --celerik-radius: var(--bs-border-radius);
   --celerik-surface-shadow: none;
+  // Stars of a rating field: amber with 3:1 and more on light backgrounds (WCAG 1.4.11);
+  // Bootstrap's warning yellow on dark ones.
+  --celerik-rating-color: #c27c0e;
+}
+
+[data-bs-theme='dark'] {
+  --celerik-rating-color: #ffc107;
 }
 
 .celerik-grid {
@@ -379,6 +386,87 @@
       transform: rotate(45deg);
     }
   }
+
+  // Rating (Field::rating()): radio buttons, visually hidden, labelled by stars. The stars
+  // up to the checked one are filled, and up to the hovered one while the pointer is on
+  // them. Each star is a 2rem target (WCAG 2.5.8).
+  .celerik-rating-stars {
+    display: inline-flex;
+    align-items: center;
+    vertical-align: middle;
+  }
+
+  .celerik-rating-star {
+    display: inline-flex;
+    width: 2rem;
+    height: 2rem;
+    padding: 0.125rem;
+    color: var(--celerik-rating-color);
+    cursor: pointer;
+    border-radius: var(--bs-border-radius-sm);
+
+    svg {
+      width: 100%;
+      height: 100%;
+      fill: transparent;
+      stroke: currentColor;
+      stroke-width: 1.5;
+      stroke-linejoin: round;
+    }
+  }
+
+  @for $n from 1 through 10 {
+    .celerik-rating-stars:has(> .celerik-rating-input:nth-of-type(#{$n}):checked)
+      > .celerik-rating-star:nth-of-type(-n + #{$n})
+      svg {
+      fill: currentColor;
+    }
+  }
+
+  // Hover previews the rating: empty every star, then fill up to the hovered one. As
+  // specific as the checked rule above, and after it.
+  .celerik-rating-stars:has(> .celerik-rating-star:nth-of-type(n):hover) > .celerik-rating-star:nth-of-type(n) svg {
+    fill: transparent;
+  }
+
+  @for $n from 1 through 10 {
+    .celerik-rating-stars:has(> .celerik-rating-star:nth-of-type(#{$n}):hover)
+      > .celerik-rating-star:nth-of-type(-n + #{$n})
+      svg {
+      fill: currentColor;
+    }
+  }
+
+  .celerik-rating-input:focus-visible + .celerik-rating-star {
+    box-shadow: var(--celerik-focus-ring);
+  }
+
+  .celerik-rating-input.is-invalid + .celerik-rating-star {
+    color: var(--bs-form-invalid-color);
+  }
+
+  .celerik-rating-clear {
+    display: inline-block;
+    margin-left: 0.75rem;
+    vertical-align: middle;
+
+    label {
+      padding: 0.25rem 0;
+      color: var(--bs-secondary-color);
+      text-decoration: underline;
+      cursor: pointer;
+    }
+  }
+
+  .celerik-rating-input:checked + label:not(.celerik-rating-star) {
+    color: var(--bs-body-color);
+    text-decoration: none;
+  }
+
+  .celerik-rating-input:focus-visible + label:not(.celerik-rating-star) {
+    border-radius: var(--bs-border-radius-sm);
+    box-shadow: var(--celerik-focus-ring);
+  }
 }
 
 // Searchable selects (Tom Select, Bootstrap 5 theme). Its stylesheet loads with its chunk,
@@ -608,6 +696,12 @@
 
   // Date and time inputs: see .celerik-form above.
   .celerik-form :is(input[type='date'], input[type='time'], input[type='datetime-local']):focus-within {
+    outline: 2px solid Highlight;
+    outline-offset: 2px;
+  }
+
+  // A rating's focused star: its label shows the focus, not the hidden radio.
+  .celerik-rating-input:focus-visible + label {
     outline: 2px solid Highlight;
     outline-offset: 2px;
   }

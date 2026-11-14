@@ -21,8 +21,10 @@ async function invisibleFocus(page, stops) {
       const component = element.closest('[data-celerik], .dt-container')?.id ?? null;
       // Bootstrap's focus trap can focus the modal itself: its dialog box shows the outline.
       // A searchable select's search box is inside the control, which shows the outline.
+      // A rating's radio is visually hidden: its star (label) shows the focus.
       const shown = element.matches('.modal') ? element.querySelector('.modal-content')
-        : element.closest('.ts-control') ?? element;
+        : element.matches('.celerik-rating-input') ? element.labels[0]
+          : element.closest('.ts-control') ?? element;
       const style = getComputedStyle(shown);
       const visible = style.outlineStyle !== 'none' && parseFloat(style.outlineWidth) > 0;
       const name = element.id ? `#${element.id}` : `${element.tagName.toLowerCase()}.${[...element.classList].join('.')}`;

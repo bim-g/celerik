@@ -208,6 +208,8 @@ $fixtures = [
             Field::switch('newsletter', 'Send me the newsletter'),
             Field::range('volume')->min(0)->max(10)->value(4),
             Field::color('accent', 'Accent color')->value('#0d6efd'),
+            Field::rating('score', 'Your rating')->required(),
+            Field::rating('service')->stars(3)->value(2),
         )
         ->errors(['plan' => 'Choose a plan.'])
         ->submit('Save'),

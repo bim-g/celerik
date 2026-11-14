@@ -14,5 +14,6 @@ return Form::make('preferences')
         Field::switch('newsletter', 'Monthly newsletter')->value(true),
         Field::range('volume', 'Notification volume')->min(0)->max(10)->value(6),
         Field::color('accent', 'Accent color')->value('#0d6efd'),
+        Field::rating('experience', 'How was your experience?')->value(4),
     )
     ->submit('Save preferences');

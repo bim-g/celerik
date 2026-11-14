@@ -161,9 +161,9 @@ A tag that is already there in another case (`php` when `PHP` exists) is not add
 
 Tags are user input: check them on the server, e.g. `'skills' => ['array', 'max:5'], 'skills.*' => ['string', 'max:30']` (Laravel). An error on one tag (`skills.1`) shows under the field. Without JavaScript the field is a multiple select of the suggestions and current tags.
 
-### Choices, switches, sliders and colors
+### Choices, switches, sliders, colors and ratings
 
-<Demo name="form-choices" :min-height="520" />
+<Demo name="form-choices" :min-height="600" />
 
 <<< @/demos/form-choices.php
 
@@ -174,6 +174,9 @@ Tags are user input: check them on the server, e.g. `'skills' => ['array', 'max:
 | `Field::switch($name)` | A checkbox shown as a toggle, announced as a switch. | `1` when on, nothing when off. |
 | `Field::range($name)` | A slider; its value is shown after the label. `min()`, `max()` and `step()` default to 0, 100 and 1. | The number. |
 | `Field::color($name)` | A color picker. | A hex color, e.g. `#0d6efd`. |
+| `Field::rating($name)` | Stars: radio buttons named "1 of 5" to "5 of 5", in a `<fieldset>`. `stars(10)` for 3 to 10 stars. Not required, it has a "No rating" choice to clear it. | The number of stars, or an empty string for no rating. |
+
+`ratingLabels(star: '%d sur %d', clear: 'Aucune note')` translates a rating's texts. Check a rating on the server like any number: `'experience' => ['nullable', 'integer', 'between:1,5']` (Laravel). The stars use `--celerik-rating-color`: amber, or yellow in dark mode.
 
 `inline()` puts the choices of a radio or checkbox group on one line. `step()` also works on number, date and time fields.
 
@@ -190,6 +193,7 @@ Tags are user input: check them on the server, e.g. `'skills' => ['array', 'max:
 
 - Every field has a label; help and error texts are linked with `aria-describedby`, and invalid fields get `aria-invalid`.
 - Radio and checkbox groups are fieldsets whose legend names the group; every input of an invalid group gets `aria-invalid`.
+- A rating is a radio group: arrow keys change it, and each star is announced by its name ("4 of 5"). The focused star shows the focus ring, and each star is a 32 x 32 px target.
 - A searchable select is a combobox labelled by the field's label, with its help and error texts; error summary links move focus to it. Its tags' remove buttons are 24 x 24 px.
 - A tags field is the same combobox; the line offering a new tag is an option ("Add Rust"), announced like the suggestions.
 - A failed submit focuses the first invalid field, or the error summary, which is announced once instead of one message per field.

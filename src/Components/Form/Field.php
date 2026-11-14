@@ -46,6 +46,9 @@ final class Field
     private ?int $minTags = null;
     private ?int $maxTags = null;
     private ?string $addText = null;
+    private int $stars = 5;
+    private string $starLabel = '%d of %d';
+    private string $clearLabel = 'No rating';
 
     /** @var array{url: string, value: string, label: string, limit: int}|null */
     private ?array $remote = null;
@@ -252,6 +255,49 @@ final class Field
             throw new InvalidArgumentException('addText() needs a %s for the typed text.');
         }
         $this->addText = $text;
+
+        return $this;
+    }
+
+    /**
+     * A star rating: radio buttons shown as stars, in a fieldset with the label as its
+     * legend. Submits a whole number from 1 to stars(), or "" for "No rating" when the
+     * field is not required.
+     */
+    public static function rating(string $name, ?string $label = null): self
+    {
+        return new self('rating', $name, $label ?? self::humanize($name));
+    }
+
+    /**
+     * How many stars a rating() field has (3 to 10, default 5).
+     */
+    public function stars(int $count): self
+    {
+        $this->assertType('rating', 'stars');
+        if ($count < 3 || $count > 10) {
+            throw new InvalidArgumentException('A rating has 3 to 10 stars.');
+        }
+        $this->stars = $count;
+
+        return $this;
+    }
+
+    /**
+     * Texts of a rating() field, for translation: each star's name, with the value and
+     * the number of stars (default "%d of %d"), and the choice that clears the rating
+     * when the field is not required (default "No rating").
+     */
+    public function ratingLabels(?string $star = null, ?string $clear = null): self
+    {
+        $this->assertType('rating', 'ratingLabels');
+        if ($star !== null) {
+            if (substr_count($star, '%d') < 1) {
+                throw new InvalidArgumentException('The star label needs a %d for the value.');
+            }
+            $this->starLabel = $star;
+        }
+        $this->clearLabel = $clear ?? $this->clearLabel;
 
         return $this;
     }
@@ -652,6 +698,10 @@ final class Field
             return $this->renderPeriod($id, $value, $error, $helpText, $helpId, $errorId);
         }
 
+        if ($this->type === 'rating') {
+            return $this->renderRating($id, $value, $error, $helpText, $helpId, $errorId);
+        }
+
         $attributes = array_merge($this->attributes, [
             'id' => $id,
             'name' => $this->name,
@@ -773,7 +823,10 @@ final class Field
         // Tom Select replaces the select: its search box has no floating label.
         return !$this->searchable && !$this->multiple && !in_array(
             $this->type,
-            ['checkbox', 'switch', 'radio', 'checkboxes', 'period', 'range', 'color', 'file', 'editor', 'hidden'],
+            [
+                'checkbox', 'switch', 'radio', 'checkboxes', 'period', 'rating',
+                'range', 'color', 'file', 'editor', 'hidden',
+            ],
             true,
         );
     }
@@ -832,6 +885,84 @@ final class Field
         ], $legend . $inputs);
 
         // The inputs are not siblings of the message: show it explicitly (d-block).
+        $feedback = $errorId === null ? '' : Html::tag(
+            'div',
+            ['id' => $errorId, 'class' => 'invalid-feedback d-block celerik-server-error'],
+            Html::escape($error),
+        );
+        $help = $helpId === null
+            ? ''
+            : Html::tag('div', ['id' => $helpId, 'class' => 'form-text'], Html::escape($helpText));
+
+        return Html::tag('div', ['class' => 'mb-3'], $fieldset . $feedback . $help);
+    }
+
+    /**
+     * A rating() field: a fieldset of radio buttons, each labelled by a star (an SVG, its
+     * name visually hidden). The CSS fills the stars up to the checked one. The first
+     * star has the field's id, so error summary links lead to the group.
+     */
+    private function renderRating(
+        string $id,
+        mixed $value,
+        ?string $error,
+        ?string $helpText,
+        ?string $helpId,
+        ?string $errorId,
+    ): string {
+        $current = $value === null ? '' : Arr::toText($value);
+        $star = '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">'
+            . '<path d="M12 2.5l2.94 5.96 6.58.96-4.76 4.64 1.12 6.55L12 17.52l-5.88 3.09 1.12-6.55'
+            . '-4.76-4.64 6.58-.96z"/></svg>';
+
+        $radio = function (string $inputId, string $choice, int $index) use ($current, $error): string {
+            return Html::tag('input', array_merge($this->attributes, [
+                'type' => 'radio',
+                'id' => $inputId,
+                'name' => $this->name,
+                'value' => $choice,
+                'checked' => $choice === $current,
+                'required' => $this->required,
+                'data-parsley-error-message' => $index === 0 ? $this->message : null,
+                'aria-invalid' => $error === null ? null : 'true',
+                'class' => $this->controlClass('visually-hidden celerik-rating-input', $error),
+            ]));
+        };
+
+        $stars = '';
+        for ($count = 1; $count <= $this->stars; $count++) {
+            $inputId = $count === 1 ? $id : $id . '-' . $count;
+            $name = sprintf($this->starLabel, $count, $this->stars);
+            $stars .= $radio($inputId, (string) $count, $count - 1) . Html::tag(
+                'label',
+                ['for' => $inputId, 'class' => 'celerik-rating-star'],
+                $star . Html::tag('span', ['class' => 'visually-hidden'], Html::escape($name)),
+            );
+        }
+        $content = Html::tag('div', ['class' => 'celerik-rating-stars'], $stars);
+
+        // Not required: a choice that clears the rating, so mouse users can undo theirs.
+        if (!$this->required) {
+            $clearId = $id . '-none';
+            $content .= Html::tag(
+                'div',
+                ['class' => 'celerik-rating-clear'],
+                $radio($clearId, '', $this->stars)
+                    . Html::tag('label', ['for' => $clearId], Html::escape($this->clearLabel)),
+            );
+        }
+
+        $legend = Html::tag(
+            'legend',
+            ['class' => 'form-label fs-6'],
+            Html::escape($this->label) . ($this->required ? self::REQUIRED_MARKER : ''),
+        );
+        $fieldset = Html::tag('fieldset', [
+            'id' => $id . '-group',
+            'class' => 'celerik-rating',
+            'aria-describedby' => Html::classes([$helpId, $errorId]),
+        ], $legend . $content);
+
         $feedback = $errorId === null ? '' : Html::tag(
             'div',
             ['id' => $errorId, 'class' => 'invalid-feedback d-block celerik-server-error'],
