@@ -23,6 +23,15 @@ export function initSelects(form) {
     select.setAttribute('aria-hidden', 'true');
     // Error summary links and Parsley focus the hidden select: move to the search box.
     select.addEventListener('focus', () => tomSelect.focus());
+    // A tags field: Enter after typing a tag that cannot be added (already there, or the
+    // field is full) must not submit the form.
+    if (options.tags) {
+      tomSelect.control_input.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter' && tomSelect.control_input.value.trim() !== '') {
+          event.preventDefault();
+        }
+      });
+    }
 
     return tomSelect;
   });

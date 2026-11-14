@@ -8,6 +8,7 @@ The same version is published on Packagist (`celerik/ui`) and npm (`@celerikui/u
 
 ### Added
 
+- Tags input: `Field::tags('skills', ['PHP', 'Laravel'])` takes free-text tags (Enter, a comma or paste) and offers suggestions, local or `remote()`. Submits `skills[]`; `minTags()`, `maxTags()` and a translatable `addText()`. Case-insensitive duplicates are not added, and Enter does not submit the form while a tag is being typed.
 - Form repeater: `Repeater::make('lines')->schema(...)` repeats a group of fields, submitted as `lines[0][product]`. Users add, remove and (with `reorderable()`) move rows; `min()`, `max()`, `defaultItems()`, `value()` and translatable `labels()`. Row keys are kept, so old input, errors such as `lines.3.qty` and the error summary find their row ([#97](https://github.com/kivudesign/celerik/pull/97)).
 
 ### Development

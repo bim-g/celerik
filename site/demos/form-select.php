@@ -21,5 +21,9 @@ return Form::make('travel')
             ->searchable()
             ->value(['en', 'fr'])
             ->help('Choose one or more.'),
+        Field::tags('interests', ['Food', 'History', 'Hiking', 'Museums', 'Beaches'])
+            ->value(['Hiking', 'Street art'])
+            ->maxTags(5)
+            ->help('Type your own, then Enter or a comma, or pick a suggestion. Up to 5.'),
     )
     ->submit('Save');

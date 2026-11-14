@@ -42,6 +42,10 @@ final class Field
 
     private bool $searchable = false;
     private bool $multiple = false;
+    private bool $tags = false;
+    private ?int $minTags = null;
+    private ?int $maxTags = null;
+    private ?string $addText = null;
 
     /** @var array{url: string, value: string, label: string, limit: int}|null */
     private ?array $remote = null;
@@ -183,6 +187,75 @@ final class Field
         return new self('select', $name, $label ?? self::humanize($name), $choices);
     }
 
+    /**
+     * Free-text tags: the user types a tag and presses Enter or a comma, or picks one of
+     * the suggestions (Tom Select). Submits `name[]`; value() takes a list of strings.
+     * Without JavaScript, it is a multiple select of the suggestions and current tags.
+     *
+     * @param list<string> $suggestions Tags offered as the user types.
+     */
+    public static function tags(string $name, array $suggestions = [], ?string $label = null): self
+    {
+        foreach ($suggestions as $suggestion) {
+            if (!is_string($suggestion) || trim($suggestion) === '') {
+                throw new InvalidArgumentException('Tag suggestions must be non-empty strings.');
+            }
+        }
+        $suggestions = array_values(array_unique($suggestions));
+
+        $field = new self('select', $name, $label ?? self::humanize($name), array_combine($suggestions, $suggestions));
+        $field->tags = true;
+        $field->multiple = true;
+        $field->searchable = true;
+
+        return $field;
+    }
+
+    /**
+     * The fewest tags of a tags() field. It makes the field required: required() alone is
+     * minTags(1).
+     */
+    public function minTags(int $min): self
+    {
+        $this->assertTags('minTags');
+        if ($min < 1 || ($this->maxTags !== null && $min > $this->maxTags)) {
+            throw new InvalidArgumentException('minTags() must be at least 1, and at most maxTags().');
+        }
+        $this->minTags = $min;
+        $this->required = true;
+
+        return $this;
+    }
+
+    /**
+     * The most tags of a tags() field: the user cannot add more.
+     */
+    public function maxTags(int $max): self
+    {
+        $this->assertTags('maxTags');
+        if ($max < 1 || ($this->minTags !== null && $max < $this->minTags)) {
+            throw new InvalidArgumentException('maxTags() must be at least 1, and at least minTags().');
+        }
+        $this->maxTags = $max;
+
+        return $this;
+    }
+
+    /**
+     * The text offering a new tag in the list, `%s` being what the user typed
+     * (default "Add %s").
+     */
+    public function addText(string $text): self
+    {
+        $this->assertTags('addText');
+        if (!str_contains($text, '%s')) {
+            throw new InvalidArgumentException('addText() needs a %s for the typed text.');
+        }
+        $this->addText = $text;
+
+        return $this;
+    }
+
     public static function checkbox(string $name, ?string $label = null): self
     {
         return new self('checkbox', $name, $label ?? self::humanize($name));
@@ -318,6 +391,9 @@ final class Field
     public function multiple(bool $multiple = true): self
     {
         $this->assertType('select', 'multiple');
+        if ($this->tags && !$multiple) {
+            throw new InvalidArgumentException('A tags() field is always multiple.');
+        }
         $this->multiple = $multiple;
 
         return $this;
@@ -606,7 +682,12 @@ final class Field
                     'data-celerik-select' => $this->searchable ? self::json([
                         'url' => $this->remote['url'] ?? null,
                         'placeholder' => $this->placeholder,
+                        'tags' => $this->tags ? true : null,
+                        'max' => $this->maxTags,
+                        'add' => $this->addText,
                     ]) : null,
+                    'data-parsley-mincheck' => $this->minTags,
+                    'data-parsley-maxcheck' => $this->maxTags,
                 ]) + ['class' => $this->controlClass('form-select', $error)],
                 $this->renderChoices($value),
             ),
@@ -916,6 +997,13 @@ final class Field
         ]);
     }
 
+    private function assertTags(string $method): void
+    {
+        if (!$this->tags) {
+            throw new InvalidArgumentException(sprintf('%s() is only available on tags fields.', $method));
+        }
+    }
+
     private function assertType(string $type, string $method): void
     {
         if ($this->type !== $type) {
@@ -952,6 +1040,16 @@ final class Field
                 'value' => (string) $choice,
                 'selected' => in_array((string) $choice, $selected, true),
             ], Html::escape($label));
+        }
+
+        // Tags the user typed are not among the suggestions: keep them (value(), old input).
+        if ($this->tags) {
+            $suggested = array_map('strval', array_keys($this->choices));
+            foreach (array_unique(array_diff($selected, $suggested)) as $tag) {
+                if (trim($tag) !== '') {
+                    $html .= Html::tag('option', ['value' => $tag, 'selected' => true], Html::escape($tag));
+                }
+            }
         }
 
         return $html;

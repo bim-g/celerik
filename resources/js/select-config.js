@@ -23,6 +23,19 @@ export async function fetchOptions(url, query, fetchImpl = (...args) => fetch(..
     : [];
 }
 
+// Whether typed text is a new tag: not blank, and not a tag or suggestion already there
+// in another case ("PHP" when "php" exists).
+export function isNewTag(input, existing) {
+  const tag = String(input).trim().toLowerCase();
+  return tag !== '' && ![...existing].some((value) => String(value).trim().toLowerCase() === tag);
+}
+
+// The "Add …" line of the list, from Field::addText() ("Add %s"), the typed text in bold.
+export function renderAddOption(text, input, escape) {
+  const [before, after = ''] = text.split('%s');
+  return `<div class="create" role="option">${escape(before)}<strong>${escape(input)}</strong>${escape(after)}</div>`;
+}
+
 export function buildSelectConfig(select, options = {}, fetchImpl = undefined) {
   const config = {
     plugins: select.multiple ? ['remove_button'] : [],
@@ -52,6 +65,31 @@ export function buildSelectConfig(select, options = {}, fetchImpl = undefined) {
           callback();
           console.error(error);
         });
+      },
+    });
+  }
+
+  if (options.tags) {
+    const valueField = config.valueField ?? 'value';
+    const labelField = config.labelField ?? 'text';
+    const addText = options.add ?? 'Add %s';
+    // Enter or a comma adds the typed tag; pasting "php, laravel" adds two (Tom Select
+    // splits on its delimiter).
+    Object.assign(config, {
+      create(input) {
+        const tag = input.trim();
+        return { [valueField]: tag, [labelField]: tag };
+      },
+      createFilter(input) {
+        return isNewTag(input, Object.keys(this.options));
+      },
+      // A tag typed and left (Tab, a click elsewhere) is added, not lost.
+      createOnBlur: true,
+      // A removed tag the user typed leaves the list; suggestions stay.
+      persist: false,
+      maxItems: options.max ?? null,
+      render: {
+        option_create: (data, escape) => renderAddOption(addText, data.input, escape),
       },
     });
   }

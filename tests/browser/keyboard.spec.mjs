@@ -184,6 +184,42 @@ test.describe('searchable select', () => {
     await page.keyboard.press('Backspace');
     await expect.poll(values).toEqual(['fr']);
   });
+
+  test('a tags field adds typed tags with Enter and a comma, and removes them', async ({ page }) => {
+    const box = page.getByRole('combobox', { name: 'Skills' });
+    const values = () => page.locator('select[name="skills[]"]').evaluate(
+      (select) => [...select.selectedOptions].map((option) => option.value),
+    );
+    expect(await values()).toEqual(['PHP']);
+
+    await box.focus();
+    await page.keyboard.type('Rust');
+    await expect(page.getByRole('option', { name: 'Add Rust' })).toBeVisible();
+    await page.keyboard.press('Enter');
+    await expect.poll(values).toEqual(['PHP', 'Rust']);
+
+    await page.keyboard.type('Go,');
+    await expect.poll(values).toEqual(['PHP', 'Rust', 'Go']);
+
+    // "php" is already a tag: nothing to add.
+    await page.keyboard.type('php');
+    await expect(page.getByRole('option', { name: /^Add/ })).toHaveCount(0);
+    await page.keyboard.press('Enter');
+    await expect.poll(values).toEqual(['PHP', 'Rust', 'Go']);
+    await page.keyboard.press('Backspace');
+    await page.keyboard.press('Backspace');
+    await page.keyboard.press('Backspace');
+
+    // A tag typed and left with Tab is kept.
+    await page.keyboard.type('Elm');
+    await page.keyboard.press('Tab');
+    await expect.poll(values).toEqual(['PHP', 'Rust', 'Go', 'Elm']);
+    await expect(box).not.toBeFocused();
+
+    await box.focus();
+    await page.keyboard.press('Backspace');
+    await expect.poll(values).toEqual(['PHP', 'Rust', 'Go']);
+  });
 });
 
 test.describe('form section', () => {
