@@ -145,6 +145,22 @@ return response()->json($author->respond(new EloquentDataSource(User::query(), s
 
 The choices passed to `select()` are the initial ones: include the selected value, so its label shows before any search. Any [data source](../guide/data#data-sources) works, and the endpoint must check the user's authorization like any other.
 
+### Tags
+
+`Field::tags($name, $suggestions)` takes free text: the user types a tag and presses Enter or a comma, pastes `php, laravel`, or picks a suggestion. It submits `name[]` like a multiple select; `value()` and old input take a list of strings, and tags that are not suggestions are kept.
+
+```php
+Field::tags('skills', ['PHP', 'Laravel', 'Vue'])
+    ->value($user->skills)   // ['PHP', 'Go']
+    ->minTags(1)             // also makes it required
+    ->maxTags(5)             // Tom Select stops adding at 5
+    ->addText('Add "%s"');   // the line offering a new tag (default "Add %s")
+```
+
+A tag that is already there in another case (`php` when `PHP` exists) is not added twice, and Enter never submits the form while a tag is being typed. `remote()` loads the suggestions from your endpoint, as for a select; use `value: 'name'` so the tag's text is submitted.
+
+Tags are user input: check them on the server, e.g. `'skills' => ['array', 'max:5'], 'skills.*' => ['string', 'max:30']` (Laravel). An error on one tag (`skills.1`) shows under the field. Without JavaScript the field is a multiple select of the suggestions and current tags.
+
 ### Choices, switches, sliders and colors
 
 <Demo name="form-choices" :min-height="520" />
@@ -175,6 +191,7 @@ The choices passed to `select()` are the initial ones: include the selected valu
 - Every field has a label; help and error texts are linked with `aria-describedby`, and invalid fields get `aria-invalid`.
 - Radio and checkbox groups are fieldsets whose legend names the group; every input of an invalid group gets `aria-invalid`.
 - A searchable select is a combobox labelled by the field's label, with its help and error texts; error summary links move focus to it. Its tags' remove buttons are 24 x 24 px.
+- A tags field is the same combobox; the line offering a new tag is an option ("Add Rust"), announced like the suggestions.
 - A failed submit focuses the first invalid field, or the error summary, which is announced once instead of one message per field.
 - Required fields are marked with an asterisk hidden from screen readers, plus `required`.
 - Sections are regions named by their heading, fieldsets are groups named by their legend, and a collapsible section's heading is a button that opens it with Enter or Space. Columns never change the reading or tab order.

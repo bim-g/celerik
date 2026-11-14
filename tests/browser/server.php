@@ -213,6 +213,10 @@ $components = [
                 ->multiple()
                 ->searchable()
                 ->value(['fr']),
+            Field::tags('skills', ['PHP', 'Laravel', 'Vue'])
+                ->value(['PHP'])
+                ->maxTags(4)
+                ->help('Type a skill, then Enter or a comma.'),
             $reviewer,
             Section::make('Availability')->collapsible()->columns(2)->add(
                 Field::time('call', 'Call time')->min('08:00')->max('18:00')->value('09:30'),

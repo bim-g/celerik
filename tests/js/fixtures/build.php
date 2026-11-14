@@ -241,6 +241,11 @@ $fixtures = [
                 ->remote('/authors/options')
                 ->placeholder('Search people')
                 ->value(7),
+            Field::tags('skills', ['PHP', 'Laravel', 'Vue'])
+                ->value(['Laravel', 'Go'])
+                ->minTags(2)
+                ->maxTags(3)
+                ->addText('Add “%s”'),
         )
         ->submit('Assign'),
 ];

@@ -1,4 +1,6 @@
-import { buildSelectConfig, fetchOptions, optionsUrl } from '../../resources/js/select-config.js';
+import {
+  buildSelectConfig, fetchOptions, isNewTag, optionsUrl, renderAddOption,
+} from '../../resources/js/select-config.js';
 
 describe('searchable select config', () => {
   test('local choices: Tom Select defaults, removable tags on multiple selects', () => {
@@ -27,6 +29,25 @@ describe('searchable select config', () => {
 
     const failing = jest.fn(async () => ({ ok: false, status: 403 }));
     await expect(fetchOptions('/people', 'a', failing)).rejects.toThrow('403');
+  });
+
+  test('tags: free text, at most max, an "Add" line from the add text', () => {
+    const config = buildSelectConfig({ multiple: true }, { tags: true, max: 3, add: 'Ajouter %s ?' });
+    expect(config).toMatchObject({ createOnBlur: true, persist: false, maxItems: 3 });
+    expect(config.create(' php ')).toEqual({ value: 'php', text: 'php' });
+    expect(buildSelectConfig({ multiple: true }, { tags: true, url: '/t' }).create('a')).toEqual({ value: 'a', label: 'a' });
+    expect(buildSelectConfig({ multiple: true }, { tags: true }).maxItems).toBeNull();
+
+    const escape = (text) => text.replace(/&/g, '&amp;');
+    expect(renderAddOption('Ajouter %s ?', 'R&D', escape)).toBe('<div class="create" role="option">Ajouter <strong>R&amp;D</strong> ?</div>');
+    expect(config.render.option_create({ input: 'go' }, escape)).toContain('<strong>go</strong> ?');
+  });
+
+  test('isNewTag ignores case and surrounding spaces', () => {
+    expect(isNewTag('PHP', ['php', 'go'])).toBe(false);
+    expect(isNewTag(' go ', ['php', 'go'])).toBe(false);
+    expect(isNewTag('   ', [])).toBe(false);
+    expect(isNewTag('rust', ['php'])).toBe(true);
   });
 
   test('a failed load still ends the loading state', async () => {

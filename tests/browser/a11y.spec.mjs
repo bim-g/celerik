@@ -39,6 +39,14 @@ for (const theme of THEMES) {
         await expect(page.locator('#preferences-reviewer-ts-dropdown .highlight').first()).toBeVisible({ timeout: 15_000 });
         expect(await axeViolations(page, { include: '#preferences' })).toEqual([]);
       });
+
+      test('no axe-core violations with a tags field offering a new tag', async ({ page }) => {
+        await openComponents(page, { theme, mode });
+        await page.getByRole('combobox', { name: 'Skills' }).focus();
+        await page.keyboard.type('Ru');
+        await expect(page.locator('#preferences-skills-ts-dropdown .create')).toBeVisible();
+        expect(await axeViolations(page, { include: '#preferences' })).toEqual([]);
+      });
     });
   }
 }

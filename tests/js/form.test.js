@@ -243,6 +243,46 @@ describe('searchable selects (Tom Select)', () => {
     );
     expect(author.options['3'].label).toBe('Ada Lovelace (ada)');
   });
+
+  test('tags: typed tags are added and submitted, without blanks or duplicates in another case', () => {
+    const skills = select('skills[]').tomselect;
+    expect(skills.getValue()).toEqual(['Laravel', 'Go']);
+
+    expect(skills.canCreate('  ')).toBe(false);
+    expect(skills.canCreate('php')).toBe(false);
+    expect(skills.canCreate('go')).toBe(false);
+    expect(skills.canCreate('Rust')).toBe(true);
+
+    skills.createItem(' Rust ');
+    expect(skills.getValue()).toEqual(['Laravel', 'Go', 'Rust']);
+    expect(new FormData(form).getAll('skills[]')).toEqual(['Laravel', 'Go', 'Rust']);
+    expect(skills.isFull()).toBe(true);
+  });
+
+  test('tags: Enter after an existing tag does not submit the form', () => {
+    const skills = select('skills[]').tomselect;
+    skills.control_input.value = 'go';
+    const enter = new KeyboardEvent('keydown', { key: 'Enter', bubbles: true, cancelable: true });
+    skills.control_input.dispatchEvent(enter);
+    expect(enter.defaultPrevented).toBe(true);
+    expect(skills.getValue()).toEqual(['Laravel', 'Go']);
+  });
+
+  test('tags: the "Add" line uses addText(), escaped', () => {
+    const skills = select('skills[]').tomselect;
+    const html = skills.settings.render.option_create({ input: '<b>' }, (text) => text.replace(/</g, '&lt;'));
+    expect(html).toBe('<div class="create" role="option">Add “<strong>&lt;b></strong>”</div>');
+  });
+
+  test('tags: minTags() is checked on the client', () => {
+    const skills = select('skills[]').tomselect;
+    select('country').tomselect.setValue('ca');
+    expect(parsley.validate()).toBe(true);
+
+    skills.removeItem('Go');
+    expect(parsley.validate()).toBe(false);
+    expect(skills.wrapper.classList.contains('is-invalid')).toBe(true);
+  });
 });
 
 describe('date, time and date range fields', () => {
