@@ -49,6 +49,8 @@ final class Field
     private int $stars = 5;
     private string $starLabel = '%d of %d';
     private string $clearLabel = 'No rating';
+    private int $codeLength = 6;
+    private bool $alphanumeric = false;
 
     /** @var array{url: string, value: string, label: string, limit: int}|null */
     private ?array $remote = null;
@@ -298,6 +300,42 @@ final class Field
             $this->starLabel = $star;
         }
         $this->clearLabel = $clear ?? $this->clearLabel;
+
+        return $this;
+    }
+
+    /**
+     * A one-time code (a code sent by SMS or e-mail, or from an authenticator app): one
+     * input, shown as a box per character. The browser and phones offer the code received
+     * (`autocomplete="one-time-code"`), and pasting works. Digits only, 6 by default.
+     * Its error message is "Enter the 6-digit code."; message() replaces it.
+     */
+    public static function otp(string $name, ?string $label = null): self
+    {
+        return new self('otp', $name, $label ?? self::humanize($name));
+    }
+
+    /**
+     * How many characters a one-time code has (4 to 10, default 6).
+     */
+    public function codeLength(int $length): self
+    {
+        $this->assertType('otp', 'codeLength');
+        if ($length < 4 || $length > 10) {
+            throw new InvalidArgumentException('A one-time code has 4 to 10 characters.');
+        }
+        $this->codeLength = $length;
+
+        return $this;
+    }
+
+    /**
+     * A one-time code of letters and digits, e.g. `K7M2QX`, instead of digits only.
+     */
+    public function alphanumeric(bool $alphanumeric = true): self
+    {
+        $this->assertType('otp', 'alphanumeric');
+        $this->alphanumeric = $alphanumeric;
 
         return $this;
     }
@@ -766,6 +804,27 @@ final class Field
                 'value' => $value === null ? null : Arr::toText($value),
                 'class' => $this->controlClass('form-range', $error),
             ]),
+            // Parsley's pattern message ("This value seems to be invalid") does not say what
+            // is wrong. message() replaces this, e.g. to translate it.
+            'otp' => Html::tag('input', array_merge($attributes, [
+                'data-parsley-error-message' => $this->message ?? sprintf(
+                    $this->alphanumeric ? 'Enter the %d-character code.' : 'Enter the %d-digit code.',
+                    $this->codeLength,
+                ),
+            ]) + [
+                'type' => 'text',
+                'value' => $value === null ? null : Arr::toText($value),
+                'inputmode' => $this->alphanumeric ? 'text' : 'numeric',
+                'autocomplete' => 'one-time-code',
+                'autocapitalize' => 'off',
+                'spellcheck' => 'false',
+                'maxlength' => $this->codeLength,
+                'pattern' => sprintf($this->alphanumeric ? '[A-Za-z0-9]{%d}' : '[0-9]{%d}', $this->codeLength),
+                'class' => $this->controlClass('form-control celerik-otp-input', $error),
+                // The width of the code without JavaScript (no style attribute: CSP).
+                'size' => $this->codeLength,
+                'data-celerik-otp' => $this->codeLength,
+            ]),
             'color' => Html::tag('input', $attributes + [
                 'type' => 'color',
                 'value' => $value === null ? null : Arr::toText($value),
@@ -824,7 +883,7 @@ final class Field
         return !$this->searchable && !$this->multiple && !in_array(
             $this->type,
             [
-                'checkbox', 'switch', 'radio', 'checkboxes', 'period', 'rating',
+                'checkbox', 'switch', 'radio', 'checkboxes', 'period', 'rating', 'otp',
                 'range', 'color', 'file', 'editor', 'hidden',
             ],
             true,

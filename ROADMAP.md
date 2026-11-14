@@ -51,7 +51,8 @@ Everything a create or edit screen needs.
   - ✅ date, time and date-time pickers, date and time ranges (the browser's native pickers);
   - ✅ tags input;
   - ✅ rating;
-  - OTP code, key-value list.
+  - ✅ one-time code (OTP);
+  - key-value list.
 - Layout:
   - ✅ sections (collapsible), fieldsets and columns inside a form;
   - ✅ a wizard (multi-step form, the Telerik Wizard); a standalone Stepper comes with navigation (Phase 6).

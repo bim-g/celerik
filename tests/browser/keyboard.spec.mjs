@@ -149,6 +149,41 @@ test.describe('notification', () => {
   });
 });
 
+test.describe('one-time code', () => {
+  test('typing and pasting fill the boxes, Backspace empties them, and the box being filled shows the focus', async ({ page }) => {
+    const input = page.getByRole('textbox', { name: 'Pairing code' });
+    const boxes = () => page.locator('.celerik-otp:has(#preferences-pairing) .celerik-otp-slot').evaluateAll(
+      (slots) => slots.map((slot) => slot.textContent).join('|'),
+    );
+    const activeRing = () => page.locator('.celerik-otp:has(#preferences-pairing) .celerik-otp-slot.is-active').evaluate(
+      (slot) => getComputedStyle(slot).boxShadow,
+    );
+
+    await input.focus();
+    await page.keyboard.type('12x');
+    await expect(input).toHaveValue('12');
+    expect(await boxes()).toBe('1|2||||');
+    expect(await activeRing()).not.toBe('none');
+
+    await page.keyboard.press('Backspace');
+    await page.keyboard.press('Backspace');
+    // A code pasted as written in a message.
+    await page.keyboard.insertText('481 205');
+    await expect(input).toHaveValue('481205');
+    expect(await boxes()).toBe('4|8|1|2|0|5');
+
+    await page.keyboard.press('Backspace');
+    expect(await boxes()).toBe('4|8|1|2|0|');
+    // The input covers the boxes: a click on one focuses it.
+    await page.locator('h1').click();
+    const first = page.locator('.celerik-otp:has(#preferences-pairing) .celerik-otp-slot').first();
+    await first.scrollIntoViewIfNeeded();
+    const box = await first.boundingBox();
+    await page.mouse.click(box.x + box.width / 2, box.y + box.height / 2);
+    await expect(input).toBeFocused();
+  });
+});
+
 test.describe('rating', () => {
   test('arrow keys change the rating, the focused star shows the focus, and it can be cleared', async ({ page }) => {
     const value = () => page.locator('#preferences').evaluate((form) => new FormData(form).get('satisfaction'));
