@@ -226,6 +226,16 @@ $fixtures = [
         )
         ->submit('Book'),
 
+    'form-otp' => Form::make('verify')
+        ->action('/verify')
+        ->csrf('test-token')
+        ->add(
+            Field::otp('code', 'Verification code')->required(),
+            Field::otp('backup', 'Backup code')->codeLength(8)->alphanumeric()->value('ab12'),
+        )
+        ->errors(['backup' => 'This code has expired.'])
+        ->submit('Verify'),
+
     'form-select' => Form::make('assign')
         ->action('/assign')
         ->csrf('test-token')

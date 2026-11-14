@@ -1,6 +1,7 @@
 import { initForm } from '../../resources/js/form.js';
 import { readOptions } from '../../resources/js/core.js';
 import { loadFixture } from './helpers.js';
+import { cleanCode } from '../../resources/js/form-otp.js';
 
 describe('form integration (Parsley + Inputmask)', () => {
   let form;
@@ -568,6 +569,80 @@ describe('wizard', () => {
     summary.querySelector('a[href="#join-team"]').click();
     expect(visibleStep()).toBe(1);
     expect(document.activeElement).toBe(form.querySelector('#join-team'));
+  });
+});
+
+describe('one-time code', () => {
+  let form;
+  let parsley;
+
+  beforeEach(async () => {
+    form = loadFixture('form-otp');
+    parsley = await initForm(form, readOptions(form));
+  });
+
+  afterEach(() => parsley.destroy());
+
+  const input = (name) => form.querySelector(`input[name="${name}"]`);
+  const boxes = (name) => [...input(name).closest('.celerik-otp').querySelectorAll('.celerik-otp-slot')]
+    .map((slot) => slot.textContent);
+  const type = (name, value) => {
+    input(name).value = value;
+    input(name).dispatchEvent(new Event('input', { bubbles: true }));
+  };
+
+  test('cleanCode keeps the accepted characters, up to the length', () => {
+    expect(cleanCode('123 456', 6)).toBe('123456');
+    expect(cleanCode('12-34-56-78', 6)).toBe('123456');
+    expect(cleanCode('k7-m2 qx', 6, true)).toBe('k7m2qx');
+    expect(cleanCode('k7m2', 6)).toBe('72');
+  });
+
+  test('one input over a box per character, the boxes hidden from assistive technology', () => {
+    const wrapper = input('code').closest('.celerik-otp');
+    expect(wrapper.style.getPropertyValue('--celerik-otp-length')).toBe('6');
+    expect(wrapper.querySelector('.celerik-otp-slots').getAttribute('aria-hidden')).toBe('true');
+    expect(boxes('code')).toEqual(['', '', '', '', '', '']);
+    expect(boxes('backup')).toEqual(['a', 'b', '1', '2', '', '', '', '']);
+    expect(form.querySelectorAll('input[name="code"]').length).toBe(1);
+  });
+
+  test('a pasted code is cleaned and fills the boxes; the next box shows the focus', () => {
+    input('code').focus();
+    type('code', '123 456');
+    expect(input('code').value).toBe('123456');
+    expect(boxes('code')).toEqual(['1', '2', '3', '4', '5', '6']);
+    const slots = [...input('code').closest('.celerik-otp').querySelectorAll('.celerik-otp-slot')];
+    expect(slots.findIndex((slot) => slot.classList.contains('is-active'))).toBe(5);
+
+    type('code', '12');
+    expect(slots.findIndex((slot) => slot.classList.contains('is-active'))).toBe(2);
+    input('code').blur();
+    expect(slots.some((slot) => slot.classList.contains('is-active'))).toBe(false);
+  });
+
+  test('the code must be complete; the server error stays until then', () => {
+    type('code', '123');
+    expect(input('code').closest('.mb-3').querySelector('.celerik-server-error')).toBeNull();
+    expect(form.querySelector('#verify-backup-error').textContent).toBe('This code has expired.');
+    expect(parsley.validate()).toBe(false);
+    expect(input('code').classList.contains('is-invalid')).toBe(true);
+    expect(input('code').closest('.mb-3').querySelector('.invalid-feedback').textContent).toBe('Enter the 6-digit code.');
+
+    type('code', '123456');
+    type('backup', 'K7M2QX9A');
+    expect(parsley.validate()).toBe(true);
+    expect(new FormData(form).get('code')).toBe('123456');
+  });
+
+  test('a reset empties the boxes', () => {
+    jest.useFakeTimers();
+    type('code', '42');
+    form.reset();
+    jest.runAllTimers();
+    expect(boxes('code')).toEqual(['', '', '', '', '', '']);
+    expect(boxes('backup')).toEqual(['a', 'b', '1', '2', '', '', '', '']);
+    jest.useRealTimers();
   });
 });
 

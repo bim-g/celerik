@@ -387,6 +387,76 @@
     }
   }
 
+  // One-time code (Field::otp()). Without JavaScript: a short input as wide as the code.
+  .celerik-otp-input {
+    width: auto;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.25em;
+  }
+
+  // With form-otp.js: a box per character, the input transparent on top of them. The
+  // boxes shrink to fit a narrow screen.
+  .celerik-otp {
+    position: relative;
+    width: 100%;
+    max-width: calc(var(--celerik-otp-length) * 3.25rem - 0.5rem);
+  }
+
+  .celerik-otp-slots {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .celerik-otp-slot {
+    display: flex;
+    flex: 1 1 0;
+    align-items: center;
+    justify-content: center;
+    min-width: 0;
+    max-width: 2.75rem;
+    height: 3rem;
+    font-size: 1.25rem;
+    font-variant-numeric: tabular-nums;
+    background-color: var(--bs-body-bg);
+    border: var(--bs-border-width) solid var(--bs-border-color);
+    border-radius: var(--bs-border-radius);
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  }
+
+  .celerik-otp > .celerik-otp-input {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    // Transparent, not hidden: it keeps the focus, the clicks, paste and autofill.
+    opacity: 0;
+  }
+
+  .celerik-otp:focus-within .celerik-otp-slot.is-active {
+    border-color: var(--bs-primary);
+    box-shadow: var(--celerik-focus-ring);
+  }
+
+  // The caret, in the empty box being filled.
+  .celerik-otp:focus-within .celerik-otp-slot.is-active:empty::after {
+    width: 1px;
+    height: 1.25rem;
+    content: '';
+    background-color: currentColor;
+    animation: celerik-otp-caret 1s step-end infinite;
+  }
+
+  .celerik-otp:has(.is-invalid) .celerik-otp-slot {
+    border-color: var(--bs-form-invalid-border-color);
+  }
+
+  // The server error follows the boxes, not the input (Bootstrap shows it after an
+  // invalid input).
+  .celerik-otp:has(.is-invalid) ~ .invalid-feedback {
+    display: block;
+  }
+
   // Rating (Field::rating()): radio buttons, visually hidden, labelled by stars. The stars
   // up to the checked one are filled, and up to the hovered one while the pointer is on
   // them. Each star is a 2rem target (WCAG 2.5.8).
@@ -654,6 +724,12 @@
   }
 }
 
+@keyframes celerik-otp-caret {
+  50% {
+    opacity: 0;
+  }
+}
+
 // Less motion when the user asks for it (WCAG 2.3.3). Bootstrap already removes its own
 // transitions (fades, modal slide). Notyf removes toasts on animationend, so its
 // animations are shortened rather than removed. Chart.js animation is turned off in JS.
@@ -665,6 +741,10 @@
   .notyf__icon {
     animation-duration: 1ms !important;
     animation-delay: 0s !important;
+  }
+
+  .celerik-otp-slot::after {
+    animation: none !important;
   }
 
   .celerik-scheduler *,
@@ -696,6 +776,12 @@
 
   // Date and time inputs: see .celerik-form above.
   .celerik-form :is(input[type='date'], input[type='time'], input[type='datetime-local']):focus-within {
+    outline: 2px solid Highlight;
+    outline-offset: 2px;
+  }
+
+  // A one-time code: the box being filled shows the focus (the input is transparent).
+  .celerik-otp:focus-within .celerik-otp-slot.is-active {
     outline: 2px solid Highlight;
     outline-offset: 2px;
   }

@@ -5,6 +5,7 @@ import { boundValidators, buildParsleyConfig, compareValues, fieldInputs, render
 import { csrfTokenFor } from './upload-config.js';
 import { initRepeaters } from './form-repeater.js';
 import { initWizard } from './form-wizard.js';
+import { initOtps } from './form-otp.js';
 
 // min, max and range that also understand times and date-times, and "after" for the end of
 // a date range (Field::dateRange()). Parsley keeps its messages for min, max and range.
@@ -74,8 +75,10 @@ export async function initForm(element, options) {
 }
 
 // Sets up the fields in a container (the form, or a repeater's new row): input masks, date
-// ranges, range values, and searchable selects (loaded on demand).
+// ranges, range values, one-time codes, and searchable selects (loaded on demand).
 function enhanceFields(form, container) {
+  initOtps(container);
+
   for (const input of container.querySelectorAll('[data-celerik-mask]')) {
     Inputmask(input.getAttribute('data-celerik-mask')).mask(input);
   }

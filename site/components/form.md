@@ -161,6 +161,22 @@ A tag that is already there in another case (`php` when `PHP` exists) is not add
 
 Tags are user input: check them on the server, e.g. `'skills' => ['array', 'max:5'], 'skills.*' => ['string', 'max:30']` (Laravel). An error on one tag (`skills.1`) shows under the field. Without JavaScript the field is a multiple select of the suggestions and current tags.
 
+### One-time codes
+
+<Demo name="form-otp" :min-height="240" />
+
+<<< @/demos/form-otp.php
+
+`Field::otp($name)` takes a code sent by SMS or e-mail, or shown by an authenticator app. It is **one input**, drawn as a box per character: phones and browsers offer the code they received (`autocomplete="one-time-code"`), pasting `123 456` or `123-456` fills every box, and screen readers announce a single text field. Without JavaScript it is a plain input as wide as the code.
+
+| Option | Use |
+|---|---|
+| `codeLength(8)` | 4 to 10 characters (6 by default). |
+| `alphanumeric()` | Letters and digits (`K7M2QX`), with the letter keyboard on phones, instead of digits only. |
+| `message('…')` | Replaces the default "Enter the 6-digit code." message, e.g. to translate it. |
+
+The form is submitted with the button: a complete code is not sent on its own, so the user can check it first. Check the code on the server, and limit the attempts.
+
 ### Choices, switches, sliders, colors and ratings
 
 <Demo name="form-choices" :min-height="600" />
@@ -193,6 +209,7 @@ Tags are user input: check them on the server, e.g. `'skills' => ['array', 'max:
 
 - Every field has a label; help and error texts are linked with `aria-describedby`, and invalid fields get `aria-invalid`.
 - Radio and checkbox groups are fieldsets whose legend names the group; every input of an invalid group gets `aria-invalid`.
+- A one-time code is a single text input named by its label; the boxes are drawn for sighted users and hidden from assistive technology. The box being filled shows the focus.
 - A rating is a radio group: arrow keys change it, and each star is announced by its name ("4 of 5"). The focused star shows the focus ring, and each star is a 32 x 32 px target.
 - A searchable select is a combobox labelled by the field's label, with its help and error texts; error summary links move focus to it. Its tags' remove buttons are 24 x 24 px.
 - A tags field is the same combobox; the line offering a new tag is an option ("Add Rust"), announced like the suggestions.
