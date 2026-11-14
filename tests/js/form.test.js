@@ -142,6 +142,7 @@ describe('radio, checkbox group, switch, range and color fields', () => {
   test('one radio and one checkbox are enough', () => {
     inputs('plan')[1].checked = true;
     inputs('topics[]')[2].checked = true;
+    inputs('score')[0].checked = true;
 
     expect(parsley.validate()).toBe(true);
     expect(inputs('plan').some((input) => input.hasAttribute('aria-invalid'))).toBe(false);
@@ -162,6 +163,26 @@ describe('radio, checkbox group, switch, range and color fields', () => {
     jest.runAllTimers();
     expect(output.textContent).toBe('4');
     jest.useRealTimers();
+  });
+
+  test('a required rating is checked like a radio group, and submits its star', () => {
+    expect(parsley.validate()).toBe(false);
+    const stars = inputs('score');
+    expect(stars.length).toBe(5);
+    expect(stars.every((input) => input.classList.contains('is-invalid'))).toBe(true);
+    expect(stars[0].closest('.mb-3').querySelector('.invalid-feedback:not(.celerik-server-error)').textContent)
+      .toMatch(/required/i);
+
+    stars[3].checked = true;
+    inputs('plan')[0].checked = true;
+    inputs('topics[]')[0].checked = true;
+    expect(parsley.validate()).toBe(true);
+    const data = new FormData(form);
+    expect(data.get('score')).toBe('4');
+    // An optional rating: its value, or "" once cleared with "No rating".
+    expect(data.get('service')).toBe('2');
+    form.querySelector('#preferences-service-none').checked = true;
+    expect(new FormData(form).get('service')).toBe('');
   });
 
   test('switch and color submit their values', () => {

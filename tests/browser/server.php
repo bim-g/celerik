@@ -209,6 +209,7 @@ $components = [
             Field::switch('newsletter', 'Send me the newsletter')->value(true),
             Field::range('volume')->min(0)->max(10)->value(4),
             Field::color('accent', 'Accent color')->value('#0d6efd'),
+            Field::rating('satisfaction')->value(3)->help('Optional.'),
             Field::select('languages', ['en' => 'English', 'fr' => 'French', 'ln' => 'Lingala'])
                 ->multiple()
                 ->searchable()

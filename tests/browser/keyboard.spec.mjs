@@ -149,6 +149,49 @@ test.describe('notification', () => {
   });
 });
 
+test.describe('rating', () => {
+  test('arrow keys change the rating, the focused star shows the focus, and it can be cleared', async ({ page }) => {
+    const value = () => page.locator('#preferences').evaluate((form) => new FormData(form).get('satisfaction'));
+    expect(await value()).toBe('3');
+
+    const third = page.getByRole('radio', { name: '3 of 5' });
+    await third.focus();
+    await page.keyboard.press('ArrowRight');
+    await expect(page.getByRole('radio', { name: '4 of 5' })).toBeFocused();
+    expect(await value()).toBe('4');
+    // The radio is hidden: its star shows the focus ring, and four stars are filled.
+    const star = page.locator('label[for="preferences-satisfaction-4"]');
+    expect(await star.evaluate((label) => getComputedStyle(label).boxShadow)).not.toBe('none');
+    const filled = () => page.locator('#preferences-satisfaction-group .celerik-rating-star svg').evaluateAll(
+      (svgs) => svgs.map((svg) => getComputedStyle(svg).fill !== 'transparent' && getComputedStyle(svg).fill !== 'rgba(0, 0, 0, 0)'),
+    );
+    expect(await filled()).toEqual([true, true, true, true, false]);
+
+    await page.keyboard.press('ArrowRight');
+    await page.keyboard.press('ArrowRight');
+    await expect(page.getByRole('radio', { name: 'No rating' })).toBeFocused();
+    expect(await value()).toBe('');
+    expect(await filled()).toEqual([false, false, false, false, false]);
+  });
+
+  test('a click on a star rates, hovering previews', async ({ page }) => {
+    const value = () => page.locator('#preferences').evaluate((form) => new FormData(form).get('satisfaction'));
+    const filled = () => page.locator('#preferences-satisfaction-group .celerik-rating-star svg').evaluateAll(
+      (svgs) => svgs.filter((svg) => !['transparent', 'rgba(0, 0, 0, 0)'].includes(getComputedStyle(svg).fill)).length,
+    );
+    const star = (n) => page.locator(`label[for="preferences-satisfaction-${n}"]`);
+
+    await star(5).hover();
+    expect(await filled()).toBe(5);
+    expect(await value()).toBe('3');
+
+    await star(2).click();
+    expect(await value()).toBe('2');
+    await page.mouse.move(0, 0);
+    expect(await filled()).toBe(2);
+  });
+});
+
 test.describe('searchable select', () => {
   test('a remote select searches the endpoint and picks a person from the keyboard', async ({ page }) => {
     const box = page.getByRole('combobox', { name: 'Reviewer' });
