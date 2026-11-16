@@ -4,7 +4,7 @@ layout: home
 hero:
   name: Celerik UI
   text: Accessible UI components for PHP
-  tagline: Grids, charts, forms, a scheduler, uploads, a rich text editor, a file manager and themes, rendered by PHP and enhanced with proven open-source libraries. For plain PHP, Laravel and Symfony.
+  tagline: Grids, charts, forms (wizards, repeaters, tags, ratings, one-time codes, key-value lists), a scheduler, uploads, a rich text editor and a file manager on Bootstrap 5.3, rendered by PHP and enhanced with proven open-source libraries. For plain PHP, Laravel and Symfony.
   actions:
     - theme: brand
       text: Get started

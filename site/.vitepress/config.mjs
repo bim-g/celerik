@@ -1,4 +1,7 @@
+import { execFileSync } from 'node:child_process';
 import { existsSync, readFileSync } from 'node:fs';
+import { dirname, join } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { defineConfig } from 'vitepress';
 
 // The API reference sidebar, written by site/tools/reference.php (npm run docs:reference).
@@ -34,6 +37,26 @@ function repositoryLinks(md) {
   });
 }
 
+// A guide that includes a repository file (<!--@include: ../../THEMING.md-->) was last
+// updated when that file was: VitePress only looks at the guide's own git history.
+const siteDir = fileURLToPath(new URL('..', import.meta.url));
+function lastCommitTime(file) {
+  try {
+    const seconds = execFileSync('git', ['log', '-1', '--format=%ct', '--', file], { encoding: 'utf8' }).trim();
+    return seconds ? Number(seconds) * 1000 : 0;
+  } catch {
+    return 0;
+  }
+}
+function includedLastUpdated(pageData) {
+  const page = join(siteDir, pageData.relativePath);
+  const includes = [...readFileSync(page, 'utf8').matchAll(/<!--@include:\s*([^\s>]+?)\s*-->/g)]
+    .map(([, path]) => join(dirname(page), path));
+  if (includes.length > 0) {
+    pageData.lastUpdated = Math.max(pageData.lastUpdated ?? 0, ...includes.map(lastCommitTime));
+  }
+}
+
 // Documentation site: npm run docs:dev, npm run docs:build (output: site/.vitepress/dist).
 // DOCS_BASE is the path the site is served from: /celerik/ on GitHub Pages.
 export default defineConfig({
@@ -43,6 +66,7 @@ export default defineConfig({
   base: process.env.DOCS_BASE ?? '/celerik/',
   cleanUrls: true,
   lastUpdated: true,
+  transformPageData: includedLastUpdated,
   srcExclude: ['**/README.md'],
   markdown: {
     config: repositoryLinks,

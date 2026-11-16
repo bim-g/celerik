@@ -74,17 +74,17 @@ Celerik.notify('success', 'Saved.');
 A plugin pairs a PHP component (registered in `ComponentRegistry`) with a JavaScript initializer of the same name:
 
 ```php
-final class Rating extends Component
+final class Countdown extends Component
 {
-    public static function name(): string { return 'rating'; }
-    public function toArray(): array { return ['max' => 5]; }
+    public static function name(): string { return 'countdown'; }
+    public function toArray(): array { return ['seconds' => 60]; }
     public function render(): string
     {
-        return Html::tag('div', $this->rootAttributes(['my-rating']), '');
+        return Html::tag('div', $this->rootAttributes(['my-countdown']), '');
     }
 }
 ```
 
 ```js
-Celerik.register('rating', (element, options) => new MyRating(element, options.max));
+Celerik.register('countdown', (element, options) => new MyCountdown(element, options.seconds));
 ```
