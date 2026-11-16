@@ -2,7 +2,7 @@
 .celerik-demo {
   margin: 1.5rem 0;
   border: 1px solid var(--vp-c-divider);
-  border-radius: 8px;
+  border-radius: 6px;
   overflow: hidden;
 }
 
@@ -77,4 +77,69 @@
    its accessible name (WCAG 2.5.3). Ctrl+K and / still open the search. */
 .DocSearch-Button-Keys {
   display: none !important;
+}
+
+/* Flat design, like the components (resources/scss/_flat.scss): 1px borders instead of
+   shadows and filled panels, and one small corner radius. VitePress's component styles
+   are scoped ([data-v-…]): ":root" and a repeated class make these win over them. */
+:root {
+  --vp-shadow-1: none;
+  --vp-shadow-2: none;
+  --vp-shadow-3: none;
+  --vp-shadow-4: none;
+  --vp-shadow-5: none;
+  --vp-sidebar-bg-color: var(--vp-c-bg);
+  --celerik-docs-radius: 6px;
+}
+
+:root .VPButton.VPButton {
+  border-radius: var(--celerik-docs-radius);
+}
+
+/* The secondary button is outlined, not a grey pill. */
+:root .VPButton.VPButton.alt {
+  background-color: transparent;
+  border-color: var(--vp-c-divider);
+}
+
+:root .VPButton.VPButton.alt:hover {
+  background-color: var(--vp-c-default-soft);
+}
+
+/* Home page features: outlined, not grey cards. */
+:root .VPFeature.VPFeature {
+  background-color: transparent;
+  border: 1px solid var(--vp-c-divider);
+  border-radius: var(--celerik-docs-radius);
+}
+
+/* Search button: an outlined field, like the components' inputs. */
+:root .DocSearch-Button.DocSearch-Button {
+  background-color: transparent;
+  border: 1px solid var(--vp-c-divider);
+  border-radius: var(--celerik-docs-radius);
+}
+
+/* Search dialog and flyout menus: a border instead of a shadow. */
+:root .VPLocalSearchBox .shell.shell {
+  border: 1px solid var(--vp-c-divider);
+  border-radius: var(--celerik-docs-radius);
+}
+
+:root .VPMenu.VPMenu {
+  border-radius: var(--celerik-docs-radius);
+}
+
+/* Sidebar on the page background, set apart by a line. */
+@media (min-width: 960px) {
+  :root .VPSidebar.VPSidebar {
+    border-right: 1px solid var(--vp-c-divider);
+  }
+}
+
+/* Code blocks, tips and warnings, and the demos: the same small radius. */
+.vp-doc div[class*='language-'],
+.vp-doc .custom-block,
+.celerik-demo {
+  border-radius: var(--celerik-docs-radius);
 }
