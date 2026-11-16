@@ -22,8 +22,7 @@ php bin/console assets:install   # public/bundles/celerikui
 
 ```twig
 {{ celerik_assets() }}
-{{ celerik_assets(theme: 'material') }}
-{{ celerik_assets(theme: 'tailwind', customTheme: asset('css/acme.css'), nonce: csp_nonce) }}
+{{ celerik_assets(customTheme: asset('css/acme.css'), nonce: csp_nonce) }}
 
 {{ celerik(grid) }}
 ```

@@ -27,8 +27,6 @@
   "exports": {
     ".": "./public/celerik.js",
     "./celerik.css": "./public/celerik.css",
-    "./celerik-material.css": "./public/celerik-material.css",
-    "./celerik-tailwind.css": "./public/celerik-tailwind.css",
     "./public/*": "./public/*",
     "./package.json": "./package.json"
   },

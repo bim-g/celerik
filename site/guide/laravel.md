@@ -14,8 +14,7 @@ php artisan vendor:publish --tag=celerik-elfinder   # only for the File Manager
 
 ```blade
 <x-celerik-assets />
-<x-celerik-assets theme="material" />
-<x-celerik-assets theme="tailwind" custom-theme="{{ asset('css/acme.css') }}" :nonce="$cspNonce" />
+<x-celerik-assets custom-theme="{{ asset('css/acme.css') }}" :nonce="$cspNonce" />
 
 <x-celerik :component="$grid" />
 ```

@@ -12,33 +12,45 @@ use PHPUnit\Framework\TestCase;
 
 final class ThemeTest extends TestCase
 {
-    #[DataProvider('bases')]
-    public function testPresetsRoundTripAndMeetContrast(string $base): void
+    public function testTheBootstrapPresetRoundTripsAndMeetsContrast(): void
     {
-        $theme = Theme::preset($base);
+        self::assertSame(['bootstrap'], Theme::PRESETS);
+        $theme = Theme::preset('bootstrap');
 
-        self::assertSame($base, $theme->getBase());
         self::assertSame(
-            json_decode((string) file_get_contents(Theme::presetPath($base)), true),
+            json_decode((string) file_get_contents(Theme::presetPath('bootstrap')), true),
             $theme->toArray(),
         );
         self::assertEquals($theme, Theme::fromJson($theme->toJson()));
         self::assertSame([], array_map('strval', Contrast::failures($theme)));
     }
 
-    /** @return iterable<string, array{string}> */
-    public static function bases(): iterable
+    public function testThemesMadeBefore020KeepWorkingOnBootstrapOnly(): void
     {
-        foreach (Theme::BASES as $base) {
-            yield $base => [$base];
+        $data = Theme::preset('bootstrap')->toArray();
+
+        // "base": "bootstrap" is accepted, and not written back.
+        self::assertSame($data, Theme::fromArray($data + ['base' => 'bootstrap'])->toArray());
+
+        foreach (['material', 'tailwind'] as $base) {
+            try {
+                Theme::fromArray(['base' => $base] + $data);
+                self::fail(sprintf('A %s theme was accepted.', $base));
+            } catch (InvalidArgumentException $exception) {
+                self::assertStringContainsString(
+                    sprintf('The %s look was removed in Celerik UI 0.2.0', ucfirst($base)),
+                    $exception->getMessage(),
+                );
+            }
         }
+        $this->expectExceptionMessage('The Tailwind look was removed in Celerik UI 0.2.0: Celerik UI is Bootstrap only.');
+        Theme::preset('tailwind');
     }
 
     public function testFluentChangesAreValidatedAndNormalized(): void
     {
-        $theme = Theme::preset('tailwind')
+        $theme = Theme::preset('bootstrap')
             ->name('Acme Café')
-            ->base('bootstrap')
             ->color('light', 'primary', '#0B5394')
             ->radius(0.25)
             ->fontFamily('"Inter", system-ui, sans-serif')
@@ -52,7 +64,7 @@ final class ThemeTest extends TestCase
         self::assertSame('subtle', $theme->getShadow());
 
         $theme->radius(null)->fontFamily(null)->shadow(null);
-        self::assertSame(['name', 'base', 'light', 'dark'], array_keys($theme->toArray()));
+        self::assertSame(['name', 'light', 'dark'], array_keys($theme->toArray()));
     }
 
     /** @param callable(Theme): mixed $change */
@@ -77,7 +89,6 @@ final class ThemeTest extends TestCase
         yield 'radius too large' => [static fn (Theme $t) => $t->radius(3.0)];
         yield 'negative radius' => [static fn (Theme $t) => $t->radius(-1.0)];
         yield 'unknown shadow' => [static fn (Theme $t) => $t->shadow('glow')];
-        yield 'unknown base' => [static fn (Theme $t) => $t->base('bulma')];
         yield 'markup in the name' => [static fn (Theme $t) => $t->name('<script>')];
         yield 'empty name' => [static fn (Theme $t) => $t->name('')];
         yield 'unknown preset' => [static fn () => Theme::preset('../../composer')];
@@ -95,7 +106,7 @@ final class ThemeTest extends TestCase
     /** @return iterable<string, array{array<mixed>}> */
     public static function invalidArrays(): iterable
     {
-        $valid = Theme::preset('material')->toArray();
+        $valid = Theme::preset('bootstrap')->toArray();
 
         yield 'unknown key' => [$valid + ['css' => 'body{}']];
         yield 'missing palette' => [array_diff_key($valid, ['dark' => true])];
@@ -105,6 +116,8 @@ final class ThemeTest extends TestCase
         yield 'palette as a string' => [['dark' => '#000000'] + $valid];
         yield 'radius as a string' => [['radius' => '1rem'] + $valid];
         yield 'shadow as an array' => [['shadow' => ['none']] + $valid];
+        yield 'unknown base' => [['base' => 'bulma'] + $valid];
+        yield 'removed base' => [['base' => 'material'] + $valid];
     }
 
     public function testFromJsonRejectsInvalidJson(): void
@@ -119,6 +132,6 @@ final class ThemeTest extends TestCase
     {
         $this->expectException(InvalidArgumentException::class);
 
-        Theme::fromJson('"material"');
+        Theme::fromJson('"bootstrap"');
     }
 }

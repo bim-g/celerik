@@ -41,16 +41,13 @@ final class CelerikThemeController extends AbstractController
     }
 
     #[Route('', name: '', methods: ['GET'])]
-    public function show(Request $request, CsrfTokenManagerInterface $csrf): Response
+    public function show(CsrfTokenManagerInterface $csrf): Response
     {
         $this->denyOutsideDev();
-        $requested = (string) $request->query->get('theme');
-        $base = in_array($requested, Theme::BASES, true) ? $requested : 'bootstrap';
 
         return $this->render('celerik/theme-builder.html.twig', [
             'builder' => ThemeBuilder::make('builder')
-                ->theme($this->themes->saved() ?? Theme::preset($base))
-                ->assetsUrl('/bundles/celerikui')
+                ->theme($this->themes->saved() ?? Theme::preset('bootstrap'))
                 ->saveUrl($this->generateUrl('celerik_theme_save'))
                 ->csrf($csrf->getToken(self::CSRF_ID)->getValue())
                 ->preview(...self::previewComponents()),

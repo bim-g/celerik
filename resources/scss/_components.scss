@@ -1,6 +1,6 @@
 @use 'variables' as *;
 
-// Runtime hooks: themes (themes/material.scss, themes/tailwind.scss) override these.
+// Runtime hooks: a custom theme (Theme::toCss()) overrides these.
 :root {
   --celerik-required-color: #{$celerik-required-color};
   --celerik-chart-min-height: #{$celerik-chart-min-height};
@@ -123,7 +123,7 @@
   }
 
   // Bootstrap's outline-danger text is always #dc3545: below 4.5:1 on every dark
-  // background (3.9:1 on Tailwind's). The danger text-emphasis color follows the mode.
+  // background. The danger text-emphasis color follows the mode.
   .btn-outline-danger {
     --bs-btn-color: var(--bs-danger-text-emphasis);
     --bs-btn-border-color: var(--bs-danger-text-emphasis);
@@ -247,8 +247,8 @@
     padding-bottom: 0;
   }
 
-  // Remove: Bootstrap's outline-danger text is #dc3545, under 4.5:1 on Material's tinted
-  // cards and on dark backgrounds (see .celerik-scheduler-dialog).
+  // Remove: Bootstrap's outline-danger text is #dc3545, under 4.5:1 on dark backgrounds
+  // (see .celerik-scheduler-dialog).
   .celerik-repeater-actions .btn-outline-danger {
     --bs-btn-color: var(--bs-danger-text-emphasis);
     --bs-btn-border-color: var(--bs-danger-text-emphasis);
@@ -708,7 +708,7 @@
   outline-offset: 2px;
 }
 
-// Containers themes can elevate (Material) or outline (Tailwind).
+// Containers a custom theme can elevate or outline (its shadow token).
 .dt-container,
 .celerik-scheduler,
 .celerik-filemanager {

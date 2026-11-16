@@ -50,20 +50,20 @@ final class ConsoleTest extends TestCase
 
     public function testPresetPrintsThemeJson(): void
     {
-        [$code, $out] = $this->console(['preset', 'tailwind']);
+        [$code, $out] = $this->console(['preset', 'bootstrap']);
 
         self::assertSame(Console::OK, $code);
-        self::assertEquals(Theme::preset('tailwind'), Theme::fromJson($out));
+        self::assertEquals(Theme::preset('bootstrap'), Theme::fromJson($out));
     }
 
     public function testCheckPrintsTheReportAndPassesForAGoodTheme(): void
     {
-        [$code, $out] = $this->console(['check', $this->themeFile(Theme::preset('material'))]);
+        [$code, $out] = $this->console(['check', $this->themeFile(Theme::preset('bootstrap'))]);
 
         self::assertSame(Console::OK, $code);
-        self::assertStringContainsString('PASS light: Body text on #fffbfe', $out);
+        self::assertStringContainsString('PASS light: Body text on #ffffff', $out);
         self::assertStringContainsString('PASS dark: Form field borders', $out);
-        self::assertStringEndsWith("Material: every pair meets its minimum.\n", $out);
+        self::assertStringEndsWith("Bootstrap: every pair meets its minimum.\n", $out);
     }
 
     public function testCheckFailsOnAContrastProblemAndQuietPrintsOnlyFailures(): void
@@ -83,11 +83,11 @@ final class ConsoleTest extends TestCase
     public function testBuildWritesTheStylesheet(): void
     {
         $output = $this->dir . '/acme.css';
-        [$code, $out] = $this->console(['build', $this->themeFile(Theme::preset('tailwind')->name('Acme')), $output]);
+        [$code, $out] = $this->console(['build', $this->themeFile(Theme::preset('bootstrap')->name('Acme')), $output]);
 
         self::assertSame(Console::OK, $code);
-        self::assertSame(sprintf("Wrote %s (base: tailwind).\n", $output), $out);
-        self::assertSame(Theme::preset('tailwind')->name('Acme')->toCss(), file_get_contents($output));
+        self::assertSame(sprintf("Wrote %s.\n", $output), $out);
+        self::assertSame(Theme::preset('bootstrap')->name('Acme')->toCss(), file_get_contents($output));
     }
 
     public function testBuildRefusesAFailingThemeUnlessAllowed(): void
@@ -115,11 +115,15 @@ final class ConsoleTest extends TestCase
         self::assertSame(Console::INVALID, $this->console(['check', $this->dir . '/missing.json'])[0]);
         self::assertSame(Console::INVALID, $this->console(['build', $bad])[0]);
         self::assertSame(Console::INVALID, $this->console(['preset', 'bulma'])[0]);
+        // A removed look says why.
+        [$code, , $err] = $this->console(['preset', 'material']);
+        self::assertSame(Console::INVALID, $code);
+        self::assertStringContainsString('The Material look was removed in Celerik UI 0.2.0', $err);
         self::assertSame(Console::INVALID, $this->console(['deploy'])[0]);
         self::assertSame(Console::INVALID, $this->console(['check', $bad, '--force'])[0]);
         self::assertSame(
             Console::INVALID,
-            $this->console(['build', $this->themeFile(Theme::preset('material')), $this->dir . '/no/such/dir/a.css'])[0],
+            $this->console(['build', $this->themeFile(Theme::preset('bootstrap')), $this->dir . '/no/such/dir/a.css'])[0],
         );
     }
 

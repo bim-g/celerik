@@ -11,7 +11,7 @@ Two references guide the work:
 - **Telerik UI's catalogue** sets the breadth: which components a full suite has. [Components.md](Components.md) maps each one to an open-source library and to a phase.
 - **[Filament](https://filamentphp.com)** sets the depth for admin and business screens: forms with layout and repeatable groups, tables with filters and actions, confirmation dialogs, read-only record views and dashboard widgets. Filament is built on Laravel and Livewire; Celerik offers the same ideas to plain PHP, Laravel and Symfony, with server-rendered HTML and progressive enhancement.
 
-Every component follows the same rules: a PHP builder, an endpoint helper when it loads data, keyboard and screen-reader support (WCAG 2.2 AA, tested in every theme and mode), the three themes in light and dark mode, a documentation page with a live demo, and only MIT, Apache 2.0, BSD or ISC libraries.
+Every component follows the same rules: a PHP builder, an endpoint helper when it loads data, keyboard and screen-reader support (WCAG 2.2 AA, tested in light and dark mode), Bootstrap 5.3 in light and dark mode, a documentation page with a live demo, and only MIT, Apache 2.0, BSD or ISC libraries.
 
 ## Done
 
@@ -25,11 +25,11 @@ Every component follows the same rules: a PHP builder, an endpoint helper when i
 
 - Scheduler, File Manager, Upload, rich text editor.
 - Modals, Tabs, Notifications.
-- Material and Tailwind-inspired themes, with light and dark mode.
+- Light and dark mode. (Material and Tailwind-inspired looks were added here, and removed in 0.2.0: Celerik UI is Bootstrap only.)
 
 ### Phase 3 ✅
 
-- Accessibility polish: browser accessibility tests in every theme, reduced motion, Windows High Contrast, keyboard editing in the Scheduler, form error summary, charts readable without color, WCAG 2.2 AA (see [ACCESSIBILITY.md](ACCESSIBILITY.md)).
+- Accessibility polish: browser accessibility tests in light and dark mode, reduced motion, Windows High Contrast, keyboard editing in the Scheduler, form error summary, charts readable without color, WCAG 2.2 AA (see [ACCESSIBILITY.md](ACCESSIBILITY.md)).
 - ThemeBuilder: theme tokens and presets, `Theme` in PHP with WCAG contrast checks, the ThemeBuilder component and the `celerik-theme` command (see [THEMING.md](THEMING.md)).
 - Documentation portal: guides, a page and a live demo per component, an API reference generated from the code, published to GitHub Pages (<https://kivudesign.github.io/celerik/>).
 

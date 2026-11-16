@@ -73,7 +73,7 @@ foreach (glob(__DIR__ . '/*.php') ?: [] as $file) {
         . '<script src="../demo-assets/jquery/jquery.min.js" defer></script>' . "\n"
         . '<script src="../demo-assets/bootstrap/js/bootstrap.bundle.min.js" defer></script>' . "\n"
         . Assets::tags('../demo-assets/celerik') . "\n"
-        // After celerik.css: sets data-bs-theme and adds the base look from ?mode= and ?theme=.
+        // After celerik.css: sets data-bs-theme from ?mode=.
         . '<script src="../demo-assets/demo-runtime.js"></script>' . "\n"
         . '</head>' . "\n"
         . '<body>' . "\n"

@@ -25,17 +25,13 @@ use InvalidArgumentException;
  */
 final class CelerikThemeController extends Controller
 {
-    public function show(Request $request): View
+    public function show(): View
     {
         abort_unless(app()->isLocal(), 404);
 
-        $saved = self::saved();
-        $base = in_array($request->query('theme'), Theme::BASES, true) ? $request->query('theme') : 'bootstrap';
-
         return view('celerik.theme-builder', [
             'builder' => ThemeBuilder::make('builder')
-                ->theme($saved ?? Theme::preset($base))
-                ->assetsUrl(asset('vendor/celerik'))
+                ->theme(self::saved() ?? Theme::preset('bootstrap'))
                 ->saveUrl(route('celerik.theme.save'))
                 ->csrf(csrf_token())
                 ->preview(...self::previewComponents()),

@@ -12,7 +12,7 @@ describe('scopeCss', () => {
   });
 });
 
-describe('theme builder (fixture: material preset, light error color at 4.49:1)', () => {
+describe('theme builder (fixture: bootstrap preset, purple primary, light error color at 4.49:1)', () => {
   let element;
   let builder;
 
@@ -38,7 +38,7 @@ describe('theme builder (fixture: material preset, light error color at 4.49:1)'
   const failures = () => [...element.querySelectorAll('.celerik-theme-builder__pair.is-fail')].map((li) => li.dataset.celerikPair);
 
   test('reveals the JavaScript controls and previews the theme in the preview area only', () => {
-    for (const part of ['__preset', '__history', '__export', '__modes']) {
+    for (const part of ['__history', '__export', '__modes']) {
       expect($(`.celerik-theme-builder${part}`).hidden).toBe(false);
     }
     expect(previewCss()).toContain('#builder .celerik-theme-builder__canvas,\n#builder .celerik-theme-builder__canvas[data-bs-theme=light] {');
@@ -83,17 +83,15 @@ describe('theme builder (fixture: material preset, light error color at 4.49:1)'
     expect(input.getAttribute('aria-describedby')).toBe('builder-light-primary-help');
   });
 
-  test('base, radius, font and shadow change the theme', () => {
-    type($('[name="theme[base]"]'), 'tailwind');
+  test('radius, font and shadow change the theme', () => {
     type($('[name="theme[radius]"]'), '1.25');
     type($('[name="theme[fontFamily]"]'), 'Inter, sans-serif');
     type($('[name="theme[shadow]"]'), '');
 
     const theme = builder.getTheme();
-    expect([theme.base, theme.radius, theme.fontFamily, theme.shadow]).toEqual(['tailwind', 1.25, 'Inter, sans-serif', undefined]);
+    expect([theme.radius, theme.fontFamily, theme.shadow]).toEqual([1.25, 'Inter, sans-serif', undefined]);
     expect(text('builder-radius-value').textContent).toBe('1.25');
     expect(previewCss()).toContain('  --celerik-radius: 1.25rem;');
-    expect(previewCss()).toContain('--celerik-focus-ring: 0 0 0 2px #fffbfe'); // tailwind derives its ring
 
     type($('[name="theme[fontFamily]"]'), 'Inter; } body {');
     expect($('[name="theme[fontFamily]"]').getAttribute('aria-invalid')).toBe('true');
@@ -107,13 +105,13 @@ describe('theme builder (fixture: material preset, light error color at 4.49:1)'
     const primary = text('builder-light-primary');
     type(primary, '#111111', { commit: false });
     type(primary, '#222222'); // one change event: one undo step
-    type($('[name="theme[base]"]'), 'bootstrap');
+    type($('[name="theme[radius]"]'), '1');
     expect(undo.disabled).toBe(false);
 
     undo.click();
-    expect(builder.getTheme().base).toBe('material');
+    expect(builder.getTheme().radius).toBe(0.375);
     expect(builder.getTheme().light.primary).toBe('#222222');
-    expect($('[name="theme[base]"]').value).toBe('material');
+    expect($('[name="theme[radius]"]').value).toBe('0.375');
 
     undo.click();
     expect(builder.getTheme().light.primary).toBe('#6750a4');
@@ -126,18 +124,6 @@ describe('theme builder (fixture: material preset, light error color at 4.49:1)'
     expect(builder.getTheme().light).toEqual(readOptions(element).theme.light);
   });
 
-  test('loading a preset replaces the theme and can be undone', () => {
-    $(`#builder-preset`).value = 'tailwind';
-    $('[data-celerik-action="preset"]').click();
-
-    expect(builder.getTheme().name).toBe('Tailwind');
-    expect(text('builder-light-primary').value).toBe('#4f46e5');
-    expect($('[name="theme[base]"]').value).toBe('tailwind');
-
-    $('[data-celerik-action="undo"]').click();
-    expect(builder.getTheme().base).toBe('material');
-  });
-
   test('the preview mode switches the preview between light and dark', () => {
     const canvas = $('.celerik-theme-builder__canvas');
     const dark = text('builder-preview-dark');
@@ -148,6 +134,7 @@ describe('theme builder (fixture: material preset, light error color at 4.49:1)'
   });
 
   test('setTheme validates like Theme::fromArray()', () => {
-    expect(() => builder.setTheme({ ...builder.getTheme(), base: 'bulma' })).toThrow('Unknown base');
+    expect(() => builder.setTheme({ ...builder.getTheme(), base: 'bulma' })).toThrow('The theme base can only be "bootstrap".');
+    expect(() => builder.setTheme({ ...builder.getTheme(), shadow: 'glow' })).toThrow('Unknown shadow');
   });
 });

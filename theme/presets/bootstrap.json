@@ -1,6 +1,5 @@
 {
   "name": "Bootstrap",
-  "base": "bootstrap",
   "light": {
     "primary": "#0d6efd",
     "primaryHover": "#0a58ca",

@@ -10,7 +10,7 @@ use InvalidArgumentException;
  * The celerik-theme command: build a theme stylesheet from theme.json, check its contrast,
  * or start a theme from a preset.
  *
- *     vendor/bin/celerik-theme preset tailwind > theme.json
+ *     vendor/bin/celerik-theme preset bootstrap > theme.json
  *     vendor/bin/celerik-theme check theme.json
  *     vendor/bin/celerik-theme build theme.json public/css/acme.css
  *
@@ -26,9 +26,9 @@ final class Console
 
     private const USAGE = <<<'TXT'
         Usage:
-          celerik-theme preset <bootstrap|material|tailwind>   Print a preset as theme JSON
-          celerik-theme check <theme.json>                      Print the WCAG contrast report
-          celerik-theme build <theme.json> <output.css>         Write the theme stylesheet
+          celerik-theme preset bootstrap                  Print the Bootstrap preset as theme JSON
+          celerik-theme check <theme.json>                Print the WCAG contrast report
+          celerik-theme build <theme.json> <output.css>   Write the theme stylesheet
 
         Options:
           --allow-contrast-failures   build: write the stylesheet even if a pair fails
@@ -150,7 +150,7 @@ final class Console
 
             return self::INVALID;
         }
-        fwrite($this->out, sprintf("Wrote %s (base: %s).\n", $output, $theme->getBase()));
+        fwrite($this->out, sprintf("Wrote %s.\n", $output));
 
         return $failures === [] ? self::OK : self::CONTRAST_FAILED;
     }

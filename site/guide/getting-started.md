@@ -58,7 +58,6 @@ npm install @celerikui/ui
 ```js
 import '@celerikui/ui';                       // registers the components and starts them
 import '@celerikui/ui/celerik.css';
-import '@celerikui/ui/celerik-material.css';  // optional base look
 ```
 
 The PHP version and the npm version must match: the components and the bundle change together.

@@ -19,7 +19,6 @@ use Celerik\Ui\Components\ThemeBuilder;
 use Celerik\Ui\Theme\Theme;
 
 /** @var string $path */
-/** @var string $theme */
 /** @var Celerik\Ui\Components\Grid $grid */
 /** @var Celerik\Ui\Components\Chart $chart */
 /** @var Celerik\Ui\Components\Form $form */
@@ -67,8 +66,7 @@ if (!$local) {
 }
 
 $builder = ThemeBuilder::make('builder')
-    ->theme($savedTheme ?? Theme::preset($theme))
-    ->assetsUrl('/assets')
+    ->theme($savedTheme ?? Theme::preset('bootstrap'))
     ->saveUrl('/theme-builder/save')
     ->csrf($_SESSION['csrf'])
     ->preview($form, $grid, $tabs, $chart);
@@ -82,7 +80,7 @@ $builder = ThemeBuilder::make('builder')
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
     <script src="https://cdn.jsdelivr.net/npm/jquery@4.0.0/dist/jquery.min.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" defer></script>
-    <?= Assets::tags('/assets', theme: $builder->getTheme()->getBase()) ?>
+    <?= Assets::tags('/assets') ?>
 </head>
 <body>
 <main class="container-fluid py-4">

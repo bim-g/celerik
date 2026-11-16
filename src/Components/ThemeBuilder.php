@@ -17,7 +17,7 @@ use Stringable;
  * report, then export the stylesheet (Theme::toCss()) or the theme JSON.
  *
  *     ThemeBuilder::make('builder')
- *         ->theme(Theme::preset('material'))
+ *         ->theme(Theme::fromJson(file_get_contents('theme.json')))
  *         ->preview($grid, $form, $chart);
  *
  * It is a development tool: put it behind authentication or a local-only route.
@@ -30,18 +30,15 @@ final class ThemeBuilder extends Component
     public const LABELS = [
         'title' => 'Theme builder',
         'name' => 'Theme name',
-        'base' => 'Base look',
-        'preset' => 'Start from a preset',
-        'loadPreset' => 'Load preset',
         'light' => 'Light mode colors',
         'dark' => 'Dark mode colors',
         'shape' => 'Shape',
         'radius' => 'Corner radius (rem)',
         'font' => 'Font',
         'fontHelp' => 'Family names and generic families, e.g. "Inter, system-ui, sans-serif". '
-            . 'Leave it empty to keep the base look\'s font.',
+            . 'Leave it empty to keep Bootstrap\'s font.',
         'shadow' => 'Container shadow',
-        'keepBase' => 'Base look default',
+        'keepBase' => 'Bootstrap default',
         'picker' => 'color picker',
         'report' => 'Contrast (WCAG 2.2 AA)',
         'pass' => 'Pass',
@@ -85,7 +82,8 @@ final class ThemeBuilder extends Component
         'danger' => ['Error', 'Error messages and invalid fields.'],
     ];
 
-    public const BASE_NAMES = ['bootstrap' => 'Bootstrap', 'material' => 'Material', 'tailwind' => 'Tailwind'];
+    /** Labels of the base look and preset controls, removed in 0.2.0: labels() ignores them. */
+    private const REMOVED_LABELS = ['base', 'preset', 'loadPreset'];
 
     public const SHADOW_NAMES = [
         'none' => 'None',
@@ -114,8 +112,6 @@ final class ThemeBuilder extends Component
 
     private string $csrfField = '_token';
 
-    private ?string $assetsUrl = null;
-
     /** @var array<string, string> */
     private array $labels = [];
 
@@ -124,7 +120,7 @@ final class ThemeBuilder extends Component
         return 'themebuilder';
     }
 
-    /** The theme to start from (default: the bootstrap preset). */
+    /** The theme to start from (default: the bootstrap preset), also the one Reset restores. */
     public function theme(Theme $theme): self
     {
         $this->theme = $theme;
@@ -165,13 +161,11 @@ final class ThemeBuilder extends Component
     }
 
     /**
-     * Base URL of the bundle (public/), to switch the base look in the preview. By default
-     * it is the directory of the page's celerik.css.
+     * @deprecated Since 0.2.0, without effect: it switched the Material and Tailwind looks,
+     *             which were removed. It will be removed in 1.0.
      */
     public function assetsUrl(string $url): self
     {
-        $this->assetsUrl = rtrim($url, '/');
-
         return $this;
     }
 
@@ -179,6 +173,9 @@ final class ThemeBuilder extends Component
     public function labels(array $labels): self
     {
         foreach ($labels as $key => $text) {
+            if (in_array($key, self::REMOVED_LABELS, true)) {
+                continue;
+            }
             if (!isset(self::LABELS[$key]) && !isset(self::TOKENS[$key])) {
                 throw new InvalidArgumentException(sprintf('Unknown theme builder label "%s".', $key));
             }
@@ -214,7 +211,7 @@ final class ThemeBuilder extends Component
             throw new InvalidArgumentException('The request has no theme.');
         }
 
-        // Form fields are strings: an empty optional field keeps the base look's value.
+        // Form fields are strings: an empty optional field keeps Bootstrap's value.
         foreach (['radius', 'fontFamily', 'shadow'] as $key) {
             if (($theme[$key] ?? null) === '') {
                 unset($theme[$key]);
@@ -237,19 +234,12 @@ final class ThemeBuilder extends Component
 
     public function toArray(): array
     {
-        $presets = [];
-        foreach (Theme::BASES as $base) {
-            $presets[$base] = Theme::preset($base)->toArray();
-        }
-
         return array_filter([
             'theme' => $this->getTheme()->toArray(),
-            'presets' => $presets,
             'pairs' => Contrast::pairs(),
             'labels' => array_replace(self::LABELS, array_intersect_key($this->labels, self::LABELS)),
             'saveUrl' => $this->saveUrl,
             'csrf' => $this->csrfToken === null ? null : ['field' => $this->csrfField],
-            'assetsUrl' => $this->assetsUrl,
         ], static fn (mixed $value): bool => $value !== null);
     }
 
@@ -284,15 +274,6 @@ final class ThemeBuilder extends Component
 
     private function generalFields(Theme $theme): string
     {
-        $baseOptions = '';
-        foreach (self::BASE_NAMES as $value => $name) {
-            $baseOptions .= $this->option($value, $name, $theme->getBase() === $value);
-        }
-        $presetOptions = '';
-        foreach (self::BASE_NAMES as $value => $name) {
-            $presetOptions .= $this->option($value, $name, false);
-        }
-
         return $this->field('name', $this->text('name'), Html::tag('input', [
             'type' => 'text',
             'id' => $this->id . '-name',
@@ -302,24 +283,7 @@ final class ThemeBuilder extends Component
             'required' => true,
             'maxlength' => 60,
             'pattern' => '[\p{L}\p{N} ._\-]+',
-        ]))
-            . $this->field('base', $this->text('base'), Html::tag('select', [
-                'id' => $this->id . '-base',
-                'name' => 'theme[base]',
-                'class' => 'form-select',
-            ], $baseOptions))
-            . Html::tag('div', ['class' => 'mb-3 celerik-theme-builder__preset', 'hidden' => true], Html::tag(
-                'label',
-                ['for' => $this->id . '-preset', 'class' => 'form-label'],
-                $this->text('preset'),
-            ) . Html::tag('div', ['class' => 'input-group'], Html::tag('select', [
-                'id' => $this->id . '-preset',
-                'class' => 'form-select',
-            ], $presetOptions) . Html::tag('button', [
-                'type' => 'button',
-                'class' => 'btn btn-secondary',
-                'data-celerik-action' => 'preset',
-            ], $this->text('loadPreset'))));
+        ]));
     }
 
     private function palette(Theme $theme, string $mode): string

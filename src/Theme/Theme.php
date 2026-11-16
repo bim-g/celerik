@@ -8,9 +8,9 @@ use InvalidArgumentException;
 use JsonException;
 
 /**
- * A Celerik theme: design tokens on top of a base look (theme/theme.schema.json).
+ * A Celerik theme: design tokens on top of Bootstrap (theme/theme.schema.json).
  *
- *     $theme = Theme::preset('tailwind')->name('Acme')->color('light', 'primary', '#0b5394');
+ *     $theme = Theme::preset('bootstrap')->name('Acme')->color('light', 'primary', '#0b5394');
  *     $theme->contrast();   // WCAG report, see Contrast
  *
  * Every value is validated against a strict format (hex colors, plain font names, numbers),
@@ -18,7 +18,11 @@ use JsonException;
  */
 final class Theme
 {
-    public const BASES = ['bootstrap', 'material', 'tailwind'];
+    /** The shipped themes (theme/presets/{name}.json). */
+    public const PRESETS = ['bootstrap'];
+
+    /** The Material and Tailwind looks, removed in 0.2.0: Celerik UI is Bootstrap only. */
+    public const REMOVED_BASES = ['material', 'tailwind'];
 
     public const MODES = ['light', 'dark'];
 
@@ -33,8 +37,6 @@ final class Theme
 
     private string $name;
 
-    private string $base;
-
     /** @var array<string, array<string, string>> mode => token => #rrggbb */
     private array $palettes = [];
 
@@ -48,9 +50,9 @@ final class Theme
      * @param array<string, string> $light
      * @param array<string, string> $dark
      */
-    private function __construct(string $name, string $base, array $light, array $dark)
+    private function __construct(string $name, array $light, array $dark)
     {
-        $this->name($name)->base($base);
+        $this->name($name);
         foreach (['light' => $light, 'dark' => $dark] as $mode => $palette) {
             $missing = array_diff(self::TOKENS, array_keys($palette));
             $unknown = array_diff(array_keys($palette), self::TOKENS);
@@ -71,11 +73,14 @@ final class Theme
     /** One of the shipped themes, from theme/presets/{name}.json. */
     public static function preset(string $name): self
     {
-        if (!in_array($name, self::BASES, true)) {
+        if (in_array($name, self::REMOVED_BASES, true)) {
+            throw new InvalidArgumentException(self::removedBase($name));
+        }
+        if (!in_array($name, self::PRESETS, true)) {
             throw new InvalidArgumentException(sprintf(
                 'Unknown preset "%s". Available: %s.',
                 $name,
-                implode(', ', self::BASES),
+                implode(', ', self::PRESETS),
             ));
         }
 
@@ -97,19 +102,27 @@ final class Theme
         if ($unknown !== []) {
             throw new InvalidArgumentException('Unknown theme keys: ' . implode(', ', $unknown) . '.');
         }
-        foreach (['name', 'base', 'light', 'dark'] as $key) {
+        foreach (['name', 'light', 'dark'] as $key) {
             if (!isset($data[$key])) {
                 throw new InvalidArgumentException(sprintf('The theme has no "%s".', $key));
             }
         }
-        if (!is_string($data['name']) || !is_string($data['base'])) {
-            throw new InvalidArgumentException('The theme name and base must be strings.');
+        if (!is_string($data['name'])) {
+            throw new InvalidArgumentException('The theme name must be a string.');
+        }
+        // Themes made before 0.2.0 have a "base": "bootstrap" is the only one left.
+        if (isset($data['base']) && $data['base'] !== 'bootstrap') {
+            throw new InvalidArgumentException(
+                is_string($data['base']) && in_array($data['base'], self::REMOVED_BASES, true)
+                    ? self::removedBase($data['base'])
+                    : 'The theme base can only be "bootstrap".',
+            );
         }
         if (!is_array($data['light']) || !is_array($data['dark'])) {
             throw new InvalidArgumentException('The light and dark palettes must be objects.');
         }
 
-        $theme = new self($data['name'], $data['base'], self::strings($data['light']), self::strings($data['dark']));
+        $theme = new self($data['name'], self::strings($data['light']), self::strings($data['dark']));
 
         if (isset($data['radius'])) {
             if (!is_int($data['radius']) && !is_float($data['radius'])) {
@@ -154,20 +167,6 @@ final class Theme
         return $this;
     }
 
-    public function base(string $base): self
-    {
-        if (!in_array($base, self::BASES, true)) {
-            throw new InvalidArgumentException(sprintf(
-                'Unknown base "%s". Available: %s.',
-                $base,
-                implode(', ', self::BASES),
-            ));
-        }
-        $this->base = $base;
-
-        return $this;
-    }
-
     /** @param string $color "#rrggbb" */
     public function color(string $mode, string $token, string $color): self
     {
@@ -191,7 +190,7 @@ final class Theme
         return $this;
     }
 
-    /** Corner radius in rem (0 to 2), or null to keep the base theme's. */
+    /** Corner radius in rem (0 to 2), or null to keep Bootstrap's. */
     public function radius(?float $rem): self
     {
         if ($rem !== null && ($rem < 0 || $rem > 2)) {
@@ -202,7 +201,7 @@ final class Theme
         return $this;
     }
 
-    /** A font stack such as "Inter, system-ui, sans-serif", or null to keep the base theme's. */
+    /** A font stack such as "Inter, system-ui, sans-serif", or null to keep Bootstrap's. */
     public function fontFamily(?string $stack): self
     {
         if ($stack !== null && preg_match('/^[A-Za-z0-9 ,\'"-]{1,200}$/', $stack) !== 1) {
@@ -215,7 +214,7 @@ final class Theme
         return $this;
     }
 
-    /** none, subtle, elevated or outlined, or null to keep the base theme's. */
+    /** none, subtle, elevated or outlined, or null for none (Bootstrap's flat look). */
     public function shadow(?string $shadow): self
     {
         if ($shadow !== null && !in_array($shadow, self::SHADOWS, true)) {
@@ -233,11 +232,6 @@ final class Theme
     public function getName(): string
     {
         return $this->name;
-    }
-
-    public function getBase(): string
-    {
-        return $this->base;
     }
 
     /** @return array<string, string> token => #rrggbb */
@@ -275,8 +269,8 @@ final class Theme
     }
 
     /**
-     * The theme's stylesheet, to load after celerik.css and the base theme's stylesheet
-     * (Assets::tags(theme: $theme->getBase(), customTheme: '/css/acme.css')).
+     * The theme's stylesheet, to load after celerik.css
+     * (Assets::tags($url, customTheme: '/css/acme.css')).
      */
     public function toCss(): string
     {
@@ -294,7 +288,6 @@ final class Theme
     {
         return array_filter([
             'name' => $this->name,
-            'base' => $this->base,
             'light' => $this->palettes['light'],
             'dark' => $this->palettes['dark'],
             'radius' => $this->radius,
@@ -308,6 +301,16 @@ final class Theme
         $flags = JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_THROW_ON_ERROR;
 
         return json_encode($this->toArray(), $flags) . "\n";
+    }
+
+    /** The message for a theme, preset or stylesheet that asks for a removed look. */
+    public static function removedBase(string $base): string
+    {
+        return sprintf(
+            'The %s look was removed in Celerik UI 0.2.0: Celerik UI is Bootstrap only. '
+            . 'Use "bootstrap", and a custom theme (Theme::toCss()) for your colors, radius and font.',
+            ucfirst($base),
+        );
     }
 
     /**

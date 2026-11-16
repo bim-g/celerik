@@ -71,27 +71,19 @@ The full Telerik → open-source mapping is in [Components.md](Components.md).
 
 ## Themes
 
-Three looks, all on Bootstrap 5.3, each with light and dark mode (`<html data-bs-theme="dark">`):
-
-| Theme | Look | Use it |
-|---|---|---|
-| `bootstrap` (default) | Plain Bootstrap | `<x-celerik-assets />`, `{{ celerik_assets() }}`, `Assets::tags($url)` |
-| `material` | Material 3 palette, pill buttons, elevated surfaces, flat tables, rounded dialogs | `<x-celerik-assets theme="material" />`, `{{ celerik_assets(theme: 'material') }}`, `Assets::tags($url, theme: 'material')` |
-| `tailwind` | Tailwind-inspired: slate and indigo, ring focus, uppercase table headers (does **not** load Tailwind CSS) | `theme="tailwind"` |
-
-A theme is a small extra stylesheet (about 1 KB gzipped) loaded after `celerik.css`. Pair the Material theme with `Form::floatingLabels()` for floating labels. Every theme and mode is checked for WCAG 2.1 AA contrast, both automatically on its palette and in a browser with axe-core.
+Celerik UI is **Bootstrap 5.3**, in light and dark mode (`<html data-bs-theme="dark">`): load `celerik.css` after Bootstrap with `<x-celerik-assets />`, `{{ celerik_assets() }}` or `Assets::tags($url)`. Every component is checked for WCAG 2.2 AA contrast in both modes, automatically and in a browser with axe-core. (The Material and Tailwind looks of 0.1.x were removed in 0.2.0; see [THEMING.md](THEMING.md).)
 
 To make your own, start from a look and change its design tokens (ten colors per mode, radius, font, shadow):
 
 - the **ThemeBuilder** component edits them with a live preview of your components and a WCAG contrast report, and exports the stylesheet or the theme JSON;
-- `Theme::preset('tailwind')->color('light', 'primary', '#0b5394')->toCss()` does the same in PHP;
+- `Theme::preset('bootstrap')->color('light', 'primary', '#0b5394')->toCss()` does the same in PHP;
 - `vendor/bin/celerik-theme build theme.json public/css/acme.css` builds it in CI, and refuses a theme that fails a contrast check.
 
-Load the result with `customTheme` (`<x-celerik-assets theme="tailwind" custom-theme="/css/acme.css" />`). See [THEMING.md](THEMING.md); for changes tokens cannot make, override the CSS custom properties or the SCSS variables.
+Load the result with `customTheme` (`<x-celerik-assets custom-theme="/css/acme.css" />`). See [THEMING.md](THEMING.md); for changes tokens cannot make, override the CSS custom properties or the SCSS variables.
 
 ## Examples
 
-- [`examples/plain`](examples/plain): no framework, with a theme switcher (`?theme=material&mode=dark`). Run `php -S localhost:8000 examples/plain/index.php`.
+- [`examples/plain`](examples/plain): no framework, with light and dark mode (`?mode=dark`) and the ThemeBuilder. Run `php -S localhost:8000 examples/plain/index.php`.
 - [`examples/laravel`](examples/laravel): Eloquent grid, chart, validated form, scheduler, an article form with rich text and uploads, a tabs/modal/notifications page, and a file manager.
 - [`examples/symfony`](examples/symfony): Doctrine grid, chart, validated form, scheduler, an article form with rich text and uploads, a tabs/modal/notifications page, and a file manager.
 
@@ -102,7 +94,7 @@ composer install && npm install
 npm run build        # public/: the bundle is built, not committed (releases add it to their tag)
 composer test        # PHPUnit
 npm test             # Jest + axe-core (renders PHP fixtures first)
-npm run test:a11y    # Playwright + axe-core in a real browser, every theme (after npm run build)
+npm run test:a11y    # Playwright + axe-core in a real browser, light and dark (after npm run build)
 composer lint        # PSR-12
 npm run lint         # ESLint
 ```
@@ -128,7 +120,7 @@ The File Manager also needs `style-src-attr 'unsafe-inline'`: elFinder builds it
 
 ## Accessibility
 
-Components target WCAG 2.2 AA in every theme, light and dark, and respect reduced motion and Windows High Contrast. Every pull request runs axe-core in a real browser, plus keyboard, forced-colors and target-size tests. See [ACCESSIBILITY.md](ACCESSIBILITY.md) for the status of each component, the known limits of the bundled libraries and the manual test plan.
+Components target WCAG 2.2 AA in light and dark mode, and respect reduced motion and Windows High Contrast. Every pull request runs axe-core in a real browser, plus keyboard, forced-colors and target-size tests. See [ACCESSIBILITY.md](ACCESSIBILITY.md) for the status of each component, the known limits of the bundled libraries and the manual test plan.
 
 ## Documentation Pack
 

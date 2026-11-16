@@ -28,7 +28,7 @@ for (const mode of ['light', 'dark']) {
       test(`/${path} has no axe-core violations`, async ({ page }) => {
         await page.goto(path);
         await expect(page.locator('.VPContent')).toBeVisible();
-        // Demos are checked on their own pages below, in every look and mode.
+        // Demos are checked on their own pages below, in both modes.
         expect(await axeViolations(page, (axe) => axe.exclude('.celerik-demo iframe'))).toEqual([]);
       });
     }
@@ -36,31 +36,29 @@ for (const mode of ['light', 'dark']) {
 }
 
 for (const name of demos) {
-  for (const theme of ['bootstrap', 'material', 'tailwind']) {
-    for (const mode of ['light', 'dark']) {
-      test(`demo ${name} (${theme} ${mode}) starts with no errors or axe-core violations`, async ({ page }) => {
-        const errors = [];
-        page.on('pageerror', (error) => errors.push(error.message));
-        page.on('console', (message) => message.type() === 'error' && errors.push(message.text()));
-        // The Scheduler demo shows November 2026: a fixed date keeps its tinted today
-        // cell in view, so the result does not depend on the day the tests run.
-        await page.clock.setFixedTime(new Date('2026-11-11T10:00:00Z'));
-        await page.addInitScript(() => {
-          window.celerikReady = 0;
-          document.addEventListener('celerik:ready', () => {
-            window.celerikReady += 1;
-          });
+  for (const mode of ['light', 'dark']) {
+    test(`demo ${name} (${mode}) starts with no errors or axe-core violations`, async ({ page }) => {
+      const errors = [];
+      page.on('pageerror', (error) => errors.push(error.message));
+      page.on('console', (message) => message.type() === 'error' && errors.push(message.text()));
+      // The Scheduler demo shows November 2026: a fixed date keeps its tinted today
+      // cell in view, so the result does not depend on the day the tests run.
+      await page.clock.setFixedTime(new Date('2026-11-11T10:00:00Z'));
+      await page.addInitScript(() => {
+        window.celerikReady = 0;
+        document.addEventListener('celerik:ready', () => {
+          window.celerikReady += 1;
         });
-
-        await page.goto(`demos/${name}.html?theme=${theme}&mode=${mode}`);
-        await page.waitForFunction(() => window.celerikReady === document.querySelectorAll('[data-celerik]').length, null, { timeout: 30_000 });
-        await settled(page);
-
-        expect(errors).toEqual([]);
-        expect(await page.evaluate(() => document.documentElement.dataset.bsTheme)).toBe(mode);
-        expect(await axeViolations(page, (axe) => axe.include('main'))).toEqual([]);
       });
-    }
+
+      await page.goto(`demos/${name}.html?mode=${mode}`);
+      await page.waitForFunction(() => window.celerikReady === document.querySelectorAll('[data-celerik]').length, null, { timeout: 30_000 });
+      await settled(page);
+
+      expect(errors).toEqual([]);
+      expect(await page.evaluate(() => document.documentElement.dataset.bsTheme)).toBe(mode);
+      expect(await axeViolations(page, (axe) => axe.include('main'))).toEqual([]);
+    });
   }
 }
 
@@ -128,12 +126,10 @@ test.describe('keyboard', () => {
     await expect(page.locator('.VPLocalSearchBox')).toHaveCount(0);
   });
 
-  test('a demo can switch its look from the keyboard', async ({ page }) => {
+  test('a demo follows the site in light mode, without a look picker', async ({ page }) => {
     await page.goto('components/tabs');
-    const look = page.getByLabel('Look');
-    await look.focus();
-    await look.selectOption('material');
-    await expect(page.locator('.celerik-demo iframe')).toHaveAttribute('src', /theme=material/);
+    await expect(page.getByLabel('Look')).toHaveCount(0);
+    await expect(page.locator('.celerik-demo iframe')).toHaveAttribute('src', /tabs\.html\?mode=(light|dark)$/);
     await expect(page.locator('.celerik-demo iframe')).toHaveAttribute('title', 'Demo: Tabs');
   });
 });

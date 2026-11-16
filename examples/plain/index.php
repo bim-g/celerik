@@ -85,16 +85,10 @@ if ($path === '/contact' && ($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST') {
     $message = $errors === [] ? 'Thanks, your message was sent.' : null;
 }
 
-// Theme preview: ?theme=material|tailwind and ?mode=dark.
-$theme = in_array($_GET['theme'] ?? '', Assets::THEMES, true) ? $_GET['theme'] : 'bootstrap';
+// ?mode=dark: Bootstrap's dark mode. ?custom=1: the theme saved with the theme builder
+// (theme-builder.php).
 $mode = ($_GET['mode'] ?? '') === 'dark' ? 'dark' : 'light';
-
-// ?custom=1: the theme saved with the theme builder (theme-builder.php), on its base look.
-$customTheme = null;
-if (isset($_GET['custom'], $_SESSION['theme']['base'])) {
-    $theme = $_SESSION['theme']['base'];
-    $customTheme = '/custom-theme.css';
-}
+$customTheme = isset($_GET['custom'], $_SESSION['theme']) ? '/custom-theme.css' : null;
 
 $form = Form::make('contact')
     ->action('/contact')
@@ -108,7 +102,6 @@ $form = Form::make('contact')
     ->errors($errors)
     // Only re-fill this form when it is the one that was posted.
     ->values($path === '/contact' && $message === null ? $_POST : [])
-    ->floatingLabels($theme === 'material')
     ->submit('Send');
 
 require __DIR__ . '/ui.php';
@@ -125,24 +118,22 @@ require __DIR__ . '/theme-builder.php';
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
     <script src="https://cdn.jsdelivr.net/npm/jquery@4.0.0/dist/jquery.min.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" defer></script>
-    <?= Assets::tags('/assets', theme: $theme, customTheme: $customTheme) ?>
+    <?= Assets::tags('/assets', customTheme: $customTheme) ?>
 </head>
 <body>
 <main class="container py-4">
     <h1 class="h3 mb-3">Celerik UI — plain PHP</h1>
     <nav class="mb-4 small" aria-label="Theme">
-        Theme:
-        <?php foreach (Assets::THEMES as $name) : ?>
-            <?php foreach (['light', 'dark'] as $m) : ?>
-                <?php $current = $name === $theme && $m === $mode ? ' aria-current="page"' : '' ?>
-                <a href="?theme=<?= $name ?>&amp;mode=<?= $m ?>"<?= $current ?>><?= ucfirst($name) ?> <?= $m ?></a>
-            <?php endforeach ?>
+        Mode:
+        <?php foreach (['light', 'dark'] as $m) : ?>
+            <?php $current = $m === $mode && $customTheme === null ? ' aria-current="page"' : '' ?>
+            <a href="?mode=<?= $m ?>"<?= $current ?>><?= ucfirst($m) ?></a>
         <?php endforeach ?>
         <?php if (isset($_SESSION['theme'])) : ?>
             <?php $current = $customTheme === null ? '' : ' aria-current="page"' ?>
             · <a href="?custom=1&amp;mode=<?= $mode ?>"<?= $current ?>>Saved theme</a>
         <?php endif ?>
-        · <a href="/theme-builder?theme=<?= $theme ?>">Theme builder</a>
+        · <a href="/theme-builder">Theme builder</a>
     </nav>
 
     <section class="mb-5" aria-labelledby="grid-title">

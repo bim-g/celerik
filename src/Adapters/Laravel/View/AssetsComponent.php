@@ -9,8 +9,9 @@ use Illuminate\Support\HtmlString;
 use Illuminate\View\Component;
 
 /**
- * <x-celerik-assets /> or <x-celerik-assets theme="material" custom-theme="/css/acme.css" />
- * — load jQuery and Bootstrap before it.
+ * <x-celerik-assets /> or <x-celerik-assets custom-theme="/css/acme.css" />
+ * — load jQuery and Bootstrap before it. `theme` is deprecated: "bootstrap" is the only
+ * look since 0.2.0.
  */
 final class AssetsComponent extends Component
 {

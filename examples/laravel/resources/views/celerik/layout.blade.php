@@ -9,10 +9,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" defer></script>
     {{-- The theme saved with the theme builder (CelerikThemeController), if any. --}}
     @php($savedTheme = \App\Http\Controllers\CelerikThemeController::saved())
-    <x-celerik-assets
-        :theme="$savedTheme?->getBase() ?? 'bootstrap'"
-        :custom-theme="$savedTheme ? asset('css/celerik-theme.css') : null"
-    />
+    <x-celerik-assets :custom-theme="$savedTheme ? asset('css/celerik-theme.css') : null" />
 </head>
 <body>
 <nav class="navbar navbar-expand bg-body-tertiary mb-4" aria-label="Examples">

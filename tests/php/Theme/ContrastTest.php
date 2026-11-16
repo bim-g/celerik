@@ -21,11 +21,11 @@ final class ContrastTest extends TestCase
 
     public function testReportCoversEveryPairInBothModes(): void
     {
-        $report = Contrast::report(Theme::preset('material'));
+        $report = Contrast::report(Theme::preset('bootstrap'));
 
         self::assertCount(2 * count(Contrast::pairs()), $report);
         self::assertSame(['light', 'dark'], array_values(array_unique(array_map(static fn ($r) => $r->mode, $report))));
-        self::assertStringStartsWith('PASS light: Body text on #fffbfe = ', (string) $report[0]);
+        self::assertStringStartsWith('PASS light: Body text on #ffffff = ', (string) $report[0]);
         $border = array_values(array_filter($report, static fn ($r) => $r->foreground === 'inputBorder'))[0];
         self::assertSame(3.0, $border->minimum);
         self::assertSame('1.4.11', $border->wcag);
