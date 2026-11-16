@@ -236,6 +236,16 @@ $fixtures = [
         ->errors(['backup' => 'This code has expired.'])
         ->submit('Verify'),
 
+    'form-key-value' => Form::make('webhook')
+        ->action('/webhook')
+        ->csrf('test-token')
+        ->add(
+            Field::keyValue('headers', 'Headers')->required()->keySuggestions(['Accept', 'Authorization']),
+            Field::keyValue('meta', 'Metadata')->value(['env' => 'prod', 'team' => 'billing']),
+        )
+        ->errors(['meta.1.key' => 'This key is reserved.'])
+        ->submit('Save'),
+
     'form-select' => Form::make('assign')
         ->action('/assign')
         ->csrf('test-token')

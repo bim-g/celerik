@@ -28,6 +28,9 @@ final class Field
     private const TOOLBARS = ['basic', 'standard', 'full'];
     private const PERIOD_TYPES = ['date', 'time', 'datetime-local'];
 
+    /** The row index in the template form.js copies for a new key-value row. */
+    public const PAIR_PLACEHOLDER = '__pair__';
+
     private ?UploadRules $uploadRules = null;
     private ?string $uploadUrl = null;
 
@@ -51,6 +54,19 @@ final class Field
     private string $clearLabel = 'No rating';
     private int $codeLength = 6;
     private bool $alphanumeric = false;
+
+    /** @var array{key: string, value: string, add: string, remove: string, missing: string, duplicate: string} */
+    private array $pairLabels = [
+        'key' => 'Key',
+        'value' => 'Value',
+        'add' => 'Add row',
+        'remove' => 'Remove row %d',
+        'missing' => 'Enter a key for this value.',
+        'duplicate' => 'This key is already used.',
+    ];
+
+    /** @var list<string> */
+    private array $keySuggestions = [];
 
     /** @var array{url: string, value: string, label: string, limit: int}|null */
     private ?array $remote = null;
@@ -338,6 +354,75 @@ final class Field
         $this->alphanumeric = $alphanumeric;
 
         return $this;
+    }
+
+    /**
+     * A list of key-value pairs (metadata, HTTP headers, settings): a row per pair, with
+     * Add and Remove buttons. Each row submits as `name[n][key]` and `name[n][value]`;
+     * Field::keyValues() turns the submitted rows into a `key => value` array. value()
+     * takes such an array. A value needs a key, and a key is used once.
+     */
+    public static function keyValue(string $name, ?string $label = null): self
+    {
+        return new self('keyvalue', $name, $label ?? self::humanize($name));
+    }
+
+    /**
+     * Keys the key inputs suggest as the user types (a datalist), e.g. common HTTP headers.
+     * Other keys are accepted.
+     *
+     * @param list<string> $keys
+     */
+    public function keySuggestions(array $keys): self
+    {
+        $this->assertType('keyvalue', 'keySuggestions');
+        $this->keySuggestions = array_values(array_unique(array_map('strval', $keys)));
+
+        return $this;
+    }
+
+    /**
+     * The texts of a key-value list: the column names (each input is named "Key 2",
+     * "Value 2" for assistive technology), the buttons (`remove` takes the row's position)
+     * and the messages for a value without a key and for a key used twice.
+     */
+    public function keyValueLabels(
+        ?string $key = null,
+        ?string $value = null,
+        ?string $add = null,
+        ?string $remove = null,
+        ?string $missing = null,
+        ?string $duplicate = null,
+    ): self {
+        $this->assertType('keyvalue', 'keyValueLabels');
+        if ($remove !== null && !str_contains($remove, '%d')) {
+            throw new InvalidArgumentException('The remove label needs %d for the row\'s position.');
+        }
+        foreach (compact('key', 'value', 'add', 'remove', 'missing', 'duplicate') as $name => $text) {
+            if ($text !== null) {
+                $this->pairLabels[$name] = $text;
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * The submitted rows of a key-value list as a `key => value` array. Keys are trimmed;
+     * rows without a key are left out; a key used twice keeps its last value.
+     *
+     * @return array<string, string>
+     */
+    public static function keyValues(mixed $rows): array
+    {
+        $values = [];
+        foreach (self::pairs($rows) as ['key' => $key, 'value' => $value]) {
+            if ($key !== '') {
+                $values[$key] = $value;
+            }
+        }
+
+        return $values;
     }
 
     public static function checkbox(string $name, ?string $label = null): self
@@ -740,6 +825,10 @@ final class Field
             return $this->renderRating($id, $value, $error, $helpText, $helpId, $errorId);
         }
 
+        if ($this->type === 'keyvalue') {
+            return $this->renderKeyValue($id, $value, $error, $helpText, $helpId, $errorId);
+        }
+
         $attributes = array_merge($this->attributes, [
             'id' => $id,
             'name' => $this->name,
@@ -883,7 +972,7 @@ final class Field
         return !$this->searchable && !$this->multiple && !in_array(
             $this->type,
             [
-                'checkbox', 'switch', 'radio', 'checkboxes', 'period', 'rating', 'otp',
+                'checkbox', 'switch', 'radio', 'checkboxes', 'period', 'rating', 'otp', 'keyvalue',
                 'range', 'color', 'file', 'editor', 'hidden',
             ],
             true,
@@ -1035,6 +1124,179 @@ final class Field
     }
 
     /**
+     * A keyValue() field: a fieldset with a row per pair (a key input, a value input and a
+     * Remove button), an Add button and a <template> of an empty row for form.js. The first
+     * key input has the field's id, so error summary links lead to the list.
+     */
+    private function renderKeyValue(
+        string $id,
+        mixed $value,
+        ?string $error,
+        ?string $helpText,
+        ?string $helpId,
+        ?string $errorId,
+    ): string {
+        // A new form starts with one empty row, which also works without JavaScript.
+        $pairs = self::pairs($value);
+        if ($pairs === []) {
+            $pairs = [['key' => '', 'value' => '']];
+        }
+        $datalistId = $this->keySuggestions === [] ? null : $id . '-keys';
+
+        $rows = '';
+        foreach ($pairs as $index => $pair) {
+            $rows .= $this->renderPair($id, (string) $index, $index + 1, $pair, $datalistId);
+        }
+
+        $legend = Html::tag(
+            'legend',
+            ['class' => 'form-label fs-6'],
+            Html::escape($this->label) . ($this->required ? self::REQUIRED_MARKER : ''),
+        );
+        // The column names, for sighted users: each input has its own (hidden) label.
+        $head = Html::tag(
+            'div',
+            ['class' => 'celerik-key-value-head', 'aria-hidden' => 'true'],
+            Html::tag('span', [], Html::escape($this->pairLabels['key']))
+                . Html::tag('span', [], Html::escape($this->pairLabels['value'])),
+        );
+        $add = Html::tag('button', [
+            'type' => 'button',
+            'class' => 'btn btn-sm btn-outline-primary',
+            'data-celerik-key-value-add' => true,
+        ], Html::escape($this->pairLabels['add']));
+        $template = Html::tag(
+            'template',
+            [],
+            $this->renderPair($id, self::PAIR_PLACEHOLDER, 0, ['key' => '', 'value' => ''], $datalistId),
+        );
+        $datalist = '';
+        if ($datalistId !== null) {
+            $options = '';
+            foreach ($this->keySuggestions as $key) {
+                $options .= Html::tag('option', ['value' => $key]);
+            }
+            $datalist = Html::tag('datalist', ['id' => $datalistId], $options);
+        }
+
+        $fieldset = Html::tag('fieldset', [
+            'id' => $id . '-group',
+            'aria-describedby' => Html::classes([$helpId, $errorId]),
+        ], $legend . $head . Html::tag('ol', ['class' => 'celerik-key-value-rows'], $rows)
+            . $add . $template . $datalist);
+
+        $feedback = $errorId === null ? '' : Html::tag(
+            'div',
+            ['id' => $errorId, 'class' => 'invalid-feedback d-block celerik-server-error'],
+            Html::escape($error),
+        );
+        $help = $helpId === null
+            ? ''
+            : Html::tag('div', ['id' => $helpId, 'class' => 'form-text'], Html::escape($helpText));
+
+        return Html::tag('div', [
+            'class' => 'mb-3 celerik-key-value',
+            'data-celerik-key-value' => self::json([
+                'id' => $id,
+                'required' => $this->required,
+                'key' => $this->pairLabels['key'],
+                'value' => $this->pairLabels['value'],
+                'remove' => $this->pairLabels['remove'],
+            ]),
+        ], $fieldset . $feedback . $help);
+    }
+
+    /**
+     * One row of a key-value list. Its position names the inputs and the Remove button
+     * ("Key 2"); form.js renumbers them when rows are added or removed.
+     *
+     * @param array{key: string, value: string} $pair
+     */
+    private function renderPair(string $id, string $index, int $position, array $pair, ?string $datalistId): string
+    {
+        $keyId = $index === '0' ? $id : $id . '-' . $index . '-key';
+        $valueId = $id . '-' . $index . '-value';
+        $name = $this->name . '[' . $index . ']';
+
+        $key = Html::tag('input', array_merge($this->attributes, [
+            'type' => 'text',
+            'id' => $keyId,
+            'name' => $name . '[key]',
+            'value' => $pair['key'] === '' ? null : $pair['key'],
+            'list' => $datalistId,
+            'autocomplete' => 'off',
+            // A required list needs a key in its first row (form.js keeps it on the first row).
+            'required' => $this->required && $position === 1,
+            'data-parsley-required-message' => $this->required ? $this->pairLabels['missing'] : null,
+            // form.js: a value needs a key, and a key is used once.
+            'data-parsley-validate-if-empty' => 'true',
+            'data-parsley-keyneeded' => 'true',
+            'data-parsley-keyneeded-message' => $this->pairLabels['missing'],
+            'data-parsley-keyunique' => 'true',
+            'data-parsley-keyunique-message' => $this->pairLabels['duplicate'],
+            'data-parsley-error-message' => $this->message,
+            'class' => 'form-control celerik-key-value-key',
+        ]));
+        $value = Html::tag('input', array_merge($this->attributes, [
+            'type' => 'text',
+            'id' => $valueId,
+            'name' => $name . '[value]',
+            'value' => $pair['value'] === '' ? null : $pair['value'],
+            'class' => 'form-control celerik-key-value-value',
+        ]));
+        $hiddenLabel = static fn (string $for, string $text): string => Html::tag(
+            'label',
+            ['for' => $for, 'class' => 'visually-hidden'],
+            Html::escape($text . ' ' . $position),
+        );
+        $remove = Html::tag('button', [
+            'type' => 'button',
+            'class' => 'btn btn-outline-secondary celerik-key-value-remove',
+            'data-celerik-key-value-remove' => true,
+        ], '<svg aria-hidden="true" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor"'
+            . ' stroke-width="2" stroke-linecap="round"><path d="M4 4l8 8M12 4l-8 8"/></svg>'
+            . Html::tag(
+                'span',
+                ['class' => 'visually-hidden'],
+                Html::escape(sprintf($this->pairLabels['remove'], $position)),
+            ));
+
+        return Html::tag(
+            'li',
+            ['class' => 'celerik-key-value-row', 'data-celerik-index' => $index],
+            $hiddenLabel($keyId, $this->pairLabels['key']) . $key
+                . $hiddenLabel($valueId, $this->pairLabels['value']) . $value . $remove,
+        );
+    }
+
+    /**
+     * Key-value pairs from a `key => value` array (value()) or submitted rows (old input:
+     * a list of `['key' => …, 'value' => …]`), in order, as text.
+     *
+     * @return list<array{key: string, value: string}>
+     */
+    private static function pairs(mixed $value): array
+    {
+        if (!is_array($value) || $value === []) {
+            return [];
+        }
+
+        $submitted = array_filter(
+            $value,
+            static fn (mixed $row): bool => !is_array($row) || !array_key_exists('key', $row),
+        ) === [];
+
+        $pairs = [];
+        foreach ($value as $key => $item) {
+            $pairs[] = $submitted
+                ? ['key' => trim(Arr::toText($item['key'])), 'value' => Arr::toText($item['value'] ?? null)]
+                : ['key' => trim((string) $key), 'value' => Arr::toText($item)];
+        }
+
+        return $pairs;
+    }
+
+    /**
      * A dateRange() field: a fieldset with the start and end inputs side by side. The start
      * has the field's id, so error summary links lead to it.
      */
@@ -1152,7 +1414,7 @@ final class Field
     public function submitsArray(): bool
     {
         return str_ends_with($this->name, '[]')
-            || in_array($this->type, ['period', 'checkboxes'], true)
+            || in_array($this->type, ['period', 'checkboxes', 'keyvalue'], true)
             || ($this->type === 'select' && $this->multiple)
             || ($this->isFile() && ($this->uploadRules ?? UploadRules::images())->maxFiles > 1);
     }

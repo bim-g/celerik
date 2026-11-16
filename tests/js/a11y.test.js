@@ -141,6 +141,17 @@ describe('accessibility (axe-core, WCAG 2.1 AA)', () => {
     parsley.destroy();
   });
 
+  test('key-value lists, before and after adding a row and a failed validation', async () => {
+    const form = loadFixture('form-key-value');
+    expect(await violations()).toEqual([]);
+
+    const parsley = await initForm(form, readOptions(form));
+    form.querySelector('[data-celerik-key-value-add]').click();
+    parsley.validate();
+    expect(await violations()).toEqual([]);
+    parsley.destroy();
+  });
+
   test('radio, checkbox group, switch, range and color markup, before and after failed validation', async () => {
     const form = loadFixture('form-choices');
     expect(await violations()).toEqual([]);

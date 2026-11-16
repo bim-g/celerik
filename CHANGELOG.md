@@ -8,6 +8,7 @@ The same version is published on Packagist (`celerik/ui`) and npm (`@celerikui/u
 
 ### Added
 
+- Key-value list: `Field::keyValue('headers')` edits pairs (metadata, HTTP headers, settings), a row per pair with Add and Remove. Rows submit as `headers[0][key]` and `headers[0][value]`; `Field::keyValues()` turns them into a `key => value` array, and `value()` takes one. A value needs a key and a key is used once (checked in the browser, the message in its row); `keySuggestions()` and translatable `keyValueLabels()`.
 - One-time code field: `Field::otp('code')` is one input shown as a box per character, so phones and browsers can fill the code they received (`autocomplete="one-time-code"`), a pasted `123 456` fills every box, and screen readers hear one text field. `codeLength()` (4 to 10), `alphanumeric()`, and a clear default message.
 - Tags input: `Field::tags('skills', ['PHP', 'Laravel'])` takes free-text tags (Enter, a comma or paste) and offers suggestions, local or `remote()`. Submits `skills[]`; `minTags()`, `maxTags()` and a translatable `addText()`. Case-insensitive duplicates are not added, and Enter does not submit the form while a tag is being typed.
 - Rating field: `Field::rating('score')` shows 3 to 10 stars (`stars()`), which are native radio buttons: arrow keys, validation and old input work as for a radio group, and no JavaScript is needed. An optional rating has a "No rating" choice; `ratingLabels()` translates the texts.

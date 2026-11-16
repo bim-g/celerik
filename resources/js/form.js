@@ -6,6 +6,7 @@ import { csrfTokenFor } from './upload-config.js';
 import { initRepeaters } from './form-repeater.js';
 import { initWizard } from './form-wizard.js';
 import { initOtps } from './form-otp.js';
+import { initKeyValues, keyValidators } from './form-key-value.js';
 
 // min, max and range that also understand times and date-times, and "after" for the end of
 // a date range (Field::dateRange()). Parsley keeps its messages for min, max and range.
@@ -25,6 +26,15 @@ Parsley.addValidator('after', {
   // checks of the highest priority, so one message, not two.
   priority: 31,
 });
+
+// Key-value lists (Field::keyValue()): a value needs a key, and a key is used once. The
+// messages come from the inputs (data-parsley-keyneeded-message).
+for (const [name, validate] of Object.entries(keyValidators)) {
+  Parsley.addValidator(name, {
+    requirementType: 'string',
+    validateString: (value, requirement, field) => validate(value, field.$element[0]),
+  });
+}
 
 export async function initForm(element, options) {
   const parsley = $(element).parsley(buildParsleyConfig(options));
@@ -58,10 +68,10 @@ export async function initForm(element, options) {
   });
 
   // Rows added to a repeater get the same set-up as the form's own fields.
-  initRepeaters(element, parsley, (row) => enhanceFields(element, row));
+  initRepeaters(element, parsley, (row) => enhanceFields(element, row, parsley));
 
   // Quill and FilePond are large: load them only for forms that use them.
-  const enhancements = [enhanceFields(element, element)];
+  const enhancements = [enhanceFields(element, element, parsley)];
   if (element.querySelector('textarea[data-celerik-editor]')) {
     enhancements.push(import('./editor.js').then(({ initEditors }) => initEditors(element)));
   }
@@ -75,9 +85,11 @@ export async function initForm(element, options) {
 }
 
 // Sets up the fields in a container (the form, or a repeater's new row): input masks, date
-// ranges, range values, one-time codes, and searchable selects (loaded on demand).
-function enhanceFields(form, container) {
+// ranges, range values, one-time codes, key-value lists, and searchable selects (loaded on
+// demand).
+function enhanceFields(form, container, parsley) {
   initOtps(container);
+  initKeyValues(container, parsley);
 
   for (const input of container.querySelectorAll('[data-celerik-mask]')) {
     Inputmask(input.getAttribute('data-celerik-mask')).mask(input);

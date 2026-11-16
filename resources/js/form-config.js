@@ -50,7 +50,8 @@ export const parsleyDefaults = {
   // Parsley's default, plus the search boxes of searchable selects (Tom Select): the
   // hidden select is the field.
   excluded: 'input[type=button], input[type=submit], input[type=reset], input[type=hidden], .ts-wrapper input',
-  errorsContainer: (field) => field.$element.closest('.mb-3'),
+  // A key-value list shows a key's message in its row.
+  errorsContainer: (field) => field.$element.closest('.celerik-key-value-row, .mb-3'),
   errorsWrapper: '<div class="invalid-feedback d-block" aria-live="polite"></div>',
   errorTemplate: '<div></div>',
 };
