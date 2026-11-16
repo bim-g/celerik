@@ -101,7 +101,18 @@ Field::date('birthday');
 Field::hidden('id', 42);
 ```
 
-Rich text and files have their own pages: [Rich text editor](./editor) and [File upload](./upload).
+Every kind of field:
+
+| Builder | Renders | Section |
+|---|---|---|
+| `text`, `email`, `password`, `tel`, `number`, `textarea`, `hidden` | Native inputs, with `mask()` for formatted input | Above |
+| `date`, `time`, `datetime`, `dateRange` | The browser's pickers; a range is two linked inputs | [Dates, times and ranges](#dates-times-and-ranges) |
+| `select` (with `searchable()`, `multiple()`, `remote()`) | A select, or a Tom Select combobox | [Searchable and multiple selects](#searchable-and-multiple-selects) |
+| `tags` | Free-text tags with suggestions | [Tags](#tags) |
+| `otp` | A one-time code, one input drawn as boxes | [One-time codes](#one-time-codes) |
+| `keyValue` | Rows of key-value pairs | [Key-value lists](#key-value-lists) |
+| `radio`, `checkboxes`, `checkbox`, `switch`, `range`, `color`, `rating` | Choice groups, toggles, sliders, color pickers, stars | [Choices, switches, sliders, colors and ratings](#choices-switches-sliders-colors-and-ratings) |
+| `editor`, `file` | Rich text (Quill), uploads (FilePond) | [Rich text editor](./editor), [File upload](./upload) |
 
 ### Dates, times and ranges
 
