@@ -255,7 +255,8 @@
   }
 
   // Add: the same for outline-primary, 3.4:1 on Bootstrap's dark background.
-  .celerik-repeater > fieldset > .btn-outline-primary {
+  .celerik-repeater > fieldset > .btn-outline-primary,
+  .celerik-key-value .btn-outline-primary {
     --bs-btn-color: var(--bs-primary-text-emphasis);
     --bs-btn-border-color: var(--bs-primary-text-emphasis);
   }
@@ -455,6 +456,49 @@
   // invalid input).
   .celerik-otp:has(.is-invalid) ~ .invalid-feedback {
     display: block;
+  }
+
+  // Key-value list (Field::keyValue()): a row per pair, key | value | Remove. The column
+  // names line up with the inputs; the Remove button is as tall as an input.
+  .celerik-key-value-head,
+  .celerik-key-value-row {
+    display: grid;
+    grid-template-columns: minmax(0, 2fr) minmax(0, 3fr) calc(1.5em + 0.75rem + var(--bs-border-width) * 2);
+    gap: 0.5rem;
+    align-items: start;
+  }
+
+  .celerik-key-value-head {
+    margin-bottom: 0.25rem;
+    font-size: 0.875em;
+    color: var(--bs-secondary-color);
+  }
+
+  .celerik-key-value-rows {
+    display: grid;
+    gap: 0.5rem;
+    padding: 0;
+    margin: 0 0 0.5rem;
+    list-style: none;
+  }
+
+  .celerik-key-value-row {
+    position: relative;
+
+    // A key's message (form.js) spans the row, under its inputs.
+    > .invalid-feedback {
+      grid-column: 1 / -1;
+      margin-top: -0.25rem;
+    }
+  }
+
+  .celerik-key-value-remove {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: calc(1.5em + 0.75rem + var(--bs-border-width) * 2);
+    padding: 0;
   }
 
   // Rating (Field::rating()): radio buttons, visually hidden, labelled by stars. The stars

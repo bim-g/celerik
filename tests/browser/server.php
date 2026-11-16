@@ -211,6 +211,7 @@ $components = [
             Field::color('accent', 'Accent color')->value('#0d6efd'),
             Field::rating('satisfaction')->value(3)->help('Optional.'),
             Field::otp('pairing', 'Pairing code')->help('The 6 digits shown on your device.'),
+            Field::keyValue('labels')->value(['env' => 'prod'])->keySuggestions(['env', 'team']),
             Field::select('languages', ['en' => 'English', 'fr' => 'French', 'ln' => 'Lingala'])
                 ->multiple()
                 ->searchable()

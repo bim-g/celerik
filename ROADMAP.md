@@ -33,6 +33,12 @@ Every component follows the same rules: a PHP builder, an endpoint helper when i
 - ThemeBuilder: theme tokens and presets, `Theme` in PHP with WCAG contrast checks, the ThemeBuilder component and the `celerik-theme` command (see [THEMING.md](THEMING.md)).
 - Documentation portal: guides, a page and a live demo per component, an API reference generated from the code, published to GitHub Pages (<https://kivudesign.github.io/celerik/>).
 
+### Phase 4 — Forms ✅
+
+- Fields: radio and checkbox groups, switch, range, color; searchable, multiple and remote selects; date, time and date-time pickers and ranges; tags; rating; one-time code; key-value list.
+- Layout: sections (collapsible), fieldsets and columns; a wizard (multi-step form).
+- A repeater: repeatable groups of fields (order lines, addresses, contacts).
+
 ### Distribution ✅
 
 - Releases include the built bundle, so installing needs no Node.js ([GitHub releases](https://github.com/kivudesign/celerik/releases), [Packagist](https://packagist.org/packages/celerik/ui)).
@@ -40,23 +46,6 @@ Every component follows the same rules: a PHP builder, an endpoint helper when i
 - Reproducible CI and releases, weekly dependency updates, a [changelog](CHANGELOG.md) and release notes grouped by kind of change.
 
 ## Next
-
-### Phase 4 — Forms (in progress)
-
-Everything a create or edit screen needs.
-
-- Fields:
-  - ✅ radio group, checkbox group, switch, range, color;
-  - ✅ searchable, multiple and remote selects;
-  - ✅ date, time and date-time pickers, date and time ranges (the browser's native pickers);
-  - ✅ tags input;
-  - ✅ rating;
-  - ✅ one-time code (OTP);
-  - key-value list.
-- Layout:
-  - ✅ sections (collapsible), fieldsets and columns inside a form;
-  - ✅ a wizard (multi-step form, the Telerik Wizard); a standalone Stepper comes with navigation (Phase 6).
-- ✅ Repeatable groups of fields (a repeater): order lines, addresses, contacts.
 
 ### Phase 5 — Data
 

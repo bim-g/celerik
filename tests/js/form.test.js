@@ -2,6 +2,7 @@ import { initForm } from '../../resources/js/form.js';
 import { readOptions } from '../../resources/js/core.js';
 import { loadFixture } from './helpers.js';
 import { cleanCode } from '../../resources/js/form-otp.js';
+import { keyProblem } from '../../resources/js/form-key-value.js';
 
 describe('form integration (Parsley + Inputmask)', () => {
   let form;
@@ -760,5 +761,100 @@ describe('repeater', () => {
     form.querySelector('[name="people[0][name]"]').value = 'Ada';
     next.click();
     expect(form.querySelector('[data-celerik-step="1"]').hidden).toBe(false);
+  });
+});
+
+describe('key-value list', () => {
+  let form;
+  let parsley;
+
+  beforeEach(async () => {
+    form = loadFixture('form-key-value');
+    parsley = await initForm(form, readOptions(form));
+  });
+
+  afterEach(() => parsley.destroy());
+
+  const list = (name) => form.querySelector(`#webhook-${name}-group`).closest('.celerik-key-value');
+  const rows = (name) => [...list(name).querySelectorAll('.celerik-key-value-rows > li')];
+  const keys = (name) => rows(name).map((row) => row.querySelector('.celerik-key-value-key'));
+  const values = (name) => rows(name).map((row) => row.querySelector('.celerik-key-value-value'));
+  const type = (input, value) => {
+    input.value = value;
+    input.dispatchEvent(new Event('input', { bubbles: true }));
+  };
+  const message = (input) => input.closest('li').querySelector('.invalid-feedback')?.textContent ?? '';
+
+  test('keyProblem: a value needs a key, and a key is used once', () => {
+    expect(keyProblem('', '', [])).toBeNull();
+    expect(keyProblem(' ', 'json', [])).toBe('missing');
+    expect(keyProblem('Accept', 'json', ['accept'])).toBeNull();
+    expect(keyProblem(' Accept ', '', ['Accept'])).toBe('duplicate');
+  });
+
+  test('adds a row with the next index, numbered by position, and focuses its key', () => {
+    list('meta').querySelector('[data-celerik-key-value-add]').click();
+
+    expect(rows('meta').length).toBe(3);
+    const key = keys('meta')[2];
+    expect(key.name).toBe('meta[2][key]');
+    expect(document.activeElement).toBe(key);
+    expect(form.querySelector(`label[for="${key.id}"]`).textContent).toBe('Key 3');
+    expect(rows('meta')[2].querySelector('[data-celerik-key-value-remove]').textContent).toBe('Remove row 3');
+    expect(key.getAttribute('list')).toBeNull();
+    expect(keys('headers')[0].getAttribute('list')).toBe('webhook-headers-keys');
+  });
+
+  test('removes a row, renumbers the others and moves the focus', () => {
+    rows('meta')[0].querySelector('[data-celerik-key-value-remove]').click();
+
+    expect(keys('meta').map((key) => key.value)).toEqual(['team']);
+    expect(form.querySelector(`label[for="${keys('meta')[0].id}"]`).textContent).toBe('Key 1');
+    // The first key takes the field's id: error summary links lead to it.
+    expect(keys('meta')[0].id).toBe('webhook-meta');
+    expect(document.activeElement).toBe(keys('meta')[0]);
+    // The server error on the list is stale.
+    expect(list('meta').querySelector('.celerik-server-error')).toBeNull();
+
+    rows('meta')[0].querySelector('[data-celerik-key-value-remove]').click();
+    expect(rows('meta').length).toBe(0);
+    expect(document.activeElement).toBe(list('meta').querySelector('[data-celerik-key-value-add]'));
+    expect(new FormData(form).has('meta[1][key]')).toBe(false);
+  });
+
+  test('a required list keeps a row, and needs a key in its first row', () => {
+    expect(parsley.validate()).toBe(false);
+    expect(keys('headers')[0].classList.contains('is-invalid')).toBe(true);
+    expect(message(keys('headers')[0])).toBe('Enter a key for this value.');
+
+    rows('headers')[0].querySelector('[data-celerik-key-value-remove]').click();
+    expect(rows('headers').length).toBe(1);
+    expect(keys('headers')[0].required).toBe(true);
+    expect(document.activeElement).toBe(keys('headers')[0]);
+  });
+
+  test('a value needs a key, and a key is used once; fixing one row re-checks the other', () => {
+    type(keys('headers')[0], 'Accept');
+    type(values('meta')[1], 'billing');
+    type(keys('meta')[1], 'env');
+    expect(parsley.validate()).toBe(false);
+    expect(keys('meta')[0].classList.contains('is-valid')).toBe(true);
+    expect(keys('meta')[1].classList.contains('is-invalid')).toBe(true);
+    expect(keys('meta')[1].getAttribute('aria-invalid')).toBe('true');
+    expect(message(keys('meta')[1])).toBe('This key is already used.');
+
+    // Changing the first key fixes the second.
+    type(keys('meta')[0], 'stage');
+    expect(keys('meta')[1].classList.contains('is-invalid')).toBe(false);
+
+    type(keys('meta')[1], '');
+    expect(parsley.validate()).toBe(false);
+    expect(message(keys('meta')[1])).toBe('Enter a key for this value.');
+
+    // An empty row is fine: the server leaves it out (Field::keyValues()).
+    type(values('meta')[1], '');
+    expect(keys('meta')[1].classList.contains('is-invalid')).toBe(false);
+    expect(parsley.validate()).toBe(true);
+    expect(new FormData(form).get('headers[0][key]')).toBe('Accept');
   });
 });

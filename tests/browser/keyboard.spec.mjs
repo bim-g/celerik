@@ -184,6 +184,41 @@ test.describe('one-time code', () => {
   });
 });
 
+test.describe('key-value list', () => {
+  test('Add and Remove from the keyboard, the focus following, and a key used twice', async ({ page }) => {
+    const pairs = () => page.locator('#preferences').evaluate((form) => [...new FormData(form)]
+      .filter(([name]) => name.startsWith('labels['))
+      .map(([, value]) => value)
+      .join('|'));
+    expect(await pairs()).toBe('env|prod');
+
+    const add = page.getByRole('button', { name: 'Add row' });
+    await add.focus();
+    await page.keyboard.press('Enter');
+    const key2 = page.getByLabel('Key 2', { exact: true });
+    await expect(key2).toBeFocused();
+    await page.keyboard.type('env');
+    await page.keyboard.press('Tab');
+    await expect(page.getByRole('textbox', { name: 'Value 2' })).toBeFocused();
+    await page.keyboard.type('dev');
+    expect(await pairs()).toBe('env|prod|env|dev');
+
+    // A key used twice is flagged in its row when the form is checked.
+    await page.locator('#preferences').evaluate((form) => window.jQuery(form).parsley().validate());
+    await expect(key2).toHaveClass(/is-invalid/);
+    await expect(page.locator('#preferences-labels-group li').nth(1)).toContainText('This key is already used.');
+
+    // Remove the first row: the second takes its place, its name and the focus.
+    await page.getByRole('button', { name: 'Remove row 1' }).focus();
+    await page.keyboard.press('Enter');
+    const key1 = page.getByLabel('Key 1', { exact: true });
+    await expect(key1).toBeFocused();
+    await expect(key1).toHaveValue('env');
+    await expect(key1).not.toHaveClass(/is-invalid/);
+    expect(await pairs()).toBe('env|dev');
+  });
+});
+
 test.describe('rating', () => {
   test('arrow keys change the rating, the focused star shows the focus, and it can be cleared', async ({ page }) => {
     const value = () => page.locator('#preferences').evaluate((form) => new FormData(form).get('satisfaction'));

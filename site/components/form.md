@@ -177,6 +177,36 @@ Tags are user input: check them on the server, e.g. `'skills' => ['array', 'max:
 
 The form is submitted with the button: a complete code is not sent on its own, so the user can check it first. Check the code on the server, and limit the attempts.
 
+### Key-value lists
+
+<Demo name="form-key-value" :min-height="320" />
+
+<<< @/demos/form-key-value.php
+
+`Field::keyValue($name)` edits pairs such as metadata, HTTP headers or settings: a row per pair, a Remove button on each row and an Add button. A new form starts with one empty row.
+
+Each row submits as `name[n][key]` and `name[n][value]`. `Field::keyValues()` turns them into a `key => value` array, and `value()` takes such an array (e.g. a JSON column):
+
+```php
+// Laravel
+$request->validate([
+    'headers' => ['array'],
+    'headers.*.key' => ['nullable', 'string', 'max:100', 'distinct', 'required_with:headers.*.value'],
+    'headers.*.value' => ['nullable', 'string', 'max:500'],
+]);
+$webhook->headers = Field::keyValues($request->input('headers')); // ['Accept' => 'application/json']
+```
+
+`keyValues()` trims the keys, leaves out rows without a key, and keeps the last value of a key used twice. In the browser, a value needs a key and a key is used once: the message shows in the row. An error on one row (`headers.1.key`) shows under the list.
+
+| Option | Use |
+|---|---|
+| `required()` | At least one pair: the first row needs a key, and the list keeps one row. |
+| `keySuggestions([...])` | Keys the key inputs suggest as the user types (a `<datalist>`); other keys are accepted. |
+| `keyValueLabels(key:, value:, add:, remove:, missing:, duplicate:)` | The column names, the buttons (`remove` takes the row's position: "Remove row %d") and the two messages, e.g. to translate them. |
+
+Without JavaScript the rows shown can be edited, but Add and Remove need JavaScript. A key-value list also works in a repeater row.
+
 ### Choices, switches, sliders, colors and ratings
 
 <Demo name="form-choices" :min-height="600" />
@@ -210,6 +240,7 @@ The form is submitted with the button: a complete code is not sent on its own, s
 - Every field has a label; help and error texts are linked with `aria-describedby`, and invalid fields get `aria-invalid`.
 - Radio and checkbox groups are fieldsets whose legend names the group; every input of an invalid group gets `aria-invalid`.
 - A one-time code is a single text input named by its label; the boxes are drawn for sighted users and hidden from assistive technology. The box being filled shows the focus.
+- A key-value list is a fieldset named by its label. Each input is named by its column and row ("Key 2", "Value 2"), and each Remove button by its row ("Remove row 2"), renumbered when rows are removed. An added row focuses its key; a removed row passes the focus to the row that takes its place, or to Add.
 - A rating is a radio group: arrow keys change it, and each star is announced by its name ("4 of 5"). The focused star shows the focus ring, and each star is a 32 x 32 px target.
 - A searchable select is a combobox labelled by the field's label, with its help and error texts; error summary links move focus to it. Its tags' remove buttons are 24 x 24 px.
 - A tags field is the same combobox; the line offering a new tag is an option ("Add Rust"), announced like the suggestions.
