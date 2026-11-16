@@ -6,6 +6,8 @@ The same version is published on Packagist (`celerik/ui`) and npm (`@celerikui/u
 
 ## [Unreleased]
 
+## [0.1.6] - 2026-11-16
+
 ### Added
 
 - Key-value list: `Field::keyValue('headers')` edits pairs (metadata, HTTP headers, settings), a row per pair with Add and Remove. Rows submit as `headers[0][key]` and `headers[0][value]`; `Field::keyValues()` turns them into a `key => value` array, and `value()` takes one. A value needs a key and a key is used once (checked in the browser, the message in its row); `keySuggestions()` and translatable `keyValueLabels()`.
@@ -105,7 +107,8 @@ The Phase 1 MVP ([#11](https://github.com/kivudesign/celerik/pull/11)).
 - Bootstrap SCSS theme and JS wrappers.
 - Examples for plain PHP, Laravel and Symfony.
 
-[Unreleased]: https://github.com/kivudesign/celerik/compare/v0.1.5...HEAD
+[Unreleased]: https://github.com/kivudesign/celerik/compare/v0.1.6...HEAD
+[0.1.6]: https://github.com/kivudesign/celerik/compare/v0.1.5...v0.1.6
 [0.1.5]: https://github.com/kivudesign/celerik/compare/v0.1.3...v0.1.5
 [0.1.3]: https://github.com/kivudesign/celerik/compare/v0.1.1...v0.1.3
 [0.1.1]: https://github.com/kivudesign/celerik/compare/v0.1.0...v0.1.1
