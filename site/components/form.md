@@ -16,7 +16,7 @@ Bootstrap forms with client-side validation ([Parsley.js](https://parsleyjs.org/
 | `errors([...])` | Server-side errors: `field => message` or `field => [messages]`; `address.city` matches `address[city]`, and an error on one item of an array field (`tags.1`) shows under the field. |
 | `values($_POST)` | Old input after a failed submit (passwords are never refilled). |
 | `errorSummary($enabled = true, $title = 'There is a problem')` | Lists every error at the top with a link to each field, and moves focus to it after a failed submit. |
-| `floatingLabels()` | Bootstrap floating labels (the Material look). |
+| `floatingLabels()` | Bootstrap floating labels. |
 | `submit($label)` | The submit button's label; `null` renders none (e.g. a form whose button is in a modal footer). |
 
 Client-side validation is a convenience: always validate again on the server and pass the messages to `errors()`.

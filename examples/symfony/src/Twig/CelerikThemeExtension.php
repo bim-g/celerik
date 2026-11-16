@@ -14,7 +14,7 @@ use Twig\TwigFunction;
  * and its stylesheet public/css/celerik-theme.css.
  *
  *     {% set saved = celerik_saved_theme() %}
- *     {{ celerik_assets(asset('bundles/celerikui'), theme: saved.base ?? 'bootstrap', customTheme: saved.url ?? null) }}
+ *     {{ celerik_assets(asset('bundles/celerikui'), customTheme: saved.url ?? null) }}
  */
 final class CelerikThemeExtension extends AbstractExtension
 {
@@ -45,11 +45,9 @@ final class CelerikThemeExtension extends AbstractExtension
         file_put_contents($this->projectDir . '/public/css/celerik-theme.css', $theme->toCss());
     }
 
-    /** @return array{base: string, url: string}|null */
+    /** @return array{url: string}|null */
     public function forTemplate(): ?array
     {
-        $theme = $this->saved();
-
-        return $theme === null ? null : ['base' => $theme->getBase(), 'url' => '/css/celerik-theme.css'];
+        return $this->saved() === null ? null : ['url' => '/css/celerik-theme.css'];
     }
 }

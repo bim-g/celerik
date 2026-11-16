@@ -1,7 +1,7 @@
 import { expect, test } from '@playwright/test';
 import { axeViolations, MODES, openComponents, settled, THEMES } from './helpers.mjs';
 
-// Every component, in every theme and color mode, with color contrast checked in a real browser.
+// Every component, in light and dark mode, with color contrast checked in a real browser.
 for (const theme of THEMES) {
   for (const mode of MODES) {
     test.describe(`${theme} ${mode}`, () => {

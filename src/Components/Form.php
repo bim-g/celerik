@@ -146,7 +146,7 @@ final class Form extends Component
     }
 
     /**
-     * Bootstrap floating labels for text inputs, selects and textareas (the Material look).
+     * Bootstrap floating labels for text inputs, selects and textareas.
      */
     public function floatingLabels(bool $floating = true): self
     {

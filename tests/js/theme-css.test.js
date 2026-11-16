@@ -4,29 +4,28 @@
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import {
-  BASES, contrastRatio, contrastReport, formatRatio, themeToCss, validateTheme,
+  contrastRatio, contrastReport, formatRatio, themeToCss, validateTheme,
 } from '../../resources/js/theme-css.js';
 
 const root = join(__dirname, '../..');
 const read = (path) => JSON.parse(readFileSync(join(root, path), 'utf8'));
 const fixture = (name) => readFileSync(join(__dirname, 'fixtures', name), 'utf8');
-const preset = (base) => read(`theme/presets/${base}.json`);
+const preset = () => read('theme/presets/bootstrap.json');
 const { pairs } = read('theme/contrast.json');
 
 // tests/js/fixtures/theme-*.css are written by Theme::toCss() in PHP (fixtures/build.php).
 describe('themeToCss() writes the same stylesheet as Theme::toCss()', () => {
-  test.each(BASES)('%s preset', (base) => {
-    expect(themeToCss(preset(base))).toBe(fixture(`theme-${base}.css`));
+  test('the bootstrap preset', () => {
+    expect(themeToCss(preset())).toBe(fixture('theme-bootstrap.css'));
   });
 
-  test.each(BASES)('custom theme on the %s base, with a font and a whole-number radius', (base) => {
+  test('a custom theme, with a font and a whole-number radius', () => {
     const theme = {
       ...read('tests/browser/custom-theme.json'),
-      base,
       radius: 1,
       fontFamily: '"Inter", system-ui, sans-serif',
     };
-    expect(themeToCss(theme)).toBe(fixture(`theme-custom-${base}.css`));
+    expect(themeToCss(theme)).toBe(fixture('theme-custom.css'));
   });
 });
 
@@ -38,7 +37,7 @@ describe('contrast', () => {
   });
 
   test('the report covers every pair in both modes and does not round thresholds', () => {
-    const theme = preset('bootstrap');
+    const theme = preset();
     theme.light.danger = '#dd3545';
     const report = contrastReport(theme, pairs);
 
@@ -49,23 +48,29 @@ describe('contrast', () => {
     expect(formatRatio(21)).toBe('21.00');
   });
 
-  test.each(BASES)('the %s preset passes', (base) => {
-    expect(contrastReport(preset(base), pairs).filter((result) => !result.passes)).toEqual([]);
+  test('the bootstrap preset passes', () => {
+    expect(contrastReport(preset(), pairs).filter((result) => !result.passes)).toEqual([]);
   });
 });
 
 describe('validateTheme() follows Theme::fromArray()', () => {
-  test('presets are valid and keep their shape', () => {
-    for (const base of BASES) {
-      expect(validateTheme(preset(base))).toEqual({ theme: preset(base) });
-    }
-    const upper = preset('material');
+  test('the preset is valid and keeps its shape', () => {
+    expect(validateTheme(preset())).toEqual({ theme: preset() });
+    const upper = preset();
     upper.light.primary = '#6750A4';
     expect(validateTheme(upper).theme.light.primary).toBe('#6750a4');
   });
 
+  test('themes made before 0.2.0 keep working on Bootstrap only', () => {
+    expect(validateTheme({ ...preset(), base: 'bootstrap' })).toEqual({ theme: preset() });
+    expect(validateTheme({ ...preset(), base: 'tailwind' }).error).toBe(
+      'The Tailwind look was removed in Celerik UI 0.2.0: Celerik UI is Bootstrap only. Use "bootstrap", and a '
+      + 'custom theme (Theme::toCss()) for your colors, radius and font.',
+    );
+  });
+
   test.each([
-    ['not an object', () => 'material'],
+    ['not an object', () => 'bootstrap'],
     ['an unknown key', (t) => ({ ...t, css: 'body {}' })],
     ['markup in the name', (t) => ({ ...t, name: '<script>' })],
     ['an unknown base', (t) => ({ ...t, base: 'bulma' })],
@@ -80,7 +85,7 @@ describe('validateTheme() follows Theme::fromArray()', () => {
     ['an unknown shadow', (t) => ({ ...t, shadow: 'glow' })],
     ['an inherited shadow name', (t) => ({ ...t, shadow: 'toString' })],
   ])('rejects %s', (_, change) => {
-    const data = change(preset('bootstrap'));
+    const data = change(preset());
     if (data?.light && Object.hasOwn(data.light, 'danger') && data.light.danger === undefined) {
       delete data.light.danger;
     }

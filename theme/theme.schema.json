@@ -2,9 +2,9 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://github.com/kivudesign/celerik/theme/theme.schema.json",
   "title": "Celerik UI theme",
-  "description": "Design tokens of a Celerik theme. Theme::toCss() (PHP), the ThemeBuilder and bin/celerik-theme turn it into a stylesheet loaded after the base theme.",
+  "description": "Design tokens of a Celerik theme on Bootstrap. Theme::toCss() (PHP), the ThemeBuilder and bin/celerik-theme turn it into a stylesheet loaded after celerik.css.",
   "type": "object",
-  "required": ["name", "base", "light", "dark"],
+  "required": ["name", "light", "dark"],
   "additionalProperties": false,
   "properties": {
     "name": {
@@ -15,8 +15,8 @@
       "pattern": "^[\\p{L}\\p{N} ._-]+$"
     },
     "base": {
-      "description": "The look the theme starts from: celerik.css alone (bootstrap), or with celerik-material.css or celerik-tailwind.css.",
-      "enum": ["bootstrap", "material", "tailwind"]
+      "description": "Deprecated: written by themes made before 0.2.0, when Material and Tailwind looks existed. Bootstrap is the only look; omit it.",
+      "const": "bootstrap"
     },
     "light": { "$ref": "#/$defs/palette" },
     "dark": { "$ref": "#/$defs/palette" },
@@ -27,7 +27,7 @@
       "maximum": 2
     },
     "fontFamily": {
-      "description": "A CSS font stack of family names and generic families. Omit it to keep the base theme's font.",
+      "description": "A CSS font stack of family names and generic families. Omit it to keep Bootstrap's font.",
       "type": "string",
       "maxLength": 200,
       "pattern": "^[A-Za-z0-9 ,'\"-]+$"

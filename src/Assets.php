@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Celerik\Ui;
 
 use Celerik\Ui\Support\Html;
+use Celerik\Ui\Theme\Theme;
 use Composer\InstalledVersions;
 use InvalidArgumentException;
 use LogicException;
@@ -21,8 +22,11 @@ final class Assets
     public const STYLESHEET = 'celerik.css';
     public const SCRIPT = 'celerik.js';
 
-    /** "bootstrap" is the default look; the others add a stylesheet after celerik.css. */
-    public const THEMES = ['bootstrap', 'material', 'tailwind'];
+    /**
+     * The looks tags() accepts: Bootstrap only since 0.2.0, when Material and Tailwind
+     * were removed. Your colors, radius and font go in a custom theme (Theme::toCss()).
+     */
+    public const THEMES = ['bootstrap'];
 
     /** The bundle of every release on jsDelivr, from the @celerikui/ui npm package. */
     public const CDN = 'https://cdn.jsdelivr.net/npm/@celerikui/ui@%s/public';
@@ -68,9 +72,10 @@ final class Assets
     /**
      * @param string|null $nonce CSP nonce. Also printed as <meta name="csp-nonce">, which
      *                           FullCalendar reads to allow the styles it injects at runtime.
-     * @param string $theme "bootstrap" (default), "material" or "tailwind".
+     * @param string $theme Deprecated: always "bootstrap", the only look since 0.2.0. Kept
+     *                      so that existing calls keep working; it will be removed in 1.0.
      * @param string|null $customTheme URL of a stylesheet made with Theme::toCss() (or the
-     *                                 ThemeBuilder), loaded last. Its base must be $theme.
+     *                                 ThemeBuilder), loaded last.
      */
     public static function tags(
         string $baseUrl,
@@ -78,6 +83,9 @@ final class Assets
         string $theme = 'bootstrap',
         ?string $customTheme = null,
     ): string {
+        if (in_array($theme, Theme::REMOVED_BASES, true)) {
+            throw new InvalidArgumentException(Theme::removedBase($theme));
+        }
         if (!in_array($theme, self::THEMES, true)) {
             throw new InvalidArgumentException(sprintf(
                 'Unknown theme "%s". Available: %s.',
@@ -88,11 +96,6 @@ final class Assets
 
         $baseUrl = rtrim($baseUrl, '/');
         $meta = $nonce === null ? '' : Html::tag('meta', ['name' => 'csp-nonce', 'content' => $nonce]) . "\n";
-        $themeLink = $theme === 'bootstrap' ? '' : "\n" . Html::tag('link', [
-            'rel' => 'stylesheet',
-            'href' => $baseUrl . '/celerik-' . $theme . '.css',
-        ]);
-
         $customLink = $customTheme === null ? '' : "\n" . Html::tag('link', [
             'rel' => 'stylesheet',
             'href' => $customTheme,
@@ -100,7 +103,6 @@ final class Assets
 
         return $meta
             . Html::tag('link', ['rel' => 'stylesheet', 'href' => $baseUrl . '/' . self::STYLESHEET])
-            . $themeLink
             . $customLink
             . "\n"
             . Html::tag('script', ['type' => 'module', 'src' => $baseUrl . '/' . self::SCRIPT, 'nonce' => $nonce]);

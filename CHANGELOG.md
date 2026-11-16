@@ -6,6 +6,19 @@ The same version is published on Packagist (`celerik/ui`) and npm (`@celerikui/u
 
 ## [Unreleased]
 
+### Removed
+
+- **The Material and Tailwind looks.** Celerik UI is now Bootstrap only, which keeps it simple to maintain: `celerik-material.css`, `celerik-tailwind.css`, their presets and their SCSS are gone, along with the ThemeBuilder's "Base look" and "Start from a preset" controls and the documentation's look picker. Your own colors, radius, font and shadow still work through a custom theme (`Theme::toCss()`, the ThemeBuilder, `celerik-theme`). To upgrade:
+  - Remove `theme: 'material'` / `'tailwind'` from `Assets::tags()`, `<x-celerik-assets>` and `celerik_assets()`; they now throw an exception that explains the change. The `theme` parameter is deprecated: `bootstrap` is its only value.
+  - In a saved `theme.json`, remove `"base"` (or keep `"base": "bootstrap"`); a `material` or `tailwind` base is refused with the same explanation. Themes no longer write `base`.
+  - `Theme::BASES`, `Theme::base()`, `Theme::getBase()` and `ThemeBuilder::BASE_NAMES` are removed; `Theme::PRESETS` lists the presets (`bootstrap`). `ThemeBuilder::assetsUrl()` is deprecated and has no effect, and `labels()` ignores the `base`, `preset` and `loadPreset` keys.
+  - `celerik-theme preset` takes `bootstrap` only, and `build` prints `Wrote <file>.`
+
+### Changed
+
+- A theme's stylesheet starts with `/* Celerik UI theme "Acme". Load it after celerik.css. */` and always binds Bootstrap's components to the theme colors.
+- The SCSS entry is `resources/scss/celerik.scss` (it was `resources/scss/themes/bootstrap.scss`).
+
 ## [0.1.6] - 2026-11-16
 
 ### Added

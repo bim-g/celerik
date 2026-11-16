@@ -66,7 +66,7 @@ celerik/
 │           └── DoctrineEventSource.php
 │
 ├── bin/celerik-theme             # preset / check / build a theme (vendor/bin/celerik-theme)
-├── theme/                        # theme.schema.json, contrast.json, presets/{bootstrap,material,tailwind}.json
+├── theme/                        # theme.schema.json, contrast.json, presets/bootstrap.json
 │
 ├── resources/                    # Frontend sources (not shipped in the Composer dist)
 │   ├── js/
@@ -87,14 +87,11 @@ celerik/
 │       ├── _variables.scss
 │       ├── _components.scss
 │       └── themes/
-│           ├── bootstrap.scss    # default look (part of celerik.css)
-│           ├── material.scss     # → public/celerik-material.css
-│           └── tailwind.scss     # → public/celerik-tailwind.css
+│           └── (removed in 0.2.0: Bootstrap is the only look)
 │
 ├── public/                       # Build output, shipped with the package
 │   ├── celerik.js                # ES module entry (~3 KB)
 │   ├── celerik.css
-│   ├── celerik-material.css  celerik-tailwind.css   # optional themes
 │   └── chunks/                   # grid, chart, form, scheduler, editor, upload (JS + CSS): loaded on demand
 │                                 # public/ is built (npm run build), not committed: releases add it to their tag
 │

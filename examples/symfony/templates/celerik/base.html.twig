@@ -9,7 +9,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" defer></script>
     {# The theme saved with the theme builder (CelerikThemeController), if any. #}
     {% set saved = celerik_saved_theme() %}
-    {{ celerik_assets(asset('bundles/celerikui'), theme: saved.base ?? 'bootstrap', customTheme: saved.url ?? null) }}
+    {{ celerik_assets(asset('bundles/celerikui'), customTheme: saved.url ?? null) }}
 </head>
 <body>
 <nav class="navbar navbar-expand bg-body-tertiary mb-4" aria-label="Examples">

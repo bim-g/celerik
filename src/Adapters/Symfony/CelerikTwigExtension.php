@@ -10,7 +10,7 @@ use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
 /**
- * {{ celerik_assets() }} or {{ celerik_assets(theme: 'material', customTheme: '/css/acme.css') }}
+ * {{ celerik_assets() }} or {{ celerik_assets(customTheme: '/css/acme.css') }}
  * — load jQuery and Bootstrap before it.
  * {{ celerik(grid) }}    — renders any Celerik component.
  */

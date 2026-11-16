@@ -1,0 +1,4 @@
+// celerik.css: the Celerik components on Bootstrap 5.3. Colors, radius and font are
+// changed with a custom theme (Theme::toCss()), loaded after it.
+@forward 'variables';
+@use 'components';

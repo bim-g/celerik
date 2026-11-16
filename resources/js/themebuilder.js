@@ -3,10 +3,9 @@ import {
 } from './theme-css.js';
 
 // The ThemeBuilder (src/Components/ThemeBuilder.php): live preview, contrast report,
-// presets and undo. The preview uses the real theme stylesheet (themeToCss(), the same
+// undo and reset. The preview uses the real theme stylesheet (themeToCss(), the same
 // text as Theme::toCss()), scoped to the preview area so a poor color choice never makes
-// the builder's own controls unreadable. The base look (celerik-material.css,
-// celerik-tailwind.css) is switched for the whole page.
+// the builder's own controls unreadable.
 
 const NAME = /^[\p{L}\p{N} ._-]{1,60}$/u;
 const FONT = /^[A-Za-z0-9 ,'"-]{1,200}$/;
@@ -50,33 +49,9 @@ function previewSheet(id) {
   }
 }
 
-// Enables the stylesheet of the chosen base look and disables the others.
-function baseSwitcher(assetsUrl) {
-  const stylesheets = () => [...document.querySelectorAll('link[rel="stylesheet"]')];
-  const fileOf = (link) => new URL(link.href, window.location.href).pathname.split('/').pop();
-  const celerikCss = stylesheets().find((link) => fileOf(link) === 'celerik.css');
-  const baseUrl = assetsUrl ?? celerikCss?.href.replace(/celerik\.css([?#].*)?$/, '').replace(/\/$/, '');
-
-  return (base) => {
-    for (const name of ['material', 'tailwind']) {
-      let link = stylesheets().find((candidate) => fileOf(candidate) === `celerik-${name}.css`);
-      if (!link && base === name && baseUrl) {
-        link = document.createElement('link');
-        link.rel = 'stylesheet';
-        link.href = `${baseUrl}/celerik-${name}.css`;
-        (celerikCss ?? document.head.lastChild).after(link);
-      }
-      if (link) {
-        link.disabled = base !== name;
-      }
-    }
-  };
-}
-
 export function initThemeBuilder(element, options) {
   const labels = options.labels ?? {};
   const pairs = options.pairs ?? [];
-  const presets = options.presets ?? {};
   const initial = validateTheme(options.theme).theme;
   if (!initial) {
     throw new TypeError(`Celerik: invalid theme for #${element.id}.`);
@@ -91,7 +66,6 @@ export function initThemeBuilder(element, options) {
   const canvas = find('.celerik-theme-builder__canvas');
   const field = (name) => find(`[name="theme[${name}]"]`);
   const nameInput = field('name');
-  const baseSelect = field('base');
   const radiusInput = field('radius');
   const radiusOutput = find(`#${element.id}-radius-value`);
   const fontInput = field('fontFamily');
@@ -101,7 +75,6 @@ export function initThemeBuilder(element, options) {
   const list = find('.celerik-theme-builder__report ul');
 
   const applyPreview = previewSheet(element.id);
-  const switchBase = baseSwitcher(options.assetsUrl);
   const scope = `#${element.id} .celerik-theme-builder__canvas`;
 
   function markInvalid(input, message) {
@@ -158,7 +131,6 @@ export function initThemeBuilder(element, options) {
 
   function render() {
     applyPreview(scopeCss(themeToCss(theme), scope));
-    switchBase(theme.base);
     renderReport();
     for (const listener of listeners) {
       listener(clone(theme));
@@ -168,7 +140,6 @@ export function initThemeBuilder(element, options) {
   // Puts the state back into every control.
   function sync() {
     nameInput.value = theme.name;
-    baseSelect.value = theme.base;
     radiusInput.value = String(theme.radius ?? 0.375);
     radiusOutput.textContent = String(theme.radius ?? 0.375);
     fontInput.value = theme.fontFamily ?? '';
@@ -258,12 +229,6 @@ export function initThemeBuilder(element, options) {
     commit();
   });
 
-  baseSelect.addEventListener('change', () => {
-    theme.base = baseSelect.value;
-    render();
-    commit();
-  });
-
   radiusInput.addEventListener('input', () => {
     theme.radius = Number(radiusInput.value);
     radiusOutput.textContent = radiusInput.value;
@@ -303,14 +268,6 @@ export function initThemeBuilder(element, options) {
   });
 
   // Controls that need JavaScript start hidden in the markup.
-  const presetSelect = find(`#${element.id}-preset`);
-  find('.celerik-theme-builder__preset').hidden = false;
-  find('[data-celerik-action="preset"]').addEventListener('click', () => {
-    if (presets[presetSelect.value]) {
-      setTheme(clone(presets[presetSelect.value]));
-    }
-  });
-
   find('.celerik-theme-builder__history').hidden = false;
   undoButton.addEventListener('click', () => {
     if (history.length === 0) {

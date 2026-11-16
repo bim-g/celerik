@@ -51,7 +51,7 @@ Then open `/celerik/grid`, `/celerik/chart`, `/celerik/form`, `/celerik/schedule
 
 ## What it shows
 
-- **`<x-celerik-assets />`** prints the `<link>` and `<script>` tags for the bundle. Load jQuery and Bootstrap before it. Add `theme="material"` or `theme="tailwind"` for another look.
+- **`<x-celerik-assets />`** prints the `<link>` and `<script>` tags for the bundle. Load jQuery and Bootstrap before it. Add `custom-theme="..."` to load your own theme (see [THEMING.md](../../THEMING.md)).
 - **`<x-celerik :component="$grid" />`** renders any Celerik component.
 - **`Grid::respond()` + `EloquentDataSource`**
   - Paging, sorting and search run in SQL.
@@ -76,5 +76,5 @@ Then open `/celerik/grid`, `/celerik/chart`, `/celerik/form`, `/celerik/schedule
   - Requests carry Laravel's CSRF token (`FileManager::csrf()`) and elFinder's own token; uploads are checked by content like `UploadHandler`.
 - **Theme builder** (`/celerik/theme`, only when `APP_ENV=local`)
   - `CelerikThemeController` shows the ThemeBuilder with a preview of a form, a grid, tabs and a chart. Save posts the theme as JSON; Laravel's CSRF middleware checks the `X-CSRF-TOKEN` header.
-  - Saving writes `storage/app/celerik-theme.json` (keep it in git) and `public/css/celerik-theme.css`. The layout loads the saved theme on every page (`<x-celerik-assets :theme="..." :custom-theme="..." />`).
+  - Saving writes `storage/app/celerik-theme.json` (keep it in git) and `public/css/celerik-theme.css`. The layout loads the saved theme on every page (`<x-celerik-assets :custom-theme="..." />`).
   - In CI, rebuild the stylesheet from the JSON: `vendor/bin/celerik-theme build storage/app/celerik-theme.json public/css/celerik-theme.css`.

@@ -6,7 +6,7 @@ namespace Celerik\Ui\Theme;
 
 /**
  * Writes a theme's stylesheet: custom properties for the light and dark palettes and the
- * shape tokens, loaded after celerik.css and the base theme's stylesheet.
+ * shape tokens, loaded after celerik.css.
  *
  * The output is deterministic: resources/js/theme-css.js produces the same text in the
  * ThemeBuilder, and the tests compare both. Every value comes from a validated Theme, so
@@ -22,11 +22,7 @@ final class Stylesheet
         'outlined' => '0 1px 2px 0 rgba(0, 0, 0, 0.05), 0 0 0 1px var(--bs-border-color)',
     ];
 
-    /** Opacity of --bs-focus-ring-color, as each base stylesheet sets it. */
-    private const FOCUS_RING_ALPHA = ['bootstrap' => '0.25', 'material' => '0.35', 'tailwind' => '0.5'];
-
     // Bootstrap compiles these components with its default blue: bind them to the theme.
-    // The material and tailwind stylesheets already bind them to --celerik-primary.
     private const BOOTSTRAP_BINDINGS = <<<'CSS'
         .btn-primary {
           --bs-btn-color: var(--celerik-on-primary);
@@ -102,14 +98,7 @@ final class Stylesheet
 
     public static function render(Theme $theme): string
     {
-        $base = $theme->getBase();
-        $files = $base === 'bootstrap' ? 'celerik.css' : sprintf('celerik.css and celerik-%s.css', $base);
-        $css = sprintf(
-            "/* Celerik UI theme \"%s\" (base: %s). Load it after %s. */\n",
-            $theme->getName(),
-            $base,
-            $files,
-        );
+        $css = sprintf("/* Celerik UI theme \"%s\". Load it after celerik.css. */\n", $theme->getName());
 
         $css .= self::block(":root,\n[data-bs-theme=light]", self::palette($theme, 'light'));
         $css .= "\n" . self::block('[data-bs-theme=dark]', self::palette($theme, 'dark'));
@@ -130,21 +119,16 @@ final class Stylesheet
             $css .= "\n" . self::block(':root', $shape);
         }
 
-        if ($base === 'bootstrap') {
-            $css .= "\n" . self::BOOTSTRAP_BINDINGS . "\n";
-        }
-
-        return $css;
+        return $css . "\n" . self::BOOTSTRAP_BINDINGS . "\n";
     }
 
     /** @return array<string, string> */
     private static function palette(Theme $theme, string $mode): array
     {
-        $base = $theme->getBase();
         $color = $theme->palette($mode);
         $rgb = static fn (string $token): string => $theme->rgb($mode, $token);
 
-        $properties = [
+        return [
             '--bs-primary' => $color['primary'],
             '--bs-primary-rgb' => $rgb('primary'),
             '--bs-link-color' => $color['primary'],
@@ -160,7 +144,7 @@ final class Stylesheet
             '--bs-tertiary-bg' => $color['surface'],
             '--bs-tertiary-bg-rgb' => $rgb('surface'),
             '--bs-border-color' => $color['border'],
-            '--bs-focus-ring-color' => sprintf('rgba(%s, %s)', $rgb('primary'), self::FOCUS_RING_ALPHA[$base]),
+            '--bs-focus-ring-color' => sprintf('rgba(%s, 0.25)', $rgb('primary')),
             '--bs-form-invalid-color' => $color['danger'],
             '--bs-form-invalid-border-color' => $color['danger'],
             '--bs-danger-text-emphasis' => $color['danger'],
@@ -169,15 +153,6 @@ final class Stylesheet
             '--celerik-primary-hover' => $color['primaryHover'],
             '--celerik-input-border' => $color['inputBorder'],
         ];
-
-        // The tailwind stylesheet derives these from its palette too.
-        if ($base === 'tailwind') {
-            $properties['--celerik-grid-header-color'] = $color['muted'];
-            $ring = sprintf('0 0 0 2px %s, 0 0 0 4px %s', $color['bodyBg'], $color['primary']);
-            $properties['--celerik-focus-ring'] = $ring;
-        }
-
-        return $properties;
     }
 
     /** @param array<string, string> $properties */

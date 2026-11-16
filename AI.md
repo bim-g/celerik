@@ -72,7 +72,7 @@ Map database columns to grid columns like this:
 - **Editor**: always `EditorHtml::sanitize()` the submitted HTML before storing it.
 - **Modal with a form**: put the form in `body()`, submit it with a footer button (`['type' => 'submit', 'form' => '<form id>']`), and call `open($errors !== [])` so server errors reopen it.
 - **Notifications**: Post/Redirect/Get with flash messages, then `Notification::make()->fromFlash(...)` in the layout. From JavaScript: `Celerik.notify(type, message)`.
-- **Themes**: pick one with `Assets::tags($url, theme: 'material'|'tailwind')` (or the Blade/Twig equivalents). When changing theme colors, keep `tests/js/themes.test.js` passing: it checks WCAG contrast.
+- **Themes**: Bootstrap is the only look. Brand colors, radius and font go in a custom theme (`Theme::toCss()`, the ThemeBuilder or `celerik-theme`), loaded with `Assets::tags($url, customTheme: '/css/acme.css')` (or the Blade/Twig equivalents); `Contrast::failures($theme)` checks WCAG contrast. Do not pass `theme: 'material'|'tailwind'`: those looks were removed in 0.2.0.
 - **File manager**: one route accepting GET and POST that calls `FileManagerConnector::run(FileManagerConfig::local($rootOutsideWebRoot, $rules), authorized: <real check>)`. Never pass `true` unconditionally. Serve elFinder's assets (`vendor/studio-42/elfinder/{css,img,js,sounds}`) at `FileManager::assetsUrl()`.
 
 ### Integration snippets

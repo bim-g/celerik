@@ -1,6 +1,6 @@
 # Accessibility
 
-Celerik UI targets **WCAG 2.2 level AA** for the markup and behaviour it produces, in every theme (bootstrap, material, tailwind) and in light and dark mode.
+Celerik UI targets **WCAG 2.2 level AA** for the markup and behaviour it produces, on Bootstrap 5.3, in light and dark mode.
 
 Automated tests can't prove conformance on their own. They catch regressions in what can be measured; screen-reader and keyboard use also need people. The [manual test plan](#manual-test-plan) below lists what is checked by hand. Its results table starts empty until a release is tested.
 
@@ -20,7 +20,7 @@ All of these run in CI on every pull request. See [TESTING.md](TESTING.md).
 
 ## User preferences
 
-- **Dark mode**: `data-bs-theme="dark"`; every theme keeps 4.5:1 text contrast and 3:1 for field borders and focus indicators.
+- **Dark mode**: `data-bs-theme="dark"` keeps 4.5:1 text contrast and 3:1 for field borders and focus indicators.
 - **Reduced motion** (`prefers-reduced-motion: reduce`): charts are drawn without animation, toast animations are cut to 1 ms, calendar, File Manager and upload transitions are removed. Bootstrap removes its own fades.
 - **Forced colors** (Windows High Contrast): focus is shown with a system-color outline instead of a box-shadow ring; the active tab, today's date, the current page and the File Manager selection use system colors; toasts get a border.
 - **Zoom and reflow**: components use Bootstrap's responsive layout and relative units.

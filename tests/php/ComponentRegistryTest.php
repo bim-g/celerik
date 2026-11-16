@@ -54,16 +54,19 @@ final class ComponentRegistryTest extends TestCase
         );
     }
 
-    public function testAssetTagsAddTheThemeStylesheetAfterCelerikCss(): void
+    public function testAssetTagsAcceptOnlyTheBootstrapLook(): void
     {
-        self::assertSame(
-            '<link rel="stylesheet" href="/assets/celerik.css">' . "\n"
-            . '<link rel="stylesheet" href="/assets/celerik-material.css">' . "\n"
-            . '<script type="module" src="/assets/celerik.js"></script>',
-            Assets::tags('/assets', theme: 'material'),
-        );
-        self::assertStringContainsString('celerik-tailwind.css', Assets::tags('/assets', theme: 'tailwind'));
+        self::assertSame(['bootstrap'], Assets::THEMES);
         self::assertSame(Assets::tags('/assets'), Assets::tags('/assets', theme: 'bootstrap'));
+
+        foreach (['material', 'tailwind'] as $removed) {
+            try {
+                Assets::tags('/assets', theme: $removed);
+                self::fail(sprintf('The %s look was accepted.', $removed));
+            } catch (InvalidArgumentException $exception) {
+                self::assertStringContainsString('was removed in Celerik UI 0.2.0', $exception->getMessage());
+            }
+        }
 
         $this->expectException(InvalidArgumentException::class);
         Assets::tags('/assets', theme: '../../evil');
@@ -73,10 +76,9 @@ final class ComponentRegistryTest extends TestCase
     {
         self::assertSame(
             '<link rel="stylesheet" href="/assets/celerik.css">' . "\n"
-            . '<link rel="stylesheet" href="/assets/celerik-tailwind.css">' . "\n"
             . '<link rel="stylesheet" href="/css/acme.css?v=2&amp;x=&quot;">' . "\n"
             . '<script type="module" src="/assets/celerik.js"></script>',
-            Assets::tags('/assets', theme: 'tailwind', customTheme: '/css/acme.css?v=2&x="'),
+            Assets::tags('/assets', customTheme: '/css/acme.css?v=2&x="'),
         );
     }
 

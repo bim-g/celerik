@@ -14,7 +14,7 @@ Or skip the copy and load it from the CDN: `Assets::tags(Assets::cdnUrl())` (see
 
 ```php
 <?= Celerik\Ui\Assets::tags('/vendor/celerik') ?>
-<?= Celerik\Ui\Assets::tags('/vendor/celerik', theme: 'material') ?>
+<?= Celerik\Ui\Assets::tags('/vendor/celerik', customTheme: '/css/acme.css') ?>
 <?= Celerik\Ui\Assets::tags('/vendor/celerik', nonce: $cspNonce) ?>
 ```
 

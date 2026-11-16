@@ -29,7 +29,8 @@ final class ThemeBuilderTest extends TestCase
 
     public function testRendersAFormWithEveryTokenOfBothModes(): void
     {
-        $html = ThemeBuilder::make('builder')->theme(Theme::preset('material'))->render();
+        $theme = Theme::preset('bootstrap')->color('light', 'primary', '#0b5394')->radius(0.75)->shadow('elevated');
+        $html = ThemeBuilder::make('builder')->theme($theme)->render();
         $xpath = $this->dom($html);
 
         self::assertStringStartsWith('<div id="builder" class="celerik-theme-builder" data-celerik="themebuilder"', $html);
@@ -38,11 +39,13 @@ final class ThemeBuilderTest extends TestCase
             foreach (Theme::TOKENS as $token) {
                 $input = $xpath->query(sprintf('//input[@name="theme[%s][%s]"]', $mode, $token))->item(0);
                 self::assertInstanceOf(DOMElement::class, $input, "$mode.$token");
-                self::assertSame(Theme::preset('material')->palette($mode)[$token], $input->getAttribute('value'));
+                self::assertSame($theme->palette($mode)[$token], $input->getAttribute('value'));
             }
         }
         self::assertSame(2, $xpath->query('//fieldset[@data-celerik-mode]/legend')->length);
-        self::assertSame('material', $xpath->query('//select[@name="theme[base]"]/option[@selected]')->item(0)?->getAttribute('value'));
+        // Bootstrap is the only look: no base select, no preset picker.
+        self::assertSame(0, $xpath->query('//*[@name="theme[base]"]')->length);
+        self::assertSame(0, $xpath->query('//*[contains(@class, "celerik-theme-builder__preset")]')->length);
         self::assertSame('elevated', $xpath->query('//select[@name="theme[shadow]"]/option[@selected]')->item(0)?->getAttribute('value'));
         self::assertSame('0.75', $xpath->query('//input[@name="theme[radius]"]')->item(0)?->getAttribute('value'));
     }
@@ -101,7 +104,7 @@ final class ThemeBuilderTest extends TestCase
     {
         $xpath = $this->dom(ThemeBuilder::make('b')->render());
 
-        foreach (['__preset', '__history', '__export', '__modes'] as $part) {
+        foreach (['__history', '__export', '__modes'] as $part) {
             $element = $xpath->query(sprintf('//*[contains(@class, "celerik-theme-builder%s")]', $part))->item(0);
             self::assertInstanceOf(DOMElement::class, $element, $part);
             self::assertTrue($element->hasAttribute('hidden'), $part);
@@ -122,24 +125,27 @@ final class ThemeBuilderTest extends TestCase
     public function testOptionsCarryTheThemePresetsPairsAndLabels(): void
     {
         $options = ThemeBuilder::make('b')
-            ->theme(Theme::preset('tailwind')->name('Acme'))
-            ->labels(['save' => 'Enregistrer', 'primary' => 'Principale'])
+            ->theme(Theme::preset('bootstrap')->name('Acme'))
+            // The labels of the removed base look and preset controls are ignored.
+            ->labels(['save' => 'Enregistrer', 'primary' => 'Principale', 'base' => 'Look', 'loadPreset' => 'Charger'])
+            // Deprecated, without effect.
             ->assetsUrl('/vendor/celerik/')
             ->toArray();
 
         self::assertSame('Acme', $options['theme']['name']);
-        self::assertSame(Theme::BASES, array_keys($options['presets']));
         self::assertSame(Contrast::pairs(), $options['pairs']);
         self::assertSame('Enregistrer', $options['labels']['save']);
         self::assertArrayNotHasKey('primary', $options['labels'], 'Token labels are rendered by PHP.');
-        self::assertSame('/vendor/celerik', $options['assetsUrl']);
+        self::assertArrayNotHasKey('base', $options['labels']);
+        self::assertArrayNotHasKey('presets', $options);
+        self::assertArrayNotHasKey('assetsUrl', $options);
         self::assertArrayNotHasKey('saveUrl', $options);
         self::assertStringContainsString('>Principale</label>', ThemeBuilder::make('b')->labels(['primary' => 'Principale'])->render());
     }
 
     public function testFromRequestReadsAJsonBody(): void
     {
-        $theme = Theme::preset('tailwind')->name('Acme');
+        $theme = Theme::preset('bootstrap')->name('Acme');
 
         self::assertEquals($theme, ThemeBuilder::fromRequest([], json_encode(['theme' => $theme->toArray()], JSON_THROW_ON_ERROR)));
         self::assertEquals($theme, ThemeBuilder::fromRequest([], $theme->toJson()), 'A bare theme object works too.');
@@ -147,7 +153,7 @@ final class ThemeBuilderTest extends TestCase
 
     public function testFromRequestReadsTheFormFieldsPostedWithoutJavaScript(): void
     {
-        $fields = Theme::preset('material')->toArray();
+        $fields = Theme::preset('bootstrap')->color('light', 'primary', '#6750a4')->toArray();
         $fields['radius'] = '1.25';
         $fields['fontFamily'] = '';
         $fields['shadow'] = '';
@@ -155,7 +161,7 @@ final class ThemeBuilderTest extends TestCase
         $theme = ThemeBuilder::fromRequest(['_token' => 'x', 'theme' => $fields]);
 
         self::assertSame(1.25, $theme->getRadius());
-        self::assertNull($theme->getFontFamily(), 'An empty optional field keeps the base look.');
+        self::assertNull($theme->getFontFamily(), 'An empty optional field keeps Bootstrap\'s.');
         self::assertNull($theme->getShadow());
         self::assertSame('#6750a4', $theme->palette('light')['primary']);
     }

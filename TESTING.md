@@ -44,7 +44,7 @@
 
 `tests/browser/server.php` renders every component on one page (Grid, Chart, Forms with the editor and an upload, Scheduler in month view, Tabs, File Manager with a real connector, Modal, Notifications). Bootstrap, jQuery and elFinder are served locally, so results don't depend on a CDN. Playwright starts it with PHP's built-in server.
 
-For each theme (bootstrap, material, tailwind) in light and dark mode, the tests check:
+In light and dark mode, the tests check:
 
 - every component fires `celerik:ready`, with no console errors;
 - axe-core finds no violations of the WCAG 2.1 A/AA rules, color contrast included;
@@ -78,8 +78,8 @@ Screen readers and elFinder's own keyboard shortcuts are still checked manually:
 
 ## Theme Tests
 
-- `tests/js/themes.test.js` compiles each theme and checks WCAG contrast for its light and dark palettes: body, muted and link text (4.5:1), text on surfaces, primary button labels including hover (4.5:1), and form field borders (3:1, WCAG 1.4.11).
-- In a browser, axe-core runs on the full example page with color-contrast enabled for every theme and mode. All six combinations report no WCAG 2.1 A/AA violations.
+- `tests/js/presets.test.js` checks the Bootstrap preset against Bootstrap 5.3 and WCAG contrast for its light and dark palettes: body, muted and link text (4.5:1), text on surfaces, primary button labels including hover (4.5:1), and form field borders (3:1, WCAG 1.4.11).
+- In a browser, axe-core runs on the full example page with color-contrast enabled in light and dark mode, with and without a custom theme. No WCAG 2.1 A/AA violations are reported.
 
 ## Performance Tests
 

@@ -1,6 +1,8 @@
 import AxeBuilder from '@axe-core/playwright';
 
-export const THEMES = ['bootstrap', 'material', 'tailwind'];
+// Bootstrap is the only look (Material and Tailwind were removed in 0.2.0): the loops over
+// THEMES keep the test names ("bootstrap dark") and run every check in both modes.
+export const THEMES = ['bootstrap'];
 export const MODES = ['light', 'dark'];
 export const WCAG_TAGS = ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa'];
 

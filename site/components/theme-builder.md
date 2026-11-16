@@ -10,10 +10,9 @@ Edit a theme's design tokens with a live preview of your own components and a WC
 
 | Method | Use |
 |---|---|
-| `theme(Theme $theme)` | The theme to start from (default: the bootstrap preset). |
+| `theme(Theme $theme)` | The theme to start from, and the one Reset returns to (default: the Bootstrap preset). |
 | `preview(...$components)` | Components (or trusted HTML) shown in the preview. |
 | `saveUrl($url)`, `csrf($token, $field = '_token')` | Adds a Save button posting the theme. |
-| `assetsUrl($url)` | Where the bundle is, to switch the base look (default: next to the page's `celerik.css`). |
 | `labels([...])` | Translate the builder (keys of `ThemeBuilder::LABELS`, or token names). |
 
 ## Saving

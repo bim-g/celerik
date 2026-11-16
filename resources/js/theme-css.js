@@ -2,7 +2,6 @@
 // report and the validation of src/Theme in PHP. The stylesheet must be the same text as
 // Theme::toCss(): tests/js/theme-css.test.js compares both.
 
-export const BASES = ['bootstrap', 'material', 'tailwind'];
 export const MODES = ['light', 'dark'];
 export const TOKENS = [
   'primary', 'primaryHover', 'onPrimary', 'bodyBg', 'bodyColor',
@@ -15,8 +14,6 @@ export const SHADOWS = {
   elevated: '0 1px 2px rgba(0, 0, 0, 0.3), 0 1px 3px 1px rgba(0, 0, 0, 0.15)',
   outlined: '0 1px 2px 0 rgba(0, 0, 0, 0.05), 0 0 0 1px var(--bs-border-color)',
 };
-
-const FOCUS_RING_ALPHA = { bootstrap: '0.25', material: '0.35', tailwind: '0.5' };
 
 // Bootstrap compiles these components with its default blue: bind them to the theme.
 const BOOTSTRAP_BINDINGS = `.btn-primary {
@@ -100,7 +97,7 @@ function block(selector, properties) {
 
 function palette(theme, mode) {
   const color = theme[mode];
-  const properties = {
+  return {
     '--bs-primary': color.primary,
     '--bs-primary-rgb': rgb(color.primary),
     '--bs-link-color': color.primary,
@@ -116,7 +113,7 @@ function palette(theme, mode) {
     '--bs-tertiary-bg': color.surface,
     '--bs-tertiary-bg-rgb': rgb(color.surface),
     '--bs-border-color': color.border,
-    '--bs-focus-ring-color': `rgba(${rgb(color.primary)}, ${FOCUS_RING_ALPHA[theme.base]})`,
+    '--bs-focus-ring-color': `rgba(${rgb(color.primary)}, 0.25)`,
     '--bs-form-invalid-color': color.danger,
     '--bs-form-invalid-border-color': color.danger,
     '--bs-danger-text-emphasis': color.danger,
@@ -125,18 +122,11 @@ function palette(theme, mode) {
     '--celerik-primary-hover': color.primaryHover,
     '--celerik-input-border': color.inputBorder,
   };
-  // The tailwind stylesheet derives these from its palette too.
-  if (theme.base === 'tailwind') {
-    properties['--celerik-grid-header-color'] = color.muted;
-    properties['--celerik-focus-ring'] = `0 0 0 2px ${color.bodyBg}, 0 0 0 4px ${color.primary}`;
-  }
-  return properties;
 }
 
 // The theme's stylesheet: the same text as Theme::toCss() for a valid theme.
 export function themeToCss(theme) {
-  const files = theme.base === 'bootstrap' ? 'celerik.css' : `celerik.css and celerik-${theme.base}.css`;
-  let css = `/* Celerik UI theme "${theme.name}" (base: ${theme.base}). Load it after ${files}. */\n`;
+  let css = `/* Celerik UI theme "${theme.name}". Load it after celerik.css. */\n`;
   css += block(':root,\n[data-bs-theme=light]', palette(theme, 'light'));
   css += `\n${block('[data-bs-theme=dark]', palette(theme, 'dark'))}`;
 
@@ -156,10 +146,7 @@ export function themeToCss(theme) {
     css += `\n${block(':root', shape)}`;
   }
 
-  if (theme.base === 'bootstrap') {
-    css += `\n${BOOTSTRAP_BINDINGS}\n`;
-  }
-  return css;
+  return `${css}\n${BOOTSTRAP_BINDINGS}\n`;
 }
 
 function luminance(hex) {
@@ -208,10 +195,16 @@ export function validateTheme(data) {
   if (typeof data.name !== 'string' || !NAME.test(data.name)) {
     return { error: 'A theme name has 1 to 60 letters, digits, spaces, dots, dashes or underscores.' };
   }
-  if (!BASES.includes(data.base)) {
-    return { error: `Unknown base "${data.base}". Available: ${BASES.join(', ')}.` };
+  // Themes made before 0.2.0 have a "base": "bootstrap" is the only one left.
+  if (data.base !== undefined && data.base !== 'bootstrap') {
+    return {
+      error: ['material', 'tailwind'].includes(data.base)
+        ? `The ${data.base[0].toUpperCase()}${data.base.slice(1)} look was removed in Celerik UI 0.2.0: Celerik UI is `
+          + 'Bootstrap only. Use "bootstrap", and a custom theme (Theme::toCss()) for your colors, radius and font.'
+        : 'The theme base can only be "bootstrap".',
+    };
   }
-  const theme = { name: data.name, base: data.base };
+  const theme = { name: data.name };
   for (const mode of MODES) {
     const colors = data[mode];
     if (colors === null || typeof colors !== 'object' || Array.isArray(colors)) {

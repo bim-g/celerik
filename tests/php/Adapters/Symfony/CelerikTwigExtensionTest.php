@@ -26,23 +26,15 @@ final class CelerikTwigExtensionTest extends TestCase
         self::assertStringContainsString('<td>&lt;i&gt;Ada&lt;/i&gt;</td>', $html);
     }
 
-    public function testAssetsFunctionAcceptsATheme(): void
-    {
-        $twig = new Environment(new ArrayLoader(['page' => "{{ celerik_assets(theme: 'tailwind') }}"]));
-        $twig->addExtension(new CelerikTwigExtension());
-
-        self::assertStringContainsString('<link rel="stylesheet" href="/bundles/celerikui/celerik-tailwind.css">', $twig->render('page'));
-    }
-
     public function testAssetsFunctionAcceptsACustomTheme(): void
     {
         $twig = new Environment(new ArrayLoader([
-            'page' => "{{ celerik_assets(theme: 'material', customTheme: '/css/acme.css') }}",
+            'page' => "{{ celerik_assets(customTheme: '/css/acme.css') }}",
         ]));
         $twig->addExtension(new CelerikTwigExtension());
 
         self::assertStringContainsString(
-            'celerik-material.css">' . "\n" . '<link rel="stylesheet" href="/css/acme.css">',
+            'celerik.css">' . "\n" . '<link rel="stylesheet" href="/css/acme.css">',
             $twig->render('page'),
         );
     }

@@ -19,7 +19,7 @@ use Celerik\Ui\Theme\Theme;
 /** @var string $mode */
 
 $builder = ThemeBuilder::make('builder')
-    ->theme(Theme::preset($theme))
+    ->theme(Theme::preset('bootstrap'))
     ->assetsUrl('/assets')
     ->saveUrl('/theme-save')
     ->csrf('test-token')
@@ -65,7 +65,7 @@ $builder = ThemeBuilder::make('builder')
     <link rel="stylesheet" href="/vendor/bootstrap/css/bootstrap.min.css">
     <script src="/vendor/jquery/jquery.min.js" defer></script>
     <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js" defer></script>
-    <?= Assets::tags('/assets', theme: $theme) ?>
+    <?= Assets::tags('/assets') ?>
 </head>
 <body>
 <main class="container-fluid py-4">
