@@ -23,7 +23,7 @@ import {
   Title,
   Tooltip,
 } from 'chart.js';
-import { buildChartConfig, renderDataTable, usesPatterns, withPatterns } from './chart-config.js';
+import { buildChartConfig, readChartTheme, renderDataTable, styleData } from './chart-config.js';
 import { prefersReducedMotion } from './core.js';
 
 // Everything the PHP Chart types and common options need. Time scales are left out:
@@ -42,7 +42,20 @@ export function initChart(element, options) {
     canvas.parentElement.style.height = `${options.height}px`;
   }
 
-  const chart = new Chart(canvas, buildChartConfig(options, { reducedMotion: prefersReducedMotion() }));
+  // Flat colors that follow Bootstrap and the color mode: the text, grid lines and font of
+  // every chart, and a palette for series without their own colors.
+  const theme = readChartTheme(element);
+  if (theme.text) {
+    Chart.defaults.color = theme.text;
+  }
+  if (theme.grid) {
+    Chart.defaults.borderColor = theme.grid;
+  }
+  if (theme.font) {
+    Chart.defaults.font.family = theme.font;
+  }
+
+  const chart = new Chart(canvas, buildChartConfig(options, { reducedMotion: prefersReducedMotion(), theme }));
 
   if (options.url) {
     fetch(options.url, { headers: { Accept: 'application/json' } })
@@ -53,7 +66,7 @@ export function initChart(element, options) {
         return response.json();
       })
       .then((payload) => {
-        chart.data = usesPatterns(options) ? withPatterns(payload.data, chart.config.type) : payload.data;
+        chart.data = styleData(payload.data, chart.config.type, options, theme);
         chart.update();
         renderDataTable(element, canvas.getAttribute('aria-label') ?? '', payload.data);
       })

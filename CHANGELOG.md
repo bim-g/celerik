@@ -6,6 +6,17 @@ The same version is published on Packagist (`celerik/ui`) and npm (`@celerikui/u
 
 ## [Unreleased]
 
+### Changed
+
+- **A flat design for every component** (`resources/scss/_flat.scss`): 1px borders instead of drop shadows, and no bevels or gradients.
+  - Toasts, searchable-select dropdowns and the calendar's popovers and event dialog have borders instead of shadows.
+  - The calendar toolbar has outline buttons; the current view and the New event button are filled with the primary color. Weekday names and day numbers are plain text, underlined on hover and focus.
+  - The file manager has a light, flat toolbar, sidebar and status bar, and borderless toolbar buttons.
+  - The upload area is a plain dashed panel that follows dark mode.
+  - Charts use a solid palette (`--celerik-chart-1` to `6`, with 3:1 and more on the page in light and dark mode), and take their text, grid lines and font from Bootstrap. Colors set in PHP still win.
+- Field borders have a 3:1 contrast on the page (WCAG 1.4.11) without a custom theme: `--celerik-input-border` (#6c757d light, #8c959f dark) on inputs, selects, checkboxes, searchable selects, the rich text editor and one-time code boxes. Before, Bootstrap's #dee2e6 border (1.3:1) was used unless a custom theme set one.
+- A theme's stylesheet no longer fills the calendar's buttons: the calendar follows `--bs-primary` and `--celerik-on-primary` through celerik.css.
+
 ## [0.2.0] - 2026-11-16
 
 ### Removed

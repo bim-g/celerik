@@ -16,6 +16,7 @@ export const SHADOWS = {
 };
 
 // Bootstrap compiles these components with its default blue: bind them to the theme.
+// The calendar follows --bs-primary and --celerik-on-primary through celerik.css.
 const BOOTSTRAP_BINDINGS = `.btn-primary {
   --bs-btn-color: var(--celerik-on-primary);
   --bs-btn-bg: var(--celerik-primary);
@@ -72,19 +73,6 @@ const BOOTSTRAP_BINDINGS = `.btn-primary {
   --bs-pagination-active-border-color: var(--celerik-primary);
   --bs-pagination-active-color: var(--celerik-on-primary);
   --bs-pagination-focus-box-shadow: 0 0 0 0.25rem rgba(var(--bs-primary-rgb), 0.25);
-}
-
-.celerik-scheduler {
-  --fc-button-text-color: var(--celerik-on-primary);
-  --fc-button-bg-color: var(--celerik-primary);
-  --fc-button-border-color: var(--celerik-primary);
-  --fc-button-hover-bg-color: var(--celerik-primary-hover);
-  --fc-button-hover-border-color: var(--celerik-primary-hover);
-  --fc-button-active-bg-color: var(--celerik-primary-hover);
-  --fc-button-active-border-color: var(--celerik-primary-hover);
-  --fc-event-bg-color: var(--celerik-primary);
-  --fc-event-border-color: var(--celerik-primary);
-  --fc-event-text-color: var(--celerik-on-primary);
 }`;
 
 export function rgb(hex) {

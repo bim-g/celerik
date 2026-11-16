@@ -1,0 +1,201 @@
+// Celerik's flat design, on top of Bootstrap 5.3 and the libraries' own stylesheets:
+// solid colors, 1px borders instead of shadows, no bevels or gradients, one corner radius,
+// and field borders with a 3:1 contrast (WCAG 1.4.11). A custom theme (Theme::toCss())
+// changes the colors; it loads after celerik.css, so its values win.
+
+:root {
+  // The field border of the bootstrap preset (theme/presets/bootstrap.json): Bootstrap's
+  // own (#dee2e6) is 1.3:1 on white, too faint to find a field by its edge.
+  --celerik-input-border: #6c757d;
+  // Text on the primary color (buttons, the current calendar view, calendar events).
+  --celerik-on-primary: #fff;
+  // Series colors of charts, 3:1 and more on the page background (WCAG 1.4.11).
+  --celerik-chart-1: #0d6efd;
+  --celerik-chart-2: #d63384;
+  --celerik-chart-3: #198754;
+  --celerik-chart-4: #b35900;
+  --celerik-chart-5: #6f42c1;
+  --celerik-chart-6: #0a7c8f;
+}
+
+[data-bs-theme='dark'] {
+  --celerik-input-border: #8c959f;
+  --celerik-chart-1: #6ea8fe;
+  --celerik-chart-2: #e685b5;
+  --celerik-chart-3: #75b798;
+  --celerik-chart-4: #feb272;
+  --celerik-chart-5: #a98eda;
+  --celerik-chart-6: #6edff6;
+}
+
+// Fields: one border color for every kind of field. Focus, valid and invalid borders are
+// more specific in Bootstrap, and keep their colors.
+.form-control,
+.form-select,
+.form-check-input,
+.celerik-form .celerik-otp-slot {
+  border-color: var(--celerik-input-border);
+}
+
+// Quill's stylesheet loads with the editor, after celerik.css: one class more.
+.celerik-form .ql-toolbar.ql-snow,
+.celerik-form .ql-container.ql-snow {
+  border-color: var(--celerik-input-border);
+}
+
+.celerik-form .ql-container.ql-snow.is-invalid {
+  border-color: var(--bs-form-invalid-border-color);
+}
+
+.form-range::-webkit-slider-runnable-track {
+  box-shadow: inset 0 0 0 1px var(--celerik-input-border);
+}
+
+.form-range::-moz-range-track {
+  box-shadow: inset 0 0 0 1px var(--celerik-input-border);
+}
+
+// Floating layers: a border instead of a drop shadow.
+.ts-dropdown,
+.celerik-form .ts-wrapper .ts-dropdown {
+  border: var(--bs-border-width) solid var(--bs-border-color);
+  border-radius: var(--celerik-radius);
+  box-shadow: none;
+}
+
+.celerik-scheduler-dialog {
+  box-shadow: none;
+}
+
+.celerik-scheduler.fc .fc-popover {
+  border-radius: var(--celerik-radius);
+  box-shadow: none;
+}
+
+// Notyf's stylesheet loads with its chunk, after celerik.css: one class more.
+.notyf__toast.celerik-toast {
+  box-shadow: none;
+}
+
+// Calendar toolbar: quiet outline buttons; the current view and pressed buttons are
+// filled with the primary color. The New event button is the primary action.
+.celerik-scheduler {
+  --fc-button-text-color: var(--bs-body-color);
+  --fc-button-bg-color: transparent;
+  --fc-button-border-color: var(--celerik-input-border);
+  --fc-button-hover-bg-color: var(--bs-tertiary-bg);
+  --fc-button-hover-border-color: var(--celerik-input-border);
+  --fc-button-active-bg-color: var(--bs-primary);
+  --fc-button-active-border-color: var(--bs-primary);
+  --fc-event-text-color: var(--celerik-on-primary);
+
+  &.fc .fc-button-primary:hover {
+    color: var(--bs-body-color);
+  }
+
+  &.fc .fc-button-primary:not(:disabled).fc-button-active,
+  &.fc .fc-button-primary:not(:disabled):active,
+  &.fc .fc-celerikCreate-button.fc-button-primary {
+    color: var(--celerik-on-primary);
+    background-color: var(--bs-primary);
+    border-color: var(--bs-primary);
+  }
+
+  &.fc .fc-celerikCreate-button.fc-button-primary:hover {
+    color: var(--celerik-on-primary);
+    background-color: color-mix(in srgb, var(--bs-primary) 85%, #000);
+    border-color: color-mix(in srgb, var(--bs-primary) 85%, #000);
+  }
+
+  &.fc .fc-button-primary:disabled {
+    color: var(--bs-secondary-color);
+    background-color: transparent;
+    border-color: var(--bs-border-color);
+    opacity: 1;
+  }
+
+  // Weekday names and day numbers are links to a day (navLinks): plain text that shows
+  // it is a link on hover and focus, not a blue underlined grid.
+  .fc-col-header-cell-cushion {
+    font-weight: 600;
+    color: var(--bs-secondary-color);
+    text-decoration: none;
+  }
+
+  .fc-col-header-cell-cushion:hover,
+  .fc-col-header-cell-cushion:focus-visible,
+  .fc-daygrid-day-number:hover,
+  .fc-daygrid-day-number:focus-visible {
+    text-decoration: underline;
+  }
+
+  .fc-daygrid-day-number {
+    text-decoration: none;
+  }
+}
+
+// File uploads: FilePond's stylesheet loads after celerik.css, so one class more.
+.filepond--root .filepond--panel-root {
+  background-color: var(--bs-tertiary-bg);
+  border: 1px dashed var(--celerik-input-border);
+  border-radius: var(--celerik-radius);
+}
+
+// Its label is a fixed dark grey: follow the mode, on the panel above.
+.filepond--root .filepond--drop-label {
+  color: var(--bs-body-color);
+}
+
+// File manager (elFinder, jQuery UI): flat light panels and borderless toolbar buttons.
+// elFinder has no dark mode, so these stay light (see the selection colors above).
+.celerik-filemanager.elfinder {
+  border: 1px solid #dee2e6;
+
+  .elfinder-toolbar,
+  .elfinder-statusbar {
+    color: #495057;
+    background: #f8f9fa;
+    border-color: #dee2e6;
+  }
+
+  .elfinder-toolbar {
+    border-bottom: 1px solid #dee2e6;
+  }
+
+  .elfinder-statusbar {
+    border-top: 1px solid #dee2e6;
+  }
+
+  .elfinder-buttonset,
+  .elfinder-toolbar-button-separator {
+    background: transparent;
+    border-color: transparent;
+  }
+
+  .elfinder-button.ui-state-default {
+    background: transparent;
+    border-color: transparent;
+    border-radius: var(--celerik-radius);
+  }
+
+  .elfinder-button.ui-state-hover,
+  .elfinder-button.ui-state-active {
+    background: #e9ecef;
+    border-color: transparent;
+  }
+
+  .elfinder-navbar {
+    background: #f8f9fa;
+    border-color: #dee2e6;
+  }
+
+  .elfinder-button-search input {
+    border: 1px solid #6c757d;
+    border-radius: var(--celerik-radius);
+  }
+
+  .ui-dialog,
+  .elfinder-contextmenu {
+    box-shadow: none;
+  }
+}
