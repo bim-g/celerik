@@ -6,6 +6,8 @@ The same version is published on Packagist (`celerik/ui`) and npm (`@celerikui/u
 
 ## [Unreleased]
 
+## [0.2.1] - 2026-11-16
+
 ### Changed
 
 - **A flat design for every component** (`resources/scss/_flat.scss`): 1px borders instead of drop shadows, and no bevels or gradients.
@@ -133,7 +135,8 @@ The Phase 1 MVP ([#11](https://github.com/kivudesign/celerik/pull/11)).
 - Bootstrap SCSS theme and JS wrappers.
 - Examples for plain PHP, Laravel and Symfony.
 
-[Unreleased]: https://github.com/kivudesign/celerik/compare/v0.2.0...HEAD
+[Unreleased]: https://github.com/kivudesign/celerik/compare/v0.2.1...HEAD
+[0.2.1]: https://github.com/kivudesign/celerik/compare/v0.2.0...v0.2.1
 [0.2.0]: https://github.com/kivudesign/celerik/compare/v0.1.6...v0.2.0
 [0.1.6]: https://github.com/kivudesign/celerik/compare/v0.1.5...v0.1.6
 [0.1.5]: https://github.com/kivudesign/celerik/compare/v0.1.3...v0.1.5
