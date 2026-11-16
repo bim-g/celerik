@@ -1,5 +1,5 @@
 import {
-  buildChartConfig, LINE_DASHES, POINT_STYLES, renderDataTable,
+  buildChartConfig, LINE_DASHES, POINT_STYLES, renderDataTable, withColors,
 } from '../../resources/js/chart-config.js';
 import { readOptions } from '../../resources/js/core.js';
 import { loadFixture } from './helpers.js';
@@ -12,7 +12,7 @@ describe('chart config', () => {
     expect(config.type).toBe('bar');
     expect(config.data.labels).toEqual(['Jan', 'Feb', 'Mar']);
     expect(config.data.datasets[0]).toEqual({ label: 'Revenue', data: [1200, 1900, 1500] });
-    expect(config.options.plugins.title).toEqual({ display: true, text: 'Monthly revenue' });
+    expect(config.options.plugins.title).toEqual({ display: true, text: 'Monthly revenue', font: { size: 14, weight: '600' } });
     expect(config.options.maintainAspectRatio).toBe(true);
   });
 
@@ -62,5 +62,41 @@ describe('chart config', () => {
     expect(table.caption.textContent).toBe('Signups');
     expect(table.querySelector('tbody tr:nth-child(2)').textContent).toBe('Tue5');
     expect(table.classList.contains('visually-hidden')).toBe(true);
+  });
+});
+
+describe('flat colors', () => {
+  const theme = {
+    colors: ['#0d6efd', '#d63384', '#198754'], title: '#212529', surface: '#ffffff',
+  };
+  const data = { labels: ['Jan', 'Feb', 'Mar', 'Apr'], datasets: [{ label: 'A', data: [1, 2, 3, 4] }, { label: 'B', data: [4, 3, 2, 1] }] };
+
+  test('lines and their points take solid palette colors, in order', () => {
+    const [a, b] = withColors(data, 'line', theme).datasets;
+    expect([a.borderColor, a.backgroundColor, a.pointBackgroundColor]).toEqual(['#0d6efd', '#0d6efd', '#0d6efd']);
+    expect(b.borderColor).toBe('#d63384');
+  });
+
+  test('bars are solid, a radar area is a light tint, slices take a color each', () => {
+    expect(withColors(data, 'bar', theme).datasets[1]).toMatchObject({ backgroundColor: '#d63384', borderWidth: 0 });
+    expect(withColors(data, 'radar', theme).datasets[0].backgroundColor).toBe('#0d6efd33');
+    expect(withColors(data, 'pie', theme).datasets[0]).toMatchObject({
+      backgroundColor: ['#0d6efd', '#d63384', '#198754', '#0d6efd'], borderColor: '#ffffff', borderWidth: 2,
+    });
+  });
+
+  test('colors from PHP, a mixed chart and a missing palette are respected', () => {
+    const own = { ...data, datasets: [{ label: 'A', data: [1], borderColor: '#000000' }, { label: 'B', type: 'bar', data: [2] }] };
+    const [first, second] = withColors(own, 'line', theme).datasets;
+    expect(first).toEqual(own.datasets[0]);
+    expect(second.backgroundColor).toBe('#d63384');
+    expect(withColors(data, 'line', { colors: [] })).toBe(data);
+  });
+
+  test('buildChartConfig colors the data before the patterns, and themes the title', () => {
+    const config = buildChartConfig({ type: 'line', data, title: 'Revenue' }, { theme });
+    expect(config.data.datasets[0]).toMatchObject({ borderColor: '#0d6efd', pointStyle: 'circle' });
+    expect(config.options.plugins.title).toMatchObject({ color: '#212529', font: { weight: '600' } });
+    expect(buildChartConfig({ type: 'line', data }).data.datasets[0]).not.toHaveProperty('borderColor');
   });
 });

@@ -38,9 +38,10 @@ final class StylesheetTest extends TestCase
         self::assertStringContainsString(".btn-primary {\n  --bs-btn-color: var(--celerik-on-primary);", $css);
         self::assertStringContainsString('.pagination {', $css);
         self::assertStringContainsString(".form-check-input:checked {\n  background-color: var(--celerik-primary);", $css);
-        // FullCalendar's white text would sit on a light primary in dark mode.
-        self::assertStringContainsString("  --fc-button-text-color: var(--celerik-on-primary);\n", $css);
-        self::assertStringContainsString("  --fc-event-text-color: var(--celerik-on-primary);\n", $css);
+        // The calendar's flat toolbar and its events follow --bs-primary and
+        // --celerik-on-primary through celerik.css: the theme does not fill its buttons.
+        self::assertStringNotContainsString('--fc-button', $css);
+        self::assertStringContainsString("  --celerik-on-primary: #ffffff;\n", $css);
         self::assertStringEndsWith("}\n", $css);
     }
 

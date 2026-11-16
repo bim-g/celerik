@@ -24,7 +24,8 @@ for (const base of THEMES) {
         expect(await style('#users_wrapper .page-item.active .page-link', 'backgroundColor')).toBe(rgb(palette.primary));
         expect(await style('#signup-name', 'borderTopColor')).toBe(rgb(palette.inputBorder));
         expect(await style('#signup-email-error', 'color')).toBe(rgb(palette.danger));
-        expect(await style('#team-calendar .fc-button-primary', 'backgroundColor')).toBe(rgb(palette.primary));
+        // The flat toolbar: the current view is filled with the primary color.
+        expect(await style('#team-calendar .fc-button-active', 'backgroundColor')).toBe(rgb(palette.primary));
         expect(await style('#users_wrapper', 'borderTopLeftRadius')).toBe('4px'); // 0.25rem
       });
 

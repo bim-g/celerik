@@ -68,14 +68,7 @@
   --fc-highlight-color: rgba(var(--bs-primary-rgb), 0.15);
   --fc-event-bg-color: var(--bs-primary);
   --fc-event-border-color: var(--bs-primary);
-  --fc-button-bg-color: var(--bs-primary);
-  --fc-button-border-color: var(--bs-primary);
-  // A darker primary keeps white text readable in light and dark mode (the
-  // text-emphasis color is light in dark mode).
-  --fc-button-hover-bg-color: color-mix(in srgb, var(--bs-primary) 80%, #000);
-  --fc-button-hover-border-color: color-mix(in srgb, var(--bs-primary) 80%, #000);
-  --fc-button-active-bg-color: color-mix(in srgb, var(--bs-primary) 70%, #000);
-  --fc-button-active-border-color: color-mix(in srgb, var(--bs-primary) 70%, #000);
+  // The toolbar buttons are flat (see _flat.scss).
 
   .fc-button:focus-visible {
     box-shadow: var(--celerik-focus-ring);

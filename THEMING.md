@@ -8,6 +8,14 @@ Celerik UI is built on **Bootstrap 5.3**, and Bootstrap is its only look. A Cele
 
 From the tokens Celerik writes a small stylesheet, loaded after `celerik.css`. Everything else (spacing, the shape of buttons and dialogs, table style) is Bootstrap's.
 
+The default design is **flat**, for every component, including the libraries Celerik wraps (calendar, file manager, uploads, charts):
+- solid colors, and 1px borders instead of drop shadows;
+- no bevels or gradients;
+- one corner radius;
+- field borders with a 3:1 contrast on the page.
+
+It is defined in `resources/scss/_flat.scss`, and a theme changes its colors.
+
 There are three ways to make one, and they all produce the same file:
 
 | Tool | For | Output |
