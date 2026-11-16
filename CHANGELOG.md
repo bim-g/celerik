@@ -6,6 +6,8 @@ The same version is published on Packagist (`celerik/ui`) and npm (`@celerikui/u
 
 ## [Unreleased]
 
+## [0.2.0] - 2026-11-16
+
 ### Removed
 
 - **The Material and Tailwind looks.** Celerik UI is now Bootstrap only, which keeps it simple to maintain: `celerik-material.css`, `celerik-tailwind.css`, their presets and their SCSS are gone, along with the ThemeBuilder's "Base look" and "Start from a preset" controls and the documentation's look picker. Your own colors, radius, font and shadow still work through a custom theme (`Theme::toCss()`, the ThemeBuilder, `celerik-theme`). To upgrade:
@@ -120,7 +122,8 @@ The Phase 1 MVP ([#11](https://github.com/kivudesign/celerik/pull/11)).
 - Bootstrap SCSS theme and JS wrappers.
 - Examples for plain PHP, Laravel and Symfony.
 
-[Unreleased]: https://github.com/kivudesign/celerik/compare/v0.1.6...HEAD
+[Unreleased]: https://github.com/kivudesign/celerik/compare/v0.2.0...HEAD
+[0.2.0]: https://github.com/kivudesign/celerik/compare/v0.1.6...v0.2.0
 [0.1.6]: https://github.com/kivudesign/celerik/compare/v0.1.5...v0.1.6
 [0.1.5]: https://github.com/kivudesign/celerik/compare/v0.1.3...v0.1.5
 [0.1.3]: https://github.com/kivudesign/celerik/compare/v0.1.1...v0.1.3
