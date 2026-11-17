@@ -31,6 +31,13 @@ for (const theme of THEMES) {
         expect(await axeViolations(page, { include: '.modal.show' })).toEqual([]);
       });
 
+      test('no axe-core violations with a row action\'s confirmation open', async ({ page }) => {
+        await openComponents(page, { theme, mode });
+        await page.locator('#users').getByRole('button', { name: 'Delete Ada Lovelace' }).click();
+        await expect(page.getByRole('alertdialog', { name: 'Delete Ada Lovelace?' })).toBeVisible();
+        expect(await axeViolations(page, { include: '.celerik-action-dialog' })).toEqual([]);
+      });
+
       test('no axe-core violations with a searchable select open, matches highlighted', async ({ page }) => {
         await openComponents(page, { theme, mode });
         await page.getByRole('combobox', { name: 'Reviewer' }).focus();

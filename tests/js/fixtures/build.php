@@ -13,6 +13,7 @@ use Celerik\Ui\Components\Form;
 use Celerik\Ui\Components\Form\Field;
 use Celerik\Ui\Components\Form\Repeater;
 use Celerik\Ui\Components\Form\Section;
+use Celerik\Ui\Components\Action;
 use Celerik\Ui\Components\Grid;
 use Celerik\Ui\Components\Grid\Column;
 use Celerik\Ui\Components\Grid\Filter;
@@ -68,6 +69,26 @@ $fixtures = [
             ['name' => 'Alan Turing', 'role' => 'user', 'active' => false, 'joined' => '2026-02-01'],
             ['name' => 'Grace Hopper', 'role' => 'admin', 'active' => true, 'joined' => '2026-01-10'],
             ['name' => 'Linus Torvalds', 'role' => 'user', 'active' => true, 'joined' => null],
+        ]),
+
+    'grid-actions' => Grid::make('team')
+        ->caption('Team')
+        ->column('id', 'ID', static fn (Column $c) => $c->hidden())
+        ->column('name', 'Name')
+        ->column('team.slug', 'Team')
+        ->actions(
+            Action::link('edit', 'Edit', '/people/{id}/edit?team={team.slug}'),
+            Action::request('delete', 'Delete', '/people/{id}')
+                ->method('DELETE')
+                ->variant('danger')
+                ->confirm('Delete {name}?', 'This cannot be undone.')
+                ->csrf('t0ken')
+                ->labels(['cancel' => 'Keep']),
+        )
+        ->rows([
+            ['id' => 1, 'name' => 'Ada <Lovelace> & "co"', 'team' => ['slug' => 'a/b c']],
+            ['id' => 2, 'name' => 'Alan Turing', 'team' => ['slug' => 'ops']],
+            ['id' => 3, 'name' => 'Grace Hopper', 'team' => ['slug' => 'navy']],
         ]),
 
     'chart' => Chart::make('sales')

@@ -21,6 +21,7 @@ use LogicException;
  * Client-side mode: pass rows with rows(); they are rendered as HTML (readable without JS).
  * Server-side mode: pass an endpoint with url(); the endpoint answers with respond().
  * Columns with a filter() get a filter bar above the table, shown once JavaScript runs.
+ * Actions (actions()) get a last column with a button for each row.
  */
 final class Grid extends Component
 {
@@ -35,6 +36,7 @@ final class Grid extends Component
         'from' => 'From',
         'to' => 'To',
         'clear' => 'Clear filters',
+        'actions' => 'Actions',
     ];
 
     /** How respond() reads each kind of column filter. */
@@ -69,6 +71,11 @@ final class Grid extends Component
 
     /** @var array<string, string> */
     private array $labels = self::LABELS;
+
+    /** @var list<Action> */
+    private array $actions = [];
+
+    private ?string $rowTitle = null;
 
     public static function name(): string
     {
@@ -189,7 +196,33 @@ final class Grid extends Component
     }
 
     /**
-     * Translates the filter bar, e.g. ['clear' => 'Effacer les filtres'].
+     * Buttons for each row, in a last column: Action::link() and Action::request(). The
+     * fields their URLs and texts read (`{id}`) must be columns of the grid; hide the ones
+     * not to show (Column::hidden()).
+     */
+    public function actions(Action ...$actions): self
+    {
+        array_push($this->actions, ...$actions);
+
+        return $this;
+    }
+
+    /**
+     * The field that names a row in its buttons' accessible names ("Delete Ada Lovelace"):
+     * by default, the first visible column.
+     */
+    public function rowTitle(string $field): self
+    {
+        if (!DataRequest::isValidField($field)) {
+            throw new InvalidArgumentException(sprintf('Invalid row title field "%s".', $field));
+        }
+        $this->rowTitle = $field;
+
+        return $this;
+    }
+
+    /**
+     * Translates the filter bar and the actions column, e.g. ['clear' => 'Effacer les filtres'].
      *
      * @param array<string, string> $labels Keys from self::LABELS.
      */
@@ -243,8 +276,13 @@ final class Grid extends Component
 
     public function toArray(): array
     {
+        $this->assertActionFields();
+
         return array_filter([
             'columns' => array_map(static fn (Column $column): array => $column->toArray(), $this->columns),
+            'actions' => array_map(static fn (Action $action): array => $action->toArray(), $this->actions),
+            'actionsTitle' => $this->actions === [] ? null : $this->labels['actions'],
+            'rowTitle' => $this->actions === [] ? null : $this->rowTitleField(),
             'url' => $this->url,
             'pageSize' => $this->pageSize,
             'pageSizes' => $this->pageSizes,
@@ -272,6 +310,11 @@ final class Grid extends Component
         foreach ($this->columns as $column) {
             $headers .= Html::tag('th', ['scope' => 'col'], Html::escape($column->getTitle()));
         }
+        if ($this->actions !== []) {
+            $this->assertActionFields();
+            $header = ['scope' => 'col', 'class' => 'celerik-grid-actions'];
+            $headers .= Html::tag('th', $header, Html::escape($this->labels['actions']));
+        }
 
         $body = '';
         if ($this->url === null) {
@@ -282,6 +325,9 @@ final class Grid extends Component
                     $attributes = ['data-value' => self::filterValue($column, $value)];
                     $cells .= Html::tag('td', $attributes, Html::escape(Arr::toText($value)));
                 }
+                if ($this->actions !== []) {
+                    $cells .= Html::tag('td', ['class' => 'celerik-grid-actions'], $this->renderActions($row));
+                }
                 $body .= Html::tag('tr', [], $cells);
             }
         }
@@ -291,6 +337,70 @@ final class Grid extends Component
             $this->rootAttributes(['table', 'table-striped', 'table-hover', 'w-100', 'celerik-grid']),
             $caption . Html::tag('thead', [], Html::tag('tr', [], $headers)) . Html::tag('tbody', [], $body),
         );
+    }
+
+    /**
+     * A row's buttons, named with the row's title ("Delete Ada Lovelace").
+     *
+     * @param array<string, mixed> $row
+     */
+    private function renderActions(array $row): string
+    {
+        $title = Arr::toText(Arr::get($row, $this->rowTitleField()));
+        $buttons = '';
+        foreach ($this->actions as $action) {
+            $name = trim($action->getLabel() . ' ' . $title);
+            $buttons .= $action->render($row, small: true, ariaLabel: $action->hasAriaLabel() ? null : $name);
+        }
+
+        return Html::tag('div', ['class' => 'celerik-grid-action-list'], $buttons);
+    }
+
+    private function rowTitleField(): string
+    {
+        if ($this->rowTitle !== null) {
+            return $this->rowTitle;
+        }
+        foreach ($this->columns as $column) {
+            if ($column->isVisible()) {
+                return $column->getField();
+            }
+        }
+
+        return $this->columns[0]->getField();
+    }
+
+    /**
+     * Actions only read declared columns: in server-side mode, respond() returns nothing else.
+     */
+    private function assertActionFields(): void
+    {
+        if ($this->actions === []) {
+            return;
+        }
+        $fields = $this->fields();
+        $needed = $this->rowTitle === null ? [] : [$this->rowTitle];
+        foreach ($this->actions as $action) {
+            foreach ($action->fields() as $field) {
+                if (!in_array($field, $fields, true)) {
+                    throw new LogicException(sprintf(
+                        'Action "%s" of grid "%s" reads {%s}: add a column for it (it can be hidden).',
+                        $action->getName(),
+                        $this->id,
+                        $field,
+                    ));
+                }
+            }
+        }
+        foreach ($needed as $field) {
+            if (!in_array($field, $fields, true)) {
+                throw new LogicException(sprintf(
+                    'The row title "%s" of grid "%s" is not a column.',
+                    $field,
+                    $this->id,
+                ));
+            }
+        }
     }
 
     /**

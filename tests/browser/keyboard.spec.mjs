@@ -76,29 +76,73 @@ test.describe('grid', () => {
     const bar = page.getByRole('search', { name: 'Filters' });
     const rows = page.locator('#staff tbody tr');
     const names = () => page.locator('#staff tbody td:first-child').allTextContents();
-    await expect(rows).toHaveCount(5);
+    // Each change asks the test server, which serves one request at a time: allow for a slow machine.
+    const slow = { timeout: 15_000 };
+    await expect(rows).toHaveCount(5, slow);
 
     // A select: the arrow keys choose an option, and the endpoint answers.
     await bar.getByLabel('Role').focus();
     await bar.getByLabel('Role').selectOption('admin');
-    await expect.poll(names).toEqual(['Ada Lovelace', 'Grace Hopper', 'Margaret Hamilton']);
+    await expect.poll(names, slow).toEqual(['Ada Lovelace', 'Grace Hopper', 'Margaret Hamilton']);
 
     // A yes/no filter, then a date range whose last day is included.
     await bar.getByLabel('Active').selectOption('1');
-    await expect.poll(names).toEqual(['Ada Lovelace', 'Grace Hopper']);
+    await expect.poll(names, slow).toEqual(['Ada Lovelace', 'Grace Hopper']);
     await bar.getByRole('group', { name: 'Joined' }).getByLabel('To').fill('2026-01-31');
-    await expect.poll(names).toEqual(['Ada Lovelace', 'Grace Hopper']);
+    await expect.poll(names, slow).toEqual(['Ada Lovelace', 'Grace Hopper']);
     await bar.getByRole('group', { name: 'Joined' }).getByLabel('From').fill('2026-01-31');
-    await expect.poll(names).toEqual(['Ada Lovelace']);
+    await expect.poll(names, slow).toEqual(['Ada Lovelace']);
 
     // Clear filters, then a text filter that matches part of a name, ignoring case.
     await bar.getByRole('button', { name: 'Clear filters' }).focus();
     await page.keyboard.press('Enter');
-    await expect(rows).toHaveCount(5);
+    await expect(rows).toHaveCount(5, slow);
     await expect(bar.getByLabel('Role')).toHaveValue('');
     await bar.getByRole('searchbox', { name: 'Name' }).focus();
     await page.keyboard.type('HAM');
-    await expect.poll(names).toEqual(['Margaret Hamilton']);
+    await expect.poll(names, slow).toEqual(['Margaret Hamilton']);
+  });
+
+  test('a row action asks first: Cancel and Escape keep the row; confirming deletes it and moves focus on', async ({ page }) => {
+    const grid = page.locator('#users');
+    const remove = grid.getByRole('button', { name: 'Delete Ada Lovelace' });
+    await expect(grid.getByRole('link', { name: 'View Ada Lovelace' })).toHaveAttribute('href', '/users/1');
+
+    // The dialog is an alert dialog titled by the question; Cancel has the focus.
+    await remove.focus();
+    await page.keyboard.press('Enter');
+    const dialog = page.getByRole('alertdialog', { name: 'Delete Ada Lovelace?' });
+    await expect(dialog).toBeVisible();
+    await expect(dialog).toHaveAccessibleDescription('This cannot be undone.');
+    await expect(dialog.getByRole('button', { name: 'Cancel' })).toBeFocused();
+    await page.keyboard.press('Enter');
+    await expect(dialog).toBeHidden();
+    await expect(remove).toBeFocused();
+
+    await page.keyboard.press('Enter');
+    await expect(dialog).toBeVisible();
+    await page.keyboard.press('Escape');
+    await expect(dialog).toBeHidden();
+    await expect(remove).toBeFocused();
+    await expect(grid.locator('tbody tr')).toHaveCount(2);
+
+    // Confirmed: the endpoint answers with a message, shown in a toast; the row is gone and
+    // focus is on the Delete button of the row that took its place.
+    await page.keyboard.press('Enter');
+    await page.keyboard.press('Tab');
+    await expect(dialog.getByRole('button', { name: 'Delete' })).toBeFocused();
+    await page.keyboard.press('Enter');
+    // The endpoint answers through the test server: allow for a slow machine.
+    await expect(page.locator('.notyf')).toContainText('User 1 was deleted.', { timeout: 15_000 });
+    await expect(grid.getByRole('button', { name: 'Delete Ada Lovelace' })).toHaveCount(0);
+    await expect(grid.getByRole('button', { name: 'Delete Alan Turing' })).toBeFocused();
+  });
+
+  test('a server-side grid\'s row action sends its request and reloads the page of rows', async ({ page }) => {
+    const grid = page.locator('#staff');
+    await grid.getByRole('button', { name: 'Deactivate Grace Hopper' }).click();
+    await expect(page.locator('.notyf')).toContainText('Grace Hopper was deactivated.', { timeout: 15_000 });
+    await expect(grid.getByRole('button', { name: 'Deactivate Grace Hopper' })).toBeFocused({ timeout: 15_000 });
   });
 });
 

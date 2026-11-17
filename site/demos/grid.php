@@ -1,5 +1,6 @@
 <?php
 
+use Celerik\Ui\Components\Action;
 use Celerik\Ui\Components\Grid;
 use Celerik\Ui\Components\Grid\Column;
 use Celerik\Ui\Components\Grid\Filter;
@@ -14,6 +15,14 @@ return Grid::make('users')
     ])))
     ->column('remote', 'Remote', static fn (Column $column) => $column->filter(Filter::boolean()))
     ->column('joined', 'Joined', static fn (Column $column) => $column->filter(Filter::dateRange()))
+    ->actions(
+        Action::link('profile', 'Profile', '?member={name}'),
+        // The demo answers requests in the browser: nothing is saved.
+        Action::request('remove', 'Remove', '/demo-api/members/{name}')
+            ->method('DELETE')
+            ->variant('danger')
+            ->confirm('Remove {name}?', 'They lose access to the team.'),
+    )
     ->export('copy', 'csv')
     ->pageSize(5)
     ->rows([

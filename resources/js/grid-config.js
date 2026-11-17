@@ -1,3 +1,4 @@
+import { rowActionsHtml } from './action.js';
 import { deepMerge } from './core.js';
 
 // Celerik endpoints answer {data, meta}; DataTables expects its own envelope.
@@ -98,6 +99,22 @@ export function buildGridConfig(options, { filters = null } = {}) {
     searching: options.searchable !== false || hasFilters,
     autoWidth: false,
   };
+  // The actions column (Grid::actions()): PHP renders its buttons in client-side rows; rows
+  // from the endpoint get the same markup here.
+  const actions = options.actions ?? [];
+  if (actions.length > 0) {
+    config.columns.push({
+      data: options.url ? null : 'celerikActions',
+      title: options.actionsTitle ?? 'Actions',
+      orderable: false,
+      searchable: false,
+      className: 'celerik-grid-actions',
+      defaultContent: '',
+      ...(options.url ? {
+        render: (data, type, row) => (type === 'display' ? rowActionsHtml(actions, row, options.rowTitle) : ''),
+      } : {}),
+    });
+  }
   if (options.searchable === false && hasFilters) {
     config.layout = { topEnd: null };
   }
@@ -120,7 +137,11 @@ export function buildGridConfig(options, { filters = null } = {}) {
   }
 
   if (options.export?.length) {
-    config.layout = { ...config.layout, topStart: ['pageLength', { buttons: options.export }] };
+    // Exports leave the actions column out.
+    const buttons = actions.length > 0
+      ? options.export.map((extend) => ({ extend, exportOptions: { columns: ':not(.celerik-grid-actions)' } }))
+      : options.export;
+    config.layout = { ...config.layout, topStart: ['pageLength', { buttons }] };
   }
 
   return deepMerge(config, options.options);

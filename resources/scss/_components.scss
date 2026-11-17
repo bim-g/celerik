@@ -36,6 +36,40 @@
   }
 }
 
+// Actions (Action::link(), Action::request()). A request action is a form around its
+// button, laid out like the button. Outline buttons take the text-emphasis colors, which
+// keep 4.5:1 in light and dark mode (Bootstrap's own outline colors drop to about 3.3:1 on
+// the dark background); secondary takes the body color and the field border (3:1).
+.celerik-action {
+  display: inline-block;
+}
+
+.celerik-action-button {
+  @each $variant in primary, success, danger, warning, info {
+    &.btn-outline-#{$variant} {
+      --bs-btn-color: var(--bs-#{$variant}-text-emphasis);
+      --bs-btn-border-color: var(--bs-#{$variant}-text-emphasis);
+    }
+  }
+
+  &.btn-outline-secondary {
+    --bs-btn-color: var(--bs-body-color);
+    --bs-btn-border-color: var(--celerik-input-border);
+  }
+}
+
+// A grid's actions column: as narrow as its buttons, which stay on one line when they fit.
+.celerik-grid .celerik-grid-actions {
+  width: 1%;
+  white-space: nowrap;
+}
+
+.celerik-grid-action-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+}
+
 // The grid's filter bar (Column::filter()). Clear filters: Bootstrap's outline-secondary
 // text is #6c757d, 3.3:1 on its dark background; the body color and the field border
 // (3:1) keep it readable in both modes.
@@ -116,7 +150,9 @@
 }
 
 // Event dialog (scheduler-dialog.js): a native <dialog> in the top layer, on Bootstrap colors.
-.celerik-scheduler-dialog {
+// The scheduler's event dialog and an action's confirmation (action.js).
+.celerik-scheduler-dialog,
+.celerik-action-dialog {
   width: min(28rem, calc(100vw - 2rem));
   padding: 1.5rem;
   color: var(--bs-body-color);
@@ -812,9 +848,10 @@
 @media (forced-colors: active) {
   // !important: FullCalendar and elFinder remove outlines with more specific selectors.
   :is(.dt-container, .celerik-grid-filters, .celerik-form, .celerik-scheduler, .celerik-scheduler-dialog, .celerik-tabs,
-    .celerik-filemanager, .celerik-theme-builder,
+    .celerik-filemanager, .celerik-theme-builder, .celerik-action-dialog,
     .celerik-modal, .notyf)
     :focus-visible,
+  .celerik-action-button:focus-visible,
   // A date field's focus is on its day, month and year parts or its calendar button,
   // inside the field: it matches :focus-within, not always :focus-visible.
   .celerik-grid-filters input[type='date']:focus-within,

@@ -19,7 +19,48 @@ export function initGrid(element, options) {
   if (hasFilters) {
     enhanceFilters(grid, bar, columns, current, Boolean(options.url));
   }
+  if (options.actions?.length) {
+    refreshAfterActions(grid, element, Boolean(options.url));
+  }
   return grid;
+}
+
+// After a row action succeeds: a server-side grid reloads its page; a client-side grid
+// removes a deleted row. Focus moves to the same action in the row that takes its place,
+// or to the table when the page is empty, so it is not lost with the row.
+function refreshAfterActions(grid, element, serverSide) {
+  element.addEventListener('celerik:action', (event) => {
+    const { ok, method, name } = event.detail ?? {};
+    const row = event.target.closest('tr');
+    if (!ok || !row) {
+      return;
+    }
+    const rows = [...element.tBodies[0].rows];
+    const position = rows.indexOf(row);
+    const hadFocus = row.contains(document.activeElement) || document.activeElement === document.body;
+    const refocus = () => {
+      if (!hadFocus) {
+        return;
+      }
+      const current = [...element.tBodies[0].rows];
+      const target = [...(current[Math.min(position, current.length - 1)]?.querySelectorAll('[data-celerik-action]') ?? [])]
+        .find((form) => form.dataset.celerikAction === name)?.querySelector('button');
+      if (target) {
+        target.focus();
+      } else {
+        element.setAttribute('tabindex', '-1');
+        element.focus();
+      }
+    };
+
+    if (serverSide) {
+      grid.one('draw', refocus);
+      grid.ajax.reload(null, false);
+    } else if (method === 'DELETE') {
+      grid.row(row).remove().draw(false);
+      refocus();
+    }
+  });
 }
 
 function enhanceFilters(grid, bar, columns, current, serverSide) {

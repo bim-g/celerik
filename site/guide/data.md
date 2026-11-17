@@ -68,6 +68,22 @@ A data source of your own should apply both. `DataRequest::containsPattern($valu
 
 Write your own by implementing `Data\DataSourceInterface::fetch(DataRequest $request): DataResult`.
 
+## Actions
+
+A [request action](../components/actions) (`Action::request()`), for example a grid's Delete button, sends its method to its URL with these headers:
+- `Accept: application/json`;
+- `X-Requested-With: XMLHttpRequest`;
+- the CSRF token, in `X-CSRF-TOKEN` by default.
+
+The body is the action's form: `_method`, and the token in `_token`.
+
+Answer with JSON. A `message` is shown in a toast, a success for a 2xx status and an error otherwise:
+
+```php
+// DELETE /members/{id}
+echo json_encode(['message' => 'Ada Lovelace was deleted.']);
+```
+
 ## Chart
 
 A chart with `url()` fetches `{"data": {"labels": [...], "datasets": [...]}}` and builds its data table text alternative from it:
@@ -124,5 +140,5 @@ Changes arrive as `{"id", "title", "start", "end", "allDay"}`. Validate them wit
 ## Security
 
 - Put endpoints behind your authorization, like any other route.
-- Changes (Scheduler, uploads, the File Manager, the ThemeBuilder) must check the CSRF token: Laravel does it for the `X-CSRF-TOKEN` header; in Symfony and plain PHP check it yourself.
+- Changes (actions, Scheduler, uploads, the File Manager, the ThemeBuilder) must check the CSRF token: Laravel does it for the `X-CSRF-TOKEN` header; in Symfony and plain PHP check it yourself.
 - Answer bad input with 400 or 422 and a message, not 500.

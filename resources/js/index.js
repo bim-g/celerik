@@ -21,6 +21,16 @@ async function notify(type, message) {
   return (await import('./notification.js')).notify(type, message);
 }
 
+// Request actions (Action::request()) anywhere on the page, including rows a grid draws
+// later: one listener asks for confirmation and sends the request.
+document.addEventListener('submit', (event) => {
+  const form = event.target;
+  if (form instanceof HTMLFormElement && form.matches('form.celerik-action')) {
+    event.preventDefault();
+    import('./action.js').then(({ submitAction }) => submitAction(form));
+  }
+});
+
 const Celerik = { register, init, notify };
 window.Celerik = Celerik;
 
