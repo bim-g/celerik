@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace Celerik\Ui\Adapters\Symfony;
 
+use Celerik\Ui\Data\Aggregate;
 use Celerik\Ui\Data\DataRequest;
 use Celerik\Ui\Data\DataResult;
 use Celerik\Ui\Data\DataSourceInterface;
+use Celerik\Ui\Support\Arr;
 use Doctrine\ORM\QueryBuilder;
 
 /**
@@ -80,6 +82,15 @@ final class DoctrineDataSource implements DataSourceInterface
 
         $filtered = $this->count($query, $alias);
 
+        $totals = [];
+        foreach ($request->totals as $field => $function) {
+            $totals[$field] = Aggregate::number($this->aggregates($query)
+                ->select(sprintf('%s(%s)', strtoupper($function), $this->path($alias, $field)))
+                ->getQuery()
+                ->getSingleScalarResult());
+        }
+        $grouped = clone $query;
+
         foreach ($request->sort as $rule) {
             $query->addOrderBy($this->path($alias, $rule['field']), $rule['direction']);
         }
@@ -90,7 +101,86 @@ final class DoctrineDataSource implements DataSourceInterface
             ->getQuery()
             ->getArrayResult();
 
-        return new DataResult($rows, $total, $filtered, $request);
+        $groups = $request->groupBy === null
+            ? []
+            : $this->groups($grouped, $alias, $request->groupBy, $request->totals, $rows);
+
+        return new DataResult($rows, $total, $filtered, $request, $totals, $groups);
+    }
+
+    /**
+     * The groups of the page's rows, counted and totalled in one GROUP BY query.
+     *
+     * @param array<string, string> $totals
+     * @param list<array<string, mixed>> $rows
+     * @return list<array{value: mixed, count: int, totals: array<string, int|float|null>}>
+     */
+    private function groups(QueryBuilder $query, string $alias, string $field, array $totals, array $rows): array
+    {
+        $values = [];
+        foreach ($rows as $row) {
+            $value = Arr::get($row, $field);
+            $values[Aggregate::groupKey($value)] ??= $value;
+        }
+        if ($values === []) {
+            return [];
+        }
+
+        $path = $this->path($alias, $field);
+        $base = $this->aggregates($query)
+            ->select($path . ' AS celerik_group')
+            ->addSelect('COUNT(DISTINCT ' . $alias . ') AS celerik_count');
+        $index = 0;
+        foreach ($totals as $total => $function) {
+            $base->addSelect(sprintf(
+                '%s(%s) AS celerik_total_%d',
+                strtoupper($function),
+                $this->path($alias, $total),
+                $index++,
+            ));
+        }
+        $present = array_values(array_filter($values, static fn (mixed $value): bool => $value !== null));
+        $where = $base->expr()->orX();
+        if ($present !== []) {
+            $where->add($path . ' IN (:celerik_groups)');
+            $base->setParameter('celerik_groups', $present);
+        }
+        if (in_array(null, $values, true)) {
+            $where->add($path . ' IS NULL');
+        }
+        $base->andWhere($where)->groupBy($path);
+
+        $found = [];
+        /** @var array<string, mixed> $result */
+        foreach ($base->getQuery()->getArrayResult() as $result) {
+            $sums = [];
+            $index = 0;
+            foreach ($totals as $total => $function) {
+                $sums[$total] = Aggregate::number($result['celerik_total_' . $index++]);
+            }
+            $found[Aggregate::groupKey($result['celerik_group'])] = [
+                'count' => (int) $result['celerik_count'],
+                'totals' => $sums,
+            ];
+        }
+
+        $groups = [];
+        foreach ($values as $key => $value) {
+            $groups[] = ['value' => $value] + ($found[$key] ?? ['count' => 0, 'totals' => []]);
+        }
+
+        return $groups;
+    }
+
+    /**
+     * The filtered query, unsorted and unpaged, to compute totals on.
+     */
+    private function aggregates(QueryBuilder $query): QueryBuilder
+    {
+        return (clone $query)
+            ->resetDQLPart('orderBy')
+            ->setFirstResult(0)
+            ->setMaxResults(null);
     }
 
     private function count(QueryBuilder $queryBuilder, string $alias): int

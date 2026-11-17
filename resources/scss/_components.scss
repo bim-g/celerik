@@ -93,6 +93,45 @@
   margin-top: 0.75rem;
 }
 
+// Column totals (Column::total()) in the footer and in group headings (Grid::groupBy()).
+.celerik-grid tfoot td {
+  border-top: 2px solid var(--bs-border-color);
+  font-weight: 600;
+}
+
+.celerik-grid-total {
+  white-space: nowrap;
+}
+
+.celerik-grid-total-label {
+  margin-right: 0.25rem;
+  color: var(--bs-secondary-color);
+  font-size: 0.875em;
+  font-weight: 400;
+}
+
+.celerik-grid-total-value {
+  font-variant-numeric: tabular-nums;
+}
+
+// A group's heading row: its name, its row count and its totals.
+.celerik-grid .celerik-grid-group > * {
+  background-color: var(--bs-tertiary-bg);
+  --bs-table-bg-type: var(--bs-tertiary-bg);
+  --bs-table-bg-state: var(--bs-tertiary-bg);
+}
+
+.celerik-grid-group th {
+  font-weight: 600;
+}
+
+.celerik-grid-group-count {
+  margin-left: 0.25rem;
+  color: var(--bs-secondary-color);
+  font-size: 0.875em;
+  font-weight: 400;
+}
+
 // A grid's Columns menu (Grid::columnToggle()): a panel of checkboxes under its button.
 .celerik-grid-columns {
   position: relative;

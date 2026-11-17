@@ -1,5 +1,5 @@
 import {
-  buildGridConfig, filterParams, matchesFilters, readFilters, toDataTablesResponse,
+  buildGridConfig, filterParams, matchesFilters, readFilters,
 } from '../../resources/js/grid-config.js';
 import { initGrid } from '../../resources/js/grid.js';
 import { readOptions } from '../../resources/js/core.js';
@@ -17,26 +17,22 @@ describe('grid config', () => {
     expect(config.serverSide).toBeUndefined();
   });
 
-  test('enables server-side mode and converts the Celerik envelope', () => {
+  test('enables server-side mode and reads the Celerik envelope', () => {
     const config = buildGridConfig({ columns: [], url: '/users/data' });
-    const raw = JSON.stringify({ data: [{ name: 'Ada' }], meta: { draw: 4, total: 10, filtered: 1 } });
 
     expect(config.serverSide).toBe(true);
-    expect(JSON.parse(config.ajax.dataFilter(raw))).toEqual({
-      draw: 4,
-      recordsTotal: 10,
-      recordsFiltered: 1,
-      data: [{ name: 'Ada' }],
+    // DataTables reads these paths in {data, meta}: rows, the draw counter and the counts.
+    expect(config.ajax.dataSrc).toEqual({
+      data: 'data',
+      draw: 'meta.draw',
+      recordsTotal: 'meta.total',
+      recordsFiltered: 'meta.filtered',
     });
   });
 
   test('raw options from PHP override generated ones', () => {
     expect(buildGridConfig({ columns: [], options: { pageLength: 5, order: [[0, 'desc']] } }))
       .toMatchObject({ pageLength: 5, order: [[0, 'desc']] });
-  });
-
-  test('toDataTablesResponse tolerates a missing meta block', () => {
-    expect(toDataTablesResponse({ data: [1, 2] })).toEqual({ draw: 0, recordsTotal: 2, recordsFiltered: 2, data: [1, 2] });
   });
 });
 

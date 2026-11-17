@@ -46,6 +46,10 @@ final class DataRequest
      * @param list<array{field: string, operator: 'contains'|'gte'|'lt', value: string}> $conditions
      *     Typed filters: `contains` (ignoring case), `gte` (on or after) and `lt` (before). A date
      *     range's last day is included: its `lt` value is the next day.
+     * @param array<string, string> $totals Column totals, field => function (see Aggregate), over
+     *     every row that passes the search and filters.
+     * @param string|null $groupBy The field rows are grouped by: rows are sorted by it first, and
+     *     the source counts and totals the groups on the page.
      */
     public function __construct(
         public readonly int $page = 1,
@@ -56,6 +60,8 @@ final class DataRequest
         public readonly array $searchFields = [],
         public readonly int $draw = 0,
         public readonly array $conditions = [],
+        public readonly array $totals = [],
+        public readonly ?string $groupBy = null,
     ) {
     }
 
@@ -65,6 +71,9 @@ final class DataRequest
      * @param list<string>|null $searchable Fields searched and allowed as filters; null allows any valid field name.
      * @param array<string, 'text'|'exact'|'boolean'|'dateRange'> $filterTypes Typed filters, field => type.
      *     These fields are filtered only as their type says, whether searchable or not.
+     * @param array<string, string> $totals Column totals the source computes, field => function.
+     * @param string|null $groupBy A field to group by: the sort starts with it, ascending unless
+     *     the client sorts it descending first.
      */
     public static function fromArray(
         array $query,
@@ -72,6 +81,8 @@ final class DataRequest
         ?array $searchable = null,
         int $defaultPerPage = 10,
         array $filterTypes = [],
+        array $totals = [],
+        ?string $groupBy = null,
     ): self {
         $isDataTables = isset($query['draw']) || isset($query['start']);
 
@@ -97,6 +108,24 @@ final class DataRequest
             $sort,
             static fn (array $rule): bool => self::isAllowed($rule['field'], $sortable),
         ));
+
+        if ($groupBy !== null && self::isValidField($groupBy)) {
+            $first = $sort[0] ?? null;
+            $direction = $first !== null && $first['field'] === $groupBy ? $first['direction'] : 'asc';
+            $sort = [
+                ['field' => $groupBy, 'direction' => $direction],
+                ...array_values(array_filter($sort, static fn (array $rule): bool => $rule['field'] !== $groupBy)),
+            ];
+        } else {
+            $groupBy = null;
+        }
+
+        $cleanTotals = [];
+        foreach ($totals as $field => $function) {
+            if (is_string($field) && self::isValidField($field) && in_array($function, Aggregate::FUNCTIONS, true)) {
+                $cleanTotals[$field] = $function;
+            }
+        }
 
         $cleanFilters = [];
         foreach ($filters as $field => $value) {
@@ -154,6 +183,8 @@ final class DataRequest
             searchFields: $searchable ?? [],
             draw: max(0, self::int($query['draw'] ?? 0)),
             conditions: $conditions,
+            totals: $cleanTotals,
+            groupBy: $groupBy,
         );
     }
 

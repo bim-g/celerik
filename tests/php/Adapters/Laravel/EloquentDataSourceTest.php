@@ -110,4 +110,26 @@ final class EloquentDataSourceTest extends TestCase
         self::assertSame(['Ada', 'Grace'], $names(['role' => 'admin', 'name' => 'A']));
         self::assertSame(['50% Off'], $names(['name' => '%']));
     }
+
+    public function testTotalsAndGroupsTheFilteredRows(): void
+    {
+        $grid = Grid::make('people')
+            ->column('name', 'Name', static fn (Column $c) => $c->total('count'))
+            ->column('role')
+            ->column('id', 'ID', static fn (Column $c) => $c->total('max'))
+            ->groupBy('role');
+
+        $result = $grid->respond(new EloquentDataSource(Person::query()), [
+            'per_page' => '3',
+            'sort' => 'name',
+            'search' => 'a',
+        ]);
+
+        self::assertSame(['Ada', 'Grace', 'Alan'], array_column($result->rows, 'name'));
+        self::assertSame(['name' => 3, 'id' => 3], $result->totals);
+        self::assertSame([
+            ['value' => 'admin', 'count' => 2, 'totals' => ['name' => 2, 'id' => 3]],
+            ['value' => 'user', 'count' => 1, 'totals' => ['name' => 1, 'id' => 2]],
+        ], $result->groups);
+    }
 }

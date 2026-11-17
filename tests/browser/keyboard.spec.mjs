@@ -152,6 +152,33 @@ test.describe('grid', () => {
     await expect(page.locator('#staff_wrapper .dt-search input')).toBeFocused();
   });
 
+  test('a grouped server-side grid heads each group, totals the filtered rows and keeps groups when sorted', async ({ page }) => {
+    const grid = page.locator('#budget');
+    const slow = { timeout: 15_000 };
+    const headings = grid.locator('tbody tr.celerik-grid-group');
+    const items = () => grid.locator('tbody tr:not(.celerik-grid-group) td:nth-child(2)').allTextContents();
+
+    await expect(headings).toHaveCount(2, slow);
+    // The row counts come from the endpoint's meta.
+    await expect(page.locator('#budget_wrapper .dt-info')).toHaveText('Showing 1 to 4 of 6 entries');
+    await expect(headings.nth(0)).toHaveText(/Design\s*2 rows\s*Total 2,800\s*Average 3\.0/);
+    // A group's count and totals cover the whole group: Dinner is on the next page.
+    await expect(headings.nth(1)).toHaveText(/Sales\s*3 rows\s*Total 2,095\.50\s*Average 3\.3/);
+    await expect(grid.locator('tfoot')).toHaveText(/Total 5,045\.50\s*Average 2\.8/);
+    expect(await grid.getByRole('rowheader', { name: /Design/ }).count()).toBe(1);
+    expect(await axeViolations(page, { include: '#budget' })).toEqual([]);
+
+    // Sorting by Amount sorts within each group.
+    await grid.getByRole('columnheader', { name: /Amount/ }).getByRole('button', { name: /Amount: Activate to sort/ }).focus();
+    await page.keyboard.press('Enter');
+    await expect.poll(items, slow).toEqual(['Fonts', 'Laptop', 'Dinner', 'Hotel']);
+
+    await page.locator('#budget_wrapper .dt-search input').fill('Hotel');
+    await expect(headings).toHaveCount(1, slow);
+    await expect(headings).toHaveText(/Sales\s*1 row\s*Total 800\s*Average 5\.0/);
+    await expect(grid.locator('tfoot')).toHaveText(/Total 800\s*Average 5\.0/);
+  });
+
   test('the Columns menu shows and hides columns from the keyboard, and remembers them', async ({ page }) => {
     const wrapper = page.locator('#users_wrapper');
     const button = wrapper.getByRole('button', { name: 'Columns' });

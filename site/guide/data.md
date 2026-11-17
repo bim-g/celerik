@@ -58,6 +58,25 @@ filter[ordered_at][to]=2026-01-31
 
 A data source of your own should apply both. `DataRequest::containsPattern($value)` gives a `contains` value as a LIKE pattern, to use with `ESCAPE '!'`.
 
+### Totals and groups
+
+A grid with [column totals or groups](../components/grid#totals-and-groups) adds two things to the `DataRequest`:
+
+- `$request->totals`: the totals to compute, `field => function` (`sum`, `avg`, `count`, `min` or `max`), over every row that passes the search and filters;
+- `$request->groupBy`: the field the rows are grouped by. The request is already sorted by it first.
+
+The data source returns them in the `DataResult`, which the endpoint's answer carries in `meta`:
+
+```json
+"totals": { "amount": 5045.5 },
+"groups": [
+  { "value": "Design", "count": 2, "totals": { "amount": 2800 } },
+  { "value": "Sales", "count": 3, "totals": { "amount": 2095.5 } }
+]
+```
+
+`groups` lists the groups of the page's rows, each counted and totalled over all its filtered rows. The built-in sources do this in one query per total, and one `GROUP BY` query for the groups. In a source of your own, `Data\Aggregate::compute($function, $values)` totals PHP values as SQL does, and a request without totals or a group needs nothing new.
+
 ### Data sources
 
 | Source | For |

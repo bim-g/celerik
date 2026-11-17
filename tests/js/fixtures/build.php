@@ -126,6 +126,23 @@ $fixtures = [
         ->emptyState('No invitations yet', 'Invite your team to get started.', Action::link('invite', 'Invite', '/invite'))
         ->rows([]),
 
+    'grid-totals' => Grid::make('expenses')
+        ->caption('Expenses')
+        ->column('team', 'Team')
+        ->column('item', 'Item')
+        ->column('amount', 'Amount', static fn (Column $c) => $c->total())
+        ->column('hours', 'Hours', static fn (Column $c) => $c->total('avg'))
+        ->groupBy('team')
+        ->pageSize(3)
+        ->pageSizes([3, 10])
+        ->rows([
+            ['team' => 'Sales', 'item' => 'Flights', 'amount' => 1200.5, 'hours' => 3],
+            ['team' => 'Design', 'item' => 'Fonts', 'amount' => 300, 'hours' => 2],
+            ['team' => 'Sales', 'item' => 'Hotel', 'amount' => 800, 'hours' => 5],
+            ['team' => 'Design', 'item' => 'Laptop', 'amount' => 2500, 'hours' => 4],
+            ['team' => 'Support', 'item' => 'Headsets', 'amount' => 150, 'hours' => 1],
+        ]),
+
     'chart' => Chart::make('sales')
         ->type('bar')
         ->title('Monthly revenue')

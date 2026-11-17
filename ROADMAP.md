@@ -55,7 +55,7 @@ Tables and lists that do the work of an admin screen.
   - column filters (text, select, yes/no, date range) ✅;
   - row actions (view, edit, delete with confirmation) ✅;
   - row selection with bulk actions ✅;
-  - column totals and grouping;
+  - column totals and grouping ✅;
   - columns the user can show or hide ✅;
   - inline editing;
   - an empty state ✅.

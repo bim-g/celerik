@@ -31,6 +31,13 @@ for (const theme of THEMES) {
         expect(await axeViolations(page, { include: '.modal.show' })).toEqual([]);
       });
 
+      test('no axe-core violations in a grouped grid with totals', async ({ page }) => {
+        await openComponents(page, { theme, mode });
+        // The endpoint answers through the test server: allow for a slow machine.
+        await expect(page.locator('#budget tr.celerik-grid-group')).toHaveCount(2, { timeout: 15_000 });
+        expect(await axeViolations(page, { include: '#budget' })).toEqual([]);
+      });
+
       test('no axe-core violations with a row action\'s confirmation open', async ({ page }) => {
         await openComponents(page, { theme, mode });
         await page.locator('#users').getByRole('button', { name: 'Delete Ada Lovelace' }).click();

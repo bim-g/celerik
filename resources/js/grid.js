@@ -3,6 +3,7 @@ import 'datatables.net-buttons-bs5';
 import 'datatables.net-buttons/js/buttons.html5.mjs';
 import 'datatables.net-buttons/js/buttons.print.mjs';
 import { connectColumnMenu, createColumnMenu, toggleableColumns } from './grid-columns.js';
+import { connectSummary } from './grid-summary.js';
 import {
   buildGridConfig, matchesFilters, readFilters,
 } from './grid-config.js';
@@ -31,6 +32,7 @@ export function initGrid(element, options) {
     enableSelection(grid, element, options.selection, Boolean(options.url));
   }
   enableReset(grid, element, bar, filters);
+  connectSummary(grid, element, options);
   return grid;
 }
 

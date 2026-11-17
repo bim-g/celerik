@@ -26,6 +26,14 @@ describe('accessibility (axe-core, WCAG 2.1 AA)', () => {
     grid.destroy();
   });
 
+  test('grid with totals and groups, before and after DataTables', async () => {
+    const table = loadFixture('grid-totals');
+    expect(await violations()).toEqual([]);
+    const grid = initGrid(table, readOptions(table));
+    expect(await violations()).toEqual([]);
+    grid.destroy();
+  });
+
   test('scheduler markup from PHP (no-JS fallback list)', async () => {
     loadFixture('scheduler');
     expect(await violations()).toEqual([]);

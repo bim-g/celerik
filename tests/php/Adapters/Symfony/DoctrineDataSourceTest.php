@@ -6,6 +6,7 @@ namespace Celerik\Ui\Tests\Adapters\Symfony;
 
 use Celerik\Ui\Adapters\Symfony\DoctrineDataSource;
 use Celerik\Ui\Components\Grid;
+use Celerik\Ui\Components\Grid\Column;
 use Celerik\Ui\Data\DataRequest;
 use Celerik\Ui\Tests\Adapters\Symfony\Entity\Author;
 use Celerik\Ui\Tests\Adapters\Symfony\Entity\Book;
@@ -160,5 +161,27 @@ final class DoctrineDataSourceTest extends TestCase
         return $this->em->createQueryBuilder()
             ->select('b.id, b.title, b.genre, b.pages')
             ->from(Book::class, 'b');
+    }
+
+    public function testTotalsAndGroupsTheFilteredRows(): void
+    {
+        $grid = Grid::make('books')
+            ->column('title')
+            ->column('genre')
+            ->column('pages', 'Pages', static fn (Column $c) => $c->total())
+            ->groupBy('genre');
+        $query = $this->em->createQueryBuilder()->select('b.title, b.genre, b.pages')->from(Book::class, 'b');
+
+        $result = $grid->respond(new DoctrineDataSource($query, ['title']), ['per_page' => '3', 'sort' => 'title']);
+
+        self::assertSame(['100% Machines', 'Poetical Science', 'Under_score Tales'], array_column($result->rows, 'title'));
+        self::assertSame(['pages' => 711], $result->totals);
+        self::assertSame([
+            ['value' => 'Essay', 'count' => 2, 'totals' => ['pages' => 345]],
+            ['value' => 'Fiction', 'count' => 1, 'totals' => ['pages' => 210]],
+        ], $result->groups);
+
+        $science = $grid->respond(new DoctrineDataSource($query, ['title']), ['search' => 'science']);
+        self::assertSame(['pages' => 201], $science->totals);
     }
 }

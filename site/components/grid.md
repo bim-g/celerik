@@ -1,6 +1,6 @@
 # Grid
 
-A data table on [DataTables 3](https://datatables.net/): sorting, search, column filters, columns the user can show or hide, row actions, row selection with bulk actions, paging and export, client-side or server-side.
+A data table on [DataTables 3](https://datatables.net/): sorting, search, column filters, column totals and row groups, columns the user can show or hide, row actions, row selection with bulk actions, paging and export, client-side or server-side.
 
 <Demo name="grid" :min-height="640" />
 
@@ -31,12 +31,13 @@ echo json_encode($grid->respond(new ArrayDataSource($rows), $_GET));
 | `searchable(false)` | Hides the search box. |
 | `export('copy', 'csv', 'print')` | Export buttons. |
 | `actions(Action ...$actions)` | Buttons for each row, in a last column (see [Row actions](#row-actions)). |
+| `groupBy($field)` | Groups the rows by a column, with a heading row per group (see [Totals and groups](#totals-and-groups)). |
 | `emptyState($title, $description = null, $action = null)` | What the grid shows when it has no rows (see [Empty states](#empty-states)). |
 | `columnToggle($enabled = true, $remember = true)` | A Columns menu to show or hide columns (see [Columns the user can show or hide](#columns-the-user-can-show-or-hide)). |
 | `selectable($key = 'id', $name = 'ids')` | A checkbox per row (see [Row selection](#row-selection-and-bulk-actions)). |
 | `bulkActions(Action ...$actions)` | Request actions for the selected rows, in a bar above the table. |
 | `rowTitle($field)` | The field that names a row in its buttons' and checkbox's accessible names. Default: the first visible column. |
-| `labels([...])` | Translates the filter bar, the actions column and the selection: `filters`, `any`, `yes`, `no`, `from`, `to`, `clear`, `actions`, `select`, `selectAll`, `selected` (with `{count}`), `noneSelected`, `bulkActions`, `columns`, `showColumns`, `empty`, `noMatches`, `reset`. |
+| `labels([...])` | Translates the filter bar, the actions column and the selection: `filters`, `any`, `yes`, `no`, `from`, `to`, `clear`, `actions`, `select`, `selectAll`, `selected` (with `{count}`), `noneSelected`, `bulkActions`, `columns`, `showColumns`, `empty`, `noMatches`, `reset`, the totals' `sum`, `avg`, `count`, `min`, `max`, the groups' `groupRow` and `groupRows` (with `{count}`) and `noGroup`, and the number separators `decimal` and `thousands`. |
 | `options([...])` | Raw DataTables options, applied last. |
 
 ### Columns
@@ -58,6 +59,7 @@ Grid::make('orders')
 | `initiallyHidden()` | Hidden until the user shows it from the Columns menu. |
 | `className($class)`, `width($width)` | CSS class of the cells, and the column width. |
 | `filter(Filter::text())` | A filter in the filter bar (see [Column filters](#column-filters)). |
+| `total($function = 'sum', $decimals = null)` | A total in the footer: `sum`, `avg`, `count`, `min` or `max` (see [Totals and groups](#totals-and-groups)). |
 
 ## Column filters
 
@@ -89,6 +91,31 @@ Grid::make('orders')
 - **Server-side**, the grid sends the filters to your endpoint, and `respond()` applies them through the data source: `ArrayDataSource`, `EloquentDataSource` and `DoctrineDataSource` all do (see [Data endpoints](../guide/data#column-filters)).
 - **Filters and search** work together, and a filter works on a column that is not `searchable()`. With `searchable(false)` on the grid, the search box is hidden and the filters keep working.
 - **Without JavaScript**, the filter bar is not shown, since it needs it to filter.
+
+## Totals and groups
+
+<Demo name="grid-totals" :min-height="520" />
+
+<<< @/demos/grid-totals.php
+
+A column with `total()` gets a total in the table's footer, and `groupBy()` groups the rows:
+
+```php
+Grid::make('expenses')
+    ->column('team', 'Team', static fn (Column $c) => $c->hidden())
+    ->column('item', 'Item')
+    ->column('amount', 'Amount', static fn (Column $c) => $c->total())         // sum
+    ->column('nights', 'Nights', static fn (Column $c) => $c->total('avg', 1)) // 1 decimal
+    ->groupBy('team');
+```
+
+- **Totals cover every row that passes the search and filters**, not only the page, and follow them as they change. Empty values are left out, as in SQL: `count` counts the others, and `sum`, `avg`, `min` and `max` only read numbers.
+- **Numbers** have no decimals for a count or a whole number, and 2 otherwise, unless you give `$decimals`. `labels(['decimal' => ',', 'thousands' => ' '])` sets the separators.
+- **Groups** are sorted first, whatever the user sorts by: sorting a column sorts the rows within each group. Each group on the page starts with a heading row that names it, says how many rows it has and gives its totals. Its count and totals cover the whole group, also when it goes on to the next page.
+- **The group column** can be `hidden()`: its value is in the heading row.
+- **Server-side**, `respond()` asks the data source for the totals and for the groups of the page, and the endpoint's answer carries them (see [Data endpoints](../guide/data#totals-and-groups)). The built-in sources compute them in the database.
+- **Without JavaScript**, the footer has the totals of all rows, and the rows are in group order.
+- **For screen readers**, a group's heading is a header cell for the rows that follow it (`<th scope="rowgroup">`), and the footer's totals sit under their column headers.
 
 ## Empty states
 
