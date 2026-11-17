@@ -54,7 +54,7 @@ test.describe('tabs', () => {
 
 test.describe('grid', () => {
   test('sorts from the keyboard and announces the sort order', async ({ page }) => {
-    // DataTables 2 puts the sort control in the header as a named button.
+    // DataTables puts the sort control in the header as a named button.
     const header = page.getByRole('columnheader', { name: /Name/ });
     const sort = header.getByRole('button', { name: /Name: Activate to sort/ });
     await sort.focus();

@@ -4,7 +4,7 @@ Every component is a PHP class with a fluent API. It renders accessible Bootstra
 
 | Component | PHP class | Library |
 |---|---|---|
-| [Grid](./grid) | `Celerik\Ui\Components\Grid` | DataTables 2 |
+| [Grid](./grid) | `Celerik\Ui\Components\Grid` | DataTables 3 |
 | [Chart](./chart) | `Celerik\Ui\Components\Chart` | Chart.js 4 |
 | [Form and fields](./form) | `Celerik\Ui\Components\Form`, `Form\Field` | Parsley.js, Inputmask |
 | [Searchable selects and tags](./form#searchable-and-multiple-selects) | `Field::select()->searchable()`, `Field::tags()` | Tom Select 2 |
