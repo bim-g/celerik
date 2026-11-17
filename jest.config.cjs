@@ -13,6 +13,9 @@ module.exports = {
     // Quill imports lodash-es (644 ES module files that every worker would transform);
     // the CommonJS build has the same API and needs no transform. Tests only.
     '^lodash-es$': 'lodash',
+    // The bundle imports the ES module builds of the DataTables Buttons; Jest loads their
+    // CommonJS builds, which read window.DataTable (set in setup.js).
+    '^(datatables\\.net-buttons/js/.*)\\.mjs$': '$1.js',
   },
   // With a cold cache (always the case in CI) the first test that imports Quill or
   // FilePond spends several seconds transforming them, beyond Jest's 5 s default.

@@ -25,4 +25,11 @@ if (typeof window !== 'undefined') {
 
   // jsdom has no canvas backend; axe-core probes it and only needs a null context.
   HTMLCanvasElement.prototype.getContext = () => null;
+
+  // Under CommonJS (Jest), DataTables 3 no longer sets window.DataTable, while its Buttons
+  // extension still reads window.DataTable.Buttons. The browser bundle uses the ES module
+  // builds, which pass DataTable along instead.
+  if (!window.DataTable) {
+    window.DataTable = require('datatables.net-bs5');
+  }
 }

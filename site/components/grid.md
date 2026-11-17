@@ -1,6 +1,6 @@
 # Grid
 
-A data table on [DataTables 2](https://datatables.net/): sorting, search, paging and export, client-side or server-side.
+A data table on [DataTables 3](https://datatables.net/): sorting, search, paging and export, client-side or server-side.
 
 <Demo name="grid" :min-height="420" />
 
