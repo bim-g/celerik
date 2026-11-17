@@ -16,6 +16,7 @@ The same version is published on Packagist (`celerik/ui`) and npm (`@celerikui/u
   - Each button is named with its label and the row's title, for example "Delete Ada Lovelace" (`Grid::rowTitle()`).
   - After a request succeeds, a server-side grid reloads its page, and a client-side grid removes a deleted row. Focus moves to the next row's button.
   - Exports leave the column out.
+- **Grid empty states**: `Grid::emptyState($title, $description, $action)` for a grid without rows. When search or filters match nothing, the grid says so, with a **Clear filters and search** button that moves focus back to the search box.
 - **Columns the user can show or hide**: `Grid::columnToggle()` adds a Columns menu, a disclosure with a checkbox per column.
   - `Column::toggleable(false)` keeps a column always shown, and `Column::initiallyHidden()` starts one hidden.
   - The choice is kept in `localStorage` per grid, unless `remember: false`.
@@ -29,6 +30,7 @@ The same version is published on Packagist (`celerik/ui`) and npm (`@celerikui/u
 
 ### Changed
 
+- A grid without rows, or without matches, shows Celerik's empty states instead of DataTables' "No data available in table" and "No matching records found".
 - Column filters find their column by name, so they keep working when a selection column comes first.
 - `ArrayDataSource` matches a true/false value with a `1`/`0` filter, as a database does, as well as with "Yes"/"No".
 

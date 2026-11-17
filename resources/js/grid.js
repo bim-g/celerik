@@ -32,7 +32,34 @@ export function initGrid(element, options) {
   if (options.selection) {
     enableSelection(grid, element, options.selection, Boolean(options.url));
   }
+  enableReset(grid, element, bar);
   return grid;
+}
+
+// "Clear filters and search" in the no-matches row: clears the search box and the filter bar
+// and draws again. The button goes with the row, so focus moves to the search box, or the
+// first filter, or the table.
+function enableReset(grid, element, bar) {
+  element.addEventListener('click', (event) => {
+    if (!event.target.closest('[data-celerik-grid-reset]')) {
+      return;
+    }
+    const container = grid.table().container();
+    const search = container.querySelector('.dt-search input');
+    bar?.querySelectorAll('[data-celerik-filter]').forEach((control) => {
+      control.value = '';
+    });
+    // The filter bar reads its fields again on change.
+    bar?.querySelector('[data-celerik-filter]')?.dispatchEvent(new Event('change', { bubbles: true }));
+    grid.search('').draw();
+    const target = search ?? bar?.querySelector('[data-celerik-filter]');
+    if (target) {
+      target.focus();
+    } else {
+      element.setAttribute('tabindex', '-1');
+      element.focus();
+    }
+  });
 }
 
 // Row selection (Grid::selectable()): the selected keys are kept across pages, filters and

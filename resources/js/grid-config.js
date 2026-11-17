@@ -163,6 +163,14 @@ export function buildGridConfig(options, { filters = null, columnMenu = null } =
     config.layout = { ...config.layout, topStart: ['pageLength', { buttons }] };
   }
 
+  // The empty state and the "no rows match" state (Grid::emptyState()), written by PHP.
+  if (options.emptyHtml || options.noMatchesHtml) {
+    config.language = {
+      ...(options.emptyHtml ? { emptyTable: options.emptyHtml } : {}),
+      ...(options.noMatchesHtml ? { zeroRecords: options.noMatchesHtml } : {}),
+    };
+  }
+
   if (columnMenu) {
     const start = config.layout?.topStart ?? 'pageLength';
     config.layout = { ...config.layout, topStart: [...(Array.isArray(start) ? start : [start]), columnMenu] };

@@ -31,11 +31,12 @@ echo json_encode($grid->respond(new ArrayDataSource($rows), $_GET));
 | `searchable(false)` | Hides the search box. |
 | `export('copy', 'csv', 'print')` | Export buttons. |
 | `actions(Action ...$actions)` | Buttons for each row, in a last column (see [Row actions](#row-actions)). |
+| `emptyState($title, $description = null, $action = null)` | What the grid shows when it has no rows (see [Empty states](#empty-states)). |
 | `columnToggle($enabled = true, $remember = true)` | A Columns menu to show or hide columns (see [Columns the user can show or hide](#columns-the-user-can-show-or-hide)). |
 | `selectable($key = 'id', $name = 'ids')` | A checkbox per row (see [Row selection](#row-selection-and-bulk-actions)). |
 | `bulkActions(Action ...$actions)` | Request actions for the selected rows, in a bar above the table. |
 | `rowTitle($field)` | The field that names a row in its buttons' and checkbox's accessible names. Default: the first visible column. |
-| `labels([...])` | Translates the filter bar, the actions column and the selection: `filters`, `any`, `yes`, `no`, `from`, `to`, `clear`, `actions`, `select`, `selectAll`, `selected` (with `{count}`), `noneSelected`, `bulkActions`, `columns`, `showColumns`. |
+| `labels([...])` | Translates the filter bar, the actions column and the selection: `filters`, `any`, `yes`, `no`, `from`, `to`, `clear`, `actions`, `select`, `selectAll`, `selected` (with `{count}`), `noneSelected`, `bulkActions`, `columns`, `showColumns`, `empty`, `noMatches`, `reset`. |
 | `options([...])` | Raw DataTables options, applied last. |
 
 ### Columns
@@ -88,6 +89,23 @@ Grid::make('orders')
 - **Server-side**, the grid sends the filters to your endpoint, and `respond()` applies them through the data source: `ArrayDataSource`, `EloquentDataSource` and `DoctrineDataSource` all do (see [Data endpoints](../guide/data#column-filters)).
 - **Filters and search** work together, and a filter works on a column that is not `searchable()`. With `searchable(false)` on the grid, the search box is hidden and the filters keep working.
 - **Without JavaScript**, the filter bar is not shown, since it needs it to filter.
+
+## Empty states
+
+A grid without rows says so, and helps the user to move on:
+
+```php
+Grid::make('members')
+    ->emptyState(
+        'No members yet',
+        'Invite your team to get started.',
+        Action::link('invite', 'Invite', '/members/invite')->variant('primary')->solid(),
+    );
+```
+
+- **With no rows at all**, the grid shows the title, the description and the [action](./actions). The default is "No rows to show".
+- **When the search or filters match no row**, the grid says so, with a **Clear filters and search** button. The button clears both, and focus moves to the search box, or the first filter.
+- Both work client-side and server-side, where the endpoint's `total` tells them apart. `labels()` translates `empty`, `noMatches` and `reset`.
 
 ## Columns the user can show or hide
 

@@ -24,6 +24,7 @@ return Grid::make('users')
             ->confirm('Remove {name}?', 'They lose access to the team.'),
     )
     ->columnToggle()
+    ->emptyState('No members yet', 'Invite your team to get started.', Action::link('invite', 'Invite', '?invite=1'))
     ->selectable('name', 'members')
     ->bulkActions(
         Action::request('remind', 'Send a reminder', '/demo-api/members/remind')

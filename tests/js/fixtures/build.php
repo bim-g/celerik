@@ -120,6 +120,12 @@ $fixtures = [
         ->columnToggle()
         ->rows([['id' => 1, 'name' => 'Ada', 'email' => 'ada@example.com', 'phone' => '555-0100']]),
 
+    'grid-empty' => Grid::make('invites')
+        ->caption('Invitations')
+        ->column('email', 'E-mail')
+        ->emptyState('No invitations yet', 'Invite your team to get started.', Action::link('invite', 'Invite', '/invite'))
+        ->rows([]),
+
     'chart' => Chart::make('sales')
         ->type('bar')
         ->title('Monthly revenue')

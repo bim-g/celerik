@@ -145,7 +145,7 @@ final class GridTest extends TestCase
         self::assertStringContainsString('>Effacer</button>', $html);
 
         $this->expectException(InvalidArgumentException::class);
-        Grid::make()->labels(['reset' => 'x']);
+        Grid::make()->labels(['unknown' => 'x']);
     }
 
     public function testASelectFilterNeedsOptions(): void

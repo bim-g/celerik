@@ -46,6 +46,9 @@ final class Grid extends Component
         'bulkActions' => 'Selected rows',
         'columns' => 'Columns',
         'showColumns' => 'Show columns',
+        'empty' => 'No rows to show',
+        'noMatches' => 'No rows match your search or filters',
+        'reset' => 'Clear filters and search',
     ];
 
     /** How respond() reads each kind of column filter. */
@@ -96,6 +99,12 @@ final class Grid extends Component
     private bool $columnToggle = false;
 
     private bool $rememberColumns = true;
+
+    private ?string $emptyTitle = null;
+
+    private ?string $emptyDescription = null;
+
+    private ?Action $emptyAction = null;
 
     public static function name(): string
     {
@@ -267,6 +276,20 @@ final class Grid extends Component
     }
 
     /**
+     * What the grid shows when it has no rows at all, e.g. 'No members yet', 'Invite your team
+     * to get started.' and an Action::link() to the invitation page. When search or filters
+     * match no row, the grid says so instead, with a button that clears them.
+     */
+    public function emptyState(string $title, ?string $description = null, ?Action $action = null): self
+    {
+        $this->emptyTitle = $title;
+        $this->emptyDescription = $description;
+        $this->emptyAction = $action;
+
+        return $this;
+    }
+
+    /**
      * A Columns button that lets the user show or hide columns, except those that are not
      * toggleable() and hidden() ones. With `$remember`, the choice is kept in the browser
      * (localStorage), per grid id.
@@ -369,6 +392,8 @@ final class Grid extends Component
                 'remember' => $this->rememberColumns,
                 'labels' => ['columns' => $this->labels['columns'], 'showColumns' => $this->labels['showColumns']],
             ],
+            'emptyHtml' => $this->renderEmpty(),
+            'noMatchesHtml' => $this->renderNoMatches(),
             'url' => $this->url,
             'pageSize' => $this->pageSize,
             'pageSizes' => $this->pageSizes,
@@ -454,6 +479,45 @@ final class Grid extends Component
         }
 
         return Html::tag('div', ['class' => 'celerik-grid-action-list'], $buttons);
+    }
+
+    /**
+     * The empty state, as DataTables shows it in the table's only row: a title, a description
+     * and an action, all escaped.
+     */
+    private function renderEmpty(): string
+    {
+        $title = Html::escape($this->emptyTitle ?? $this->labels['empty']);
+        $html = Html::tag('p', ['class' => 'celerik-grid-empty-title'], $title);
+        if ($this->emptyDescription !== null) {
+            $description = Html::escape($this->emptyDescription);
+            $html .= Html::tag('p', ['class' => 'celerik-grid-empty-description'], $description);
+        }
+        if ($this->emptyAction !== null) {
+            $action = $this->emptyAction->render(small: true);
+            $html .= Html::tag('div', ['class' => 'celerik-grid-empty-action'], $action);
+        }
+
+        return Html::tag('div', ['class' => 'celerik-grid-empty'], $html);
+    }
+
+    /**
+     * Search or filters match no row: say so, with a button that clears them (grid.js).
+     */
+    private function renderNoMatches(): string
+    {
+        $button = Html::tag('button', [
+            'type' => 'button',
+            'class' => 'btn btn-sm btn-outline-secondary celerik-action-button',
+            'data-celerik-grid-reset' => true,
+        ], Html::escape($this->labels['reset']));
+
+        return Html::tag(
+            'div',
+            ['class' => 'celerik-grid-empty'],
+            Html::tag('p', ['class' => 'celerik-grid-empty-title'], Html::escape($this->labels['noMatches']))
+            . Html::tag('div', ['class' => 'celerik-grid-empty-action'], $button),
+        );
     }
 
     /**

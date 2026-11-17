@@ -71,6 +71,28 @@
   }
 }
 
+// A grid's empty state (Grid::emptyState()) and its "no rows match" state, in the table's
+// only row.
+.celerik-grid .celerik-grid-empty {
+  padding: 1.5rem 1rem;
+  text-align: center;
+  white-space: normal;
+}
+
+.celerik-grid-empty-title {
+  margin-bottom: 0.25rem;
+  font-weight: 600;
+}
+
+.celerik-grid-empty-description {
+  margin-bottom: 0;
+  color: var(--bs-secondary-color);
+}
+
+.celerik-grid-empty-action {
+  margin-top: 0.75rem;
+}
+
 // A grid's Columns menu (Grid::columnToggle()): a panel of checkboxes under its button.
 .celerik-grid-columns {
   position: relative;
