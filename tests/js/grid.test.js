@@ -156,3 +156,59 @@ describe('grid filters', () => {
     jest.useRealTimers();
   });
 });
+
+describe('grid empty states', () => {
+  test('a grid without rows shows its empty state, with its action', () => {
+    const table = loadFixture('grid-empty');
+    const grid = initGrid(table, readOptions(table));
+    const cell = table.querySelector('tbody td');
+
+    expect(cell.querySelector('.celerik-grid-empty-title').textContent).toBe('No invitations yet');
+    expect(cell.querySelector('.celerik-grid-empty-description').textContent).toBe('Invite your team to get started.');
+    expect(cell.querySelector('a').getAttribute('href')).toBe('/invite');
+    grid.destroy();
+  });
+
+  test('when filters match nothing, a button clears them and focus moves to the first filter', () => {
+    const table = loadFixture('grid-filters');
+    const grid = initGrid(table, readOptions(table));
+    const name = document.getElementById('people-filter-name');
+    const role = document.getElementById('people-filter-role');
+    role.value = 'admin';
+    role.dispatchEvent(new Event('change', { bubbles: true }));
+    name.value = 'nobody';
+    name.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true }));
+
+    expect(table.querySelector('.celerik-grid-empty-title').textContent).toBe('No rows match your search or filters');
+    table.querySelector('[data-celerik-grid-reset]').click();
+
+    expect([name.value, role.value]).toEqual(['', '']);
+    expect(table.querySelectorAll('tbody tr')).toHaveLength(4);
+    expect(document.activeElement).toBe(name);
+    grid.destroy();
+  });
+});
+
+describe('grid filter redraws', () => {
+  test('leaving a text filter does not draw again with the same filters', () => {
+    jest.useFakeTimers();
+    const table = loadFixture('grid-filters');
+    const grid = initGrid(table, readOptions(table));
+    let draws = 0;
+    grid.on('draw', () => { draws += 1; });
+    const name = document.getElementById('people-filter-name');
+
+    name.value = 'ada';
+    name.dispatchEvent(new Event('input', { bubbles: true }));
+    jest.advanceTimersByTime(300);
+    expect(draws).toBe(1);
+
+    // Focus moving on fires change, with the value already applied.
+    name.dispatchEvent(new Event('change', { bubbles: true }));
+    name.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true }));
+    expect(draws).toBe(1);
+
+    grid.destroy();
+    jest.useRealTimers();
+  });
+});

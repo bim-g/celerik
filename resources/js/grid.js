@@ -23,16 +23,36 @@ export function initGrid(element, options) {
   if (columnMenu) {
     connectColumnMenu(columnMenu, grid, { tableId: element.id, columns, remember: toggle.remember });
   }
-  if (hasFilters) {
-    enhanceFilters(grid, bar, columns, current, Boolean(options.url));
-  }
+  const filters = hasFilters ? enhanceFilters(grid, bar, columns, current, Boolean(options.url)) : null;
   if (options.actions?.length) {
     refreshAfterActions(grid, element, Boolean(options.url));
   }
   if (options.selection) {
     enableSelection(grid, element, options.selection, Boolean(options.url));
   }
+  enableReset(grid, element, bar, filters);
   return grid;
+}
+
+// "Clear filters and search" in the no-matches row: clears the search box and the filter bar
+// and draws once. The button goes with the row, so focus moves to the search box, or the
+// first filter, or the table.
+function enableReset(grid, element, bar, filters) {
+  element.addEventListener('click', (event) => {
+    if (!event.target.closest('[data-celerik-grid-reset]')) {
+      return;
+    }
+    const search = grid.table().container().querySelector('.dt-search input');
+    filters?.clear();
+    grid.search('').draw();
+    const target = search ?? bar?.querySelector('[data-celerik-filter]');
+    if (target) {
+      target.focus();
+    } else {
+      element.setAttribute('tabindex', '-1');
+      element.focus();
+    }
+  });
 }
 
 // Row selection (Grid::selectable()): the selected keys are kept across pages, filters and
@@ -183,11 +203,26 @@ function enhanceFilters(grid, bar, columns, current, serverSide) {
     });
   }
 
+  // Draws only when the filters changed: leaving a text filter fires `change` with the value
+  // already applied, and a redraw then would replace the rows under the user, e.g. the
+  // no-matches row's button they are moving to.
   let timer = null;
   const redraw = () => {
     clearTimeout(timer);
-    active = current();
+    const next = current();
+    if (JSON.stringify(next) === JSON.stringify(active)) {
+      return;
+    }
+    active = next;
     grid.draw();
+  };
+  // Empties the fields and takes them as applied, for a caller that draws itself.
+  const clear = () => {
+    clearTimeout(timer);
+    bar.querySelectorAll('[data-celerik-filter]').forEach((control) => {
+      control.value = '';
+    });
+    active = current();
   };
   bar.addEventListener('input', (event) => {
     if (event.target.matches('input[type=search]')) {
@@ -215,4 +250,5 @@ function enhanceFilters(grid, bar, columns, current, serverSide) {
   });
 
   bar.hidden = false;
+  return { clear };
 }

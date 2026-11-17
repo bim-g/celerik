@@ -139,6 +139,19 @@ test.describe('grid', () => {
     await expect(grid.getByRole('button', { name: 'Delete Alan Turing' })).toBeFocused();
   });
 
+  test('when nothing matches, the grid says so and its button clears the filters and the search', async ({ page }) => {
+    const grid = page.locator('#staff');
+    const slow = { timeout: 15_000 };
+    await page.getByRole('search', { name: 'Filters' }).getByRole('searchbox', { name: 'Name' }).fill('zzz');
+    await expect(grid.getByText('No rows match your search or filters')).toBeVisible(slow);
+    expect(await axeViolations(page, { include: '#staff' })).toEqual([]);
+
+    await grid.getByRole('button', { name: 'Clear filters and search' }).focus();
+    await page.keyboard.press('Enter');
+    await expect(grid.locator('tbody tr')).toHaveCount(5, slow);
+    await expect(page.locator('#staff_wrapper .dt-search input')).toBeFocused();
+  });
+
   test('the Columns menu shows and hides columns from the keyboard, and remembers them', async ({ page }) => {
     const wrapper = page.locator('#users_wrapper');
     const button = wrapper.getByRole('button', { name: 'Columns' });

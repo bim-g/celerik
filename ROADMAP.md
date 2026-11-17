@@ -58,7 +58,7 @@ Tables and lists that do the work of an admin screen.
   - column totals and grouping;
   - columns the user can show or hide ✅;
   - inline editing;
-  - an empty state.
+  - an empty state ✅.
 - Actions: buttons that open a confirmation dialog (✅) or a form in a modal, usable anywhere (grid rows, toolbars, pages).
 - ListView with a pager, TreeView, TreeList.
 - Task board (Kanban) with drag and drop.
