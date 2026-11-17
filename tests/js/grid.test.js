@@ -188,3 +188,27 @@ describe('grid empty states', () => {
     grid.destroy();
   });
 });
+
+describe('grid filter redraws', () => {
+  test('leaving a text filter does not draw again with the same filters', () => {
+    jest.useFakeTimers();
+    const table = loadFixture('grid-filters');
+    const grid = initGrid(table, readOptions(table));
+    let draws = 0;
+    grid.on('draw', () => { draws += 1; });
+    const name = document.getElementById('people-filter-name');
+
+    name.value = 'ada';
+    name.dispatchEvent(new Event('input', { bubbles: true }));
+    jest.advanceTimersByTime(300);
+    expect(draws).toBe(1);
+
+    // Focus moving on fires change, with the value already applied.
+    name.dispatchEvent(new Event('change', { bubbles: true }));
+    name.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true }));
+    expect(draws).toBe(1);
+
+    grid.destroy();
+    jest.useRealTimers();
+  });
+});
