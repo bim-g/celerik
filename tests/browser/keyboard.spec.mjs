@@ -55,7 +55,7 @@ test.describe('tabs', () => {
 test.describe('grid', () => {
   test('sorts from the keyboard and announces the sort order', async ({ page }) => {
     // DataTables puts the sort control in the header as a named button.
-    const header = page.getByRole('columnheader', { name: /Name/ });
+    const header = page.locator('#users').getByRole('columnheader', { name: /Name/ });
     const sort = header.getByRole('button', { name: /Name: Activate to sort/ });
     await sort.focus();
     await expect(sort).toBeFocused();
@@ -70,6 +70,35 @@ test.describe('grid', () => {
     await grid.getByRole('link', { name: 'Next' }).focus();
     await page.keyboard.press('Enter');
     await expect(page.locator('#users tbody')).toContainText('Grace Hopper');
+  });
+
+  test('column filters narrow a server-side grid from the keyboard, and Clear filters resets them', async ({ page }) => {
+    const bar = page.getByRole('search', { name: 'Filters' });
+    const rows = page.locator('#staff tbody tr');
+    const names = () => page.locator('#staff tbody td:first-child').allTextContents();
+    await expect(rows).toHaveCount(5);
+
+    // A select: the arrow keys choose an option, and the endpoint answers.
+    await bar.getByLabel('Role').focus();
+    await bar.getByLabel('Role').selectOption('admin');
+    await expect.poll(names).toEqual(['Ada Lovelace', 'Grace Hopper', 'Margaret Hamilton']);
+
+    // A yes/no filter, then a date range whose last day is included.
+    await bar.getByLabel('Active').selectOption('1');
+    await expect.poll(names).toEqual(['Ada Lovelace', 'Grace Hopper']);
+    await bar.getByRole('group', { name: 'Joined' }).getByLabel('To').fill('2026-01-31');
+    await expect.poll(names).toEqual(['Ada Lovelace', 'Grace Hopper']);
+    await bar.getByRole('group', { name: 'Joined' }).getByLabel('From').fill('2026-01-31');
+    await expect.poll(names).toEqual(['Ada Lovelace']);
+
+    // Clear filters, then a text filter that matches part of a name, ignoring case.
+    await bar.getByRole('button', { name: 'Clear filters' }).focus();
+    await page.keyboard.press('Enter');
+    await expect(rows).toHaveCount(5);
+    await expect(bar.getByLabel('Role')).toHaveValue('');
+    await bar.getByRole('searchbox', { name: 'Name' }).focus();
+    await page.keyboard.type('HAM');
+    await expect.poll(names).toEqual(['Margaret Hamilton']);
   });
 });
 

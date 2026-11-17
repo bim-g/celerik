@@ -24,7 +24,14 @@ final class ArrayDataSource implements DataSourceInterface
         $total = count($rows);
 
         foreach ($request->filters as $field => $value) {
-            $rows = array_filter($rows, static fn (array $row): bool => Arr::toText(Arr::get($row, $field)) === $value);
+            $rows = array_filter($rows, static fn (array $row): bool => self::equals(Arr::get($row, $field), $value));
+        }
+
+        foreach ($request->conditions as $condition) {
+            $rows = array_filter(
+                $rows,
+                static fn (array $row): bool => self::meets(Arr::get($row, $condition['field']), $condition),
+            );
         }
 
         if ($request->search !== null) {
@@ -60,6 +67,34 @@ final class ArrayDataSource implements DataSourceInterface
         }
 
         return new DataResult(array_slice($rows, $request->offset(), $request->perPage), $total, $filtered, $request);
+    }
+
+    /**
+     * A true/false value equals "1"/"0" (a yes/no filter) as well as "Yes"/"No".
+     */
+    private static function equals(mixed $value, string $filter): bool
+    {
+        if (is_bool($value) && ($filter === '1' || $filter === '0')) {
+            return $value === ($filter === '1');
+        }
+
+        return Arr::toText($value) === $filter;
+    }
+
+    /**
+     * @param array{field: string, operator: string, value: string} $condition
+     */
+    private static function meets(mixed $value, array $condition): bool
+    {
+        $text = $value instanceof \DateTimeInterface ? $value->format('Y-m-d H:i:s') : Arr::toText($value);
+
+        return match ($condition['operator']) {
+            DataRequest::CONTAINS => mb_stripos($text, $condition['value']) !== false,
+            // Dates written Y-m-d (with a time or not) compare as text.
+            DataRequest::GTE => $text !== '' && strcmp($text, $condition['value']) >= 0,
+            DataRequest::LT => $text !== '' && strcmp($text, $condition['value']) < 0,
+            default => true,
+        };
     }
 
     private static function compare(mixed $a, mixed $b): int

@@ -14,6 +14,8 @@ use Celerik\Ui\Components\Form\Field;
 use Celerik\Ui\Components\Form\Repeater;
 use Celerik\Ui\Components\Form\Section;
 use Celerik\Ui\Components\Grid;
+use Celerik\Ui\Components\Grid\Column;
+use Celerik\Ui\Components\Grid\Filter;
 use Celerik\Ui\Components\Modal;
 use Celerik\Ui\Components\Notification;
 use Celerik\Ui\Components\Scheduler;
@@ -52,6 +54,20 @@ $fixtures = [
             ['id' => 1, 'name' => 'Ada Lovelace', 'email' => 'ada@example.com'],
             ['id' => 2, 'name' => 'Alan Turing', 'email' => 'alan@example.com'],
             ['id' => 3, 'name' => 'Grace Hopper', 'email' => 'grace@example.com'],
+        ]),
+
+    'grid-filters' => Grid::make('people')
+        ->caption('People')
+        ->column('name', 'Name', static fn (Column $c) => $c->filter(Filter::text()))
+        ->column('role', 'Role', static fn (Column $c) => $c->filter(Filter::select(['admin' => 'Admin', 'user' => 'User'])))
+        ->column('active', 'Active', static fn (Column $c) => $c->filter(Filter::boolean()))
+        ->column('joined', 'Joined', static fn (Column $c) => $c->filter(Filter::dateRange()))
+        ->searchable(false)
+        ->rows([
+            ['name' => 'Ada Lovelace', 'role' => 'admin', 'active' => true, 'joined' => '2026-01-31 18:30:00'],
+            ['name' => 'Alan Turing', 'role' => 'user', 'active' => false, 'joined' => '2026-02-01'],
+            ['name' => 'Grace Hopper', 'role' => 'admin', 'active' => true, 'joined' => '2026-01-10'],
+            ['name' => 'Linus Torvalds', 'role' => 'user', 'active' => true, 'joined' => null],
         ]),
 
     'chart' => Chart::make('sales')

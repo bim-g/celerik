@@ -86,6 +86,29 @@ final class DoctrineDataSourceTest extends TestCase
         self::assertSame([], $source->fetch(new DataRequest(search: '!'))->rows);
     }
 
+    public function testConditionsIgnoreCaseAndCompareRanges(): void
+    {
+        $source = new DoctrineDataSource($this->books());
+
+        $contains = new DataRequest(conditions: [['field' => 'title', 'operator' => 'contains', 'value' => 'SCIENCE']]);
+        self::assertSame(['Poetical Science'], array_column($source->fetch($contains)->rows, 'title'));
+
+        $literal = new DataRequest(conditions: [['field' => 'title', 'operator' => 'contains', 'value' => '_']]);
+        self::assertSame(['Under_score Tales'], array_column($source->fetch($literal)->rows, 'title'));
+
+        $range = new DataRequest(
+            sort: [['field' => 'pages', 'direction' => 'asc']],
+            conditions: [
+                ['field' => 'pages', 'operator' => 'gte', 'value' => '45'],
+                ['field' => 'pages', 'operator' => 'lt', 'value' => '210'],
+            ],
+            filters: ['genre' => 'Science'],
+        );
+        $result = $source->fetch($range);
+        self::assertSame(['Notes on the Engine'], array_column($result->rows, 'title'));
+        self::assertSame(1, $result->filtered);
+    }
+
     public function testDottedFieldsWorkAfterAJoin(): void
     {
         $query = $this->books()->addSelect('a.name')->join('b.author', 'a');

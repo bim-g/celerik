@@ -90,4 +90,62 @@ final class DataRequestTest extends TestCase
     {
         self::assertSame(25, DataRequest::fromArray([], defaultPerPage: 25)->perPage);
     }
+
+    public function testTypedFiltersBecomeConditionsOrExactFilters(): void
+    {
+        $request = DataRequest::fromArray(
+            ['filter' => [
+                'name' => '  ada ',
+                'status' => 'active',
+                'verified' => '1',
+                'joined' => ['from' => '2026-01-01', 'to' => '2026-01-31'],
+                'city' => 'Paris',
+            ]],
+            searchable: ['name', 'city'],
+            filterTypes: ['name' => 'text', 'status' => 'exact', 'verified' => 'boolean', 'joined' => 'dateRange'],
+        );
+
+        self::assertSame(['city' => 'Paris', 'status' => 'active', 'verified' => '1'], $request->filters);
+        self::assertSame([
+            ['field' => 'name', 'operator' => 'contains', 'value' => 'ada'],
+            ['field' => 'joined', 'operator' => 'gte', 'value' => '2026-01-01'],
+            // The last day is included: the condition is "before the next day".
+            ['field' => 'joined', 'operator' => 'lt', 'value' => '2026-02-01'],
+        ], $request->conditions);
+    }
+
+    public function testTypedFiltersAreReadInTheDataTablesProtocolToo(): void
+    {
+        $request = DataRequest::fromArray(
+            ['draw' => '1', 'start' => '0', 'length' => '10', 'filter' => ['joined' => ['to' => '2026-02-28']]],
+            filterTypes: ['joined' => 'dateRange'],
+        );
+
+        self::assertSame([['field' => 'joined', 'operator' => 'lt', 'value' => '2026-03-01']], $request->conditions);
+    }
+
+    public function testMalformedTypedFiltersAreIgnored(): void
+    {
+        $request = DataRequest::fromArray(
+            ['filter' => [
+                'verified' => 'yes',
+                'name' => ['nested'],
+                'joined' => ['from' => '2026-02-30', 'to' => '31/01/2026'],
+                'other' => ['from' => '2026-01-01'],
+                'status' => '',
+            ]],
+            filterTypes: ['verified' => 'boolean', 'name' => 'text', 'joined' => 'dateRange', 'status' => 'exact', 'bad field' => 'text'],
+        );
+
+        self::assertSame([], $request->filters);
+        self::assertSame([], $request->conditions);
+    }
+
+    public function testATypedFilterIsNotAlsoAnExactFilter(): void
+    {
+        $request = DataRequest::fromArray(['filter' => ['name' => 'ad']], filterTypes: ['name' => 'text']);
+
+        self::assertSame([], $request->filters);
+        self::assertSame('ad', $request->conditions[0]['value']);
+    }
 }

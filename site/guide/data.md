@@ -26,7 +26,7 @@ Every Celerik endpoint answers with the same envelope:
 ```json
 {
   "data": [{ "id": 1, "name": "Ada Lovelace", "email": "ada@example.com" }],
-  "meta": { "page": 1, "perPage": 10, "total": 250, "filtered": 12, "draw": 3, "sort": [], "search": "ada", "filters": {} }
+  "meta": { "page": 1, "perPage": 10, "total": 250, "filtered": 12, "draw": 3, "sort": [], "search": "ada", "filters": {}, "conditions": [] }
 }
 ```
 
@@ -38,6 +38,25 @@ Every Celerik endpoint answers with the same envelope:
 - a simple format for your own clients: `?page=2&per_page=25&sort=name,-created_at&search=ada&filter[city]=Paris`.
 
 Unknown fields are refused, the search term matches `%` and `_` literally, and a page holds at most `DataRequest::MAX_PER_PAGE` (1000) rows.
+
+### Column filters
+
+The grid sends its [column filters](../components/grid#column-filters) as `filter[...]`, in both formats:
+
+```
+filter[customer]=ada                       Filter::text()
+filter[status]=paid                        Filter::select([...])
+filter[gift]=1                             Filter::boolean(): 1 or 0
+filter[ordered_at][from]=2026-01-01        Filter::dateRange(): either end, or both
+filter[ordered_at][to]=2026-01-31
+```
+
+`respond()` reads each one as its column's filter type says, and hands them to the data source in the `DataRequest`:
+
+- `$request->filters`: exact values, `field => value` (selects, yes/no filters, and `filter[...]` on other searchable columns);
+- `$request->conditions`: a list of `['field' => ..., 'operator' => ..., 'value' => ...]`, where the operator is `contains` (a text filter, ignoring case), `gte` (on or after a day) or `lt` (before a day). A date range's last day is included: `to=2026-01-31` becomes `lt 2026-02-01`, so times on that day match.
+
+A data source of your own should apply both. `DataRequest::containsPattern($value)` gives a `contains` value as a LIKE pattern, to use with `ESCAPE '!'`.
 
 ### Data sources
 

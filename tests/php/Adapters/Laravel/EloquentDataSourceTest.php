@@ -6,6 +6,8 @@ namespace Celerik\Ui\Tests\Adapters\Laravel;
 
 use Celerik\Ui\Adapters\Laravel\EloquentDataSource;
 use Celerik\Ui\Components\Grid;
+use Celerik\Ui\Components\Grid\Column;
+use Celerik\Ui\Components\Grid\Filter;
 use Celerik\Ui\Data\DataRequest;
 use Illuminate\Database\Capsule\Manager as Capsule;
 use PHPUnit\Framework\TestCase;
@@ -24,6 +26,8 @@ final class EloquentDataSourceTest extends TestCase
             $table->string('name');
             $table->string('role');
             $table->string('password');
+            $table->boolean('active')->default(true);
+            $table->dateTime('joined')->nullable();
         });
 
         foreach ([['Ada', 'admin'], ['Alan', 'user'], ['Grace', 'admin'], ['Linus', 'user']] as [$name, $role]) {
@@ -84,5 +88,26 @@ final class EloquentDataSourceTest extends TestCase
 
         self::assertSame([['id' => 4, 'name' => 'Linus']], $result->rows);
         self::assertSame(2, $result->filtered);
+    }
+
+    public function testColumnFiltersThroughGridRespond(): void
+    {
+        Person::query()->where('name', 'Ada')->update(['joined' => '2026-01-31 18:30:00']);
+        Person::query()->where('name', 'Alan')->update(['joined' => '2026-02-01 00:00:00', 'active' => false]);
+        Person::query()->where('name', 'Grace')->update(['joined' => '2026-01-05 09:00:00']);
+        Person::query()->create(['name' => '50% Off', 'role' => 'user', 'password' => 'hash']);
+
+        $grid = Grid::make()
+            ->column('name', null, static fn (Column $c) => $c->filter(Filter::text()))
+            ->column('role', null, static fn (Column $c) => $c->filter(Filter::select(['admin' => 'Admin', 'user' => 'User'])))
+            ->column('active', null, static fn (Column $c) => $c->filter(Filter::boolean()))
+            ->column('joined', null, static fn (Column $c) => $c->filter(Filter::dateRange()));
+        $source = new EloquentDataSource(Person::query());
+        $names = static fn (array $filter): array => array_column($grid->respond($source, ['filter' => $filter, 'sort' => 'name'])->rows, 'name');
+
+        self::assertSame(['Ada', 'Grace'], $names(['joined' => ['from' => '2026-01-01', 'to' => '2026-01-31']]));
+        self::assertSame(['Alan'], $names(['active' => '0']));
+        self::assertSame(['Ada', 'Grace'], $names(['role' => 'admin', 'name' => 'A']));
+        self::assertSame(['50% Off'], $names(['name' => '%']));
     }
 }

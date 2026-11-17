@@ -64,6 +64,20 @@ final class DoctrineDataSource implements DataSourceInterface
             $query->andWhere($this->path($alias, $field) . ' = :' . $parameter)->setParameter($parameter, $value);
         }
 
+        foreach ($request->conditions as $condition) {
+            $parameter = 'celerik_filter_' . $index++;
+            $path = $this->path($alias, $condition['field']);
+
+            if ($condition['operator'] === DataRequest::CONTAINS) {
+                $query->andWhere(sprintf("LOWER(%s) LIKE :%s ESCAPE '%s'", $path, $parameter, DataRequest::LIKE_ESCAPE))
+                    ->setParameter($parameter, mb_strtolower(DataRequest::containsPattern($condition['value'])));
+            } else {
+                $operator = $condition['operator'] === DataRequest::GTE ? '>=' : '<';
+                $query->andWhere(sprintf('%s %s :%s', $path, $operator, $parameter))
+                    ->setParameter($parameter, $condition['value']);
+            }
+        }
+
         $filtered = $this->count($query, $alias);
 
         foreach ($request->sort as $rule) {
