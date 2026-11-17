@@ -52,7 +52,7 @@ Every component follows the same rules: a PHP builder, an endpoint helper when i
 Tables and lists that do the work of an admin screen.
 
 - Grid:
-  - column filters (text, select, yes/no, date range);
+  - column filters (text, select, yes/no, date range) ✅;
   - row actions (view, edit, delete with confirmation);
   - row selection with bulk actions;
   - column totals and grouping;

@@ -9,7 +9,8 @@ use JsonSerializable;
 /**
  * One page of rows plus the metadata every Celerik endpoint returns:
  *
- *     {"data": [...], "meta": {"page", "perPage", "total", "filtered", "draw", "sort", "search", "filters"}}
+ *     {"data": [...], "meta": {"page", "perPage", "total", "filtered", "draw", "sort", "search", "filters",
+ *     "conditions"}}
  */
 final class DataResult implements JsonSerializable
 {
@@ -52,6 +53,7 @@ final class DataResult implements JsonSerializable
                 'sort' => $this->request->sort,
                 'search' => $this->request->search,
                 'filters' => (object) $this->request->filters,
+                'conditions' => $this->request->conditions,
             ],
         ];
     }

@@ -6,6 +6,7 @@ namespace Celerik\Ui\Components;
 
 use Celerik\Ui\Component;
 use Celerik\Ui\Components\Grid\Column;
+use Celerik\Ui\Components\Grid\Filter;
 use Celerik\Ui\Data\DataRequest;
 use Celerik\Ui\Data\DataResult;
 use Celerik\Ui\Data\DataSourceInterface;
@@ -19,10 +20,30 @@ use LogicException;
  *
  * Client-side mode: pass rows with rows(); they are rendered as HTML (readable without JS).
  * Server-side mode: pass an endpoint with url(); the endpoint answers with respond().
+ * Columns with a filter() get a filter bar above the table, shown once JavaScript runs.
  */
 final class Grid extends Component
 {
     public const EXPORT_FORMATS = ['copy', 'csv', 'print'];
+
+    /** Texts of the filter bar, with their English defaults. */
+    public const LABELS = [
+        'filters' => 'Filters',
+        'any' => 'Any',
+        'yes' => 'Yes',
+        'no' => 'No',
+        'from' => 'From',
+        'to' => 'To',
+        'clear' => 'Clear filters',
+    ];
+
+    /** How respond() reads each kind of column filter. */
+    private const REQUEST_TYPES = [
+        Filter::TEXT => DataRequest::FILTER_TEXT,
+        Filter::SELECT => DataRequest::FILTER_EXACT,
+        Filter::BOOLEAN => DataRequest::FILTER_BOOLEAN,
+        Filter::DATE_RANGE => DataRequest::FILTER_DATE_RANGE,
+    ];
 
     /** @var list<Column> */
     private array $columns = [];
@@ -45,6 +66,9 @@ final class Grid extends Component
     private ?string $caption = null;
 
     private bool $captionHidden = false;
+
+    /** @var array<string, string> */
+    private array $labels = self::LABELS;
 
     public static function name(): string
     {
@@ -165,10 +189,32 @@ final class Grid extends Component
     }
 
     /**
+     * Translates the filter bar, e.g. ['clear' => 'Effacer les filtres'].
+     *
+     * @param array<string, string> $labels Keys from self::LABELS.
+     */
+    public function labels(array $labels): self
+    {
+        foreach ($labels as $key => $text) {
+            if (!array_key_exists($key, self::LABELS)) {
+                throw new InvalidArgumentException(sprintf(
+                    'Unknown grid label "%s". Available: %s.',
+                    $key,
+                    implode(', ', array_keys(self::LABELS)),
+                ));
+            }
+            $this->labels[$key] = $text;
+        }
+
+        return $this;
+    }
+
+    /**
      * Answers a server-side request for this grid.
      *
-     * Only declared columns may be sorted or searched, and the returned rows contain
-     * only declared column fields, so nothing else from the data source leaks out.
+     * Only declared columns may be sorted or searched, a column filter applies only as its
+     * type says, and the returned rows contain only declared column fields, so nothing else
+     * from the data source leaks out.
      *
      * @param array<string, mixed> $query Usually `$_GET` or `$request->query()`.
      */
@@ -179,6 +225,7 @@ final class Grid extends Component
             sortable: $this->fields(static fn (Column $column): bool => $column->isSortable()),
             searchable: $this->fields(static fn (Column $column): bool => $column->isSearchable()),
             defaultPerPage: $this->pageSize,
+            filterTypes: $this->filterTypes(),
         );
 
         $fields = $this->fields();
@@ -219,6 +266,8 @@ final class Grid extends Component
             Html::escape($this->caption),
         );
 
+        $filters = $this->renderFilters();
+
         $headers = '';
         foreach ($this->columns as $column) {
             $headers .= Html::tag('th', ['scope' => 'col'], Html::escape($column->getTitle()));
@@ -229,17 +278,123 @@ final class Grid extends Component
             foreach ($this->rows as $row) {
                 $cells = '';
                 foreach ($this->columns as $column) {
-                    $cells .= Html::tag('td', [], Html::escape(Arr::toText(Arr::get($row, $column->getField()))));
+                    $value = Arr::get($row, $column->getField());
+                    $attributes = ['data-value' => self::filterValue($column, $value)];
+                    $cells .= Html::tag('td', $attributes, Html::escape(Arr::toText($value)));
                 }
                 $body .= Html::tag('tr', [], $cells);
             }
         }
 
-        return Html::tag(
+        return $filters . Html::tag(
             'table',
             $this->rootAttributes(['table', 'table-striped', 'table-hover', 'w-100', 'celerik-grid']),
             $caption . Html::tag('thead', [], Html::tag('tr', [], $headers)) . Html::tag('tbody', [], $body),
         );
+    }
+
+    /**
+     * @return array<string, string>
+     */
+    private function filterTypes(): array
+    {
+        $types = [];
+        foreach ($this->columns as $column) {
+            $filter = $column->getFilter();
+            if ($filter !== null) {
+                $types[$column->getField()] = self::REQUEST_TYPES[$filter->getType()];
+            }
+        }
+
+        return $types;
+    }
+
+    /**
+     * The value a select, yes/no or date filter compares, for client-side rows: true and
+     * false as 1 and 0, dates as Y-m-d H:i:s.
+     */
+    private static function filterValue(Column $column, mixed $value): ?string
+    {
+        $type = $column->getFilter()?->getType();
+
+        return match (true) {
+            $type === null, $type === Filter::TEXT => null,
+            is_bool($value) => $value ? '1' : '0',
+            $value instanceof \DateTimeInterface => $value->format('Y-m-d H:i:s'),
+            default => Arr::toText($value),
+        };
+    }
+
+    /**
+     * The filter bar: a labelled field per filtered column and a button that clears them.
+     * It is hidden until the grid's JavaScript runs, as it needs it to filter.
+     */
+    private function renderFilters(): string
+    {
+        $fields = '';
+
+        foreach ($this->columns as $column) {
+            $filter = $column->getFilter();
+            if ($filter === null) {
+                continue;
+            }
+
+            $field = $column->getField();
+            $id = $this->id . '-filter-' . str_replace('.', '-', $field);
+            $title = Html::escape($column->getTitle());
+            $data = ['data-celerik-filter' => $field];
+
+            if ($filter->getType() === Filter::DATE_RANGE) {
+                // A group named by the column title, with a From and a To date.
+                $inputs = '';
+                foreach (['from', 'to'] as $end) {
+                    $endId = $id . '-' . $end;
+                    $label = Html::escape($this->labels[$end]);
+                    $input = $data + ['type' => 'date', 'class' => 'form-control', 'id' => $endId];
+                    $inputs .= Html::tag('label', ['class' => 'visually-hidden', 'for' => $endId], $label)
+                        . Html::tag('input', $input + ['data-celerik-filter-end' => $end]);
+                }
+                $legend = Html::tag('legend', ['class' => 'form-label fs-6 mb-2'], $title);
+                $group = Html::tag('div', ['class' => 'input-group'], $inputs);
+                $fields .= Html::tag('fieldset', ['class' => 'col-sm-6 col-lg-4'], $legend . $group);
+                continue;
+            }
+
+            if ($filter->getType() === Filter::TEXT) {
+                $input = ['type' => 'search', 'class' => 'form-control', 'id' => $id, 'autocomplete' => 'off'];
+                $control = Html::tag('input', $data + $input);
+            } else {
+                $options = $filter->getType() === Filter::BOOLEAN
+                    ? ['1' => $this->labels['yes'], '0' => $this->labels['no']]
+                    : $filter->getOptions();
+                $html = Html::tag('option', ['value' => ''], Html::escape($this->labels['any']));
+                foreach ($options as $value => $label) {
+                    $html .= Html::tag('option', ['value' => (string) $value], Html::escape($label));
+                }
+                $control = Html::tag('select', $data + ['class' => 'form-select', 'id' => $id], $html);
+            }
+
+            $label = Html::tag('label', ['class' => 'form-label', 'for' => $id], $title);
+            $fields .= Html::tag('div', ['class' => 'col-sm-6 col-lg-3'], $label . $control);
+        }
+
+        if ($fields === '') {
+            return '';
+        }
+
+        $clear = Html::tag('div', ['class' => 'col-auto'], Html::tag(
+            'button',
+            ['type' => 'button', 'class' => 'btn btn-outline-secondary', 'data-celerik-filter-clear' => true],
+            Html::escape($this->labels['clear']),
+        ));
+
+        return Html::tag('div', [
+            'class' => 'celerik-grid-filters row g-3 align-items-end mb-3',
+            'id' => $this->id . '-filters',
+            'role' => 'search',
+            'aria-label' => $this->labels['filters'],
+            'hidden' => true,
+        ], $fields . $clear);
     }
 
     /**

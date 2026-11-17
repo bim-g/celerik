@@ -10,6 +10,10 @@ namespace Celerik\Ui\Data;
  * Built from query parameters in either of two formats:
  * - DataTables server-side protocol: draw, start, length, order[i][column|dir], columns[i][data], search[value]
  * - Celerik simple format: page, per_page, sort=name,-created_at, search, filter[field]=value
+ *
+ * Typed filters (a Grid's column filters) are read from filter[field] in both formats:
+ * filter[name]=ada (text), filter[status]=active (exact), filter[verified]=1 (boolean),
+ * filter[created_at][from]=2026-01-01&filter[created_at][to]=2026-01-31 (date range).
  */
 final class DataRequest
 {
@@ -24,10 +28,24 @@ final class DataRequest
      */
     public const LIKE_ESCAPE = '!';
 
+    /** Filter types for fromArray()'s $filterTypes. */
+    public const FILTER_TEXT = 'text';
+    public const FILTER_EXACT = 'exact';
+    public const FILTER_BOOLEAN = 'boolean';
+    public const FILTER_DATE_RANGE = 'dateRange';
+
+    /** Condition operators: contains the text (ignoring case), on or after, before. */
+    public const CONTAINS = 'contains';
+    public const GTE = 'gte';
+    public const LT = 'lt';
+
     /**
      * @param list<array{field: string, direction: 'asc'|'desc'}> $sort
      * @param array<string, string> $filters Exact-match filters, field => value.
      * @param list<string> $searchFields Fields the search term applies to; empty lets the source decide.
+     * @param list<array{field: string, operator: 'contains'|'gte'|'lt', value: string}> $conditions
+     *     Typed filters: `contains` (ignoring case), `gte` (on or after) and `lt` (before). A date
+     *     range's last day is included: its `lt` value is the next day.
      */
     public function __construct(
         public readonly int $page = 1,
@@ -37,6 +55,7 @@ final class DataRequest
         public readonly array $filters = [],
         public readonly array $searchFields = [],
         public readonly int $draw = 0,
+        public readonly array $conditions = [],
     ) {
     }
 
@@ -44,12 +63,15 @@ final class DataRequest
      * @param array<string, mixed> $query Usually `$_GET` or `$request->query()`.
      * @param list<string>|null $sortable Fields the client may sort on; null allows any valid field name.
      * @param list<string>|null $searchable Fields searched and allowed as filters; null allows any valid field name.
+     * @param array<string, 'text'|'exact'|'boolean'|'dateRange'> $filterTypes Typed filters, field => type.
+     *     These fields are filtered only as their type says, whether searchable or not.
      */
     public static function fromArray(
         array $query,
         ?array $sortable = null,
         ?array $searchable = null,
         int $defaultPerPage = 10,
+        array $filterTypes = [],
     ): self {
         $isDataTables = isset($query['draw']) || isset($query['start']);
 
@@ -61,12 +83,14 @@ final class DataRequest
             $sort = self::dataTablesSort($query['order'] ?? [], $columns);
             $search = self::search(is_array($query['search'] ?? null) ? ($query['search']['value'] ?? null) : null);
             $filters = self::dataTablesFilters($columns);
+            $typed = is_array($query['filter'] ?? null) ? $query['filter'] : [];
         } else {
             $perPage = self::clamp(self::int($query['per_page'] ?? $defaultPerPage));
             $page = max(1, self::int($query['page'] ?? 1));
             $sort = self::simpleSort($query['sort'] ?? null);
             $search = self::search($query['search'] ?? null);
             $filters = is_array($query['filter'] ?? null) ? $query['filter'] : [];
+            $typed = $filters;
         }
 
         $sort = array_values(array_filter(
@@ -76,12 +100,48 @@ final class DataRequest
 
         $cleanFilters = [];
         foreach ($filters as $field => $value) {
-            if (!is_string($field) || !is_scalar($value) || (string) $value === '') {
+            if (!is_string($field) || isset($filterTypes[$field]) || !is_scalar($value) || (string) $value === '') {
                 continue;
             }
 
             if (self::isAllowed($field, $searchable)) {
                 $cleanFilters[$field] = (string) $value;
+            }
+        }
+
+        $conditions = [];
+        foreach ($filterTypes as $field => $type) {
+            if (!self::isValidField($field) || !array_key_exists($field, $typed)) {
+                continue;
+            }
+
+            $value = $typed[$field];
+
+            if ($type === self::FILTER_DATE_RANGE) {
+                $range = is_array($value) ? $value : [];
+                $from = self::date($range['from'] ?? null);
+                $to = self::date($range['to'] ?? null);
+                if ($from !== null) {
+                    $conditions[] = ['field' => $field, 'operator' => self::GTE, 'value' => $from->format('Y-m-d')];
+                }
+                if ($to !== null) {
+                    $next = $to->modify('+1 day')->format('Y-m-d');
+                    $conditions[] = ['field' => $field, 'operator' => self::LT, 'value' => $next];
+                }
+                continue;
+            }
+
+            $text = self::search($value);
+            if ($text === null) {
+                continue;
+            }
+
+            if ($type === self::FILTER_TEXT) {
+                $conditions[] = ['field' => $field, 'operator' => self::CONTAINS, 'value' => $text];
+            } elseif ($type === self::FILTER_EXACT) {
+                $cleanFilters[$field] = $text;
+            } elseif ($type === self::FILTER_BOOLEAN && in_array($text, ['0', '1'], true)) {
+                $cleanFilters[$field] = $text;
             }
         }
 
@@ -93,6 +153,7 @@ final class DataRequest
             filters: $cleanFilters,
             searchFields: $searchable ?? [],
             draw: max(0, self::int($query['draw'] ?? 0)),
+            conditions: $conditions,
         );
     }
 
@@ -111,11 +172,20 @@ final class DataRequest
             return null;
         }
 
+        return self::containsPattern($this->search);
+    }
+
+    /**
+     * A "contains" LIKE pattern for a text (the search term, or a `contains` condition's value),
+     * with `%` and `_` matched literally. Use it with `LIKE ? ESCAPE '!'`.
+     */
+    public static function containsPattern(string $value): string
+    {
         $escape = self::LIKE_ESCAPE;
         $escaped = str_replace(
             [$escape, '%', '_'],
             [$escape . $escape, $escape . '%', $escape . '_'],
-            $this->search,
+            $value,
         );
 
         return '%' . $escaped . '%';
@@ -220,6 +290,20 @@ final class DataRequest
         $search = trim((string) $search);
 
         return $search === '' ? null : mb_substr($search, 0, self::MAX_SEARCH_LENGTH);
+    }
+
+    /**
+     * A real calendar day written Y-m-d, or null.
+     */
+    private static function date(mixed $value): ?\DateTimeImmutable
+    {
+        if (!is_string($value) || preg_match('/^\d{4}-\d{2}-\d{2}$/', $value) !== 1) {
+            return null;
+        }
+
+        $date = \DateTimeImmutable::createFromFormat('!Y-m-d', $value);
+
+        return $date !== false && $date->format('Y-m-d') === $value ? $date : null;
     }
 
     private static function int(mixed $value): int

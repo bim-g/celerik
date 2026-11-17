@@ -36,6 +36,20 @@
   }
 }
 
+// The grid's filter bar (Column::filter()). Clear filters: Bootstrap's outline-secondary
+// text is #6c757d, 3.3:1 on its dark background; the body color and the field border
+// (3:1) keep it readable in both modes.
+.celerik-grid-filters {
+  legend {
+    float: none;
+  }
+
+  .btn-outline-secondary {
+    --bs-btn-color: var(--bs-body-color);
+    --bs-btn-border-color: var(--celerik-input-border);
+  }
+}
+
 // Keyboard focus must stay visible on sortable headers (WCAG 2.4.7).
 .dt-container th.dt-orderable-asc,
 .dt-container th.dt-orderable-desc {
@@ -797,10 +811,13 @@
 // and selection with system colors (WCAG 2.4.7, 1.4.11).
 @media (forced-colors: active) {
   // !important: FullCalendar and elFinder remove outlines with more specific selectors.
-  :is(.dt-container, .celerik-form, .celerik-scheduler, .celerik-scheduler-dialog, .celerik-tabs, .celerik-filemanager,
-    .celerik-theme-builder,
+  :is(.dt-container, .celerik-grid-filters, .celerik-form, .celerik-scheduler, .celerik-scheduler-dialog, .celerik-tabs,
+    .celerik-filemanager, .celerik-theme-builder,
     .celerik-modal, .notyf)
     :focus-visible,
+  // A date field's focus is on its day, month and year parts or its calendar button,
+  // inside the field: it matches :focus-within, not always :focus-visible.
+  .celerik-grid-filters input[type='date']:focus-within,
   [aria-haspopup='dialog'][data-bs-toggle='modal']:focus-visible {
     outline: 2px solid Highlight !important;
     outline-offset: 2px;

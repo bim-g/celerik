@@ -6,6 +6,15 @@ The same version is published on Packagist (`celerik/ui`) and npm (`@celerikui/u
 
 ## [Unreleased]
 
+### Added
+
+- **Grid column filters**: `Column::filter()` with `Filter::text()`, `Filter::select([...])`, `Filter::boolean()` and `Filter::dateRange()`. They appear in a filter bar above the table (a `search` landmark with a labelled field per column and a **Clear filters** button) and work client-side, and server-side through `respond()` with `ArrayDataSource`, `EloquentDataSource` and `DoctrineDataSource`. `Grid::labels()` translates the bar.
+- `DataRequest::$conditions` (`contains`, `gte`, `lt`), read from `filter[...]` by `DataRequest::fromArray(..., filterTypes: [...])`, and `DataRequest::containsPattern()`. The response's `meta` lists them as `conditions`.
+
+### Changed
+
+- `ArrayDataSource` matches a true/false value with a `1`/`0` filter, as a database does, as well as with "Yes"/"No".
+
 ## [0.2.1] - 2026-11-16
 
 ### Changed

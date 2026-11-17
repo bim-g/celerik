@@ -25,6 +25,8 @@ use Celerik\Ui\Components\Form\Field;
 use Celerik\Ui\Components\Form\Repeater;
 use Celerik\Ui\Components\Form\Section;
 use Celerik\Ui\Components\Grid;
+use Celerik\Ui\Components\Grid\Column;
+use Celerik\Ui\Components\Grid\Filter;
 use Celerik\Ui\Components\Modal;
 use Celerik\Ui\Components\Notification;
 use Celerik\Ui\Components\Scheduler;
@@ -104,6 +106,29 @@ if ($path === '/people/options') {
     exit;
 }
 
+// A server-side grid with column filters, and its endpoint, on the same grid definition.
+$staff = Grid::make('staff')
+    ->caption('Staff')
+    ->url('/staff/data')
+    ->pageSize(5)
+    ->column('name', 'Name', static fn (Column $c) => $c->filter(Filter::text()))
+    ->column('role', 'Role', static fn (Column $c) => $c->filter(Filter::select(['admin' => 'Admin', 'user' => 'User'])))
+    ->column('active', 'Active', static fn (Column $c) => $c->filter(Filter::boolean()))
+    ->column('joined', 'Joined', static fn (Column $c) => $c->filter(Filter::dateRange()));
+if ($path === '/staff/data') {
+    $rows = [
+        ['name' => 'Ada Lovelace', 'role' => 'admin', 'active' => true, 'joined' => '2026-01-31'],
+        ['name' => 'Alan Turing', 'role' => 'user', 'active' => false, 'joined' => '2026-02-01'],
+        ['name' => 'Grace Hopper', 'role' => 'admin', 'active' => true, 'joined' => '2026-01-10'],
+        ['name' => 'Barbara Liskov', 'role' => 'user', 'active' => true, 'joined' => '2026-03-15'],
+        ['name' => 'Margaret Hamilton', 'role' => 'admin', 'active' => false, 'joined' => '2025-12-24'],
+        ['name' => 'Katherine Johnson', 'role' => 'user', 'active' => true, 'joined' => '2026-02-20'],
+    ];
+    header('Content-Type: application/json');
+    echo json_encode($staff->respond(new ArrayDataSource($rows), $_GET));
+    exit;
+}
+
 // Bootstrap is the only look; ?theme= is ignored.
 $theme = 'bootstrap';
 $mode = ($_GET['mode'] ?? '') === 'dark' ? 'dark' : 'light';
@@ -178,6 +203,8 @@ $components = [
             ['id' => 2, 'name' => 'Alan Turing', 'email' => 'alan@example.com'],
             ['id' => 3, 'name' => 'Grace Hopper', 'email' => 'grace@example.com'],
         ]),
+
+    $staff,
 
     Chart::make('revenue')
         ->type('line')

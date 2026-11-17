@@ -53,6 +53,19 @@ final class EloquentDataSource implements DataSourceInterface
             $query->where($field, '=', $value);
         }
 
+        foreach ($request->conditions as $condition) {
+            if ($condition['operator'] === DataRequest::CONTAINS) {
+                $grammar = ($query instanceof EloquentBuilder ? $query->getQuery() : $query)->getGrammar();
+                $query->whereRaw(
+                    sprintf("%s like ? escape '%s'", $grammar->wrap($condition['field']), DataRequest::LIKE_ESCAPE),
+                    [DataRequest::containsPattern($condition['value'])],
+                );
+            } else {
+                $operator = $condition['operator'] === DataRequest::GTE ? '>=' : '<';
+                $query->where($condition['field'], $operator, $condition['value']);
+            }
+        }
+
         $filtered = (clone $query)->count();
 
         foreach ($request->sort as $rule) {

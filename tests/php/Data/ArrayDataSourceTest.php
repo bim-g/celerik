@@ -61,4 +61,26 @@ final class ArrayDataSourceTest extends TestCase
 
         self::assertSame([10, 2, 1], array_column($result->rows, 'id'));
     }
+
+    public function testConditionsAndYesNoFilters(): void
+    {
+        $source = new ArrayDataSource([
+            ['id' => 1, 'name' => 'Ada Lovelace', 'active' => true, 'joined' => '2026-01-31 18:30:00'],
+            ['id' => 2, 'name' => 'Alan Turing', 'active' => false, 'joined' => '2026-02-01'],
+            ['id' => 3, 'name' => 'Grace Hopper', 'active' => true, 'joined' => new \DateTimeImmutable('2026-01-10 09:00')],
+            ['id' => 4, 'name' => 'Linus', 'active' => true, 'joined' => null],
+        ]);
+
+        $contains = [['field' => 'name', 'operator' => 'contains', 'value' => 'LOVE']];
+        self::assertSame([1], array_column($source->fetch(new DataRequest(conditions: $contains))->rows, 'id'));
+
+        $january = [
+            ['field' => 'joined', 'operator' => 'gte', 'value' => '2026-01-01'],
+            ['field' => 'joined', 'operator' => 'lt', 'value' => '2026-02-01'],
+        ];
+        self::assertSame([1, 3], array_column($source->fetch(new DataRequest(conditions: $january))->rows, 'id'));
+
+        self::assertSame([2], array_column($source->fetch(new DataRequest(filters: ['active' => '0']))->rows, 'id'));
+        self::assertSame([1, 3, 4], array_column($source->fetch(new DataRequest(filters: ['active' => 'Yes']))->rows, 'id'));
+    }
 }

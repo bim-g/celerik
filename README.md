@@ -7,7 +7,7 @@ An open-source, Bootstrap-based UI component suite for PHP, inspired by Telerik 
 
 Components are written in PHP and render accessible, escaped HTML. A small JS bundle then enhances them with proven open-source libraries: DataTables, Chart.js, Parsley.js, Inputmask, FullCalendar, Quill, FilePond, Notyf and elFinder. Each library (and its stylesheet) is loaded only on pages that use it.
 
-> **Status: Phase 4 (forms) complete; Phase 5 (data) next.** Grid, Chart, Form (with uploads, a rich text editor, selects, tags, dates, ratings, one-time codes, key-value lists, repeaters and wizards), Scheduler, Modal, Tabs, Notification, File Manager and ThemeBuilder are available, accessible to WCAG 2.2 AA and documented. The [roadmap](ROADMAP.md) lists the components still to come, toward Telerik UI's breadth.
+> **Status: Phase 5 (data) in progress.** Grid, Chart, Form (with uploads, a rich text editor, selects, tags, dates, ratings, one-time codes, key-value lists, repeaters and wizards), Scheduler, Modal, Tabs, Notification, File Manager and ThemeBuilder are available, accessible to WCAG 2.2 AA and documented. The [roadmap](ROADMAP.md) lists the components still to come, toward Telerik UI's breadth.
 
 **Documentation: <https://kivudesign.github.io/celerik/>**, with getting started guides for plain PHP, Laravel and Symfony, every component with a live demo, the theming and security guides, and the API reference.
 
@@ -53,7 +53,7 @@ Releases include the built bundle (`public/`), so no Node.js is needed to instal
 
 | Component | PHP class | Library | Highlights |
 |---|---|---|---|
-| Grid | `Components\Grid` | DataTables 3 | Client- or server-side, export, caption, column whitelisting |
+| Grid | `Components\Grid` | DataTables 3 | Client- or server-side, column filters, export, caption, column whitelisting |
 | Chart | `Components\Chart` | Chart.js 4 | Embedded or remote data, `fromRows()`, hidden data table as text alternative |
 | Form | `Components\Form` | Parsley.js, Inputmask | HTML5 rules, masks, CSRF, method spoofing, server errors and old input |
 | File upload | `Field::file()` + `Upload\UploadHandler` | FilePond 4 | Async or classic uploads; real MIME detection, extension whitelist, random names; falls back to a plain file input |

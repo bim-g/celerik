@@ -15,6 +15,7 @@ final class Column
     private bool $visible = true;
     private ?string $className = null;
     private ?string $width = null;
+    private ?Filter $filter = null;
 
     public function __construct(private readonly string $field, ?string $title = null)
     {
@@ -68,6 +69,22 @@ final class Column
         return $this;
     }
 
+    /**
+     * A filter in the grid's filter bar: Filter::text(), select([...]), boolean() or dateRange().
+     * respond() applies it on the server; it works on a column that is not searchable.
+     */
+    public function filter(?Filter $filter): self
+    {
+        $this->filter = $filter;
+
+        return $this;
+    }
+
+    public function getFilter(): ?Filter
+    {
+        return $this->filter;
+    }
+
     public function getField(): string
     {
         return $this->field;
@@ -94,7 +111,7 @@ final class Column
     }
 
     /**
-     * @return array<string, string|bool>
+     * @return array<string, mixed>
      */
     public function toArray(): array
     {
@@ -106,6 +123,7 @@ final class Column
             'visible' => $this->visible,
             'className' => $this->className,
             'width' => $this->width,
+            'filter' => $this->filter?->toArray(),
         ], static fn (mixed $value): bool => $value !== null);
     }
 }
