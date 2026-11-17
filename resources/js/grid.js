@@ -22,7 +22,99 @@ export function initGrid(element, options) {
   if (options.actions?.length) {
     refreshAfterActions(grid, element, Boolean(options.url));
   }
+  if (options.selection) {
+    enableSelection(grid, element, options.selection, Boolean(options.url));
+  }
   return grid;
+}
+
+// Row selection (Grid::selectable()): the selected keys are kept across pages, filters and
+// sorting, the page's box shows all, some (mixed) or none of its rows, and the bulk bar says
+// how many rows are selected. Its buttons are disabled while none is.
+function enableSelection(grid, element, { form, labels }, serverSide) {
+  const selected = new Set();
+  const bulk = form ? document.getElementById(form) : null;
+  const status = bulk?.querySelector('[data-celerik-selected]');
+  const buttons = bulk ? [...bulk.querySelectorAll('button[data-celerik-action]')] : [];
+  const all = element.querySelector('[data-celerik-select-all]');
+  const boxes = () => [...element.tBodies[0].querySelectorAll('input[data-celerik-select]')];
+
+  const update = () => {
+    const page = boxes();
+    const checked = page.filter((box) => box.checked).length;
+    if (all) {
+      all.checked = page.length > 0 && checked === page.length;
+      all.indeterminate = checked > 0 && checked < page.length;
+    }
+    if (status) {
+      const text = selected.size > 0 ? labels.selected.replaceAll('{count}', String(selected.size)) : labels.noneSelected;
+      if (status.textContent !== text) {
+        status.textContent = text;
+      }
+    }
+    buttons.forEach((button) => {
+      button.disabled = selected.size === 0;
+    });
+  };
+  const toggle = (box, checked) => {
+    box.checked = checked;
+    if (checked) {
+      selected.add(box.value);
+    } else {
+      selected.delete(box.value);
+    }
+  };
+
+  element.addEventListener('change', (event) => {
+    if (event.target.matches('input[data-celerik-select]')) {
+      toggle(event.target, event.target.checked);
+    } else if (event.target === all) {
+      boxes().forEach((box) => toggle(box, all.checked));
+    } else {
+      return;
+    }
+    update();
+    element.dispatchEvent(new CustomEvent('celerik:selection', { bubbles: true, detail: { keys: [...selected] } }));
+  });
+  grid.on('draw', () => {
+    boxes().forEach((box) => {
+      box.checked = selected.has(box.value);
+    });
+    update();
+  });
+
+  // A row's own action that deleted it takes it out of the selection.
+  element.addEventListener('celerik:action', (event) => {
+    const box = event.target.closest('tr')?.querySelector('input[data-celerik-select]');
+    if (event.detail?.ok && event.detail.method === 'DELETE' && box) {
+      selected.delete(box.value);
+      update();
+    }
+  });
+
+  if (bulk) {
+    bulk.celerikSelection = () => [...selected];
+    // After a bulk action: a server-side grid reloads its page; a client-side grid removes
+    // the rows a DELETE deleted. The selection is cleared and focus moves to the page's box,
+    // as the bar's buttons are disabled again.
+    bulk.addEventListener('celerik:action', (event) => {
+      if (!event.detail?.ok) {
+        return;
+      }
+      if (!serverSide && event.detail.method === 'DELETE') {
+        grid.rows((index, data, node) => selected.has(node?.querySelector('input[data-celerik-select]')?.value)).remove();
+      }
+      selected.clear();
+      if (serverSide) {
+        grid.ajax.reload(null, false);
+      } else {
+        grid.draw(false);
+      }
+      update();
+      all?.focus();
+    });
+  }
+  update();
 }
 
 // After a row action succeeds: a server-side grid reloads its page; a client-side grid
@@ -67,7 +159,8 @@ function enhanceFilters(grid, bar, columns, current, serverSide) {
   // Read once per draw, not once per row.
   let active = current();
   if (!serverSide) {
-    const indexes = new Map(columns.map((column, index) => [column.field, index]));
+    // By name: a selection column may come first.
+    const indexes = new Map(columns.map((column) => [column.field, grid.column(`${column.field}:name`).index()]));
     const types = new Map(columns.map((column) => [column.field, column.filter?.type]));
     grid.search.fixed('celerik-filters', (searchData, rowData, rowIndex) => {
       if (active.length === 0) {

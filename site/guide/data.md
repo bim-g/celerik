@@ -84,6 +84,8 @@ Answer with JSON. A `message` is shown in a toast, a success for a 2xx status an
 echo json_encode(['message' => 'Ada Lovelace was deleted.']);
 ```
 
+A grid's [bulk action](../components/grid#row-selection-and-bulk-actions) also sends the keys of the selected rows, `ids[]=4&ids[]=9`. Check that the user may change each of them.
+
 ## Chart
 
 A chart with `url()` fetches `{"data": {"labels": [...], "datasets": [...]}}` and builds its data table text alternative from it:

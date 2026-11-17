@@ -27,7 +27,8 @@ document.addEventListener('submit', (event) => {
   const form = event.target;
   if (form instanceof HTMLFormElement && form.matches('form.celerik-action')) {
     event.preventDefault();
-    import('./action.js').then(({ submitAction }) => submitAction(form));
+    const { submitter } = event;
+    import('./action.js').then(({ submitAction }) => submitAction(form, { submitter }));
   }
 });
 

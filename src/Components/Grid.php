@@ -21,7 +21,9 @@ use LogicException;
  * Client-side mode: pass rows with rows(); they are rendered as HTML (readable without JS).
  * Server-side mode: pass an endpoint with url(); the endpoint answers with respond().
  * Columns with a filter() get a filter bar above the table, shown once JavaScript runs.
- * Actions (actions()) get a last column with a button for each row.
+ * Actions (actions()) get a last column with a button for each row. A selectable grid
+ * (selectable()) gets a first column of checkboxes, and bulk actions (bulkActions()) a bar
+ * above the table that sends the selected rows.
  */
 final class Grid extends Component
 {
@@ -37,6 +39,11 @@ final class Grid extends Component
         'to' => 'To',
         'clear' => 'Clear filters',
         'actions' => 'Actions',
+        'select' => 'Select',
+        'selectAll' => 'Select all rows on this page',
+        'selected' => '{count} selected',
+        'noneSelected' => 'No rows selected',
+        'bulkActions' => 'Selected rows',
     ];
 
     /** How respond() reads each kind of column filter. */
@@ -76,6 +83,13 @@ final class Grid extends Component
     private array $actions = [];
 
     private ?string $rowTitle = null;
+
+    private ?string $selectKey = null;
+
+    private string $selectName = 'ids';
+
+    /** @var list<Action> */
+    private array $bulkActions = [];
 
     public static function name(): string
     {
@@ -208,6 +222,45 @@ final class Grid extends Component
     }
 
     /**
+     * A first column of checkboxes to select rows, and a box that selects every row of the
+     * page. `$key` identifies a row (a column, hidden or not); bulk actions send the selected
+     * keys as `$name[]`. The selection is kept across pages, filters and sorting.
+     */
+    public function selectable(string $key = 'id', string $name = 'ids'): self
+    {
+        if (!DataRequest::isValidField($key)) {
+            throw new InvalidArgumentException(sprintf('Invalid row key "%s".', $key));
+        }
+        if (preg_match('/^[A-Za-z_][A-Za-z0-9_]*$/', $name) !== 1) {
+            throw new InvalidArgumentException(sprintf('Invalid selection name "%s".', $name));
+        }
+        $this->selectKey = $key;
+        $this->selectName = $name;
+
+        return $this;
+    }
+
+    /**
+     * Request actions for the selected rows, in a bar above the table ("3 selected"):
+     * Action::request('delete', 'Delete', '/members/bulk-delete')->confirm('Delete {count} members?').
+     * They post the selected keys (`ids[]`) to their URL. Needs selectable().
+     */
+    public function bulkActions(Action ...$actions): self
+    {
+        foreach ($actions as $action) {
+            if (!$action->isRequest()) {
+                throw new InvalidArgumentException(sprintf(
+                    'Bulk action "%s" must be a request (Action::request()).',
+                    $action->getName(),
+                ));
+            }
+        }
+        array_push($this->bulkActions, ...$actions);
+
+        return $this;
+    }
+
+    /**
      * The field that names a row in its buttons' accessible names ("Delete Ada Lovelace"):
      * by default, the first visible column.
      */
@@ -277,12 +330,22 @@ final class Grid extends Component
     public function toArray(): array
     {
         $this->assertActionFields();
+        $this->assertSelection();
 
         return array_filter([
             'columns' => array_map(static fn (Column $column): array => $column->toArray(), $this->columns),
             'actions' => array_map(static fn (Action $action): array => $action->toArray(), $this->actions),
             'actionsTitle' => $this->actions === [] ? null : $this->labels['actions'],
-            'rowTitle' => $this->actions === [] ? null : $this->rowTitleField(),
+            'rowTitle' => $this->actions === [] && $this->selectKey === null ? null : $this->rowTitleField(),
+            'selection' => $this->selectKey === null ? null : array_filter([
+                'key' => $this->selectKey,
+                'name' => $this->selectName,
+                'form' => $this->bulkActions === [] ? null : $this->id . '-bulk',
+                'labels' => array_intersect_key(
+                    $this->labels,
+                    array_flip(['select', 'selectAll', 'selected', 'noneSelected']),
+                ),
+            ], static fn (mixed $value): bool => $value !== null),
             'url' => $this->url,
             'pageSize' => $this->pageSize,
             'pageSizes' => $this->pageSizes,
@@ -305,8 +368,18 @@ final class Grid extends Component
         );
 
         $filters = $this->renderFilters();
+        $this->assertSelection();
+        $bulk = $this->renderBulkBar();
 
         $headers = '';
+        if ($this->selectKey !== null) {
+            $headers .= Html::tag('th', ['scope' => 'col', 'class' => 'celerik-grid-select'], Html::tag('input', [
+                'type' => 'checkbox',
+                'class' => 'form-check-input',
+                'aria-label' => $this->labels['selectAll'],
+                'data-celerik-select-all' => true,
+            ]));
+        }
         foreach ($this->columns as $column) {
             $headers .= Html::tag('th', ['scope' => 'col'], Html::escape($column->getTitle()));
         }
@@ -319,7 +392,11 @@ final class Grid extends Component
         $body = '';
         if ($this->url === null) {
             foreach ($this->rows as $row) {
-                $cells = '';
+                $cells = $this->selectKey === null ? '' : Html::tag(
+                    'td',
+                    ['class' => 'celerik-grid-select'],
+                    $this->renderCheckbox($row),
+                );
                 foreach ($this->columns as $column) {
                     $value = Arr::get($row, $column->getField());
                     $attributes = ['data-value' => self::filterValue($column, $value)];
@@ -332,7 +409,7 @@ final class Grid extends Component
             }
         }
 
-        return $filters . Html::tag(
+        return $filters . $bulk . Html::tag(
             'table',
             $this->rootAttributes(['table', 'table-striped', 'table-hover', 'w-100', 'celerik-grid']),
             $caption . Html::tag('thead', [], Html::tag('tr', [], $headers)) . Html::tag('tbody', [], $body),
@@ -354,6 +431,72 @@ final class Grid extends Component
         }
 
         return Html::tag('div', ['class' => 'celerik-grid-action-list'], $buttons);
+    }
+
+    /**
+     * A row's checkbox: named "Select Ada Lovelace", and part of the bulk form, so that
+     * without JavaScript a bulk action posts the checked rows.
+     *
+     * @param array<string, mixed> $row
+     */
+    private function renderCheckbox(array $row): string
+    {
+        $title = Arr::toText(Arr::get($row, $this->rowTitleField()));
+
+        return Html::tag('input', [
+            'type' => 'checkbox',
+            'class' => 'form-check-input',
+            'name' => $this->selectName . '[]',
+            'value' => Arr::toText(Arr::get($row, (string) $this->selectKey)),
+            'form' => $this->bulkActions === [] ? null : $this->id . '-bulk',
+            'aria-label' => trim($this->labels['select'] . ' ' . $title),
+            'data-celerik-select' => true,
+        ]);
+    }
+
+    /**
+     * The bulk form: the number of rows selected (a status) and the bulk actions.
+     */
+    private function renderBulkBar(): string
+    {
+        if ($this->selectKey === null || $this->bulkActions === []) {
+            return '';
+        }
+
+        $csrf = '';
+        $buttons = '';
+        foreach ($this->bulkActions as $action) {
+            $csrf = $csrf !== '' ? $csrf : $action->renderCsrfField();
+            $buttons .= $action->renderBulkButton();
+        }
+        $status = Html::tag(
+            'span',
+            ['class' => 'celerik-grid-selected', 'role' => 'status', 'data-celerik-selected' => true],
+            Html::escape($this->labels['noneSelected']),
+        );
+
+        return Html::tag('form', [
+            'id' => $this->id . '-bulk',
+            'method' => 'post',
+            'class' => 'celerik-action celerik-grid-bulk d-flex flex-wrap align-items-center gap-2 mb-3',
+            'role' => 'group',
+            'aria-label' => $this->labels['bulkActions'],
+            'data-celerik-bulk' => $this->selectName,
+        ], $csrf . $status . $buttons);
+    }
+
+    private function assertSelection(): void
+    {
+        if ($this->bulkActions !== [] && $this->selectKey === null) {
+            throw new LogicException(sprintf('Grid "%s" has bulk actions: call selectable() too.', $this->id));
+        }
+        if ($this->selectKey !== null && !in_array($this->selectKey, $this->fields(), true)) {
+            throw new LogicException(sprintf(
+                'The row key "%s" of grid "%s" is not a column: add one (it can be hidden).',
+                $this->selectKey,
+                $this->id,
+            ));
+        }
     }
 
     private function rowTitleField(): string

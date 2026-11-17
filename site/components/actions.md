@@ -1,6 +1,6 @@
 # Actions
 
-Buttons that do something: open a page, or send a request to your endpoint, after a confirmation when it matters. Use them on their own, in a toolbar or a page, or [in a grid's rows](./grid#row-actions).
+Buttons that do something: open a page, or send a request to your endpoint, after a confirmation when it matters. Use them on their own, in a toolbar or a page, [in a grid's rows](./grid#row-actions), or [for the rows selected in a grid](./grid#row-selection-and-bulk-actions).
 
 <Demo name="actions" :min-height="260" />
 

@@ -1,8 +1,8 @@
 # Grid
 
-A data table on [DataTables 3](https://datatables.net/): sorting, search, column filters, row actions, paging and export, client-side or server-side.
+A data table on [DataTables 3](https://datatables.net/): sorting, search, column filters, row actions, row selection with bulk actions, paging and export, client-side or server-side.
 
-<Demo name="grid" :min-height="600" />
+<Demo name="grid" :min-height="640" />
 
 <<< @/demos/grid.php
 
@@ -31,8 +31,10 @@ echo json_encode($grid->respond(new ArrayDataSource($rows), $_GET));
 | `searchable(false)` | Hides the search box. |
 | `export('copy', 'csv', 'print')` | Export buttons. |
 | `actions(Action ...$actions)` | Buttons for each row, in a last column (see [Row actions](#row-actions)). |
-| `rowTitle($field)` | The field that names a row in its buttons' accessible names. Default: the first visible column. |
-| `labels([...])` | Translates the filter bar and the actions column: `filters`, `any`, `yes`, `no`, `from`, `to`, `clear`, `actions`. |
+| `selectable($key = 'id', $name = 'ids')` | A checkbox per row (see [Row selection](#row-selection-and-bulk-actions)). |
+| `bulkActions(Action ...$actions)` | Request actions for the selected rows, in a bar above the table. |
+| `rowTitle($field)` | The field that names a row in its buttons' and checkbox's accessible names. Default: the first visible column. |
+| `labels([...])` | Translates the filter bar, the actions column and the selection: `filters`, `any`, `yes`, `no`, `from`, `to`, `clear`, `actions`, `select`, `selectAll`, `selected` (with `{count}`), `noneSelected`, `bulkActions`. |
 | `options([...])` | Raw DataTables options, applied last. |
 
 ### Columns
@@ -114,6 +116,43 @@ Grid::make('members')
 
   Focus moves to the same button in the row that takes its place, or to the table when the page is empty.
 - Exports leave the actions column out.
+
+## Row selection and bulk actions
+
+`selectable()` adds a first column with a checkbox for each row, and a box in its header that selects every row of the page. `bulkActions()` adds a bar above the table: the number of rows selected, and a button for each action.
+
+```php
+Grid::make('members')
+    ->url('/members/data')
+    ->column('id', 'ID', static fn (Column $c) => $c->hidden())
+    ->column('name', 'Name')
+    ->selectable('id')
+    ->bulkActions(
+        Action::request('delete', 'Delete selected', '/members/bulk-delete')
+            ->method('DELETE')
+            ->variant('danger')
+            ->confirm('Delete {count} members?', 'This cannot be undone.')
+            ->csrf($csrfToken),
+    );
+
+// DELETE /members/bulk-delete: ids[]=4&ids[]=9
+// Check authorization, and that the user may change each of these rows.
+$ids = array_map('intval', $_POST['ids'] ?? []);
+```
+
+- **The key** (`id` by default) identifies a row. It must be a column of the grid, hidden or not.
+- **The selection** is kept across pages, filters and sorting.
+  - The header box is checked when every row of the page is selected, and mixed when some are.
+  - Every checkbox is named after its row, for example "Select Ada Lovelace".
+- **The bar** says how many rows are selected, in a status that screen readers announce. Its buttons are disabled while no row is selected.
+- **A bulk action** posts the selected keys as `ids[]` (the second argument of `selectable()` names them), with the action's method and the CSRF token. `{count}` in its confirmation is the number of rows.
+- **After a bulk action succeeds:**
+  - a server-side grid reloads its page;
+  - a client-side grid removes the rows of a `DELETE`.
+
+  The selection is then cleared, and focus moves to the header box.
+- **Without JavaScript**, the checkboxes of a client-side grid belong to the bulk form, so a bulk action posts the checked rows of the page.
+- Exports leave the selection column out.
 
 ## Accessibility
 

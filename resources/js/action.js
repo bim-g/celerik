@@ -67,6 +67,15 @@ export function rowActionsHtml(actions, row, rowTitle) {
   return `<div class="celerik-grid-action-list">${buttons}</div>`;
 }
 
+// A row's checkbox (Grid::selectable()), as Grid::renderCheckbox() writes it.
+export function rowCheckboxHtml(selection, row, rowTitle) {
+  const attribute = (name, value) => (value === null || value === undefined ? '' : ` ${name}="${escapeHtml(value)}"`);
+  const title = rowTitle ? fill(`{${rowTitle}}`, row) : '';
+  return `<input type="checkbox" class="form-check-input"${attribute('name', `${selection.name}[]`)}`
+    + `${attribute('value', fill(`{${selection.key}}`, row))}${attribute('form', selection.form)}`
+    + `${attribute('aria-label', `${selection.labels.select} ${title}`.trim())} data-celerik-select>`;
+}
+
 let counter = 0;
 
 function create(tag, attributes = {}, text = null) {
@@ -159,19 +168,27 @@ async function readMessage(response) {
 const pending = new WeakSet();
 
 // Runs a request action's form: confirmation, request, message, `celerik:action` event.
-// deps: { fetch, notify, confirm } for tests and custom UIs. Resolves with the event's detail,
-// or null when cancelled or already running.
-export async function submitAction(form, deps = {}) {
-  if (pending.has(form)) {
+// A grid's bulk form (Grid::bulkActions()) has a submit button per action: `submitter` is
+// the one pressed, and carries the action's URL, method, confirmation and labels. The form's
+// `celerikSelection()` (set by the grid) gives the selected rows, sent as `name[]`, and
+// `{count}` in the confirmation is their number.
+// options: { submitter, fetch, notify, confirm } (the last three for tests and custom UIs).
+// Resolves with the event's detail, or null when cancelled or already running.
+export async function submitAction(form, options = {}) {
+  const submitter = options.submitter?.dataset?.celerikAction ? options.submitter : null;
+  const source = submitter ?? form;
+  if (pending.has(form) || submitter?.disabled) {
     return null;
   }
-  const labels = labelsOf(form);
-  const button = form.querySelector('button[type=submit], button:not([type])');
-  const ask = deps.confirm ?? confirmAction;
-  if (form.dataset.confirm) {
+  const labels = labelsOf(source);
+  const button = submitter ?? form.querySelector('button[type=submit], button:not([type])');
+  const selection = typeof form.celerikSelection === 'function' ? form.celerikSelection() : null;
+  const ask = options.confirm ?? confirmAction;
+  if (source.dataset.confirm) {
+    const count = String(selection?.length ?? 0);
     const confirmed = await ask({
-      question: form.dataset.confirm,
-      detail: form.dataset.confirmDetail ?? null,
+      question: source.dataset.confirm.replaceAll('{count}', count),
+      detail: source.dataset.confirmDetail?.replaceAll('{count}', count) ?? null,
       confirmLabel: button?.textContent.trim() || 'OK',
       cancelLabel: labels.cancel,
       danger: Boolean(button?.className.includes('danger')),
@@ -181,24 +198,37 @@ export async function submitAction(form, deps = {}) {
     }
   }
 
-  const notify = deps.notify ?? (async (type, message) => (await import('./notification.js')).notify(type, message));
-  const method = form.dataset.method || 'POST';
+  const notify = options.notify ?? (async (type, message) => (await import('./notification.js')).notify(type, message));
+  const method = source.dataset.method || 'POST';
   const headers = { Accept: 'application/json', 'X-Requested-With': 'XMLHttpRequest' };
-  const header = form.dataset.csrfHeader;
+  const header = source.dataset.csrfHeader;
   const token = [...form.querySelectorAll('input[type=hidden]')].find((input) => input.name !== '_method');
   if (header && token) {
     headers[header] = token.value;
   }
+  const body = new FormData(form);
+  if (submitter?.name) {
+    body.append(submitter.name, submitter.value);
+  }
+  if (selection && form.dataset.celerikBulk) {
+    const field = `${form.dataset.celerikBulk}[]`;
+    body.delete(field);
+    selection.forEach((key) => body.append(field, key));
+  }
+  const url = submitter?.hasAttribute('formaction')
+    ? new URL(submitter.getAttribute('formaction'), document.baseURI).href
+    : form.action;
+  const name = source.dataset.celerikAction;
 
   pending.add(form);
   button?.setAttribute('aria-disabled', 'true');
   let detail;
   try {
-    const response = await (deps.fetch ?? fetch)(form.action, {
-      method, headers, body: new FormData(form), credentials: 'same-origin',
+    const response = await (options.fetch ?? fetch)(url, {
+      method, headers, body, credentials: 'same-origin',
     });
     const { data, message } = await readMessage(response);
-    detail = { name: form.dataset.celerikAction, method, ok: response.ok, status: response.status, data };
+    detail = { name, method, ok: response.ok, status: response.status, data };
     if (response.ok) {
       if (message) {
         await notify('success', message);
@@ -207,7 +237,7 @@ export async function submitAction(form, deps = {}) {
       await notify('error', message ?? labels.failed);
     }
   } catch (error) {
-    detail = { name: form.dataset.celerikAction, method, ok: false, status: 0, data: null, error };
+    detail = { name, method, ok: false, status: 0, data: null, error };
     await notify('error', labels.failed);
   } finally {
     pending.delete(form);
