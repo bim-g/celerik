@@ -1,6 +1,7 @@
 # Weekly pull requests that update the lockfiles and the workflows' actions.
 # Minor and patch updates come grouped in one pull request per ecosystem;
-# major updates come one by one, as they may need code changes.
+# major updates come one by one, as they may need code changes, except for
+# packages that only work at the same major version: they come together.
 version: 2
 updates:
   - package-ecosystem: npm
@@ -12,8 +13,20 @@ updates:
     groups:
       npm:
         update-types: [minor, patch]
+      # Jest's environment and transform must match its major version.
+      jest:
+        patterns: [jest, jest-*, babel-jest]
+        update-types: [major]
+      # @eslint/js needs the eslint of the same major version.
+      eslint:
+        patterns: [eslint, '@eslint/*']
+        update-types: [major]
+      # The Bootstrap styling and the Buttons extension are built on one DataTables major.
+      datatables:
+        patterns: ['datatables.net*']
+        update-types: [major]
     ignore:
-      # Babel 8 needs @babel/preset-env 8 and Jest 30 (babel-jest) at the same time:
+      # Babel 8 needs @babel/core and @babel/preset-env 8 at the same time:
       # a planned migration, not a single bump.
       - dependency-name: '@babel/*'
         update-types: ['version-update:semver-major']
