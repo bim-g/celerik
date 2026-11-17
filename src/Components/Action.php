@@ -188,6 +188,51 @@ final class Action implements Stringable
         return $this->ariaLabel !== null;
     }
 
+    public function isRequest(): bool
+    {
+        return $this->isRequest;
+    }
+
+    /**
+     * The action as a submit button of a grid's bulk form (Grid::bulkActions()): it posts the
+     * selected rows to its URL. `{count}` in its confirmation is the number of rows selected;
+     * `_method` goes with the button, as each button may have its own.
+     *
+     * @internal
+     */
+    public function renderBulkButton(): string
+    {
+        $labels = $this->labels === self::LABELS ? null : json_encode($this->labels, JSON_THROW_ON_ERROR);
+
+        return Html::tag('button', [
+            'type' => 'submit',
+            'formaction' => $this->url,
+            'name' => $this->method === 'POST' ? null : '_method',
+            'value' => $this->method === 'POST' ? null : $this->method,
+            'class' => $this->buttonClass() . ' btn-sm',
+            'data-celerik-action' => $this->name,
+            'data-method' => $this->method,
+            'data-confirm' => $this->confirm,
+            'data-confirm-detail' => $this->confirmDetail,
+            'data-csrf-header' => $this->csrfToken === null ? null : $this->csrfHeader,
+            'data-labels' => $labels,
+        ], Html::escape($this->label));
+    }
+
+    /**
+     * The hidden CSRF field, or an empty string without a token.
+     *
+     * @internal
+     */
+    public function renderCsrfField(): string
+    {
+        if ($this->csrfToken === null) {
+            return '';
+        }
+
+        return Html::tag('input', ['type' => 'hidden', 'name' => $this->csrfField, 'value' => $this->csrfToken]);
+    }
+
     /**
      * The row fields this action reads, from its URL, confirmation and accessible name.
      *

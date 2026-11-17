@@ -91,6 +91,26 @@ $fixtures = [
             ['id' => 3, 'name' => 'Grace Hopper', 'team' => ['slug' => 'navy']],
         ]),
 
+    'grid-selection' => Grid::make('crew')
+        ->caption('Crew')
+        ->column('id', 'ID', static fn (Column $c) => $c->hidden())
+        ->column('name', 'Name')
+        ->selectable()
+        ->bulkActions(
+            Action::request('remove', 'Remove selected', '/crew/remove')
+                ->method('DELETE')
+                ->variant('danger')
+                ->confirm('Remove {count} people?')
+                ->csrf('t0ken'),
+            Action::request('mail', 'E-mail them', '/crew/mail'),
+        )
+        ->pageSize(2)
+        ->rows([
+            ['id' => 1, 'name' => 'Ada'],
+            ['id' => 2, 'name' => 'Alan'],
+            ['id' => 3, 'name' => 'Grace'],
+        ]),
+
     'chart' => Chart::make('sales')
         ->type('bar')
         ->title('Monthly revenue')

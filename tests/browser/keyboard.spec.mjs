@@ -75,7 +75,8 @@ test.describe('grid', () => {
   test('column filters narrow a server-side grid from the keyboard, and Clear filters resets them', async ({ page }) => {
     const bar = page.getByRole('search', { name: 'Filters' });
     const rows = page.locator('#staff tbody tr');
-    const names = () => page.locator('#staff tbody td:first-child').allTextContents();
+    // The first cell holds the row's checkbox.
+    const names = () => page.locator('#staff tbody td:nth-child(2)').allTextContents();
     // Each change asks the test server, which serves one request at a time: allow for a slow machine.
     const slow = { timeout: 15_000 };
     await expect(rows).toHaveCount(5, slow);
@@ -136,6 +137,36 @@ test.describe('grid', () => {
     await expect(page.locator('.notyf')).toContainText('User 1 was deleted.', { timeout: 15_000 });
     await expect(grid.getByRole('button', { name: 'Delete Ada Lovelace' })).toHaveCount(0);
     await expect(grid.getByRole('button', { name: 'Delete Alan Turing' })).toBeFocused();
+  });
+
+  test('rows are selected from the keyboard, across pages, and a bulk action sends them', async ({ page }) => {
+    const grid = page.locator('#staff');
+    const bar = page.getByRole('group', { name: 'Selected rows' });
+    const slow = { timeout: 15_000 };
+    const all = grid.getByRole('checkbox', { name: 'Select all rows on this page' });
+    await expect(bar.getByRole('status')).toHaveText('No rows selected');
+    await expect(bar.getByRole('button', { name: 'Deactivate selected' })).toBeDisabled();
+
+    await grid.getByRole('checkbox', { name: 'Select Ada Lovelace' }).focus();
+    await page.keyboard.press('Space');
+    await expect(bar.getByRole('status')).toHaveText('1 selected');
+    // Some rows of the page are selected: the page's box is mixed.
+    await expect(all).toHaveJSProperty('indeterminate', true);
+
+    // The next page: its rows are not selected, and the selection is kept.
+    await page.locator('#staff_wrapper').getByRole('link', { name: 'Next' }).click();
+    await grid.getByRole('checkbox', { name: 'Select Katherine Johnson' }).check(slow);
+    await expect(bar.getByRole('status')).toHaveText('2 selected');
+
+    await bar.getByRole('button', { name: 'Deactivate selected' }).focus();
+    await page.keyboard.press('Enter');
+    const dialog = page.getByRole('alertdialog', { name: 'Deactivate 2 people?' });
+    await expect(dialog).toBeVisible();
+    await dialog.getByRole('button', { name: 'Deactivate selected' }).click();
+
+    await expect(page.locator('.notyf')).toContainText('2 people were deactivated: Ada Lovelace, Katherine Johnson.', slow);
+    await expect(bar.getByRole('status')).toHaveText('No rows selected');
+    await expect(all).toBeFocused();
   });
 
   test('a server-side grid\'s row action sends its request and reloads the page of rows', async ({ page }) => {

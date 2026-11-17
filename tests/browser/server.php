@@ -107,6 +107,16 @@ if ($path === '/people/options') {
     exit;
 }
 
+// A bulk action: the selected rows arrive as ids[].
+if ($path === '/staff/bulk' && ($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
+    header('Content-Type: application/json');
+    $ids = is_array($_POST['ids'] ?? null) ? $_POST['ids'] : [];
+    $valid = ($_SERVER['HTTP_X_CSRF_TOKEN'] ?? '') === 'test-token';
+    http_response_code($valid ? 200 : 419);
+    echo json_encode(['message' => $valid ? count($ids) . ' people were deactivated: ' . implode(', ', $ids) . '.' : 'Expired.']);
+    exit;
+}
+
 // Row actions: answer like a real endpoint, with a message (the request must carry the token).
 $isPost = in_array($_SERVER['REQUEST_METHOD'] ?? 'GET', ['POST', 'DELETE'], true);
 if ($isPost && preg_match('#^/(users|staff)/([^/]+)(/deactivate)?$#', $path, $match) === 1) {
@@ -130,7 +140,13 @@ $staff = Grid::make('staff')
     ->column('role', 'Role', static fn (Column $c) => $c->filter(Filter::select(['admin' => 'Admin', 'user' => 'User'])))
     ->column('active', 'Active', static fn (Column $c) => $c->filter(Filter::boolean()))
     ->column('joined', 'Joined', static fn (Column $c) => $c->filter(Filter::dateRange()))
-    ->actions(Action::request('deactivate', 'Deactivate', '/staff/{name}/deactivate')->csrf('test-token'));
+    ->actions(Action::request('deactivate', 'Deactivate', '/staff/{name}/deactivate')->csrf('test-token'))
+    ->selectable('name')
+    ->bulkActions(
+        Action::request('deactivate', 'Deactivate selected', '/staff/bulk')
+            ->confirm('Deactivate {count} people?')
+            ->csrf('test-token'),
+    );
 if ($path === '/staff/data') {
     $rows = [
         ['name' => 'Ada Lovelace', 'role' => 'admin', 'active' => true, 'joined' => '2026-01-31'],

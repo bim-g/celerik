@@ -1,4 +1,4 @@
-import { rowActionsHtml } from './action.js';
+import { rowActionsHtml, rowCheckboxHtml } from './action.js';
 import { deepMerge } from './core.js';
 
 // Celerik endpoints answer {data, meta}; DataTables expects its own envelope.
@@ -115,6 +115,22 @@ export function buildGridConfig(options, { filters = null } = {}) {
       } : {}),
     });
   }
+  // The selection column (Grid::selectable()), first: PHP renders its checkboxes in
+  // client-side rows. Rows are sorted by the first data column, not by the checkboxes.
+  const selection = options.selection ?? null;
+  if (selection) {
+    config.columns.unshift({
+      data: options.url ? null : 'celerikSelect',
+      orderable: false,
+      searchable: false,
+      className: 'celerik-grid-select',
+      defaultContent: '',
+      ...(options.url ? {
+        render: (data, type, row) => (type === 'display' ? rowCheckboxHtml(selection, row, options.rowTitle) : ''),
+      } : {}),
+    });
+    config.order = [[1, 'asc']];
+  }
   if (options.searchable === false && hasFilters) {
     config.layout = { topEnd: null };
   }
@@ -137,9 +153,11 @@ export function buildGridConfig(options, { filters = null } = {}) {
   }
 
   if (options.export?.length) {
-    // Exports leave the actions column out.
-    const buttons = actions.length > 0
-      ? options.export.map((extend) => ({ extend, exportOptions: { columns: ':not(.celerik-grid-actions)' } }))
+    // Exports leave the actions and selection columns out.
+    const buttons = actions.length > 0 || selection
+      ? options.export.map((extend) => ({
+        extend, exportOptions: { columns: ':not(.celerik-grid-actions):not(.celerik-grid-select)' },
+      }))
       : options.export;
     config.layout = { ...config.layout, topStart: ['pageLength', { buttons }] };
   }

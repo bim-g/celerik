@@ -23,6 +23,11 @@ return Grid::make('users')
             ->variant('danger')
             ->confirm('Remove {name}?', 'They lose access to the team.'),
     )
+    ->selectable('name', 'members')
+    ->bulkActions(
+        Action::request('remind', 'Send a reminder', '/demo-api/members/remind')
+            ->confirm('Send a reminder to {count} members?'),
+    )
     ->export('copy', 'csv')
     ->pageSize(5)
     ->rows([

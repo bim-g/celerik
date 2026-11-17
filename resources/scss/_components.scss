@@ -58,6 +58,19 @@
   }
 }
 
+// A grid's selection column (Grid::selectable()): its checkboxes have no visible label, so
+// each box is itself a 24 x 24 px target (WCAG 2.5.8).
+.celerik-grid .celerik-grid-select {
+  width: 1%;
+
+  .form-check-input {
+    width: 1.5rem;
+    height: 1.5rem;
+    margin: 0;
+    vertical-align: middle;
+  }
+}
+
 // A grid's actions column: as narrow as its buttons, which stay on one line when they fit.
 .celerik-grid .celerik-grid-actions {
   width: 1%;

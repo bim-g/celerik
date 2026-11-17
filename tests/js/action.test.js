@@ -168,7 +168,7 @@ describe('grid row actions', () => {
     const { columns } = readOptions(table);
     const config = buildGridConfig({ columns, actions: [{ name: 'a', label: 'A', url: '/', className: 'btn' }], export: ['csv'] });
 
-    expect(config.layout.topStart[1].buttons).toEqual([{ extend: 'csv', exportOptions: { columns: ':not(.celerik-grid-actions)' } }]);
+    expect(config.layout.topStart[1].buttons).toEqual([{ extend: 'csv', exportOptions: { columns: ':not(.celerik-grid-actions):not(.celerik-grid-select)' } }]);
     expect(config.columns.at(-1)).toMatchObject({ data: 'celerikActions', orderable: false, searchable: false, className: 'celerik-grid-actions' });
   });
 });
