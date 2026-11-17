@@ -56,7 +56,7 @@ Tables and lists that do the work of an admin screen.
   - row actions (view, edit, delete with confirmation) ✅;
   - row selection with bulk actions ✅;
   - column totals and grouping;
-  - columns the user can show or hide;
+  - columns the user can show or hide ✅;
   - inline editing;
   - an empty state.
 - Actions: buttons that open a confirmation dialog (✅) or a form in a modal, usable anywhere (grid rows, toolbars, pages).

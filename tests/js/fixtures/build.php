@@ -111,6 +111,15 @@ $fixtures = [
             ['id' => 3, 'name' => 'Grace'],
         ]),
 
+    'grid-columns' => Grid::make('contacts')
+        ->caption('Contacts')
+        ->column('id', 'ID', static fn (Column $c) => $c->hidden())
+        ->column('name', 'Name')
+        ->column('email', 'E-mail')
+        ->column('phone', 'Phone', static fn (Column $c) => $c->initiallyHidden())
+        ->columnToggle()
+        ->rows([['id' => 1, 'name' => 'Ada', 'email' => 'ada@example.com', 'phone' => '555-0100']]),
+
     'chart' => Chart::make('sales')
         ->type('bar')
         ->title('Monthly revenue')

@@ -139,6 +139,33 @@ test.describe('grid', () => {
     await expect(grid.getByRole('button', { name: 'Delete Alan Turing' })).toBeFocused();
   });
 
+  test('the Columns menu shows and hides columns from the keyboard, and remembers them', async ({ page }) => {
+    const wrapper = page.locator('#users_wrapper');
+    const button = wrapper.getByRole('button', { name: 'Columns' });
+    const panel = wrapper.getByRole('group', { name: 'Show columns' });
+    const header = page.locator('#users').getByRole('columnheader', { name: 'E-mail' });
+
+    await button.focus();
+    await page.keyboard.press('Enter');
+    await expect(button).toHaveAttribute('aria-expanded', 'true');
+    // Name is always shown: it is not in the menu.
+    await expect(panel.getByRole('checkbox')).toHaveCount(2);
+    await panel.getByRole('checkbox', { name: 'E-mail' }).focus();
+    await page.keyboard.press('Space');
+    await expect(header).toHaveCount(0);
+
+    await page.keyboard.press('Escape');
+    await expect(panel).toBeHidden();
+    await expect(button).toBeFocused();
+
+    // The choice is kept for the next visit.
+    await openComponents(page);
+    await expect(page.locator('#users').getByRole('columnheader', { name: 'E-mail' })).toHaveCount(0);
+    await wrapper.getByRole('button', { name: 'Columns' }).click();
+    await panel.getByRole('checkbox', { name: 'E-mail' }).check();
+    await expect(header).toBeVisible();
+  });
+
   test('rows are selected from the keyboard, across pages, and a bulk action sends them', async ({ page }) => {
     const grid = page.locator('#staff');
     const bar = page.getByRole('group', { name: 'Selected rows' });

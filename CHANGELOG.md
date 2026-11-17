@@ -16,6 +16,10 @@ The same version is published on Packagist (`celerik/ui`) and npm (`@celerikui/u
   - Each button is named with its label and the row's title, for example "Delete Ada Lovelace" (`Grid::rowTitle()`).
   - After a request succeeds, a server-side grid reloads its page, and a client-side grid removes a deleted row. Focus moves to the next row's button.
   - Exports leave the column out.
+- **Columns the user can show or hide**: `Grid::columnToggle()` adds a Columns menu, a disclosure with a checkbox per column.
+  - `Column::toggleable(false)` keeps a column always shown, and `Column::initiallyHidden()` starts one hidden.
+  - The choice is kept in `localStorage` per grid, unless `remember: false`.
+  - The last shown column cannot be hidden.
 - **Grid row selection and bulk actions**: `Grid::selectable($key, $name)` adds a checkbox per row and a box for the page, and `Grid::bulkActions()` adds a bar with the number of rows selected and request actions for them.
   - The selection is kept across pages, filters and sorting.
   - A bulk action posts the selected keys (`ids[]`), and `{count}` in its confirmation is their number.

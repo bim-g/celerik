@@ -13,6 +13,8 @@ final class Column
     private bool $sortable = true;
     private bool $searchable = true;
     private bool $visible = true;
+    private bool $toggleable = true;
+    private bool $initiallyHidden = false;
     private ?string $className = null;
     private ?string $width = null;
     private ?Filter $filter = null;
@@ -51,6 +53,27 @@ final class Column
     public function hidden(bool $hidden = true): self
     {
         $this->visible = !$hidden;
+
+        return $this;
+    }
+
+    /**
+     * With Grid::columnToggle(): false keeps the column always shown, out of the Columns menu.
+     */
+    public function toggleable(bool $toggleable = true): self
+    {
+        $this->toggleable = $toggleable;
+
+        return $this;
+    }
+
+    /**
+     * With Grid::columnToggle(): hidden until the user shows it in the Columns menu. Unlike
+     * hidden(), it is a column to read, only not shown by default.
+     */
+    public function initiallyHidden(bool $initiallyHidden = true): self
+    {
+        $this->initiallyHidden = $initiallyHidden;
 
         return $this;
     }
@@ -120,7 +143,9 @@ final class Column
             'title' => $this->title,
             'sortable' => $this->sortable,
             'searchable' => $this->searchable,
-            'visible' => $this->visible,
+            'visible' => $this->visible && !$this->initiallyHidden,
+            // A hidden() column holds data, not something to show: never in the Columns menu.
+            'toggleable' => $this->visible && $this->toggleable ? null : false,
             'className' => $this->className,
             'width' => $this->width,
             'filter' => $this->filter?->toArray(),
