@@ -1,8 +1,8 @@
 # Grid
 
-A data table on [DataTables 3](https://datatables.net/): sorting, search, column filters, paging and export, client-side or server-side.
+A data table on [DataTables 3](https://datatables.net/): sorting, search, column filters, row actions, paging and export, client-side or server-side.
 
-<Demo name="grid" :min-height="560" />
+<Demo name="grid" :min-height="600" />
 
 <<< @/demos/grid.php
 
@@ -30,7 +30,9 @@ echo json_encode($grid->respond(new ArrayDataSource($rows), $_GET));
 | `pageSize($size)`, `pageSizes([10, 25, 50])` | Rows per page, and the choices offered. |
 | `searchable(false)` | Hides the search box. |
 | `export('copy', 'csv', 'print')` | Export buttons. |
-| `labels([...])` | Translates the filter bar: `filters`, `any`, `yes`, `no`, `from`, `to`, `clear`. |
+| `actions(Action ...$actions)` | Buttons for each row, in a last column (see [Row actions](#row-actions)). |
+| `rowTitle($field)` | The field that names a row in its buttons' accessible names. Default: the first visible column. |
+| `labels([...])` | Translates the filter bar and the actions column: `filters`, `any`, `yes`, `no`, `from`, `to`, `clear`, `actions`. |
 | `options([...])` | Raw DataTables options, applied last. |
 
 ### Columns
@@ -81,6 +83,37 @@ Grid::make('orders')
 - **Server-side**, the grid sends the filters to your endpoint, and `respond()` applies them through the data source: `ArrayDataSource`, `EloquentDataSource` and `DoctrineDataSource` all do (see [Data endpoints](../guide/data#column-filters)).
 - **Filters and search** work together, and a filter works on a column that is not `searchable()`. With `searchable(false)` on the grid, the search box is hidden and the filters keep working.
 - **Without JavaScript**, the filter bar is not shown, since it needs it to filter.
+
+## Row actions
+
+`actions()` adds a last column with a button for each row: [actions](./actions) that open a page or send a request.
+
+```php
+use Celerik\Ui\Components\Action;
+
+Grid::make('members')
+    ->url('/members/data')
+    ->column('id', 'ID', static fn (Column $c) => $c->hidden())
+    ->column('name', 'Name')
+    ->column('email', 'E-mail')
+    ->actions(
+        Action::link('edit', 'Edit', '/members/{id}/edit'),
+        Action::request('delete', 'Delete', '/members/{id}')
+            ->method('DELETE')
+            ->variant('danger')
+            ->confirm('Delete {name}?', 'This cannot be undone.')
+            ->csrf($csrfToken),
+    );
+```
+
+- `{field}` takes the row's value. **The field must be a column of the grid**, hidden if it should not show: in server-side mode `respond()` returns nothing else. The grid throws a `LogicException` naming the missing column.
+- Each button is named with its label and the row's title, for example "Delete Ada Lovelace", because a screen reader lists many "Delete" buttons otherwise. `rowTitle()` chooses the field, and `ariaLabel()` on an action replaces the name.
+- After a request succeeds:
+  - a **server-side grid** reloads its page of rows;
+  - a **client-side grid** removes the row of a `DELETE`.
+
+  Focus moves to the same button in the row that takes its place, or to the table when the page is empty.
+- Exports leave the actions column out.
 
 ## Accessibility
 

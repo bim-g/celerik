@@ -110,6 +110,7 @@ export default defineConfig({
           items: [
             { text: 'Overview', link: '/components/' },
             { text: 'Grid', link: '/components/grid' },
+            { text: 'Actions', link: '/components/actions' },
             { text: 'Chart', link: '/components/chart' },
             { text: 'Form', link: '/components/form' },
             { text: 'Rich text editor', link: '/components/editor' },

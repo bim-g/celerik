@@ -18,6 +18,7 @@
 declare(strict_types=1);
 
 use Celerik\Ui\Assets;
+use Celerik\Ui\Components\Action;
 use Celerik\Ui\Components\Chart;
 use Celerik\Ui\Components\FileManager;
 use Celerik\Ui\Components\Form;
@@ -106,6 +107,20 @@ if ($path === '/people/options') {
     exit;
 }
 
+// Row actions: answer like a real endpoint, with a message (the request must carry the token).
+$isPost = in_array($_SERVER['REQUEST_METHOD'] ?? 'GET', ['POST', 'DELETE'], true);
+if ($isPost && preg_match('#^/(users|staff)/([^/]+)(/deactivate)?$#', $path, $match) === 1) {
+    header('Content-Type: application/json');
+    if (($_SERVER['HTTP_X_CSRF_TOKEN'] ?? '') !== 'test-token') {
+        http_response_code(419);
+        echo json_encode(['message' => 'The page expired. Reload it and try again.']);
+        exit;
+    }
+    $who = rawurldecode($match[2]);
+    echo json_encode(['message' => $match[1] === 'users' ? "User $who was deleted." : "$who was deactivated."]);
+    exit;
+}
+
 // A server-side grid with column filters, and its endpoint, on the same grid definition.
 $staff = Grid::make('staff')
     ->caption('Staff')
@@ -114,7 +129,8 @@ $staff = Grid::make('staff')
     ->column('name', 'Name', static fn (Column $c) => $c->filter(Filter::text()))
     ->column('role', 'Role', static fn (Column $c) => $c->filter(Filter::select(['admin' => 'Admin', 'user' => 'User'])))
     ->column('active', 'Active', static fn (Column $c) => $c->filter(Filter::boolean()))
-    ->column('joined', 'Joined', static fn (Column $c) => $c->filter(Filter::dateRange()));
+    ->column('joined', 'Joined', static fn (Column $c) => $c->filter(Filter::dateRange()))
+    ->actions(Action::request('deactivate', 'Deactivate', '/staff/{name}/deactivate')->csrf('test-token'));
 if ($path === '/staff/data') {
     $rows = [
         ['name' => 'Ada Lovelace', 'role' => 'admin', 'active' => true, 'joined' => '2026-01-31'],
@@ -195,6 +211,15 @@ $components = [
         ->column('id', 'ID')
         ->column('name')
         ->column('email', 'E-mail')
+        ->rowTitle('name')
+        ->actions(
+            Action::link('view', 'View', '/users/{id}'),
+            Action::request('delete', 'Delete', '/users/{id}')
+                ->method('DELETE')
+                ->variant('danger')
+                ->confirm('Delete {name}?', 'This cannot be undone.')
+                ->csrf('test-token'),
+        )
         ->export('copy', 'csv')
         ->pageSize(2)
         ->pageSizes([2, 10])

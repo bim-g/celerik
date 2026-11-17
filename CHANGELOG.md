@@ -9,6 +9,13 @@ The same version is published on Packagist (`celerik/ui`) and npm (`@celerikui/u
 ### Added
 
 - **Grid column filters**: `Column::filter()` with `Filter::text()`, `Filter::select([...])`, `Filter::boolean()` and `Filter::dateRange()`. They appear in a filter bar above the table (a `search` landmark with a labelled field per column and a **Clear filters** button) and work client-side, and server-side through `respond()` with `ArrayDataSource`, `EloquentDataSource` and `DoctrineDataSource`. `Grid::labels()` translates the bar.
+- **Actions** (`Celerik\Ui\Components\Action`): `Action::link()` and `Action::request()`, buttons usable anywhere.
+  - A request action is a form that posts without JavaScript, with `_method` and the CSRF token.
+  - With JavaScript, it asks for confirmation in an accessible alert dialog (`confirm()`), sends the request with `fetch`, shows the answer's `message` in a toast, and fires `celerik:action`.
+- **Grid row actions**: `Grid::actions()` adds a last column with the actions for each row.
+  - Each button is named with its label and the row's title, for example "Delete Ada Lovelace" (`Grid::rowTitle()`).
+  - After a request succeeds, a server-side grid reloads its page, and a client-side grid removes a deleted row. Focus moves to the next row's button.
+  - Exports leave the column out.
 - `DataRequest::$conditions` (`contains`, `gte`, `lt`), read from `filter[...]` by `DataRequest::fromArray(..., filterTypes: [...])`, and `DataRequest::containsPattern()`. The response's `meta` lists them as `conditions`.
 
 ### Changed
