@@ -44,6 +44,8 @@ final class Grid extends Component
         'selected' => '{count} selected',
         'noneSelected' => 'No rows selected',
         'bulkActions' => 'Selected rows',
+        'columns' => 'Columns',
+        'showColumns' => 'Show columns',
     ];
 
     /** How respond() reads each kind of column filter. */
@@ -90,6 +92,10 @@ final class Grid extends Component
 
     /** @var list<Action> */
     private array $bulkActions = [];
+
+    private bool $columnToggle = false;
+
+    private bool $rememberColumns = true;
 
     public static function name(): string
     {
@@ -261,6 +267,19 @@ final class Grid extends Component
     }
 
     /**
+     * A Columns button that lets the user show or hide columns, except those that are not
+     * toggleable() and hidden() ones. With `$remember`, the choice is kept in the browser
+     * (localStorage), per grid id.
+     */
+    public function columnToggle(bool $enabled = true, bool $remember = true): self
+    {
+        $this->columnToggle = $enabled;
+        $this->rememberColumns = $remember;
+
+        return $this;
+    }
+
+    /**
      * The field that names a row in its buttons' accessible names ("Delete Ada Lovelace"):
      * by default, the first visible column.
      */
@@ -346,6 +365,10 @@ final class Grid extends Component
                     array_flip(['select', 'selectAll', 'selected', 'noneSelected']),
                 ),
             ], static fn (mixed $value): bool => $value !== null),
+            'columnToggle' => !$this->columnToggle ? null : [
+                'remember' => $this->rememberColumns,
+                'labels' => ['columns' => $this->labels['columns'], 'showColumns' => $this->labels['showColumns']],
+            ],
             'url' => $this->url,
             'pageSize' => $this->pageSize,
             'pageSizes' => $this->pageSizes,

@@ -2,6 +2,7 @@ import DataTable from 'datatables.net-bs5';
 import 'datatables.net-buttons-bs5';
 import 'datatables.net-buttons/js/buttons.html5.mjs';
 import 'datatables.net-buttons/js/buttons.print.mjs';
+import { connectColumnMenu, createColumnMenu, toggleableColumns } from './grid-columns.js';
 import {
   buildGridConfig, matchesFilters, readFilters,
 } from './grid-config.js';
@@ -15,7 +16,13 @@ export function initGrid(element, options) {
   const hasFilters = Boolean(bar) && columns.some((column) => column.filter);
   const current = () => readFilters(bar, columns);
 
-  const grid = new DataTable(element, buildGridConfig(options, { filters: hasFilters ? current : null }));
+  const toggle = options.columnToggle && element.id && toggleableColumns(columns).length > 0 ? options.columnToggle : null;
+  const columnMenu = toggle ? createColumnMenu(element.id, columns, toggle.labels) : null;
+
+  const grid = new DataTable(element, buildGridConfig(options, { filters: hasFilters ? current : null, columnMenu }));
+  if (columnMenu) {
+    connectColumnMenu(columnMenu, grid, { tableId: element.id, columns, remember: toggle.remember });
+  }
   if (hasFilters) {
     enhanceFilters(grid, bar, columns, current, Boolean(options.url));
   }

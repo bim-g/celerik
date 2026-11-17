@@ -225,8 +225,9 @@ $components = [
     Grid::make('users')
         ->caption('Users')
         ->column('id', 'ID')
-        ->column('name')
+        ->column('name', null, static fn (Column $c) => $c->toggleable(false))
         ->column('email', 'E-mail')
+        ->columnToggle()
         ->rowTitle('name')
         ->actions(
             Action::link('view', 'View', '/users/{id}'),

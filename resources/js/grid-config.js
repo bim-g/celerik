@@ -78,8 +78,9 @@ export function matchesFilters(filters, read) {
 }
 
 // filters: a function returning the current filters (readFilters()), sent with every
-// server-side request.
-export function buildGridConfig(options, { filters = null } = {}) {
+// server-side request. columnMenu: the Columns menu (grid-columns.js), placed after the
+// page length and the export buttons.
+export function buildGridConfig(options, { filters = null, columnMenu = null } = {}) {
   const hasFilters = (options.columns ?? []).some((column) => column.filter);
   const config = {
     columns: (options.columns ?? []).map((column) => ({
@@ -160,6 +161,11 @@ export function buildGridConfig(options, { filters = null } = {}) {
       }))
       : options.export;
     config.layout = { ...config.layout, topStart: ['pageLength', { buttons }] };
+  }
+
+  if (columnMenu) {
+    const start = config.layout?.topStart ?? 'pageLength';
+    config.layout = { ...config.layout, topStart: [...(Array.isArray(start) ? start : [start]), columnMenu] };
   }
 
   return deepMerge(config, options.options);

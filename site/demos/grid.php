@@ -7,7 +7,7 @@ use Celerik\Ui\Components\Grid\Filter;
 
 return Grid::make('users')
     ->caption('Team members')
-    ->column('name', 'Name', static fn (Column $column) => $column->filter(Filter::text()))
+    ->column('name', 'Name', static fn (Column $column) => $column->filter(Filter::text())->toggleable(false))
     ->column('role', 'Role', static fn (Column $column) => $column->filter(Filter::select([
         'Engineer' => 'Engineer',
         'Researcher' => 'Researcher',
@@ -23,6 +23,7 @@ return Grid::make('users')
             ->variant('danger')
             ->confirm('Remove {name}?', 'They lose access to the team.'),
     )
+    ->columnToggle()
     ->selectable('name', 'members')
     ->bulkActions(
         Action::request('remind', 'Send a reminder', '/demo-api/members/remind')

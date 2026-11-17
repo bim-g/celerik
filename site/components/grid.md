@@ -1,6 +1,6 @@
 # Grid
 
-A data table on [DataTables 3](https://datatables.net/): sorting, search, column filters, row actions, row selection with bulk actions, paging and export, client-side or server-side.
+A data table on [DataTables 3](https://datatables.net/): sorting, search, column filters, columns the user can show or hide, row actions, row selection with bulk actions, paging and export, client-side or server-side.
 
 <Demo name="grid" :min-height="640" />
 
@@ -31,10 +31,11 @@ echo json_encode($grid->respond(new ArrayDataSource($rows), $_GET));
 | `searchable(false)` | Hides the search box. |
 | `export('copy', 'csv', 'print')` | Export buttons. |
 | `actions(Action ...$actions)` | Buttons for each row, in a last column (see [Row actions](#row-actions)). |
+| `columnToggle($enabled = true, $remember = true)` | A Columns menu to show or hide columns (see [Columns the user can show or hide](#columns-the-user-can-show-or-hide)). |
 | `selectable($key = 'id', $name = 'ids')` | A checkbox per row (see [Row selection](#row-selection-and-bulk-actions)). |
 | `bulkActions(Action ...$actions)` | Request actions for the selected rows, in a bar above the table. |
 | `rowTitle($field)` | The field that names a row in its buttons' and checkbox's accessible names. Default: the first visible column. |
-| `labels([...])` | Translates the filter bar, the actions column and the selection: `filters`, `any`, `yes`, `no`, `from`, `to`, `clear`, `actions`, `select`, `selectAll`, `selected` (with `{count}`), `noneSelected`, `bulkActions`. |
+| `labels([...])` | Translates the filter bar, the actions column and the selection: `filters`, `any`, `yes`, `no`, `from`, `to`, `clear`, `actions`, `select`, `selectAll`, `selected` (with `{count}`), `noneSelected`, `bulkActions`, `columns`, `showColumns`. |
 | `options([...])` | Raw DataTables options, applied last. |
 
 ### Columns
@@ -51,7 +52,9 @@ Grid::make('orders')
 |---|---|
 | `sortable(false)` | Not sortable (also refused by `respond()`). |
 | `searchable(false)` | Not searched (also refused as a filter). |
-| `hidden()` | Sent to the client but not shown, e.g. an id for row actions. |
+| `hidden()` | Sent to the client but not shown, e.g. an id for row actions. Never in the Columns menu. |
+| `toggleable(false)` | Always shown: not in the Columns menu. |
+| `initiallyHidden()` | Hidden until the user shows it from the Columns menu. |
 | `className($class)`, `width($width)` | CSS class of the cells, and the column width. |
 | `filter(Filter::text())` | A filter in the filter bar (see [Column filters](#column-filters)). |
 
@@ -85,6 +88,24 @@ Grid::make('orders')
 - **Server-side**, the grid sends the filters to your endpoint, and `respond()` applies them through the data source: `ArrayDataSource`, `EloquentDataSource` and `DoctrineDataSource` all do (see [Data endpoints](../guide/data#column-filters)).
 - **Filters and search** work together, and a filter works on a column that is not `searchable()`. With `searchable(false)` on the grid, the search box is hidden and the filters keep working.
 - **Without JavaScript**, the filter bar is not shown, since it needs it to filter.
+
+## Columns the user can show or hide
+
+`columnToggle()` adds a **Columns** button next to the page length. It opens a group of checkboxes, one for each column the user may show or hide.
+
+```php
+Grid::make('contacts')
+    ->column('id', 'ID', static fn (Column $c) => $c->hidden())         // data only: not in the menu
+    ->column('name', 'Name', static fn (Column $c) => $c->toggleable(false)) // always shown
+    ->column('email', 'E-mail')
+    ->column('phone', 'Phone', static fn (Column $c) => $c->initiallyHidden())
+    ->columnToggle();
+```
+
+- **The choice is remembered** in the browser (`localStorage`), per grid id. `columnToggle(remember: false)` turns that off.
+- **The last shown column** cannot be hidden, unless a `toggleable(false)` column is always there.
+- **The menu** is a disclosure: the button says whether it is open (`aria-expanded`), and Escape closes it and returns focus to the button. It also closes when focus or a click leaves it.
+- **Without JavaScript**, every column but `hidden()` ones is shown, `initiallyHidden()` ones included.
 
 ## Row actions
 
