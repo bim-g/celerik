@@ -42,6 +42,15 @@ for (const theme of THEMES) {
         expect(await axeViolations(page, { include: '#staff-form-modal' })).toEqual([]);
       });
 
+      test('no axe-core violations in a tree, with a node open and one loaded', async ({ page }) => {
+        await openComponents(page, { theme, mode });
+        // The chevron opens a node; a click on its name would check it.
+        await page.getByRole('treeitem', { name: 'Pictures', exact: true }).locator('.celerik-tree-toggle').click();
+        await expect(page.getByRole('treeitem', { name: 'Holidays' })).toBeVisible({ timeout: 15_000 });
+        await page.getByRole('treeitem', { name: 'Holidays' }).focus();
+        expect(await axeViolations(page, { include: '#folders' })).toEqual([]);
+      });
+
       test('no axe-core violations in a list view with its pager', async ({ page }) => {
         await openComponents(page, { theme, mode });
         await expect(page.locator('#team [role=status]')).toHaveText('1–4 of 6', { timeout: 15_000 });

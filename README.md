@@ -55,6 +55,7 @@ Releases include the built bundle (`public/`), so no Node.js is needed to instal
 |---|---|---|---|
 | Grid | `Components\Grid` | DataTables 3 | Client- or server-side, column filters, totals and groups, inline editing, columns to show or hide, row actions, selection and bulk actions, export, caption, column whitelisting |
 | ListView | `Components\ListView` | – | Items with a title, link, description, meta texts, picture and actions; pager, search and sort, client- or server-side; list or cards |
+| TreeView | `Components\TreeView` | – | WAI-ARIA tree: links, single selection or checkboxes (with mixed parents) posted with forms, children loaded on demand, from nested arrays or flat rows |
 | Chart | `Components\Chart` | Chart.js 4 | Embedded or remote data, `fromRows()`, hidden data table as text alternative |
 | Form | `Components\Form` | Parsley.js, Inputmask | HTML5 rules, masks, CSRF, method spoofing, server errors and old input |
 | File upload | `Field::file()` + `Upload\UploadHandler` | FilePond 4 | Async or classic uploads; real MIME detection, extension whitelist, random names; falls back to a plain file input |

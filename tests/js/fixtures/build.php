@@ -23,6 +23,7 @@ use Celerik\Ui\Components\Modal;
 use Celerik\Ui\Components\Notification;
 use Celerik\Ui\Components\Scheduler;
 use Celerik\Ui\Components\Tabs;
+use Celerik\Ui\Components\TreeView;
 use Celerik\Ui\Components\ThemeBuilder;
 use Celerik\Ui\Support\Html;
 use Celerik\Ui\Theme\Theme;
@@ -216,6 +217,43 @@ $fixtures = [
         ->searchable()
         ->emptyState('No notes yet', 'Write your first note.')
         ->rows([]),
+
+    'treeview' => TreeView::make('folders')
+        ->label('Folders')
+        ->checkable('folders')
+        ->url('/folders/{id}/children')
+        ->nodes([
+            ['id' => 1, 'label' => 'Documents', 'expanded' => true, 'children' => [
+                ['id' => 2, 'label' => 'Invoices', 'checked' => true],
+                ['id' => 3, 'label' => 'Contracts', 'children' => [
+                    ['id' => 4, 'label' => 'Signed'],
+                    ['id' => 5, 'label' => 'Drafts'],
+                ]],
+            ]],
+            ['id' => 6, 'label' => 'Pictures', 'hasChildren' => true],
+            ['id' => 7, 'label' => 'Archive', 'disabled' => true],
+        ]),
+
+    'treeview-links' => TreeView::make('site')
+        ->label('Site')
+        ->nodes([
+            ['label' => 'Guide', 'href' => '/guide', 'expanded' => true, 'children' => [
+                ['label' => 'Install <now>', 'href' => '/guide/install'],
+                ['label' => 'Bad', 'href' => 'javascript:alert(1)'],
+            ]],
+            ['label' => 'Components', 'children' => [['label' => 'Grid', 'href' => '/grid']]],
+        ]),
+
+    'treeview-select' => TreeView::make('places')
+        ->label('Place')
+        ->selectable('place')
+        ->expandAll()
+        ->fromRows([
+            ['id' => 'eu', 'parent_id' => null, 'name' => 'Europe'],
+            ['id' => 'fr', 'parent_id' => 'eu', 'name' => 'France'],
+            ['id' => 'cd', 'parent_id' => 'af', 'name' => 'Congo'],
+            ['id' => 'af', 'parent_id' => null, 'name' => 'Africa'],
+        ]),
 
     'chart' => Chart::make('sales')
         ->type('bar')
