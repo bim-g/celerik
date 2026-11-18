@@ -6,7 +6,17 @@ import { initGrid } from '../../resources/js/grid.js';
 import { readOptions } from '../../resources/js/core.js';
 import { loadFixture } from './helpers.js';
 
-const wait = (ms = 30) => new Promise((resolve) => { setTimeout(resolve, ms); });
+// Waits for a condition rather than a fixed time: Bootstrap's modal finishes its
+// transitions later on a busy machine.
+async function until(check, timeout = 3000) {
+  const end = Date.now() + timeout;
+  while (!check()) {
+    if (Date.now() > end) {
+      throw new Error(`Timed out waiting for ${check}`);
+    }
+    await new Promise((resolve) => { setTimeout(resolve, 10); });
+  }
+}
 
 function answer(status, body) {
   return {
@@ -93,6 +103,11 @@ describe('an action that opens a form', () => {
   const trigger = (name) => table.querySelector(`form[data-celerik-form-modal] button[aria-label="Edit ${name}"]`)
     ?.closest('form');
   const submit = () => form.dispatchEvent(new Event('submit', { bubbles: true, cancelable: true }));
+  const open = async (name, deps) => {
+    const shown = new Promise((resolve) => { modal.addEventListener('shown.bs.modal', resolve, { once: true }); });
+    openActionForm(trigger(name), deps);
+    await shown;
+  };
 
   test('PHP renders the modal once, after the table', () => {
     expect(document.querySelectorAll('#person-form-modal')).toHaveLength(1);
@@ -102,8 +117,7 @@ describe('an action that opens a form', () => {
   });
 
   test('opens filled with the row\'s values and titled for the row', async () => {
-    openActionForm(trigger('Alan'), { fetch: jest.fn() });
-    await wait();
+    await open('Alan', { fetch: jest.fn() });
 
     expect(modal.classList.contains('show')).toBe(true);
     expect(modal.querySelector('.modal-title').textContent).toBe('Edit Alan');
@@ -114,10 +128,10 @@ describe('an action that opens a form', () => {
 
   test('an invalid form is not sent', async () => {
     const fetch = jest.fn();
-    openActionForm(trigger('Ada'), { fetch });
+    await open('Ada', { fetch });
     form.elements.name.value = '';
     submit();
-    await wait();
+    await until(() => form.elements.name.getAttribute('aria-invalid') === 'true');
 
     expect(fetch).not.toHaveBeenCalled();
     expect(form.elements.name.getAttribute('aria-invalid')).toBe('true');
@@ -131,11 +145,10 @@ describe('an action that opens a form', () => {
     const button = trigger('Ada').querySelector('button');
     button.focus();
 
-    openActionForm(trigger('Ada'), { fetch, notify });
-    await wait();
+    await open('Ada', { fetch, notify });
     form.elements.name.value = 'Ada King';
     submit();
-    await wait(400);
+    await until(() => events.length > 0);
 
     const [url, request] = fetch.mock.calls[0];
     expect(url).toBe(new URL('/people/1', document.baseURI).href);
@@ -155,11 +168,10 @@ describe('an action that opens a form', () => {
 
   test('refused: the errors are on the fields, and the modal stays open', async () => {
     const fetch = jest.fn().mockResolvedValue(answer(422, { message: 'Invalid.', errors: { name: ['This name is taken.'] } }));
-    openActionForm(trigger('Ada'), { fetch });
-    await wait();
+    await open('Ada', { fetch });
     form.elements.name.value = 'Alan';
     submit();
-    await wait();
+    await until(() => form.elements.name.getAttribute('aria-invalid') === 'true');
 
     expect(modal.classList.contains('show')).toBe(true);
     const name = form.elements.name;
@@ -171,17 +183,16 @@ describe('an action that opens a form', () => {
 
   test('a failed request says so in the form; opening again starts clean', async () => {
     const fetch = jest.fn().mockRejectedValue(new Error('offline'));
-    openActionForm(trigger('Ada'), { fetch });
-    await wait();
+    await open('Ada', { fetch });
     form.elements.name.value = 'Ada L.';
     submit();
-    await wait();
+    await until(() => form.querySelector('[role=alert]'));
     expect(form.querySelector('[role=alert]').textContent).toBe('The action failed. Try again.');
 
+    const hidden = new Promise((resolve) => { modal.addEventListener('hidden.bs.modal', resolve, { once: true }); });
     bootstrap.Modal.getInstance(modal).hide();
-    await wait(400);
-    openActionForm(trigger('Alan'), { fetch });
-    await wait();
+    await hidden;
+    await open('Alan', { fetch });
     expect(form.querySelector('[role=alert]')).toBeNull();
     expect(form.elements.name.value).toBe('Alan');
   });

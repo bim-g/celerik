@@ -34,6 +34,7 @@ use Celerik\Ui\Components\Modal;
 use Celerik\Ui\Components\Notification;
 use Celerik\Ui\Components\Scheduler;
 use Celerik\Ui\Components\Tabs;
+use Celerik\Ui\Components\TreeView;
 use Celerik\Ui\Components\ThemeBuilder;
 use Celerik\Ui\Data\ArrayDataSource;
 use Celerik\Ui\Data\InvalidCellEdit;
@@ -264,6 +265,31 @@ if ($path === '/team/data') {
     exit;
 }
 
+// A checkable tree whose Pictures folder loads its children from an endpoint.
+$folders = TreeView::make('folders')
+    ->label('Folders')
+    ->checkable('folders')
+    ->url('/folders/{id}/children')
+    ->nodes([
+        ['id' => 1, 'label' => 'Documents', 'expanded' => true, 'children' => [
+            ['id' => 2, 'label' => 'Invoices', 'checked' => true],
+            ['id' => 3, 'label' => 'Contracts', 'children' => [
+                ['id' => 4, 'label' => 'Signed'],
+                ['id' => 5, 'label' => 'Drafts'],
+            ]],
+        ]],
+        ['id' => 6, 'label' => 'Pictures', 'hasChildren' => true],
+        ['id' => 7, 'label' => 'Archive', 'disabled' => true],
+    ]);
+if ($path === '/folders/6/children') {
+    header('Content-Type: application/json');
+    echo json_encode(TreeView::children([
+        ['id' => 61, 'label' => 'Holidays'],
+        ['id' => 62, 'label' => 'Family'],
+    ]));
+    exit;
+}
+
 // Bootstrap is the only look; ?theme= is ignored.
 $theme = 'bootstrap';
 $mode = ($_GET['mode'] ?? '') === 'dark' ? 'dark' : 'light';
@@ -354,6 +380,8 @@ $components = [
     $budget,
 
     $team,
+
+    $folders,
 
     Chart::make('revenue')
         ->type('line')

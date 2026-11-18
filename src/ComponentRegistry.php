@@ -14,6 +14,7 @@ use Celerik\Ui\Components\Notification;
 use Celerik\Ui\Components\Scheduler;
 use Celerik\Ui\Components\Tabs;
 use Celerik\Ui\Components\ThemeBuilder;
+use Celerik\Ui\Components\TreeView;
 use InvalidArgumentException;
 
 /**
@@ -30,6 +31,7 @@ final class ComponentRegistry
         return (new self())
             ->register(Grid::class)
             ->register(ListView::class)
+            ->register(TreeView::class)
             ->register(Chart::class)
             ->register(Form::class)
             ->register(Scheduler::class)

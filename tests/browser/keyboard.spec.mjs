@@ -365,6 +365,52 @@ test.describe('list view', () => {
   });
 });
 
+test.describe('tree view', () => {
+  test('one tab stop; arrows move, open and close; Space checks; a folder loads its children', async ({ page }) => {
+    const tree = page.getByRole('tree', { name: 'Folders' });
+    const node = (name) => tree.getByRole('treeitem', { name, exact: true });
+
+    // The tree is one tab stop, on its first checked node: from the list's last pager button
+    // before it, Tab reaches it, and Tab again leaves the tree.
+    const next = page.locator('#team nav').getByRole('button', { name: 'Next' });
+    await expect(next).toBeEnabled({ timeout: 15_000 });
+    await next.focus();
+    await page.keyboard.press('Tab');
+    await expect(node('Invoices')).toBeFocused();
+    await page.keyboard.press('Tab');
+    await expect(tree.locator(':focus')).toHaveCount(0);
+    await page.keyboard.press('Shift+Tab');
+    await expect(node('Invoices')).toBeFocused();
+    await expect(node('Documents')).toHaveAttribute('aria-checked', 'mixed');
+
+    await page.keyboard.press('ArrowDown');
+    await expect(node('Contracts')).toBeFocused();
+    await page.keyboard.press('ArrowRight');
+    await expect(node('Contracts')).toHaveAttribute('aria-expanded', 'true');
+    await page.keyboard.press('Space');
+    await expect(node('Signed')).toHaveAttribute('aria-checked', 'true');
+    await expect(node('Documents')).toHaveAttribute('aria-checked', 'true');
+
+    await page.keyboard.press('End');
+    await expect(node('Archive')).toBeFocused();
+    await page.keyboard.press('ArrowUp');
+    await expect(node('Pictures')).toBeFocused();
+    await page.keyboard.press('ArrowRight');
+    await expect(node('Holidays')).toBeVisible({ timeout: 15_000 });
+    await page.keyboard.press('ArrowRight');
+    await expect(node('Holidays')).toBeFocused();
+    await expect(node('Holidays')).toHaveAttribute('aria-level', '2');
+    await page.keyboard.press('ArrowLeft');
+    await expect(node('Pictures')).toBeFocused();
+
+    await page.keyboard.press('d');
+    await expect(node('Documents')).toBeFocused();
+    expect(await axeViolations(page, { include: '#folders' })).toEqual([]);
+    expect(await page.locator('#folders input:checked').evaluateAll((inputs) => inputs.map((input) => input.value)))
+      .toEqual(['1', '2', '3', '4', '5']);
+  });
+});
+
 test.describe('form', () => {
   test('a failed submit moves focus to the first invalid field', async ({ page }) => {
     const form = page.locator('#signup');

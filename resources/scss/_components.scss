@@ -195,6 +195,105 @@
   }
 }
 
+// TreeView (Components\TreeView): nested lists, indented, with a chevron for nodes that open.
+.celerik-tree-root,
+.celerik-tree-group {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.celerik-tree-group {
+  padding-left: 1.25rem;
+}
+
+.celerik-tree-row {
+  display: flex;
+  gap: 0.25rem;
+  align-items: center;
+  min-height: 2rem;
+  padding: 0.125rem 0.375rem;
+  border-radius: var(--bs-border-radius);
+  cursor: default;
+}
+
+.celerik-tree-label {
+  display: inline-flex;
+  gap: 0.5rem;
+  align-items: center;
+  margin: 0;
+  overflow-wrap: anywhere;
+
+  .form-check-input {
+    flex-shrink: 0;
+    margin-top: 0;
+  }
+}
+
+// Without JavaScript, the nested lists keep their indentation and every control works.
+.celerik-tree:not(:has([role='tree'])) .celerik-tree-group {
+  padding-left: 1.5rem;
+}
+
+.celerik-tree-toggle,
+.celerik-tree-spacer {
+  flex-shrink: 0;
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.celerik-tree-toggle {
+  position: relative;
+  cursor: pointer;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0.45rem;
+    height: 0.45rem;
+    border-right: 2px solid currentColor;
+    border-bottom: 2px solid currentColor;
+    transform: translate(-65%, -50%) rotate(-45deg);
+  }
+}
+
+.celerik-tree-row[aria-expanded='true'] > .celerik-tree-toggle::before {
+  transform: translate(-50%, -70%) rotate(45deg);
+}
+
+.celerik-tree-row[aria-busy='true'] > .celerik-tree-toggle {
+  opacity: 0.5;
+}
+
+// The node's row is the treeitem and takes the focus.
+.celerik-tree [role='treeitem']:focus-visible {
+  outline: 2px solid var(--bs-focus-ring-color, var(--bs-primary));
+  outline-offset: 1px;
+}
+
+.celerik-tree-row:hover {
+  background-color: var(--bs-tertiary-bg);
+}
+
+.celerik-tree [role='treeitem'][aria-selected='true'] {
+  background-color: var(--bs-primary-bg-subtle);
+  color: var(--bs-primary-text-emphasis);
+  font-weight: 600;
+}
+
+.celerik-tree [role='treeitem'][aria-disabled='true'] {
+  color: var(--bs-secondary-color);
+  cursor: not-allowed;
+}
+
+// The checkbox or radio button is the node's picture of its state: the node takes the
+// clicks and keys.
+.celerik-tree [role='tree'] .celerik-tree-input {
+  pointer-events: none;
+}
+
 // A grid's empty state (Grid::emptyState()) and its "no rows match" state, in the table's
 // only row.
 .celerik-grid .celerik-grid-empty {
@@ -1120,6 +1219,17 @@ td[aria-busy='true'] .celerik-grid-editor {
   [aria-haspopup='dialog'][data-bs-toggle='modal']:focus-visible {
     outline: 2px solid Highlight !important;
     outline-offset: 2px;
+  }
+
+  .celerik-tree [role='treeitem']:focus-visible {
+    outline: 2px solid Highlight;
+    outline-offset: 1px;
+  }
+
+  .celerik-tree [role='treeitem'][aria-selected='true'] {
+    forced-color-adjust: none;
+    color: HighlightText;
+    background-color: Highlight;
   }
 
   .ql-container.ql-snow:focus-within,

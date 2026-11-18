@@ -55,8 +55,10 @@ describe('accessibility (axe-core, WCAG 2.1 AA)', () => {
     const { openActionForm, showErrors } = await import('../../resources/js/action-form.js');
     const form = document.getElementById('person-form');
     await initForm(form, readOptions(form));
+    const modal = document.getElementById('person-form-modal');
+    const shown = new Promise((resolve) => { modal.addEventListener('shown.bs.modal', resolve, { once: true }); });
     openActionForm(table.querySelector('form[data-celerik-form-modal]'), { fetch: jest.fn() });
-    await new Promise((resolve) => { setTimeout(resolve, 30); });
+    await shown;
     showErrors(form, { name: ['This name is taken.'], other: ['Try later.'] });
     expect(await violations()).toEqual([]);
     window.bootstrap.Modal.getInstance(document.getElementById('person-form-modal')).dispose();
@@ -74,6 +76,16 @@ describe('accessibility (axe-core, WCAG 2.1 AA)', () => {
     search.value = 'zzz';
     search.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter' }));
     expect(await violations()).toEqual([]);
+  });
+
+  test('tree views: PHP markup, then trees with links, checkboxes and radio buttons', async () => {
+    const { initTree } = await import('../../resources/js/tree.js');
+    for (const name of ['treeview', 'treeview-links', 'treeview-select']) {
+      const element = loadFixture(name);
+      expect(await violations()).toEqual([]);
+      initTree(element, readOptions(element), { fetch: jest.fn() });
+      expect(await violations()).toEqual([]);
+    }
   });
 
   test('scheduler markup from PHP (no-JS fallback list)', async () => {
