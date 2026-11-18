@@ -16,6 +16,7 @@ use Celerik\Ui\Components\Form\Section;
 use Celerik\Ui\Components\Action;
 use Celerik\Ui\Components\Grid;
 use Celerik\Ui\Components\Grid\Column;
+use Celerik\Ui\Components\Grid\Editor;
 use Celerik\Ui\Components\Grid\Filter;
 use Celerik\Ui\Components\Modal;
 use Celerik\Ui\Components\Notification;
@@ -141,6 +142,21 @@ $fixtures = [
             ['team' => 'Sales', 'item' => 'Hotel', 'amount' => 800, 'hours' => 5],
             ['team' => 'Design', 'item' => 'Laptop', 'amount' => 2500, 'hours' => 4],
             ['team' => 'Support', 'item' => 'Headsets', 'amount' => 150, 'hours' => 1],
+        ]),
+
+    'grid-edit' => Grid::make('members')
+        ->caption('Members')
+        ->column('id', 'ID', static fn (Column $c) => $c->hidden())
+        ->column('name', 'Name', static fn (Column $c) => $c->editable(Editor::text(20)->required()))
+        ->column('role', 'Role', static fn (Column $c) => $c->editable(Editor::select(['eng' => 'Engineer', 'dir' => 'Director'])))
+        ->column('remote', 'Remote', static fn (Column $c) => $c->editable(Editor::boolean()))
+        ->column('salary', 'Salary', static fn (Column $c) => $c->editable(Editor::number(min: 0))->total())
+        ->column('joined', 'Joined', static fn (Column $c) => $c->editable(Editor::date()))
+        ->inlineEdit('/members/{id}')
+        ->csrf('t0k3n')
+        ->rows([
+            ['id' => 1, 'name' => 'Ada', 'role' => 'eng', 'remote' => true, 'salary' => 100, 'joined' => '2024-03-12'],
+            ['id' => 2, 'name' => 'Grace <3', 'role' => 'dir', 'remote' => false, 'salary' => 200, 'joined' => null],
         ]),
 
     'chart' => Chart::make('sales')

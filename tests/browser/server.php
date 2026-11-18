@@ -27,6 +27,7 @@ use Celerik\Ui\Components\Form\Repeater;
 use Celerik\Ui\Components\Form\Section;
 use Celerik\Ui\Components\Grid;
 use Celerik\Ui\Components\Grid\Column;
+use Celerik\Ui\Components\Grid\Editor;
 use Celerik\Ui\Components\Grid\Filter;
 use Celerik\Ui\Components\Modal;
 use Celerik\Ui\Components\Notification;
@@ -34,6 +35,7 @@ use Celerik\Ui\Components\Scheduler;
 use Celerik\Ui\Components\Tabs;
 use Celerik\Ui\Components\ThemeBuilder;
 use Celerik\Ui\Data\ArrayDataSource;
+use Celerik\Ui\Data\InvalidCellEdit;
 use Celerik\Ui\FileManager\FileManagerConfig;
 use Celerik\Ui\FileManager\FileManagerConnector;
 use Celerik\Ui\Support\Html;
@@ -167,10 +169,34 @@ $budget = Grid::make('budget')
     ->url('/budget/data')
     ->pageSize(4)
     ->column('team', 'Team')
-    ->column('item', 'Item')
-    ->column('amount', 'Amount', static fn (Column $c) => $c->total())
+    ->column('item', 'Item', static fn (Column $c) => $c->editable(Editor::text(30)->required()))
+    ->column('amount', 'Amount', static fn (Column $c) => $c->total()->editable(Editor::number(min: 0)))
     ->column('hours', 'Hours', static fn (Column $c) => $c->total('avg', 1))
-    ->groupBy('team');
+    ->groupBy('team')
+    ->rowTitle('item')
+    ->inlineEdit('/budget/{item}')
+    ->csrf('test-token');
+// An inline edit: checked by the grid, then refused when the item exists, as a database
+// constraint would. Nothing is saved.
+if (preg_match('#^/budget/([^/]+)$#', $path) === 1 && ($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
+    header('Content-Type: application/json');
+    if (($_POST['_token'] ?? '') !== 'test-token' || ($_POST['_method'] ?? '') !== 'PATCH') {
+        http_response_code(419);
+        echo json_encode(['message' => 'The page expired. Reload it and try again.']);
+        exit;
+    }
+    try {
+        $edit = $budget->cellEdit($_POST);
+        if ($edit->field === 'item' && in_array($edit->value, ['Flights', 'Hotel', 'Laptop'], true)) {
+            throw new InvalidCellEdit('item', 'This item already exists.');
+        }
+        echo json_encode($edit->answer());
+    } catch (InvalidCellEdit $refusal) {
+        http_response_code(422);
+        echo json_encode($refusal->toArray());
+    }
+    exit;
+}
 if ($path === '/budget/data') {
     $rows = [
         ['team' => 'Sales', 'item' => 'Flights', 'amount' => 1200.5, 'hours' => 3],

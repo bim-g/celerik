@@ -3,6 +3,7 @@ import 'datatables.net-buttons-bs5';
 import 'datatables.net-buttons/js/buttons.html5.mjs';
 import 'datatables.net-buttons/js/buttons.print.mjs';
 import { connectColumnMenu, createColumnMenu, toggleableColumns } from './grid-columns.js';
+import { enableInlineEdit } from './grid-edit.js';
 import { connectSummary } from './grid-summary.js';
 import {
   buildGridConfig, matchesFilters, readFilters,
@@ -33,6 +34,7 @@ export function initGrid(element, options) {
   }
   enableReset(grid, element, bar, filters);
   connectSummary(grid, element, options);
+  enableInlineEdit(grid, element, options);
   return grid;
 }
 

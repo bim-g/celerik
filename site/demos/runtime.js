@@ -14,7 +14,9 @@
     if (url.pathname.indexOf('/demo-api/') === -1) {
       return send(resource, init);
     }
-    var body = JSON.stringify({ message: 'Done. This demo has no server, so nothing was saved.' });
+    // A grid cell edit (Grid::inlineEdit()) is accepted quietly: the grid announces it.
+    var edit = init && init.body instanceof FormData && init.body.has('field');
+    var body = edit ? '{}' : JSON.stringify({ message: 'Done. This demo has no server, so nothing was saved.' });
     return new Promise(function (resolve) {
       setTimeout(function () {
         resolve(new Response(body, { status: 200, headers: { 'Content-Type': 'application/json' } }));

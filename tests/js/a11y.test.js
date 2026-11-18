@@ -34,6 +34,19 @@ describe('accessibility (axe-core, WCAG 2.1 AA)', () => {
     grid.destroy();
   });
 
+  test('grid with inline editing: PHP markup, then an open field with an error', async () => {
+    const table = loadFixture('grid-edit');
+    expect(await violations()).toEqual([]);
+    const grid = initGrid(table, readOptions(table));
+    table.querySelector('[data-celerik-edit="name"]').click();
+    const field = table.querySelector('.celerik-grid-editor input');
+    field.value = '';
+    field.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true }));
+    expect(field.getAttribute('aria-invalid')).toBe('true');
+    expect(await violations()).toEqual([]);
+    grid.destroy();
+  });
+
   test('scheduler markup from PHP (no-JS fallback list)', async () => {
     loadFixture('scheduler');
     expect(await violations()).toEqual([]);

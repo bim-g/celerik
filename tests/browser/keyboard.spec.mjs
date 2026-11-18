@@ -180,6 +180,45 @@ test.describe('grid', () => {
     await expect(grid.locator('tfoot')).toHaveText(/Total 800\s*Average 5\.0/);
   });
 
+  test('a cell is edited in place from the keyboard: refused values keep the field, Escape cancels, Enter saves', async ({ page }) => {
+    const grid = page.locator('#budget');
+    const slow = { timeout: 15_000 };
+    await expect(grid.locator('tr.celerik-grid-group')).toHaveCount(2, slow);
+
+    // The editor checks the value first: the message is the field's description.
+    const edit = grid.getByRole('button', { name: 'Edit Amount of Fonts' });
+    await edit.focus();
+    await page.keyboard.press('Enter');
+    const amount = grid.getByRole('spinbutton', { name: 'Amount of Fonts' });
+    await expect(amount).toBeFocused();
+    await amount.fill('-1');
+    await page.keyboard.press('Enter');
+    await expect(amount).toHaveAttribute('aria-invalid', 'true');
+    await expect(amount).toHaveAccessibleDescription('Enter 0 or more.');
+    expect(await axeViolations(page, { include: '#budget' })).toEqual([]);
+
+    // Escape: the old value, and focus back on the button.
+    await page.keyboard.press('Escape');
+    await expect(edit).toBeFocused();
+    await expect(edit.locator('xpath=..')).toHaveText('300');
+
+    // Enter: saved, announced, and focus back on the button.
+    await page.keyboard.press('Enter');
+    await amount.fill('350');
+    await page.keyboard.press('Enter');
+    await expect(edit).toBeFocused(slow);
+    await expect(edit.locator('xpath=..')).toHaveText('350');
+    await expect(page.locator('#budget_wrapper [role=status]').last()).toHaveText('Amount of Fonts saved.');
+
+    // The endpoint refuses a value: the field stays open with its message.
+    await grid.getByRole('button', { name: 'Edit Item of Fonts' }).click();
+    const item = grid.getByRole('textbox', { name: 'Item of Fonts' });
+    await item.fill('Hotel');
+    await page.keyboard.press('Enter');
+    await expect(item).toHaveAccessibleDescription('This item already exists.', slow);
+    await expect(item).toBeFocused();
+  });
+
   test('the Columns menu shows and hides columns from the keyboard, and remembers them', async ({ page }) => {
     const wrapper = page.locator('#users_wrapper');
     const button = wrapper.getByRole('button', { name: 'Columns' });

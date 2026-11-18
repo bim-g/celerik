@@ -223,6 +223,14 @@ export function connectSummary(grid, element, options) {
     paintGroups();
   });
   grid.on('column-visibility', paintGroups);
+  // A cell changed in place (grid-edit.js): a client-side grid totals again. A server-side
+  // grid's totals come with its next page of rows.
+  element.addEventListener('celerik:edit', (event) => {
+    if (event.detail?.ok && !serverSide) {
+      updateFooter();
+      paintGroups();
+    }
+  });
   if (!serverSide) {
     updateFooter();
     paintGroups();
