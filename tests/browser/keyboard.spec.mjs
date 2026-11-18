@@ -323,6 +323,48 @@ test.describe('grid', () => {
   });
 });
 
+test.describe('list view', () => {
+  test('pages from the keyboard, focus moves to the list, and search and sort start from page 1', async ({ page }) => {
+    const view = page.locator('#team');
+    const slow = { timeout: 15_000 };
+    const list = view.getByRole('list', { name: 'Team' });
+    const status = view.getByRole('status');
+    const pager = view.getByRole('navigation', { name: 'Pages of Team' });
+    const names = () => list.getByRole('heading').allTextContents();
+
+    await expect(status).toHaveText('1–4 of 6', slow);
+    expect(await names()).toEqual(['Ada Lovelace', 'Alan Turing', 'Barbara Liskov', 'Grace Hopper']);
+    await expect(pager.getByRole('button', { name: 'Page 1' })).toHaveAttribute('aria-current', 'page');
+    await expect(pager.getByRole('button', { name: 'Previous' })).toBeDisabled();
+
+    await pager.getByRole('button', { name: 'Page 2' }).focus();
+    await page.keyboard.press('Enter');
+    await expect(status).toHaveText('5–6 of 6', slow);
+    await expect(list).toBeFocused();
+    expect(await names()).toEqual(['Katherine Johnson', 'Margaret Hamilton']);
+    await expect(pager.getByRole('button', { name: 'Next' })).toBeDisabled();
+
+    await view.getByRole('combobox', { name: 'Sort by' }).selectOption('-since');
+    await expect(status).toHaveText('1–4 of 6', slow);
+    await expect.poll(names, slow).toEqual(['Barbara Liskov', 'Katherine Johnson', 'Alan Turing', 'Margaret Hamilton']);
+
+    const search = view.getByRole('searchbox', { name: 'Search' });
+    await search.fill('boston');
+    await page.keyboard.press('Enter');
+    await expect(status).toHaveText('1–2 of 2', slow);
+    await expect(pager).toBeHidden();
+    expect(await axeViolations(page, { include: '#team' })).toEqual([]);
+
+    await search.fill('nobody');
+    await page.keyboard.press('Enter');
+    const reset = view.getByRole('button', { name: 'Clear search' });
+    await expect(reset).toBeVisible(slow);
+    await reset.click();
+    await expect(status).toHaveText('1–4 of 6', slow);
+    await expect(search).toBeFocused();
+  });
+});
+
 test.describe('form', () => {
   test('a failed submit moves focus to the first invalid field', async ({ page }) => {
     const form = page.locator('#signup');

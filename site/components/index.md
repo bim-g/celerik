@@ -5,6 +5,7 @@ Every component is a PHP class with a fluent API. It renders accessible Bootstra
 | Component | PHP class | Library |
 |---|---|---|
 | [Grid](./grid) | `Celerik\Ui\Components\Grid` | DataTables 3 |
+| [List view](./listview) | `Celerik\Ui\Components\ListView` | – |
 | [Actions](./actions) | `Celerik\Ui\Components\Action` | – |
 | [Chart](./chart) | `Celerik\Ui\Components\Chart` | Chart.js 4 |
 | [Form and fields](./form) | `Celerik\Ui\Components\Form`, `Form\Field` | Parsley.js, Inputmask |
@@ -23,6 +24,10 @@ Every component is a PHP class with a fluent API. It renders accessible Bootstra
 ## Grid
 
 <Demo name="grid" :min-height="420" />
+
+## List view
+
+<Demo name="listview" :min-height="620" />
 
 ## Chart
 

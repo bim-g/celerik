@@ -29,6 +29,7 @@ use Celerik\Ui\Components\Grid;
 use Celerik\Ui\Components\Grid\Column;
 use Celerik\Ui\Components\Grid\Editor;
 use Celerik\Ui\Components\Grid\Filter;
+use Celerik\Ui\Components\ListView;
 use Celerik\Ui\Components\Modal;
 use Celerik\Ui\Components\Notification;
 use Celerik\Ui\Components\Scheduler;
@@ -238,6 +239,31 @@ if ($path === '/budget/data') {
     exit;
 }
 
+// A server-side list view with a pager, a search box and a sort choice, and its endpoint.
+$team = ListView::make('team')
+    ->label('Team')
+    ->url('/team/data')
+    ->title('name')
+    ->link('/team/{id}')
+    ->description('role')
+    ->meta('city', 'since')
+    ->searchable()
+    ->sorts(['name' => 'Name', '-since' => 'Newest first'])
+    ->pageSize(4);
+if ($path === '/team/data') {
+    $rows = [
+        ['id' => 1, 'name' => 'Ada Lovelace', 'role' => 'Engineer', 'city' => 'London', 'since' => 2019],
+        ['id' => 2, 'name' => 'Alan Turing', 'role' => 'Researcher', 'city' => 'Manchester', 'since' => 2021],
+        ['id' => 3, 'name' => 'Grace Hopper', 'role' => 'Director', 'city' => 'New York', 'since' => 2018],
+        ['id' => 4, 'name' => 'Katherine Johnson', 'role' => 'Researcher', 'city' => 'Hampton', 'since' => 2022],
+        ['id' => 5, 'name' => 'Margaret Hamilton', 'role' => 'Engineer', 'city' => 'Boston', 'since' => 2020],
+        ['id' => 6, 'name' => 'Barbara Liskov', 'role' => 'Engineer', 'city' => 'Boston', 'since' => 2023],
+    ];
+    header('Content-Type: application/json');
+    echo json_encode($team->respond(new ArrayDataSource($rows), $_GET));
+    exit;
+}
+
 // Bootstrap is the only look; ?theme= is ignored.
 $theme = 'bootstrap';
 $mode = ($_GET['mode'] ?? '') === 'dark' ? 'dark' : 'light';
@@ -326,6 +352,8 @@ $components = [
     $staff,
 
     $budget,
+
+    $team,
 
     Chart::make('revenue')
         ->type('line')

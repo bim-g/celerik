@@ -42,6 +42,12 @@ for (const theme of THEMES) {
         expect(await axeViolations(page, { include: '#staff-form-modal' })).toEqual([]);
       });
 
+      test('no axe-core violations in a list view with its pager', async ({ page }) => {
+        await openComponents(page, { theme, mode });
+        await expect(page.locator('#team [role=status]')).toHaveText('1–4 of 6', { timeout: 15_000 });
+        expect(await axeViolations(page, { include: '#team' })).toEqual([]);
+      });
+
       test('no axe-core violations in a grouped grid with totals', async ({ page }) => {
         await openComponents(page, { theme, mode });
         // The endpoint answers through the test server: allow for a slow machine.
