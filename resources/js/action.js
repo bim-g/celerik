@@ -55,8 +55,24 @@ export function actionHtml(action, row, ariaLabel = null, small = true) {
     + `${attribute('data-confirm', action.confirm ? fill(action.confirm, row) : null)}`
     + `${attribute('data-confirm-detail', action.confirmDetail ? fill(action.confirmDetail, row) : null)}`
     + `${attribute('data-csrf-header', action.csrf?.header)}`
-    + `${attribute('data-labels', action.labels ? JSON.stringify(action.labels) : null)}>`
-    + `${fields}<button type="submit"${attribute('class', className)}${attribute('aria-label', name)}>${label}</button></form>`;
+    + `${attribute('data-labels', action.labels ? JSON.stringify(action.labels) : null)}`
+    + `${action.form ? formAttributes(action.form, row, attribute) : ''}>`
+    + `${fields}<button type="submit"${attribute('class', className)}${attribute('aria-label', name)}`
+    + `${action.form ? ' aria-haspopup="dialog"' : ''}>${label}</button></form>`;
+}
+
+// An action with a form (Action::form()): its modal, its title and the row's values for its
+// fields, as Action::render() writes them.
+function formAttributes(form, row, attribute) {
+  const values = {};
+  for (const field of form.fields ?? []) {
+    const value = field.split('.').reduce((object, key) => object?.[key], row);
+    if (value !== undefined) {
+      values[field] = value;
+    }
+  }
+  return `${attribute('data-celerik-form-modal', form.modal)}${attribute('data-title', fill(form.title, row))}`
+    + `${attribute('data-values', JSON.stringify(values))}`;
 }
 
 // A grid row's buttons, as Grid::renderActions() writes them: each named with its label

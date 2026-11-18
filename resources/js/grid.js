@@ -182,8 +182,48 @@ function refreshAfterActions(grid, element, serverSide) {
     } else if (method === 'DELETE') {
       grid.row(row).remove().draw(false);
       refocus();
+    } else if (event.detail.data?.data && typeof event.detail.data.data === 'object') {
+      updateRow(grid, row, event.detail.data.data);
     }
   });
+}
+
+// A client-side row after an action that answered the row as saved ({"data": {...}}): its
+// cells show the new values, and its actions' forms open with them.
+function updateRow(grid, row, values) {
+  const text = (value) => {
+    if (value === null || value === undefined) {
+      return '';
+    }
+    if (typeof value === 'boolean') {
+      return value ? 'Yes' : 'No';
+    }
+    return typeof value === 'object' ? JSON.stringify(value) : String(value);
+  };
+  grid.columns().every(function update() {
+    const field = this.dataSrc();
+    if (typeof field !== 'string' || !Object.hasOwn(values, field)) {
+      return;
+    }
+    const cell = grid.cell(row, this.index()).node();
+    if (!cell) {
+      return;
+    }
+    (cell.querySelector('.celerik-grid-value') ?? cell).textContent = text(values[field]);
+    if (cell.dataset.value !== undefined) {
+      cell.dataset.value = typeof values[field] === 'boolean' ? (values[field] ? '1' : '0') : text(values[field]);
+    }
+  });
+  grid.row(row).invalidate('dom');
+  for (const form of row.querySelectorAll('form[data-values]')) {
+    try {
+      const own = JSON.parse(form.dataset.values);
+      const fresh = Object.fromEntries(Object.keys(own).filter((key) => Object.hasOwn(values, key)).map((key) => [key, values[key]]));
+      form.dataset.values = JSON.stringify({ ...own, ...fresh });
+    } catch {
+      // Leave it.
+    }
+  }
 }
 
 function enhanceFilters(grid, bar, columns, current, serverSide) {

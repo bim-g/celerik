@@ -16,6 +16,11 @@ The same version is published on Packagist (`celerik/ui`) and npm (`@celerikui/u
   - Each button is named with its label and the row's title, for example "Delete Ada Lovelace" (`Grid::rowTitle()`).
   - After a request succeeds, a server-side grid reloads its page, and a client-side grid removes a deleted row. Focus moves to the next row's button.
   - Exports leave the column out.
+- **Actions that open a form in a modal**: `Action::request(...)->form($form, 'Edit {name}', 'Save')`, on a page or in a grid's rows.
+  - In a grid, the form opens with the row's values and a title for the row; the modal is written once for all rows.
+  - The form's own checks run first, then its fields are sent to the action's URL with its method and CSRF token.
+  - A 2xx answer closes the modal, shows its message and refreshes the grid; a 422 answer's `errors` are shown on their fields.
+  - Focus starts in the first field and returns to the action's button.
 - **Grid inline editing**: `Column::editable(Editor::text()|number()|select()|boolean()|date())` lets the user change a cell in place, and `Grid::inlineEdit($url)` says where changes are saved.
   - An edit button per cell, named after the column and the row, opens a labelled field: Enter or leaving it saves, Escape cancels, and focus returns to the button.
   - The browser checks the value with the editor's rules, and `Grid::cellEdit($_POST)` checks it again on the server: only editable columns, typed values. `InvalidCellEdit::toArray()` answers a refused value, which stays in the field with its message.

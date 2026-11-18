@@ -2,7 +2,7 @@
 
 Buttons that do something: open a page, or send a request to your endpoint, after a confirmation when it matters. Use them on their own, in a toolbar or a page, [in a grid's rows](./grid#row-actions), or [for the rows selected in a grid](./grid#row-selection-and-bulk-actions).
 
-<Demo name="actions" :min-height="260" />
+<Demo name="actions" :min-height="520" />
 
 <<< @/demos/actions.php
 
@@ -40,9 +40,41 @@ echo Action::request('delete', 'Delete', '/members/7')
 | `confirm($question, $detail = null)` | Asks first, in a dialog titled by the question. The confirm button repeats the action's label. |
 | `ariaLabel('Delete {name}')` | The accessible name, when the label alone is ambiguous. |
 | `csrf($token, $field = '_token', $header = 'X-CSRF-TOKEN')` | The CSRF token: a hidden field for the form, a header for `fetch`. |
+| `form($form, $title = null, $submitLabel = null, $size = null)` | Opens a form in a modal and sends it (see [Forms in a modal](#forms-in-a-modal)). |
 | `labels(['cancel' => ..., 'failed' => ...])` | Translates the dialog's Cancel button and the message of a failed request. |
 
 `{field}` in the URL, the question, the detail and the accessible name is replaced by the row's value in a grid, and is URL-encoded in the URL.
+
+## Forms in a modal
+
+A request action with a `form()` opens it in a modal, and **Save** sends its fields to the action's URL. In a grid's row, the form opens with the row's values:
+
+```php
+Grid::make('members')
+    ->column('id', 'ID', static fn (Column $c) => $c->hidden())
+    ->column('name', 'Name')
+    ->column('role', 'Role')
+    ->actions(
+        Action::request('edit', 'Edit', '/members/{id}')
+            ->method('PATCH')
+            ->csrf($token)
+            ->form(Form::make('member-form')->add(
+                Field::text('name', 'Name')->required(),
+                Field::select('role', ['engineer' => 'Engineer', 'director' => 'Director'], 'Role'),
+            ), 'Edit {name}', 'Save'),
+    );
+```
+
+- **The values**: fields named like the row's columns take the row's values; other fields keep the form's own. Only the form's fields are written in the page, not the whole row.
+- **The title** takes the row's values (`Edit {name}`), and so must name declared columns.
+- **The buttons**: the modal has **Cancel** and `$submitLabel` (the action's label by default), in place of the form's own submit button.
+- **Checks**: the form's rules (`required()`, `email()`, `min()`...) are checked in the browser first, as in any Celerik form.
+- **The request** is a form-encoded `POST`, with `_method` set to the action's method and the action's CSRF field and header, so PHP reads it in `$_POST`.
+- **The answer**:
+  - **2xx**: the modal closes, its `message` is shown, and `celerik:action` fires. A server-side grid reloads its rows; a client-side grid shows the values of `{"data": {...}}`, if the answer has them.
+  - **422** with `errors` (`{"name": ["This name is taken."]}`, Laravel's shape): each error is shown on its field, and focus moves to the first. Other errors and messages go in an alert at the top of the form.
+- **Once per page**: `render()` writes the modal too; a grid writes it once for all its rows. On a page, `render(modal: false)` and `renderModal()` place them apart.
+- **Without JavaScript**, the button is not shown: the form needs it.
 
 ## The endpoint
 
@@ -74,6 +106,7 @@ document.addEventListener('celerik:action', (event) => {
   - Escape cancels, and focus returns to the button.
 - **Outlined buttons** use Bootstrap's text-emphasis colors, which keep 4.5:1 contrast in light and dark mode. Focus stays visible in Windows High Contrast.
 - **A request in progress** marks its button `aria-disabled`, and a second press is ignored.
+- **A form in a modal** is a dialog named by its title; the button says it opens one (`aria-haspopup="dialog"`). Focus starts in the first field, Escape closes it, and focus returns to the button. Errors are each field's description (`aria-describedby`), and the alert for the others is announced.
 
 ## Security
 

@@ -159,6 +159,31 @@ $fixtures = [
             ['id' => 2, 'name' => 'Grace <3', 'role' => 'dir', 'remote' => false, 'salary' => 200, 'joined' => null],
         ]),
 
+    'action-form' => Grid::make('people')
+        ->caption('People')
+        ->column('id', 'ID', static fn (Column $c) => $c->hidden())
+        ->column('name', 'Name')
+        ->column('role', 'Role')
+        ->column('active', 'Active')
+        ->actions(
+            Action::request('edit', 'Edit', '/people/{id}')
+                ->method('PATCH')
+                ->csrf('t0k3n')
+                ->form(
+                    Form::make('person-form')->add(
+                        Field::text('name')->required(),
+                        Field::select('role', ['admin' => 'Admin', 'user' => 'User']),
+                        Field::checkbox('active', 'Active'),
+                    ),
+                    'Edit {name}',
+                    'Save',
+                ),
+        )
+        ->rows([
+            ['id' => 1, 'name' => 'Ada', 'role' => 'admin', 'active' => true],
+            ['id' => 2, 'name' => 'Alan', 'role' => 'user', 'active' => false],
+        ]),
+
     'chart' => Chart::make('sales')
         ->type('bar')
         ->title('Monthly revenue')

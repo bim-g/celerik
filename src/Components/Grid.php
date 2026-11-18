@@ -617,7 +617,20 @@ final class Grid extends Component
             $this->rootAttributes(['table', 'table-striped', 'table-hover', 'w-100', 'celerik-grid']),
             $caption . Html::tag('thead', [], Html::tag('tr', [], $headers)) . Html::tag('tbody', [], $body)
             . $this->renderFooter(),
-        );
+        ) . $this->renderActionModals();
+    }
+
+    /**
+     * The modals of the row actions that open a form (Action::form()), once for all rows.
+     */
+    private function renderActionModals(): string
+    {
+        $html = '';
+        foreach ($this->actions as $action) {
+            $html .= $action->renderModal();
+        }
+
+        return $html;
     }
 
     /**
@@ -815,7 +828,8 @@ final class Grid extends Component
         $buttons = '';
         foreach ($this->actions as $action) {
             $name = trim($action->getLabel() . ' ' . $title);
-            $buttons .= $action->render($row, small: true, ariaLabel: $action->hasAriaLabel() ? null : $name);
+            $ariaLabel = $action->hasAriaLabel() ? null : $name;
+            $buttons .= $action->render($row, small: true, ariaLabel: $ariaLabel, modal: false);
         }
 
         return Html::tag('div', ['class' => 'celerik-grid-action-list'], $buttons);

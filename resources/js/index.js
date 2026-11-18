@@ -21,13 +21,21 @@ async function notify(type, message) {
   return (await import('./notification.js')).notify(type, message);
 }
 
+// What needs JavaScript is shown once it runs (e.g. actions that open a form).
+document.documentElement.classList.add('celerik-js');
+
 // Request actions (Action::request()) anywhere on the page, including rows a grid draws
-// later: one listener asks for confirmation and sends the request.
+// later: one listener asks for confirmation and sends the request, or opens the action's
+// form (Action::form()).
 document.addEventListener('submit', (event) => {
   const form = event.target;
   if (form instanceof HTMLFormElement && form.matches('form.celerik-action')) {
     event.preventDefault();
     const { submitter } = event;
+    if (form.dataset.celerikFormModal) {
+      import('./action-form.js').then(({ openActionForm }) => openActionForm(form));
+      return;
+    }
     import('./action.js').then(({ submitAction }) => submitAction(form, { submitter }));
   }
 });

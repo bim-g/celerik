@@ -18,7 +18,7 @@ test.describe('prefers-reduced-motion: reduce', () => {
     await expect(toast).toHaveCount(0);
 
     await page.getByRole('button', { name: 'Contact us' }).click();
-    const dialog = page.locator('.modal-dialog');
+    const dialog = page.locator('#contact-modal .modal-dialog');
     expect(await dialog.evaluate((element) => getComputedStyle(element).transitionDuration)).toBe('0s');
   });
 });

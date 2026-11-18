@@ -279,6 +279,42 @@ test.describe('grid', () => {
     await expect(all).toBeFocused();
   });
 
+  test('an action opens its form in a modal: filled for the row, errors on the fields, saved and focus returns', async ({ page }) => {
+    const grid = page.locator('#staff');
+    const slow = { timeout: 15_000 };
+    const edit = grid.getByRole('button', { name: 'Edit Ada Lovelace' });
+    await edit.focus();
+    await page.keyboard.press('Enter');
+
+    const dialog = page.getByRole('dialog', { name: 'Edit Ada Lovelace' });
+    await expect(dialog).toBeVisible();
+    const name = dialog.getByRole('textbox', { name: /Name/ });
+    await expect(name).toBeFocused();
+    await expect(name).toHaveValue('Ada Lovelace');
+    await expect(dialog.getByRole('combobox', { name: 'Role' })).toHaveValue('admin');
+
+    // Escape: closed, focus back on the button.
+    await page.keyboard.press('Escape');
+    await expect(dialog).toBeHidden();
+    await expect(edit).toBeFocused();
+
+    // The endpoint refuses the name: the message is the field's description.
+    await page.keyboard.press('Enter');
+    await expect(name).toBeFocused();
+    await name.fill('Alan Turing');
+    await page.keyboard.press('Enter');
+    await expect(name).toHaveAccessibleDescription('This name is taken.', slow);
+    await expect(name).toBeFocused();
+    await expect(name).toHaveAttribute('aria-invalid', 'true');
+
+    // Saved: closed, its message shown, the rows reloaded, focus on the button again.
+    await name.fill('Ada King');
+    await dialog.getByRole('button', { name: 'Save' }).click();
+    await expect(page.locator('.notyf')).toContainText('Ada King was updated.', slow);
+    await expect(dialog).toBeHidden();
+    await expect(grid.getByRole('button', { name: 'Edit Ada Lovelace' })).toBeFocused(slow);
+  });
+
   test('a server-side grid\'s row action sends its request and reloads the page of rows', async ({ page }) => {
     const grid = page.locator('#staff');
     await grid.getByRole('button', { name: 'Deactivate Grace Hopper' }).click();

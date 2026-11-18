@@ -119,6 +119,24 @@ if ($path === '/staff/bulk' && ($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
     exit;
 }
 
+// An action's form (Action::form()): a name already taken is refused on its field.
+if (preg_match('#^/staff/([^/]+)/edit$#', $path, $match) === 1 && ($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
+    header('Content-Type: application/json');
+    if (($_SERVER['HTTP_X_CSRF_TOKEN'] ?? '') !== 'test-token' || ($_POST['_method'] ?? '') !== 'PATCH') {
+        http_response_code(419);
+        echo json_encode(['message' => 'The page expired. Reload it and try again.']);
+        exit;
+    }
+    $name = trim((string) ($_POST['name'] ?? ''));
+    if (in_array($name, ['Alan Turing', 'Grace Hopper'], true)) {
+        http_response_code(422);
+        echo json_encode(['message' => 'Invalid.', 'errors' => ['name' => ['This name is taken.']]]);
+        exit;
+    }
+    echo json_encode(['message' => "$name was updated."]);
+    exit;
+}
+
 // Row actions: answer like a real endpoint, with a message (the request must carry the token).
 $isPost = in_array($_SERVER['REQUEST_METHOD'] ?? 'GET', ['POST', 'DELETE'], true);
 if ($isPost && preg_match('#^/(users|staff)/([^/]+)(/deactivate)?$#', $path, $match) === 1) {
@@ -142,7 +160,16 @@ $staff = Grid::make('staff')
     ->column('role', 'Role', static fn (Column $c) => $c->filter(Filter::select(['admin' => 'Admin', 'user' => 'User'])))
     ->column('active', 'Active', static fn (Column $c) => $c->filter(Filter::boolean()))
     ->column('joined', 'Joined', static fn (Column $c) => $c->filter(Filter::dateRange()))
-    ->actions(Action::request('deactivate', 'Deactivate', '/staff/{name}/deactivate')->csrf('test-token'))
+    ->actions(
+        Action::request('edit', 'Edit', '/staff/{name}/edit')
+            ->method('PATCH')
+            ->csrf('test-token')
+            ->form(Form::make('staff-form')->add(
+                Field::text('name', 'Name')->required(),
+                Field::select('role', ['admin' => 'Admin', 'user' => 'User'], 'Role'),
+            ), 'Edit {name}', 'Save'),
+        Action::request('deactivate', 'Deactivate', '/staff/{name}/deactivate')->csrf('test-token'),
+    )
     ->selectable('name')
     ->bulkActions(
         Action::request('deactivate', 'Deactivate selected', '/staff/bulk')
