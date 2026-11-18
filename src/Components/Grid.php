@@ -7,6 +7,7 @@ namespace Celerik\Ui\Components;
 use Celerik\Ui\Component;
 use Celerik\Ui\Components\Grid\Column;
 use Celerik\Ui\Components\Grid\Filter;
+use Celerik\Ui\Data\Aggregate;
 use Celerik\Ui\Data\DataRequest;
 use Celerik\Ui\Data\DataResult;
 use Celerik\Ui\Data\DataSourceInterface;
@@ -23,7 +24,8 @@ use LogicException;
  * Columns with a filter() get a filter bar above the table, shown once JavaScript runs.
  * Actions (actions()) get a last column with a button for each row. A selectable grid
  * (selectable()) gets a first column of checkboxes, and bulk actions (bulkActions()) a bar
- * above the table that sends the selected rows.
+ * above the table that sends the selected rows. Columns with a total() get a footer, and a grid
+ * grouped by a field (groupBy()) shows a heading row, counted and totalled, before each group.
  */
 final class Grid extends Component
 {
@@ -49,6 +51,16 @@ final class Grid extends Component
         'empty' => 'No rows to show',
         'noMatches' => 'No rows match your search or filters',
         'reset' => 'Clear filters and search',
+        'sum' => 'Total',
+        'avg' => 'Average',
+        'count' => 'Count',
+        'min' => 'Minimum',
+        'max' => 'Maximum',
+        'groupRow' => '{count} row',
+        'groupRows' => '{count} rows',
+        'noGroup' => 'None',
+        'decimal' => '.',
+        'thousands' => ',',
     ];
 
     /** How respond() reads each kind of column filter. */
@@ -105,6 +117,8 @@ final class Grid extends Component
     private ?string $emptyDescription = null;
 
     private ?Action $emptyAction = null;
+
+    private ?string $groupBy = null;
 
     public static function name(): string
     {
@@ -290,6 +304,21 @@ final class Grid extends Component
     }
 
     /**
+     * Groups the rows by a field (a column, hidden or not): they are sorted by it first, and
+     * each group starts with a heading row that names it, counts its rows and totals its
+     * columns that have a total(). Counts and totals cover the whole group, not only the page.
+     */
+    public function groupBy(?string $field): self
+    {
+        if ($field !== null && !DataRequest::isValidField($field)) {
+            throw new InvalidArgumentException(sprintf('Invalid group field "%s".', $field));
+        }
+        $this->groupBy = $field;
+
+        return $this;
+    }
+
+    /**
      * A Columns button that lets the user show or hide columns, except those that are not
      * toggleable() and hidden() ones. With `$remember`, the choice is kept in the browser
      * (localStorage), per grid id.
@@ -348,12 +377,16 @@ final class Grid extends Component
      */
     public function respond(DataSourceInterface $source, array $query): DataResult
     {
+        $this->assertGroup();
+        $sortable = $this->fields(static fn (Column $column): bool => $column->isSortable());
         $request = DataRequest::fromArray(
             $query,
-            sortable: $this->fields(static fn (Column $column): bool => $column->isSortable()),
+            sortable: $this->groupBy === null ? $sortable : [...$sortable, $this->groupBy],
             searchable: $this->fields(static fn (Column $column): bool => $column->isSearchable()),
             defaultPerPage: $this->pageSize,
             filterTypes: $this->filterTypes(),
+            totals: $this->totals(),
+            groupBy: $this->groupBy,
         );
 
         $fields = $this->fields();
@@ -373,6 +406,7 @@ final class Grid extends Component
     {
         $this->assertActionFields();
         $this->assertSelection();
+        $this->assertGroup();
 
         return array_filter([
             'columns' => array_map(static fn (Column $column): array => $column->toArray(), $this->columns),
@@ -392,6 +426,11 @@ final class Grid extends Component
                 'remember' => $this->rememberColumns,
                 'labels' => ['columns' => $this->labels['columns'], 'showColumns' => $this->labels['showColumns']],
             ],
+            'groupBy' => $this->groupBy,
+            'summary' => $this->totals() === [] && $this->groupBy === null ? null : array_intersect_key(
+                $this->labels,
+                array_flip([...Aggregate::FUNCTIONS, 'groupRow', 'groupRows', 'noGroup', 'decimal', 'thousands']),
+            ),
             'emptyHtml' => $this->renderEmpty(),
             'noMatchesHtml' => $this->renderNoMatches(),
             'url' => $this->url,
@@ -417,6 +456,7 @@ final class Grid extends Component
 
         $filters = $this->renderFilters();
         $this->assertSelection();
+        $this->assertGroup();
         $bulk = $this->renderBulkBar();
 
         $headers = '';
@@ -439,7 +479,7 @@ final class Grid extends Component
 
         $body = '';
         if ($this->url === null) {
-            foreach ($this->rows as $row) {
+            foreach ($this->sortedRows() as $row) {
                 $cells = $this->selectKey === null ? '' : Html::tag(
                     'td',
                     ['class' => 'celerik-grid-select'],
@@ -447,7 +487,8 @@ final class Grid extends Component
                 );
                 foreach ($this->columns as $column) {
                     $value = Arr::get($row, $column->getField());
-                    $attributes = ['data-value' => self::filterValue($column, $value)];
+                    $data = self::filterValue($column, $value) ?? self::totalValue($column, $value);
+                    $attributes = ['data-value' => $data];
                     $cells .= Html::tag('td', $attributes, Html::escape(Arr::toText($value)));
                 }
                 if ($this->actions !== []) {
@@ -460,8 +501,130 @@ final class Grid extends Component
         return $filters . $bulk . Html::tag(
             'table',
             $this->rootAttributes(['table', 'table-striped', 'table-hover', 'w-100', 'celerik-grid']),
-            $caption . Html::tag('thead', [], Html::tag('tr', [], $headers)) . Html::tag('tbody', [], $body),
+            $caption . Html::tag('thead', [], Html::tag('tr', [], $headers)) . Html::tag('tbody', [], $body)
+            . $this->renderFooter(),
         );
+    }
+
+    /**
+     * The footer: a cell per column, with the totals. A server-side grid's are written by
+     * grid.js once the endpoint answers; a client-side grid's cover all its rows until then.
+     */
+    private function renderFooter(): string
+    {
+        if ($this->totals() === []) {
+            return '';
+        }
+
+        $cells = $this->selectKey === null ? '' : Html::tag('td', ['class' => 'celerik-grid-select'], '');
+        foreach ($this->columns as $column) {
+            $function = $column->getTotal();
+            if ($function === null) {
+                $cells .= Html::tag('td', [], '');
+                continue;
+            }
+            $field = $column->getField();
+            $value = $this->url !== null ? null : Aggregate::compute(
+                $function,
+                array_map(static fn (array $row): mixed => Arr::get($row, $field), $this->rows),
+            );
+            $cells .= Html::tag(
+                'td',
+                ['class' => 'celerik-grid-total', 'data-celerik-total' => $field],
+                $this->renderTotal($column, $value),
+            );
+        }
+        if ($this->actions !== []) {
+            $cells .= Html::tag('td', ['class' => 'celerik-grid-actions'], '');
+        }
+
+        return Html::tag('tfoot', [], Html::tag('tr', [], $cells));
+    }
+
+    /**
+     * "Total 12,500", as grid-summary.js writes it: nothing while the value is unknown.
+     */
+    private function renderTotal(Column $column, int|float|null $value): string
+    {
+        if ($value === null) {
+            return '';
+        }
+        $function = (string) $column->getTotal();
+        $text = Aggregate::format(
+            $value,
+            $function,
+            $column->getTotalDecimals(),
+            $this->labels['decimal'],
+            $this->labels['thousands'],
+        );
+
+        return Html::tag('span', ['class' => 'celerik-grid-total-label'], Html::escape($this->labels[$function]))
+            . ' ' . Html::tag('span', ['class' => 'celerik-grid-total-value'], Html::escape($text));
+    }
+
+    /**
+     * Client-side rows, sorted by the group field when grouped, so that groups read in order
+     * without JavaScript too.
+     *
+     * @return list<array<string, mixed>>
+     */
+    private function sortedRows(): array
+    {
+        $rows = $this->rows;
+        $field = $this->groupBy;
+        if ($field !== null) {
+            usort($rows, static function (array $a, array $b) use ($field): int {
+                $first = Arr::get($a, $field);
+                $second = Arr::get($b, $field);
+
+                return is_numeric($first) && is_numeric($second)
+                    ? $first <=> $second
+                    : strnatcasecmp(Arr::toText($first), Arr::toText($second));
+            });
+        }
+
+        return $rows;
+    }
+
+    /**
+     * Column totals, field => function.
+     *
+     * @return array<string, string>
+     */
+    private function totals(): array
+    {
+        $totals = [];
+        foreach ($this->columns as $column) {
+            if ($column->getTotal() !== null) {
+                $totals[$column->getField()] = $column->getTotal();
+            }
+        }
+
+        return $totals;
+    }
+
+    private function assertGroup(): void
+    {
+        if ($this->groupBy !== null && !in_array($this->groupBy, $this->fields(), true)) {
+            throw new LogicException(sprintf(
+                'Grid "%s" is grouped by "%s", which is not a column: add one (it can be hidden).',
+                $this->id,
+                $this->groupBy,
+            ));
+        }
+    }
+
+    /**
+     * The number a total reads in a client-side cell: 1250.5, true as 1.
+     */
+    private static function totalValue(Column $column, mixed $value): ?string
+    {
+        if ($column->getTotal() === null) {
+            return null;
+        }
+        $number = Aggregate::number($value);
+
+        return $number === null ? null : (string) $number;
     }
 
     /**

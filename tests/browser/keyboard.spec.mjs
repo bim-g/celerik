@@ -130,6 +130,7 @@ test.describe('grid', () => {
     // Confirmed: the endpoint answers with a message, shown in a toast; the row is gone and
     // focus is on the Delete button of the row that took its place.
     await page.keyboard.press('Enter');
+    await expect(dialog.getByRole('button', { name: 'Cancel' })).toBeFocused();
     await page.keyboard.press('Tab');
     await expect(dialog.getByRole('button', { name: 'Delete' })).toBeFocused();
     await page.keyboard.press('Enter');
@@ -150,6 +151,33 @@ test.describe('grid', () => {
     await page.keyboard.press('Enter');
     await expect(grid.locator('tbody tr')).toHaveCount(5, slow);
     await expect(page.locator('#staff_wrapper .dt-search input')).toBeFocused();
+  });
+
+  test('a grouped server-side grid heads each group, totals the filtered rows and keeps groups when sorted', async ({ page }) => {
+    const grid = page.locator('#budget');
+    const slow = { timeout: 15_000 };
+    const headings = grid.locator('tbody tr.celerik-grid-group');
+    const items = () => grid.locator('tbody tr:not(.celerik-grid-group) td:nth-child(2)').allTextContents();
+
+    await expect(headings).toHaveCount(2, slow);
+    // The row counts come from the endpoint's meta.
+    await expect(page.locator('#budget_wrapper .dt-info')).toHaveText('Showing 1 to 4 of 6 entries');
+    await expect(headings.nth(0)).toHaveText(/Design\s*2 rows\s*Total 2,800\s*Average 3\.0/);
+    // A group's count and totals cover the whole group: Dinner is on the next page.
+    await expect(headings.nth(1)).toHaveText(/Sales\s*3 rows\s*Total 2,095\.50\s*Average 3\.3/);
+    await expect(grid.locator('tfoot')).toHaveText(/Total 5,045\.50\s*Average 2\.8/);
+    expect(await grid.getByRole('rowheader', { name: /Design/ }).count()).toBe(1);
+    expect(await axeViolations(page, { include: '#budget' })).toEqual([]);
+
+    // Sorting by Amount sorts within each group.
+    await grid.getByRole('columnheader', { name: /Amount/ }).getByRole('button', { name: /Amount: Activate to sort/ }).focus();
+    await page.keyboard.press('Enter');
+    await expect.poll(items, slow).toEqual(['Fonts', 'Laptop', 'Dinner', 'Hotel']);
+
+    await page.locator('#budget_wrapper .dt-search input').fill('Hotel');
+    await expect(headings).toHaveCount(1, slow);
+    await expect(headings).toHaveText(/Sales\s*1 row\s*Total 800\s*Average 5\.0/);
+    await expect(grid.locator('tfoot')).toHaveText(/Total 800\s*Average 5\.0/);
   });
 
   test('the Columns menu shows and hides columns from the keyboard, and remembers them', async ({ page }) => {
@@ -194,8 +222,11 @@ test.describe('grid', () => {
     await expect(all).toHaveJSProperty('indeterminate', true);
 
     // The next page: its rows are not selected, and the selection is kept.
+    // Sorted by name, Margaret Hamilton is the only row of page 2.
     await page.locator('#staff_wrapper').getByRole('link', { name: 'Next' }).click();
-    await grid.getByRole('checkbox', { name: 'Select Katherine Johnson' }).check(slow);
+    await expect(page.locator('#staff_wrapper .dt-info')).toHaveText('Showing 6 to 6 of 6 entries', slow);
+    await expect(grid.getByRole('checkbox', { name: 'Select Ada Lovelace' })).toHaveCount(0);
+    await grid.getByRole('checkbox', { name: 'Select Margaret Hamilton' }).check();
     await expect(bar.getByRole('status')).toHaveText('2 selected');
 
     await bar.getByRole('button', { name: 'Deactivate selected' }).focus();
@@ -204,7 +235,7 @@ test.describe('grid', () => {
     await expect(dialog).toBeVisible();
     await dialog.getByRole('button', { name: 'Deactivate selected' }).click();
 
-    await expect(page.locator('.notyf')).toContainText('2 people were deactivated: Ada Lovelace, Katherine Johnson.', slow);
+    await expect(page.locator('.notyf')).toContainText('2 people were deactivated: Ada Lovelace, Margaret Hamilton.', slow);
     await expect(bar.getByRole('status')).toHaveText('No rows selected');
     await expect(all).toBeFocused();
   });

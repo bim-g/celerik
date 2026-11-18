@@ -66,7 +66,75 @@ final class ArrayDataSource implements DataSourceInterface
             });
         }
 
-        return new DataResult(array_slice($rows, $request->offset(), $request->perPage), $total, $filtered, $request);
+        $page = array_slice($rows, $request->offset(), $request->perPage);
+
+        return new DataResult(
+            $page,
+            $total,
+            $filtered,
+            $request,
+            self::totals($request->totals, $rows),
+            $request->groupBy === null ? [] : self::groups($request->groupBy, $request->totals, $rows, $page),
+        );
+    }
+
+    /**
+     * @param array<string, string> $totals
+     * @param list<array<string, mixed>> $rows
+     * @return array<string, int|float|null>
+     */
+    private static function totals(array $totals, array $rows): array
+    {
+        $values = [];
+        foreach ($totals as $field => $function) {
+            $values[$field] = Aggregate::compute(
+                $function,
+                array_map(static fn (array $row): mixed => Arr::get($row, $field), $rows),
+            );
+        }
+
+        return $values;
+    }
+
+    /**
+     * The groups of the page's rows, each counted and totalled over all the filtered rows.
+     *
+     * @param array<string, string> $totals
+     * @param list<array<string, mixed>> $rows
+     * @param list<array<string, mixed>> $page
+     * @return list<array{value: mixed, count: int, totals: array<string, int|float|null>}>
+     */
+    private static function groups(string $field, array $totals, array $rows, array $page): array
+    {
+        $members = [];
+        foreach ($rows as $row) {
+            $members[Aggregate::groupKey(Arr::get($row, $field))][] = $row;
+        }
+
+        $groups = [];
+        foreach ($page as $row) {
+            $value = self::groupValue(Arr::get($row, $field));
+            $key = Aggregate::groupKey($value);
+            if (isset($groups[$key])) {
+                continue;
+            }
+            $groups[$key] = [
+                'value' => $value,
+                'count' => count($members[$key]),
+                'totals' => self::totals($totals, $members[$key]),
+            ];
+        }
+
+        return array_values($groups);
+    }
+
+    private static function groupValue(mixed $value): mixed
+    {
+        return match (true) {
+            $value === null, is_scalar($value) => $value,
+            $value instanceof \DateTimeInterface => $value->format('Y-m-d H:i:s'),
+            default => Arr::toText($value),
+        };
     }
 
     /**

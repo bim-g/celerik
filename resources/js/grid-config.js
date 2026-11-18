@@ -1,17 +1,14 @@
 import { rowActionsHtml, rowCheckboxHtml } from './action.js';
 import { deepMerge } from './core.js';
 
-// Celerik endpoints answer {data, meta}; DataTables expects its own envelope.
-export function toDataTablesResponse(payload) {
-  const data = Array.isArray(payload?.data) ? payload.data : [];
-  const meta = payload?.meta ?? {};
-  return {
-    draw: meta.draw ?? 0,
-    recordsTotal: meta.total ?? data.length,
-    recordsFiltered: meta.filtered ?? meta.total ?? data.length,
-    data,
-  };
-}
+// Celerik endpoints answer {data, meta}: where DataTables finds the rows, the draw counter and
+// the row counts in it. DataTables 3 makes its own requests, without jQuery's dataFilter.
+export const ENDPOINT_FIELDS = {
+  data: 'data',
+  draw: 'meta.draw',
+  recordsTotal: 'meta.total',
+  recordsFiltered: 'meta.filtered',
+};
 
 // The values of the filter bar, from PHP's column filters: [{field, type, value}] for text,
 // select and yes/no filters, [{field, type, from, to}] for date ranges. Empty ones are left out.
@@ -132,6 +129,13 @@ export function buildGridConfig(options, { filters = null, columnMenu = null } =
     });
     config.order = [[1, 'asc']];
   }
+  // A grouped grid (Grid::groupBy()) is sorted by its group first, whatever the user sorts.
+  if (options.groupBy) {
+    const group = config.columns.findIndex((column) => column.name === options.groupBy);
+    if (group !== -1) {
+      config.orderFixed = { pre: [[group, 'asc']] };
+    }
+  }
   if (options.searchable === false && hasFilters) {
     config.layout = { topEnd: null };
   }
@@ -141,7 +145,7 @@ export function buildGridConfig(options, { filters = null, columnMenu = null } =
     config.processing = true;
     config.ajax = {
       url: options.url,
-      dataFilter: (raw) => JSON.stringify(toDataTablesResponse(JSON.parse(raw))),
+      dataSrc: { ...ENDPOINT_FIELDS },
     };
     if (filters) {
       config.ajax.data = (data) => {

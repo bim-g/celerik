@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace Celerik\Ui\Adapters\Laravel;
 
+use Celerik\Ui\Data\Aggregate;
 use Celerik\Ui\Data\DataRequest;
 use Celerik\Ui\Data\DataResult;
 use Celerik\Ui\Data\DataSourceInterface;
+use Celerik\Ui\Support\Arr;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
 use Illuminate\Database\Query\Builder as QueryBuilder;
@@ -68,6 +70,12 @@ final class EloquentDataSource implements DataSourceInterface
 
         $filtered = (clone $query)->count();
 
+        $totals = [];
+        foreach ($request->totals as $field => $function) {
+            $totals[$field] = Aggregate::number((clone $query)->{$function}($field));
+        }
+        $grouped = clone $query;
+
         foreach ($request->sort as $rule) {
             $query->orderBy($rule['field'], $rule['direction']);
         }
@@ -77,6 +85,67 @@ final class EloquentDataSource implements DataSourceInterface
             $rows[] = $row instanceof Arrayable ? $row->toArray() : (array) $row;
         }
 
-        return new DataResult($rows, $total, $filtered, $request);
+        $groups = $request->groupBy === null ? [] : $this->groups($grouped, $request->groupBy, $request->totals, $rows);
+
+        return new DataResult($rows, $total, $filtered, $request, $totals, $groups);
+    }
+
+    /**
+     * The groups of the page's rows, counted and totalled in one GROUP BY query.
+     *
+     * @param array<string, string> $totals
+     * @param list<array<string, mixed>> $rows
+     * @return list<array{value: mixed, count: int, totals: array<string, int|float|null>}>
+     */
+    private function groups(EloquentBuilder|QueryBuilder $query, string $field, array $totals, array $rows): array
+    {
+        $values = [];
+        foreach ($rows as $row) {
+            $value = Arr::get($row, $field);
+            $values[Aggregate::groupKey($value)] ??= $value;
+        }
+        if ($values === []) {
+            return [];
+        }
+
+        $base = clone ($query instanceof EloquentBuilder ? $query->toBase() : $query);
+        $grammar = $base->getGrammar();
+        $selects = [$grammar->wrap($field) . ' as celerik_group', 'count(*) as celerik_count'];
+        $index = 0;
+        foreach ($totals as $total => $function) {
+            $selects[] = sprintf('%s(%s) as celerik_total_%d', $function, $grammar->wrap($total), $index++);
+        }
+        $present = array_values(array_filter($values, static fn (mixed $value): bool => $value !== null));
+        $base->reorder()->select([])->selectRaw(implode(', ', $selects))
+            ->where(static function (QueryBuilder $where) use ($field, $present, $values): void {
+                if ($present !== []) {
+                    $where->whereIn($field, $present);
+                }
+                if (in_array(null, $values, true)) {
+                    $where->orWhereNull($field);
+                }
+            })
+            ->groupBy($field);
+
+        $found = [];
+        foreach ($base->get() as $result) {
+            $result = (array) $result;
+            $sums = [];
+            $index = 0;
+            foreach ($totals as $total => $function) {
+                $sums[$total] = Aggregate::number($result['celerik_total_' . $index++]);
+            }
+            $found[Aggregate::groupKey($result['celerik_group'])] = [
+                'count' => (int) $result['celerik_count'],
+                'totals' => $sums,
+            ];
+        }
+
+        $groups = [];
+        foreach ($values as $key => $value) {
+            $groups[] = ['value' => $value] + ($found[$key] ?? ['count' => 0, 'totals' => []]);
+        }
+
+        return $groups;
     }
 }

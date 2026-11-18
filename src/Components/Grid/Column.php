@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Celerik\Ui\Components\Grid;
 
+use Celerik\Ui\Data\Aggregate;
 use Celerik\Ui\Data\DataRequest;
 use InvalidArgumentException;
 
@@ -18,6 +19,8 @@ final class Column
     private ?string $className = null;
     private ?string $width = null;
     private ?Filter $filter = null;
+    private ?string $total = null;
+    private ?int $totalDecimals = null;
 
     public function __construct(private readonly string $field, ?string $title = null)
     {
@@ -103,6 +106,35 @@ final class Column
         return $this;
     }
 
+    /**
+     * A total in the grid's footer, over every row that passes the search and filters: 'sum',
+     * 'avg', 'count', 'min' or 'max'. A grouped grid (Grid::groupBy()) totals each group too.
+     * Without `$decimals`: none for a count or a whole number, 2 otherwise.
+     */
+    public function total(?string $function = Aggregate::SUM, ?int $decimals = null): self
+    {
+        if ($function !== null) {
+            Aggregate::assertFunction($function);
+        }
+        if ($decimals !== null && ($decimals < 0 || $decimals > 10)) {
+            throw new InvalidArgumentException('A total has between 0 and 10 decimals.');
+        }
+        $this->total = $function;
+        $this->totalDecimals = $decimals;
+
+        return $this;
+    }
+
+    public function getTotal(): ?string
+    {
+        return $this->total;
+    }
+
+    public function getTotalDecimals(): ?int
+    {
+        return $this->totalDecimals;
+    }
+
     public function getFilter(): ?Filter
     {
         return $this->filter;
@@ -149,6 +181,10 @@ final class Column
             'className' => $this->className,
             'width' => $this->width,
             'filter' => $this->filter?->toArray(),
+            'total' => $this->total === null ? null : array_filter(
+                ['function' => $this->total, 'decimals' => $this->totalDecimals],
+                static fn (mixed $value): bool => $value !== null,
+            ),
         ], static fn (mixed $value): bool => $value !== null);
     }
 }

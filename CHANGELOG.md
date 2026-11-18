@@ -16,6 +16,10 @@ The same version is published on Packagist (`celerik/ui`) and npm (`@celerikui/u
   - Each button is named with its label and the row's title, for example "Delete Ada Lovelace" (`Grid::rowTitle()`).
   - After a request succeeds, a server-side grid reloads its page, and a client-side grid removes a deleted row. Focus moves to the next row's button.
   - Exports leave the column out.
+- **Grid column totals and row groups**: `Column::total('sum'|'avg'|'count'|'min'|'max', $decimals)` adds a total in the footer, and `Grid::groupBy($field)` groups the rows, with a heading row per group that names it, counts its rows and gives its totals.
+  - Totals and group counts cover every row that passes the search and filters, not only the page.
+  - Server-side, `respond()` asks the data source for them (`DataRequest::$totals` and `$groupBy`), and the Array, Eloquent and Doctrine sources compute them, in the database for the last two. Endpoints answer them in `meta.totals` and `meta.groups`.
+  - Translatable labels and number separators (`decimal`, `thousands`).
 - **Grid empty states**: `Grid::emptyState($title, $description, $action)` for a grid without rows. When search or filters match nothing, the grid says so, with a **Clear filters and search** button that moves focus back to the search box.
 - **Columns the user can show or hide**: `Grid::columnToggle()` adds a Columns menu, a disclosure with a checkbox per column.
   - `Column::toggleable(false)` keeps a column always shown, and `Column::initiallyHidden()` starts one hidden.
@@ -33,6 +37,10 @@ The same version is published on Packagist (`celerik/ui`) and npm (`@celerikui/u
 - A grid without rows, or without matches, shows Celerik's empty states instead of DataTables' "No data available in table" and "No matching records found".
 - Column filters find their column by name, so they keep working when a selection column comes first.
 - `ArrayDataSource` matches a true/false value with a `1`/`0` filter, as a database does, as well as with "Yes"/"No".
+
+### Fixed
+
+- Server-side grids show their row counts and pages again ("Showing 1 to 5 of 6 entries"), instead of "filtered from NaN total entries" and a NaN last page. DataTables 3 makes its own requests and ignored the jQuery `dataFilter` that read the endpoint's `meta`; the grid now tells it where the counts are (`ajax.dataSrc`). Out-of-order answers are dropped again by their draw counter.
 
 ## [0.2.1] - 2026-11-16
 
