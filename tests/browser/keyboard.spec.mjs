@@ -130,6 +130,7 @@ test.describe('grid', () => {
     // Confirmed: the endpoint answers with a message, shown in a toast; the row is gone and
     // focus is on the Delete button of the row that took its place.
     await page.keyboard.press('Enter');
+    await expect(dialog.getByRole('button', { name: 'Cancel' })).toBeFocused();
     await page.keyboard.press('Tab');
     await expect(dialog.getByRole('button', { name: 'Delete' })).toBeFocused();
     await page.keyboard.press('Enter');
@@ -221,8 +222,11 @@ test.describe('grid', () => {
     await expect(all).toHaveJSProperty('indeterminate', true);
 
     // The next page: its rows are not selected, and the selection is kept.
+    // Sorted by name, Margaret Hamilton is the only row of page 2.
     await page.locator('#staff_wrapper').getByRole('link', { name: 'Next' }).click();
-    await grid.getByRole('checkbox', { name: 'Select Katherine Johnson' }).check(slow);
+    await expect(page.locator('#staff_wrapper .dt-info')).toHaveText('Showing 6 to 6 of 6 entries', slow);
+    await expect(grid.getByRole('checkbox', { name: 'Select Ada Lovelace' })).toHaveCount(0);
+    await grid.getByRole('checkbox', { name: 'Select Margaret Hamilton' }).check();
     await expect(bar.getByRole('status')).toHaveText('2 selected');
 
     await bar.getByRole('button', { name: 'Deactivate selected' }).focus();
@@ -231,7 +235,7 @@ test.describe('grid', () => {
     await expect(dialog).toBeVisible();
     await dialog.getByRole('button', { name: 'Deactivate selected' }).click();
 
-    await expect(page.locator('.notyf')).toContainText('2 people were deactivated: Ada Lovelace, Katherine Johnson.', slow);
+    await expect(page.locator('.notyf')).toContainText('2 people were deactivated: Ada Lovelace, Margaret Hamilton.', slow);
     await expect(bar.getByRole('status')).toHaveText('No rows selected');
     await expect(all).toBeFocused();
   });
