@@ -132,6 +132,11 @@
   font-weight: 400;
 }
 
+// An action that opens a form (Action::form()) needs JavaScript: hidden without it.
+html:not(.celerik-js) form[data-celerik-form-modal] {
+  display: none;
+}
+
 // Inline editing (Column::editable()): the edit button shows once DataTables runs, as it needs
 // the grid's JavaScript. It is 24px for WCAG 2.5.8, beside the value.
 .celerik-grid:not(.dataTable) .celerik-grid-edit {

@@ -31,6 +31,17 @@ for (const theme of THEMES) {
         expect(await axeViolations(page, { include: '.modal.show' })).toEqual([]);
       });
 
+      test('no axe-core violations with an action form open, with an error from the server', async ({ page }) => {
+        await openComponents(page, { theme, mode });
+        await page.locator('#staff').getByRole('button', { name: 'Edit Ada Lovelace' }).click({ timeout: 15_000 });
+        const dialog = page.getByRole('dialog', { name: 'Edit Ada Lovelace' });
+        await dialog.getByRole('textbox', { name: /Name/ }).fill('Grace Hopper');
+        await dialog.getByRole('button', { name: 'Save' }).click();
+        await expect(dialog.getByText('This name is taken.')).toBeVisible({ timeout: 15_000 });
+        await settled(page);
+        expect(await axeViolations(page, { include: '#staff-form-modal' })).toEqual([]);
+      });
+
       test('no axe-core violations in a grouped grid with totals', async ({ page }) => {
         await openComponents(page, { theme, mode });
         // The endpoint answers through the test server: allow for a slow machine.

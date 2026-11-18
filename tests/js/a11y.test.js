@@ -47,6 +47,23 @@ describe('accessibility (axe-core, WCAG 2.1 AA)', () => {
     grid.destroy();
   });
 
+  test('an action form in a modal: PHP markup, then open with errors from the server', async () => {
+    const table = loadFixture('action-form');
+    expect(await violations()).toEqual([]);
+    const grid = initGrid(table, readOptions(table));
+    window.bootstrap = await import('bootstrap');
+    const { openActionForm, showErrors } = await import('../../resources/js/action-form.js');
+    const form = document.getElementById('person-form');
+    await initForm(form, readOptions(form));
+    openActionForm(table.querySelector('form[data-celerik-form-modal]'), { fetch: jest.fn() });
+    await new Promise((resolve) => { setTimeout(resolve, 30); });
+    showErrors(form, { name: ['This name is taken.'], other: ['Try later.'] });
+    expect(await violations()).toEqual([]);
+    window.bootstrap.Modal.getInstance(document.getElementById('person-form-modal')).dispose();
+    delete window.bootstrap;
+    grid.destroy();
+  });
+
   test('scheduler markup from PHP (no-JS fallback list)', async () => {
     loadFixture('scheduler');
     expect(await violations()).toEqual([]);

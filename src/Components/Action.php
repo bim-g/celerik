@@ -21,6 +21,12 @@ use Stringable;
  * value (URL-encoded in the URL). A request action is a form: without JavaScript it posts,
  * with the method in `_method` (Laravel and Symfony read it); with JavaScript it asks for
  * confirmation in a dialog, sends the request with fetch and shows the answer's `message`.
+ *
+ * A request action with a form (form()) opens it in a modal, filled with the row's values,
+ * and sends it to its URL instead:
+ *
+ *     Action::request('edit', 'Edit', '/users/{id}')->method('PATCH')
+ *         ->form(Form::make('user-form')->add(Field::text('name')->required()), 'Edit {name}');
  */
 final class Action implements Stringable
 {
@@ -47,6 +53,11 @@ final class Action implements Stringable
 
     /** @var array<string, string> */
     private array $labels = self::LABELS;
+
+    private ?Form $form = null;
+    private ?string $formTitle = null;
+    private ?string $submitLabel = null;
+    private ?string $modalSize = null;
 
     private function __construct(
         private readonly string $name,
@@ -173,6 +184,77 @@ final class Action implements Stringable
         return $this;
     }
 
+    /**
+     * Opens a form in a modal, instead of sending the request at once: Save sends the form's
+     * fields to the action's URL with its method. In a grid's row, the fields take the row's
+     * values (fields named like columns). `{field}` in the title takes the row's value.
+     *
+     * - A 2xx answer closes the modal and shows its `message`; a grid reloads its rows.
+     * - A 422 answer with `errors` ({"field": ["..."]}) shows them on the fields.
+     *
+     * The form's own submit button is left out: the modal has Cancel and `$submitLabel`
+     * (the action's label by default). Without JavaScript, the button is not shown.
+     */
+    public function form(Form $form, ?string $title = null, ?string $submitLabel = null, ?string $size = null): self
+    {
+        if (!$this->isRequest) {
+            throw new InvalidArgumentException(sprintf(
+                'Action "%s" opens a form: use Action::request().',
+                $this->name,
+            ));
+        }
+        if ($size !== null && !in_array($size, ['sm', 'lg', 'xl'], true)) {
+            throw new InvalidArgumentException(sprintf('Unknown modal size "%s". Available: sm, lg, xl.', $size));
+        }
+        $this->form = $form->submit(null);
+        $this->formTitle = $title;
+        $this->submitLabel = $submitLabel;
+        $this->modalSize = $size;
+
+        return $this;
+    }
+
+    public function hasForm(): bool
+    {
+        return $this->form !== null;
+    }
+
+    /**
+     * The id of the modal that holds the form.
+     */
+    public function modalId(): ?string
+    {
+        return $this->form === null ? null : $this->form->getId() . '-modal';
+    }
+
+    /**
+     * The modal with the form, once per page: render() includes it, unless told not to (a
+     * grid renders it once for all its rows).
+     */
+    public function renderModal(): string
+    {
+        if ($this->form === null) {
+            return '';
+        }
+        $formId = $this->form->getId();
+        $title = $this->formTitle === null || self::placeholdersIn($this->formTitle) !== []
+            ? $this->label
+            : $this->formTitle;
+
+        return Modal::make((string) $this->modalId())
+            // A title for a row ("Edit {name}") is written when the modal opens.
+            ->title($title)
+            ->body($this->form)
+            ->size($this->modalSize ?? 'lg')
+            ->cancelButton($this->labels['cancel'])
+            ->button($this->submitLabel ?? $this->label, $this->variant, attributes: [
+                'type' => 'submit',
+                'form' => $formId,
+                'data-celerik-form-submit' => true,
+            ])
+            ->render();
+    }
+
     public function getName(): string
     {
         return $this->name;
@@ -241,7 +323,8 @@ final class Action implements Stringable
     public function fields(): array
     {
         return array_values(array_unique(self::placeholdersIn(
-            $this->url . ' ' . $this->confirm . ' ' . $this->confirmDetail . ' ' . $this->ariaLabel,
+            $this->url . ' ' . $this->confirm . ' ' . $this->confirmDetail . ' ' . $this->ariaLabel
+            . ' ' . $this->formTitle,
         )));
     }
 
@@ -268,6 +351,11 @@ final class Action implements Stringable
                 'header' => $this->csrfHeader,
             ],
             'labels' => $this->labels === self::LABELS ? null : $this->labels,
+            'form' => $this->form === null ? null : [
+                'modal' => $this->modalId(),
+                'title' => $this->formTitle ?? $this->label,
+                'fields' => $this->formFields(),
+            ],
         ], static fn (mixed $value): bool => $value !== null && $value !== false);
     }
 
@@ -276,8 +364,9 @@ final class Action implements Stringable
      *
      * @param array<string, mixed> $row
      * @param string|null $ariaLabel An accessible name used when ariaLabel() was not set.
+     * @param bool $modal With a form: render the modal too (once per page).
      */
-    public function render(array $row = [], bool $small = false, ?string $ariaLabel = null): string
+    public function render(array $row = [], bool $small = false, ?string $ariaLabel = null, bool $modal = true): string
     {
         $text = static fn (string $template): string => self::fill($template, $row, false);
         $name = $this->ariaLabel !== null ? $text($this->ariaLabel) : $ariaLabel;
@@ -310,7 +399,52 @@ final class Action implements Stringable
             'data-confirm-detail' => $this->confirmDetail === null ? null : $text($this->confirmDetail),
             'data-csrf-header' => $this->csrfToken === null ? null : $this->csrfHeader,
             'data-labels' => $labels,
-        ], $fields . Html::tag('button', ['type' => 'submit', 'class' => $class, 'aria-label' => $name], $label));
+            'data-celerik-form-modal' => $this->modalId(),
+            'data-title' => $this->form === null ? null : $text($this->formTitle ?? $this->label),
+            'data-values' => $this->form === null ? null : json_encode(
+                $this->formValues($row),
+                JSON_THROW_ON_ERROR | JSON_UNESCAPED_UNICODE | JSON_FORCE_OBJECT,
+            ),
+        ], $fields . Html::tag('button', [
+            'type' => 'submit',
+            'class' => $class,
+            'aria-label' => $name,
+            'aria-haspopup' => $this->form === null ? null : 'dialog',
+        ], $label)) . ($modal ? $this->renderModal() : '');
+    }
+
+    /**
+     * The form's field names.
+     *
+     * @return list<string>
+     */
+    private function formFields(): array
+    {
+        return $this->form === null ? [] : array_values(array_unique(array_map(
+            static fn (Form\Field $field): string => $field->getName(),
+            $this->form->getFields(),
+        )));
+    }
+
+    /**
+     * The row's values for the form's fields: dates as Y-m-d H:i:s, others as they are.
+     *
+     * @param array<string, mixed> $row
+     * @return array<string, mixed>
+     */
+    private function formValues(array $row): array
+    {
+        $values = [];
+        foreach ($this->formFields() as $field) {
+            // A field the row does not have keeps the form's own value.
+            if (!array_key_exists($field, $row) && Arr::get($row, $field) === null) {
+                continue;
+            }
+            $value = Arr::get($row, $field);
+            $values[$field] = $value instanceof \DateTimeInterface ? $value->format('Y-m-d H:i:s') : $value;
+        }
+
+        return $values;
     }
 
     public function __toString(): string
