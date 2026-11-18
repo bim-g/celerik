@@ -18,6 +18,7 @@ use Celerik\Ui\Components\Grid;
 use Celerik\Ui\Components\Grid\Column;
 use Celerik\Ui\Components\Grid\Editor;
 use Celerik\Ui\Components\Grid\Filter;
+use Celerik\Ui\Components\ListView;
 use Celerik\Ui\Components\Modal;
 use Celerik\Ui\Components\Notification;
 use Celerik\Ui\Components\Scheduler;
@@ -183,6 +184,38 @@ $fixtures = [
             ['id' => 1, 'name' => 'Ada', 'role' => 'admin', 'active' => true],
             ['id' => 2, 'name' => 'Alan', 'role' => 'user', 'active' => false],
         ]),
+
+    'listview' => ListView::make('articles')
+        ->label('Articles')
+        ->title('title')
+        ->link('/articles/{id}')
+        ->description('summary')
+        ->meta('author', 'published')
+        ->image('cover', 'coverAlt')
+        ->searchable()
+        ->sorts(['-published' => 'Newest first', 'title' => 'Title'])
+        ->pageSize(3)
+        ->actions(Action::request('delete', 'Delete', '/articles/{id}')->method('DELETE')->csrf('t0k3n'))
+        ->rows(array_map(
+            static fn (int $i): array => [
+                'id' => $i,
+                'title' => ['Notes on the Engine', 'Computable Numbers', 'A Mathematical Theory', 'The Art of Programming',
+                    'Go To Statement', 'On Computing Machinery', 'Structured Programming'][$i - 1],
+                'summary' => $i === 2 ? 'On <b>decidable</b> problems.' : 'An essay.',
+                'author' => ['Ada', 'Alan', 'Claude', 'Donald', 'Edsger', 'Alan', 'Edsger'][$i - 1],
+                'published' => sprintf('2026-0%d-01', $i),
+                'cover' => $i === 1 ? '/covers/1.jpg' : ($i === 2 ? 'javascript:alert(1)' : null),
+                'coverAlt' => $i === 1 ? 'An engine' : null,
+            ],
+            range(1, 7),
+        )),
+
+    'listview-empty' => ListView::make('notes')
+        ->label('Notes')
+        ->title('title')
+        ->searchable()
+        ->emptyState('No notes yet', 'Write your first note.')
+        ->rows([]),
 
     'chart' => Chart::make('sales')
         ->type('bar')

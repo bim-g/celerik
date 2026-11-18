@@ -71,6 +71,130 @@
   }
 }
 
+// ListView (Components\ListView): items one per line, or as cards; a pager below.
+.celerik-listview-items {
+  margin-bottom: 0;
+
+  &:focus-visible {
+    outline: 2px solid var(--bs-focus-ring-color, var(--bs-primary));
+    outline-offset: 4px;
+  }
+}
+
+.celerik-listview-list .celerik-listview-items > li + li {
+  border-top: 1px solid var(--bs-border-color);
+}
+
+.celerik-listview-item {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+  padding: 0.875rem 0;
+}
+
+.celerik-listview-cards .celerik-listview-item {
+  flex-direction: column;
+  height: 100%;
+  padding: 1rem;
+  border: 1px solid var(--bs-border-color);
+  border-radius: var(--bs-border-radius-lg);
+  background-color: var(--bs-body-bg);
+}
+
+.celerik-listview-image {
+  flex-shrink: 0;
+  width: 4.5rem;
+  height: 4.5rem;
+  object-fit: cover;
+  border-radius: var(--bs-border-radius);
+}
+
+.celerik-listview-cards .celerik-listview-image {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+}
+
+.celerik-listview-body {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.celerik-listview-title {
+  margin-bottom: 0.25rem;
+  font-size: 1rem;
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+
+.celerik-listview-description {
+  margin-bottom: 0.25rem;
+}
+
+.celerik-listview-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 0.75rem;
+  margin-bottom: 0;
+  color: var(--bs-secondary-color);
+  font-size: 0.875em;
+}
+
+.celerik-listview-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.375rem;
+}
+
+.celerik-listview-empty {
+  padding: 1.5rem 1rem;
+  text-align: center;
+}
+
+.celerik-listview-empty-title {
+  margin-bottom: 0.25rem;
+  font-weight: 600;
+}
+
+.celerik-listview-empty-description {
+  margin-bottom: 0;
+  color: var(--bs-secondary-color);
+}
+
+.celerik-listview-empty-action {
+  margin-top: 0.75rem;
+}
+
+.celerik-listview-footer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 1rem;
+}
+
+.celerik-listview-status {
+  margin-bottom: 0;
+  color: var(--bs-secondary-color);
+}
+
+// The pager's buttons are 2.25rem tall: above WCAG 2.5.8's 24px.
+.celerik-listview-pager .page-link {
+  min-width: 2.25rem;
+  text-align: center;
+}
+
+.celerik-listview[aria-busy='true'] .celerik-listview-items {
+  opacity: 0.6;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .celerik-listview-items {
+    transition: opacity 0.15s ease-in-out;
+  }
+}
+
 // A grid's empty state (Grid::emptyState()) and its "no rows match" state, in the table's
 // only row.
 .celerik-grid .celerik-grid-empty {
@@ -987,7 +1111,7 @@ td[aria-busy='true'] .celerik-grid-editor {
   // !important: FullCalendar and elFinder remove outlines with more specific selectors.
   :is(.dt-container, .celerik-grid-filters, .celerik-form, .celerik-scheduler, .celerik-scheduler-dialog, .celerik-tabs,
     .celerik-filemanager, .celerik-theme-builder, .celerik-action-dialog,
-    .celerik-modal, .notyf)
+    .celerik-modal, .celerik-listview, .notyf)
     :focus-visible,
   .celerik-action-button:focus-visible,
   // A date field's focus is on its day, month and year parts or its calendar button,
@@ -1048,7 +1172,8 @@ td[aria-busy='true'] .celerik-grid-editor {
   }
 
   .celerik-grid .page-item.active .page-link,
-  .dt-container .page-item.active .page-link {
+  .dt-container .page-item.active .page-link,
+  .celerik-listview-pager .page-item.active .page-link {
     forced-color-adjust: none;
     color: HighlightText;
     background-color: Highlight;

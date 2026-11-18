@@ -64,6 +64,18 @@ describe('accessibility (axe-core, WCAG 2.1 AA)', () => {
     grid.destroy();
   });
 
+  test('list view: PHP markup, enhanced with its pager, and with no match', async () => {
+    const element = loadFixture('listview');
+    expect(await violations()).toEqual([]);
+    const { initListView } = await import('../../resources/js/listview.js');
+    initListView(element, readOptions(element));
+    expect(await violations()).toEqual([]);
+    const search = element.querySelector('input[type=search]');
+    search.value = 'zzz';
+    search.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter' }));
+    expect(await violations()).toEqual([]);
+  });
+
   test('scheduler markup from PHP (no-JS fallback list)', async () => {
     loadFixture('scheduler');
     expect(await violations()).toEqual([]);

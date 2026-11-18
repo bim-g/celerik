@@ -16,6 +16,10 @@ The same version is published on Packagist (`celerik/ui`) and npm (`@celerikui/u
   - Each button is named with its label and the row's title, for example "Delete Ada Lovelace" (`Grid::rowTitle()`).
   - After a request succeeds, a server-side grid reloads its page, and a client-side grid removes a deleted row. Focus moves to the next row's button.
   - Exports leave the column out.
+- **ListView**: a list of items with a pager, `ListView::make()->title('title')->link('/articles/{id}')->description('summary')->meta('author', 'published')`.
+  - Client-side rows, or a server-side endpoint answered with `respond()`.
+  - Search, a choice of sorts, a list or cards layout, pictures, actions (with forms) and an empty state.
+  - The pager is a named `<nav>`; changing page moves focus to the list and the status says which items are shown.
 - **Actions that open a form in a modal**: `Action::request(...)->form($form, 'Edit {name}', 'Save')`, on a page or in a grid's rows.
   - In a grid, the form opens with the row's values and a title for the row; the modal is written once for all rows.
   - The form's own checks run first, then its fields are sent to the action's URL with its method and CSRF token.

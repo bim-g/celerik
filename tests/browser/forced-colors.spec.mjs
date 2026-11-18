@@ -44,10 +44,10 @@ async function invisibleFocus(page, stops) {
 }
 
 test('focus stays visible on every tab stop', async ({ page }) => {
-  test.setTimeout(360_000); // 240 tab stops
+  test.setTimeout(420_000); // 280 tab stops
   await openComponents(page);
   await page.locator('h1').click();
-  const { invisible, components } = await invisibleFocus(page, 240);
+  const { invisible, components } = await invisibleFocus(page, 280);
   expect(invisible).toEqual([]);
   // The walk must reach every component with tab stops.
   expect(components).toEqual(expect.arrayContaining(

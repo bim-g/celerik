@@ -8,6 +8,7 @@ use Celerik\Ui\Components\Chart;
 use Celerik\Ui\Components\FileManager;
 use Celerik\Ui\Components\Form;
 use Celerik\Ui\Components\Grid;
+use Celerik\Ui\Components\ListView;
 use Celerik\Ui\Components\Modal;
 use Celerik\Ui\Components\Notification;
 use Celerik\Ui\Components\Scheduler;
@@ -28,6 +29,7 @@ final class ComponentRegistry
     {
         return (new self())
             ->register(Grid::class)
+            ->register(ListView::class)
             ->register(Chart::class)
             ->register(Form::class)
             ->register(Scheduler::class)

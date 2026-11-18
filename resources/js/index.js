@@ -6,6 +6,7 @@ import { autoInit, init, register } from './core.js';
 
 // Each library is loaded on demand, only on pages that contain that component.
 register('grid', async (element, options) => (await import('./grid.js')).initGrid(element, options));
+register('listview', async (element, options) => (await import('./listview.js')).initListView(element, options));
 register('chart', async (element, options) => (await import('./chart.js')).initChart(element, options));
 register('form', async (element, options) => (await import('./form.js')).initForm(element, options));
 register('scheduler', async (element, options) => (await import('./scheduler.js')).initScheduler(element, options));
