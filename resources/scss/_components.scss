@@ -132,6 +132,39 @@
   font-weight: 400;
 }
 
+// Inline editing (Column::editable()): the edit button shows once DataTables runs, as it needs
+// the grid's JavaScript. It is 24px for WCAG 2.5.8, beside the value.
+.celerik-grid:not(.dataTable) .celerik-grid-edit {
+  display: none;
+}
+
+.celerik-grid-edit {
+  min-width: 1.5rem;
+  min-height: 1.5rem;
+  margin-left: 0.25rem;
+  padding: 0.125rem 0.25rem;
+  line-height: 1;
+  vertical-align: baseline;
+  color: var(--bs-secondary-color);
+
+  &:hover,
+  &:focus-visible {
+    color: var(--bs-link-color);
+  }
+}
+
+.celerik-grid-editor {
+  min-width: 8rem;
+
+  .invalid-feedback {
+    white-space: normal;
+  }
+}
+
+td[aria-busy='true'] .celerik-grid-editor {
+  opacity: 0.65;
+}
+
 // A grid's Columns menu (Grid::columnToggle()): a panel of checkboxes under its button.
 .celerik-grid-columns {
   position: relative;

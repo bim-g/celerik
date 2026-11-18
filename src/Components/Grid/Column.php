@@ -21,6 +21,7 @@ final class Column
     private ?Filter $filter = null;
     private ?string $total = null;
     private ?int $totalDecimals = null;
+    private ?Editor $editor = null;
 
     public function __construct(private readonly string $field, ?string $title = null)
     {
@@ -135,6 +136,22 @@ final class Column
         return $this->totalDecimals;
     }
 
+    /**
+     * Lets the user change the cell in place, with an Editor: text(), number(), select([...]),
+     * boolean() or date(). The grid needs an endpoint for the changes (Grid::inlineEdit()).
+     */
+    public function editable(?Editor $editor = null): self
+    {
+        $this->editor = $editor;
+
+        return $this;
+    }
+
+    public function getEditor(): ?Editor
+    {
+        return $this->editor;
+    }
+
     public function getFilter(): ?Filter
     {
         return $this->filter;
@@ -181,6 +198,7 @@ final class Column
             'className' => $this->className,
             'width' => $this->width,
             'filter' => $this->filter?->toArray(),
+            'editor' => $this->editor?->toArray(),
             'total' => $this->total === null ? null : array_filter(
                 ['function' => $this->total, 'decimals' => $this->totalDecimals],
                 static fn (mixed $value): bool => $value !== null,

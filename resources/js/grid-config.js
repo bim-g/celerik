@@ -1,5 +1,6 @@
 import { rowActionsHtml, rowCheckboxHtml } from './action.js';
 import { deepMerge } from './core.js';
+import { editableCellHtml, editValue } from './grid-edit.js';
 
 // Celerik endpoints answer {data, meta}: where DataTables finds the rows, the draw counter and
 // the row counts in it. DataTables 3 makes its own requests, without jQuery's dataFilter.
@@ -90,6 +91,15 @@ export function buildGridConfig(options, { filters = null, columnMenu = null } =
       className: column.className ?? '',
       width: column.width ?? null,
       defaultContent: '',
+      // An editable cell of a row from the endpoint: the same markup PHP writes in client-side
+      // rows (Grid::renderEditable()).
+      ...(column.editor && options.edit && options.url ? {
+        render: (data, type, row) => (type === 'display' ? editableCellHtml(column, row, options.edit, options.rowTitle) : data),
+        createdCell: (td, data) => {
+          td.classList.add('celerik-grid-editable');
+          td.dataset.value = editValue(column.editor, data);
+        },
+      } : {}),
     })),
     pageLength: options.pageSize ?? 10,
     lengthMenu: options.pageSizes ?? [10, 25, 50, 100],

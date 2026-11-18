@@ -1,6 +1,6 @@
 # Grid
 
-A data table on [DataTables 3](https://datatables.net/): sorting, search, column filters, column totals and row groups, columns the user can show or hide, row actions, row selection with bulk actions, paging and export, client-side or server-side.
+A data table on [DataTables 3](https://datatables.net/): sorting, search, column filters, column totals and row groups, inline editing, columns the user can show or hide, row actions, row selection with bulk actions, paging and export, client-side or server-side.
 
 <Demo name="grid" :min-height="640" />
 
@@ -31,13 +31,14 @@ echo json_encode($grid->respond(new ArrayDataSource($rows), $_GET));
 | `searchable(false)` | Hides the search box. |
 | `export('copy', 'csv', 'print')` | Export buttons. |
 | `actions(Action ...$actions)` | Buttons for each row, in a last column (see [Row actions](#row-actions)). |
+| `inlineEdit($url, $method = 'PATCH')`, `csrf($token)` | Where cell changes are saved, and the CSRF token sent with them (see [Inline editing](#inline-editing)). |
 | `groupBy($field)` | Groups the rows by a column, with a heading row per group (see [Totals and groups](#totals-and-groups)). |
 | `emptyState($title, $description = null, $action = null)` | What the grid shows when it has no rows (see [Empty states](#empty-states)). |
 | `columnToggle($enabled = true, $remember = true)` | A Columns menu to show or hide columns (see [Columns the user can show or hide](#columns-the-user-can-show-or-hide)). |
 | `selectable($key = 'id', $name = 'ids')` | A checkbox per row (see [Row selection](#row-selection-and-bulk-actions)). |
 | `bulkActions(Action ...$actions)` | Request actions for the selected rows, in a bar above the table. |
 | `rowTitle($field)` | The field that names a row in its buttons' and checkbox's accessible names. Default: the first visible column. |
-| `labels([...])` | Translates the filter bar, the actions column and the selection: `filters`, `any`, `yes`, `no`, `from`, `to`, `clear`, `actions`, `select`, `selectAll`, `selected` (with `{count}`), `noneSelected`, `bulkActions`, `columns`, `showColumns`, `empty`, `noMatches`, `reset`, the totals' `sum`, `avg`, `count`, `min`, `max`, the groups' `groupRow` and `groupRows` (with `{count}`) and `noGroup`, and the number separators `decimal` and `thousands`. |
+| `labels([...])` | Translates the filter bar, the actions column and the selection: `filters`, `any`, `yes`, `no`, `from`, `to`, `clear`, `actions`, `select`, `selectAll`, `selected` (with `{count}`), `noneSelected`, `bulkActions`, `columns`, `showColumns`, `empty`, `noMatches`, `reset`, the totals' `sum`, `avg`, `count`, `min`, `max`, the groups' `groupRow` and `groupRows` (with `{count}`) and `noGroup`, the number separators `decimal` and `thousands`, and inline editing's `edit` and `editField` (with `{column}` and `{row}`), `saved`, `editFailed`, `required`, `invalid`, `tooLong`, `tooLow` and `tooHigh`. |
 | `options([...])` | Raw DataTables options, applied last. |
 
 ### Columns
@@ -59,6 +60,7 @@ Grid::make('orders')
 | `initiallyHidden()` | Hidden until the user shows it from the Columns menu. |
 | `className($class)`, `width($width)` | CSS class of the cells, and the column width. |
 | `filter(Filter::text())` | A filter in the filter bar (see [Column filters](#column-filters)). |
+| `editable(Editor::text())` | The cell can be changed in place (see [Inline editing](#inline-editing)). |
 | `total($function = 'sum', $decimals = null)` | A total in the footer: `sum`, `avg`, `count`, `min` or `max` (see [Totals and groups](#totals-and-groups)). |
 
 ## Column filters
@@ -116,6 +118,50 @@ Grid::make('expenses')
 - **Server-side**, `respond()` asks the data source for the totals and for the groups of the page, and the endpoint's answer carries them (see [Data endpoints](../guide/data#totals-and-groups)). The built-in sources compute them in the database.
 - **Without JavaScript**, the footer has the totals of all rows, and the rows are in group order.
 - **For screen readers**, a group's heading is a header cell for the rows that follow it (`<th scope="rowgroup">`), and the footer's totals sit under their column headers.
+
+## Inline editing
+
+<Demo name="grid-edit" :min-height="420" />
+
+<<< @/demos/grid-edit.php
+
+A column with an `Editor` can be changed in place, and `inlineEdit()` says where changes are saved:
+
+```php
+$grid = Grid::make('crew')
+    ->column('id', 'ID', static fn (Column $c) => $c->hidden())
+    ->column('name', 'Name', static fn (Column $c) => $c->editable(Editor::text(60)->required()))
+    ->column('role', 'Role', static fn (Column $c) => $c->editable(Editor::select(['eng' => 'Engineer', 'dir' => 'Director'])))
+    ->inlineEdit('/crew/{id}')
+    ->csrf($token);
+
+// POST /crew/{id}
+try {
+    $edit = $grid->cellEdit($_POST);            // only an editable column, with a value its editor allows
+    $crew->update($id, [$edit->field => $edit->value]);
+    echo json_encode($edit->answer());          // {"value": ...}
+} catch (InvalidCellEdit $refusal) {
+    http_response_code(422);
+    echo json_encode($refusal->toArray());      // {"message": ..., "errors": {"name": [...]}}
+}
+```
+
+| Editor | Field | Value `cellEdit()` gives |
+|---|---|---|
+| `Editor::text($maxLength = null)` | A text box | The trimmed text |
+| `Editor::number($min = null, $max = null, $step = null)` | A number box | An int or a float |
+| `Editor::select(['value' => 'Label'])` | A list | One of the values; the cell shows its label |
+| `Editor::boolean()` | Yes or No | `true` or `false` |
+| `Editor::date()` | A date picker | A day, `Y-m-d` |
+
+`->required()` refuses an empty value; otherwise an empty value is `null`.
+
+- **From the keyboard**: each editable cell has an edit button, named after its column and its row ("Edit Role of Ada Lovelace"). It opens a field named the same way. **Enter** saves, **Escape** cancels, and leaving the field saves. Focus then goes back to the button. A double click on the cell opens the field too.
+- **Checked twice**: the browser checks the value with the editor's rules before sending it, and `cellEdit()` checks it again. A refused value keeps the field open, with the message as its description (`aria-describedby`). A refusal from your endpoint is shown the same way: `errors[field]`, or `message`.
+- **The request** is a form-encoded `POST` with `field`, `value`, `_method` (`PATCH` by default) and the CSRF field, plus the CSRF header. PHP reads it in `$_POST`, and Laravel and Symfony read `_method`. `{id}` in the URL takes the row's value, so add a column for it (it can be `hidden()`).
+- **The answer**: `{"value": ...}` sets the cell to the value as saved, e.g. rounded. A `message` is shown in a toast; without one, "Role of Ada Lovelace saved." is announced. The cell fires `celerik:edit` with `{field, value, ok, status}`.
+- **Totals** of a client-side grid follow the change. A server-side grid's totals come with its next page of rows.
+- **Without JavaScript**, cells show their values and no edit button.
 
 ## Empty states
 

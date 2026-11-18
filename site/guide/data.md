@@ -87,6 +87,21 @@ The data source returns them in the `DataResult`, which the endpoint's answer ca
 
 Write your own by implementing `Data\DataSourceInterface::fetch(DataRequest $request): DataResult`.
 
+## Inline edits
+
+A grid with [inline editing](../components/grid#inline-editing) sends each change to its `inlineEdit()` URL as a form-encoded `POST`:
+
+```
+field=role&value=dir&_method=PATCH&_token=…
+```
+
+`$grid->cellEdit($_POST)` returns a `CellEdit` (`field`, `value`) for an editable column and a value its editor allows, or throws `InvalidCellEdit` with a message for the user. Answer:
+
+- `200` with `$edit->answer()`: `{"value": "dir"}`, or `$edit->answer($saved, 'Role changed.')` with the value as saved and a message;
+- `422` with `$refusal->toArray()`: `{"message": "...", "errors": {"role": ["..."]}}`. A Laravel validation error has the same shape.
+
+Check that the user may change the row, as for any other request: `cellEdit()` only checks the column and the value.
+
 ## Actions
 
 A [request action](../components/actions) (`Action::request()`), for example a grid's Delete button, sends its method to its URL with these headers:

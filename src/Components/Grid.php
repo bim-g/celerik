@@ -6,11 +6,14 @@ namespace Celerik\Ui\Components;
 
 use Celerik\Ui\Component;
 use Celerik\Ui\Components\Grid\Column;
+use Celerik\Ui\Components\Grid\Editor;
 use Celerik\Ui\Components\Grid\Filter;
 use Celerik\Ui\Data\Aggregate;
+use Celerik\Ui\Data\CellEdit;
 use Celerik\Ui\Data\DataRequest;
 use Celerik\Ui\Data\DataResult;
 use Celerik\Ui\Data\DataSourceInterface;
+use Celerik\Ui\Data\InvalidCellEdit;
 use Celerik\Ui\Support\Arr;
 use Celerik\Ui\Support\Html;
 use InvalidArgumentException;
@@ -26,6 +29,7 @@ use LogicException;
  * (selectable()) gets a first column of checkboxes, and bulk actions (bulkActions()) a bar
  * above the table that sends the selected rows. Columns with a total() get a footer, and a grid
  * grouped by a field (groupBy()) shows a heading row, counted and totalled, before each group.
+ * Columns with an editor (Column::editable()) are changed in place and saved to inlineEdit()'s URL.
  */
 final class Grid extends Component
 {
@@ -61,7 +65,30 @@ final class Grid extends Component
         'noGroup' => 'None',
         'decimal' => '.',
         'thousands' => ',',
+        'edit' => 'Edit {column} of {row}',
+        'editField' => '{column} of {row}',
+        'saved' => '{column} of {row} saved.',
+        'editFailed' => 'The change was not saved. Try again.',
+        'required' => 'Enter a value.',
+        'invalid' => 'Enter a valid value.',
+        'tooLong' => 'Use {max} characters at most.',
+        'tooLow' => 'Enter {min} or more.',
+        'tooHigh' => 'Enter {max} or less.',
     ];
+
+    /** The labels the inline editor reads in the browser. */
+    private const EDIT_LABELS = [
+        'edit', 'editField', 'saved', 'editFailed', 'required', 'invalid',
+        'tooLong', 'tooLow', 'tooHigh', 'yes', 'no',
+    ];
+
+    /** An edit button's pencil (Bootstrap Icons, MIT), hidden from assistive technology. */
+    private const PENCIL = '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" '
+        . 'viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5'
+        . ' 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168zM11.207 2.5 13.5'
+        . ' 4.793 14.793 3.5 12.5 1.207zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5'
+        . 'v.5h.293zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1'
+        . '-.5-.5V11h-.5a.5.5 0 0 1-.468-.325"/></svg>';
 
     /** How respond() reads each kind of column filter. */
     private const REQUEST_TYPES = [
@@ -119,6 +146,16 @@ final class Grid extends Component
     private ?Action $emptyAction = null;
 
     private ?string $groupBy = null;
+
+    private ?string $editUrl = null;
+
+    private string $editMethod = 'PATCH';
+
+    private ?string $csrfToken = null;
+
+    private string $csrfField = '_token';
+
+    private string $csrfHeader = 'X-CSRF-TOKEN';
 
     public static function name(): string
     {
@@ -304,6 +341,62 @@ final class Grid extends Component
     }
 
     /**
+     * Where a change to an editable cell (Column::editable()) is saved, e.g. '/members/{id}':
+     * `{field}` takes the row's value. The browser sends `field` and `value` in a form-encoded
+     * POST, with `_method` set to `$method`, so that PHP reads them in $_POST. Read them with
+     * cellEdit(), and answer with CellEdit::answer() or, for a refused value, a 422 with
+     * InvalidCellEdit::toArray().
+     */
+    public function inlineEdit(string $url, string $method = 'PATCH'): self
+    {
+        $method = strtoupper($method);
+        if (!in_array($method, ['POST', 'PUT', 'PATCH'], true)) {
+            throw new InvalidArgumentException(sprintf(
+                'Inline edits are sent with POST, PUT or PATCH, not %s.',
+                $method,
+            ));
+        }
+        $this->editUrl = $url;
+        $this->editMethod = $method;
+
+        return $this;
+    }
+
+    /**
+     * The CSRF token sent with inline edits, as a form field and a header.
+     */
+    public function csrf(string $token, string $field = '_token', string $header = 'X-CSRF-TOKEN'): self
+    {
+        $this->csrfToken = $token;
+        $this->csrfField = $field;
+        $this->csrfHeader = $header;
+
+        return $this;
+    }
+
+    /**
+     * Reads an inline edit the browser sent ($_POST): only an editable column's field is
+     * accepted, with a value its editor allows.
+     *
+     * @param array<string, mixed> $input
+     * @throws InvalidCellEdit With a message for the user (answer it with a 422).
+     */
+    public function cellEdit(array $input): CellEdit
+    {
+        $field = is_string($input['field'] ?? null) ? $input['field'] : '';
+        foreach ($this->columns as $column) {
+            $editor = $column->getEditor();
+            if ($editor !== null && $column->getField() === $field) {
+                return new CellEdit($field, $editor->parse($field, $input['value'] ?? null, $this->labels));
+            }
+        }
+
+        $field = $field === '' || !DataRequest::isValidField($field) ? 'value' : $field;
+
+        throw new InvalidCellEdit($field, $this->labels['invalid']);
+    }
+
+    /**
      * Groups the rows by a field (a column, hidden or not): they are sorted by it first, and
      * each group starts with a heading row that names it, counts its rows and totals its
      * columns that have a total(). Counts and totals cover the whole group, not only the page.
@@ -407,12 +500,15 @@ final class Grid extends Component
         $this->assertActionFields();
         $this->assertSelection();
         $this->assertGroup();
+        $this->assertEdit();
 
         return array_filter([
             'columns' => array_map(static fn (Column $column): array => $column->toArray(), $this->columns),
             'actions' => array_map(static fn (Action $action): array => $action->toArray(), $this->actions),
             'actionsTitle' => $this->actions === [] ? null : $this->labels['actions'],
-            'rowTitle' => $this->actions === [] && $this->selectKey === null ? null : $this->rowTitleField(),
+            'rowTitle' => $this->actions === [] && $this->selectKey === null && $this->editUrl === null
+                ? null
+                : $this->rowTitleField(),
             'selection' => $this->selectKey === null ? null : array_filter([
                 'key' => $this->selectKey,
                 'name' => $this->selectName,
@@ -427,6 +523,16 @@ final class Grid extends Component
                 'labels' => ['columns' => $this->labels['columns'], 'showColumns' => $this->labels['showColumns']],
             ],
             'groupBy' => $this->groupBy,
+            'edit' => $this->editUrl === null ? null : array_filter([
+                'url' => $this->editUrl,
+                'method' => $this->editMethod,
+                'csrf' => $this->csrfToken === null ? null : [
+                    'token' => $this->csrfToken,
+                    'field' => $this->csrfField,
+                    'header' => $this->csrfHeader,
+                ],
+                'labels' => array_intersect_key($this->labels, array_flip(self::EDIT_LABELS)),
+            ], static fn (mixed $value): bool => $value !== null),
             'summary' => $this->totals() === [] && $this->groupBy === null ? null : array_intersect_key(
                 $this->labels,
                 array_flip([...Aggregate::FUNCTIONS, 'groupRow', 'groupRows', 'noGroup', 'decimal', 'thousands']),
@@ -457,6 +563,7 @@ final class Grid extends Component
         $filters = $this->renderFilters();
         $this->assertSelection();
         $this->assertGroup();
+        $this->assertEdit();
         $bulk = $this->renderBulkBar();
 
         $headers = '';
@@ -488,6 +595,13 @@ final class Grid extends Component
                 foreach ($this->columns as $column) {
                     $value = Arr::get($row, $column->getField());
                     $data = self::filterValue($column, $value) ?? self::totalValue($column, $value);
+                    $editor = $column->getEditor();
+                    if ($editor !== null) {
+                        $data ??= $editor->editValue($value);
+                        $attributes = ['class' => 'celerik-grid-editable', 'data-value' => $data];
+                        $cells .= Html::tag('td', $attributes, $this->renderEditable($column, $editor, $row, $value));
+                        continue;
+                    }
                     $attributes = ['data-value' => $data];
                     $cells .= Html::tag('td', $attributes, Html::escape(Arr::toText($value)));
                 }
@@ -560,6 +674,69 @@ final class Grid extends Component
 
         return Html::tag('span', ['class' => 'celerik-grid-total-label'], Html::escape($this->labels[$function]))
             . ' ' . Html::tag('span', ['class' => 'celerik-grid-total-value'], Html::escape($text));
+    }
+
+    /**
+     * An editable cell: its value, and a button that opens the editor once the grid's
+     * JavaScript runs (hidden before: it would do nothing). grid-edit.js writes the same.
+     *
+     * @param array<string, mixed> $row
+     */
+    private function renderEditable(Column $column, Editor $editor, array $row, mixed $value): string
+    {
+        $name = strtr($this->labels['edit'], [
+            '{column}' => $column->getTitle(),
+            '{row}' => Arr::toText(Arr::get($row, $this->rowTitleField())),
+        ]);
+
+        return Html::tag('span', ['class' => 'celerik-grid-value'], Html::escape($this->editText($editor, $value)))
+            . Html::tag('button', [
+                'type' => 'button',
+                'class' => 'btn btn-link btn-sm celerik-grid-edit',
+                'aria-label' => $name,
+                'data-celerik-edit' => $column->getField(),
+            ], self::PENCIL);
+    }
+
+    /**
+     * An editable value as the grid shows it: an option's label, Yes or No.
+     */
+    private function editText(Editor $editor, mixed $value): string
+    {
+        $options = $editor->getOptions();
+        $key = $editor->editValue($value);
+
+        return match (true) {
+            $editor->getType() === Editor::SELECT && $key !== null && array_key_exists($key, $options)
+                => $options[$key],
+            $editor->getType() === Editor::BOOLEAN && $key !== null && $key !== ''
+                => $this->labels[in_array($key, ['1', 'true'], true) ? 'yes' : 'no'],
+            default => Arr::toText($value),
+        };
+    }
+
+    /**
+     * Editable columns need inlineEdit(), whose URL only reads declared columns.
+     */
+    private function assertEdit(): void
+    {
+        $editable = array_filter($this->columns, static fn (Column $column): bool => $column->getEditor() !== null);
+        if ($editable === []) {
+            return;
+        }
+        if ($this->editUrl === null) {
+            throw new LogicException(sprintf('Grid "%s" has editable columns: call inlineEdit() too.', $this->id));
+        }
+        preg_match_all('/\{([A-Za-z_][A-Za-z0-9_]*(?:\.[A-Za-z_][A-Za-z0-9_]*)?)\}/', $this->editUrl, $matches);
+        foreach ($matches[1] as $field) {
+            if (!in_array($field, $this->fields(), true)) {
+                throw new LogicException(sprintf(
+                    'The inline edit URL of grid "%s" reads {%s}: add a column for it (it can be hidden).',
+                    $this->id,
+                    $field,
+                ));
+            }
+        }
     }
 
     /**
