@@ -16,6 +16,9 @@ The same version is published on Packagist (`celerik/ui`) and npm (`@celerikui/u
   - Each button is named with its label and the row's title, for example "Delete Ada Lovelace" (`Grid::rowTitle()`).
   - After a request succeeds, a server-side grid reloads its page, and a client-side grid removes a deleted row. Focus moves to the next row's button.
   - Exports leave the column out.
+- **TreeList**: a table whose rows nest like a tree, `TreeList::make()->column(...)->rows($rows, 'id', 'parent_id')` or nested `children`.
+  - A plain table without JavaScript; with it, a WAI-ARIA treegrid: rows open and close, one tab stop, arrow keys between rows and cells.
+  - Expand all and Collapse all, row actions (a deleted row goes with its descendants), indentation by classes for a strict CSP.
 - **TreeView**: a WAI-ARIA tree, `TreeView::make()->nodes([...])` or `fromRows($rows, 'id', 'parent_id', 'name')`.
   - Nested lists that work without JavaScript; with it, one tab stop, arrow keys, Home and End, type-ahead and `*`.
   - Nodes can be links, or radio buttons (`selectable()`) or checkboxes (`checkable()`, with mixed parents) posted with the form.

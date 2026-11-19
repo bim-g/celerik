@@ -294,6 +294,59 @@
   pointer-events: none;
 }
 
+// TreeList (Components\TreeList): the first cell is indented by the row's level (classes,
+// not inline styles: a strict CSP allows no style attributes).
+.celerik-treelist-tree {
+  white-space: nowrap;
+}
+
+@for $level from 2 through 12 {
+  .celerik-treelist-level-#{$level} {
+    padding-left: calc(0.5rem + #{($level - 1) * 1.25rem}) !important;
+  }
+}
+
+.celerik-treelist-toggle,
+.celerik-treelist-spacer {
+  display: inline-block;
+  position: relative;
+  width: 1.25rem;
+  height: 1rem;
+  margin-right: 0.25rem;
+  vertical-align: -0.125rem;
+}
+
+.celerik-treelist-toggle {
+  cursor: pointer;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0.45rem;
+    height: 0.45rem;
+    border-right: 2px solid currentColor;
+    border-bottom: 2px solid currentColor;
+    transform: translate(-65%, -50%) rotate(-45deg);
+  }
+}
+
+.celerik-treelist tr[aria-expanded='true'] .celerik-treelist-toggle::before {
+  transform: translate(-50%, -70%) rotate(45deg);
+}
+
+// Rows and cells take the focus in turn: each shows it with an inset outline.
+.celerik-treelist :is(tr, td):focus-visible {
+  outline: 2px solid var(--bs-focus-ring-color, var(--bs-primary));
+  outline-offset: -2px;
+}
+
+.celerik-treelist-actions {
+  width: 1%;
+  white-space: nowrap;
+}
+
 // A grid's empty state (Grid::emptyState()) and its "no rows match" state, in the table's
 // only row.
 .celerik-grid .celerik-grid-empty {
@@ -1210,7 +1263,7 @@ td[aria-busy='true'] .celerik-grid-editor {
   // !important: FullCalendar and elFinder remove outlines with more specific selectors.
   :is(.dt-container, .celerik-grid-filters, .celerik-form, .celerik-scheduler, .celerik-scheduler-dialog, .celerik-tabs,
     .celerik-filemanager, .celerik-theme-builder, .celerik-action-dialog,
-    .celerik-modal, .celerik-listview, .notyf)
+    .celerik-modal, .celerik-listview, .celerik-treelist, .notyf)
     :focus-visible,
   .celerik-action-button:focus-visible,
   // A date field's focus is on its day, month and year parts or its calendar button,

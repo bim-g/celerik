@@ -112,6 +112,7 @@ export default defineConfig({
             { text: 'Grid', link: '/components/grid' },
             { text: 'List view', link: '/components/listview' },
             { text: 'Tree view', link: '/components/treeview' },
+            { text: 'Tree list', link: '/components/treelist' },
             { text: 'Actions', link: '/components/actions' },
             { text: 'Chart', link: '/components/chart' },
             { text: 'Form', link: '/components/form' },

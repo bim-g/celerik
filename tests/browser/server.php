@@ -34,6 +34,7 @@ use Celerik\Ui\Components\Modal;
 use Celerik\Ui\Components\Notification;
 use Celerik\Ui\Components\Scheduler;
 use Celerik\Ui\Components\Tabs;
+use Celerik\Ui\Components\TreeList;
 use Celerik\Ui\Components\TreeView;
 use Celerik\Ui\Components\ThemeBuilder;
 use Celerik\Ui\Data\ArrayDataSource;
@@ -382,6 +383,22 @@ $components = [
     $team,
 
     $folders,
+
+    TreeList::make('plan')
+        ->caption('Plan')
+        ->column('name', 'Task')
+        ->column('owner', 'Owner')
+        ->column('hours', 'Hours')
+        ->expanded(1)
+        ->rows([
+            ['id' => 1, 'name' => 'Design', 'owner' => 'Ada', 'hours' => 12, 'children' => [
+                ['id' => 2, 'name' => 'Sketches', 'owner' => 'Ada', 'hours' => 5, 'children' => [
+                    ['id' => 3, 'name' => 'Logo', 'owner' => 'Grace', 'hours' => 2],
+                ]],
+                ['id' => 4, 'name' => 'Review', 'owner' => 'Alan', 'hours' => 7],
+            ]],
+            ['id' => 5, 'name' => 'Build', 'owner' => 'Grace', 'hours' => 30],
+        ]),
 
     Chart::make('revenue')
         ->type('line')

@@ -411,6 +411,42 @@ test.describe('tree view', () => {
   });
 });
 
+test.describe('tree list', () => {
+  test('a treegrid: one tab stop, rows open and close, cells along rows and columns', async ({ page }) => {
+    const grid = page.getByRole('treegrid', { name: 'Plan' });
+    const row = (name) => grid.getByRole('row').filter({ has: page.getByRole('gridcell', { name, exact: true }) });
+
+    // From Collapse all, the button just before the table, Tab reaches its first row.
+    await page.getByRole('button', { name: 'Collapse all' }).focus();
+    await page.keyboard.press('Tab');
+    await expect(row('Design')).toBeFocused();
+    await expect(row('Design')).toHaveAttribute('aria-expanded', 'true');
+    await expect(row('Logo')).toBeHidden();
+
+    await page.keyboard.press('ArrowDown');
+    await expect(row('Sketches')).toBeFocused();
+    await page.keyboard.press('ArrowRight');
+    await expect(row('Logo')).toBeVisible();
+    await page.keyboard.press('ArrowRight');
+    await page.keyboard.press('ArrowRight');
+    await expect(row('Sketches').getByRole('gridcell', { name: 'Ada' })).toBeFocused();
+    await page.keyboard.press('ArrowDown');
+    await expect(row('Logo').getByRole('gridcell', { name: 'Grace' })).toBeFocused();
+    await page.keyboard.press('Home');
+    await page.keyboard.press('ArrowLeft');
+    await expect(row('Logo')).toBeFocused();
+    await page.keyboard.press('ArrowLeft');
+    await expect(row('Sketches')).toBeFocused();
+    await page.keyboard.press('ArrowLeft');
+    await expect(row('Logo')).toBeHidden();
+    expect(await axeViolations(page, { include: '#plan' })).toEqual([]);
+
+    // Tab leaves the table: it is one tab stop.
+    await page.keyboard.press('Tab');
+    await expect(grid.locator(':focus')).toHaveCount(0);
+  });
+});
+
 test.describe('form', () => {
   test('a failed submit moves focus to the first invalid field', async ({ page }) => {
     const form = page.locator('#signup');
