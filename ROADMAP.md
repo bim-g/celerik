@@ -69,7 +69,7 @@ The frame of an application.
 
 - Admin layout: app bar, sidebar navigation (the Telerik Drawer), breadcrumb, user menu ✅.
 - Menu, context menu, dropdown and split buttons, toolbar ✅.
-- Accordion (the Telerik PanelBar) ✅, card ✅, splitter ✅, tile layout for dashboards.
+- Accordion (the Telerik PanelBar) ✅, card ✅, splitter ✅, tile layout for dashboards ✅.
 
 ### Phase 7 — Display and feedback
 

@@ -21,6 +21,7 @@ Every component is a PHP class with a fluent API. It renders accessible Bootstra
 | [Admin layout](./admin-layout), navigation, breadcrumb, user menu | `AdminLayout`, `Navigation`, `Breadcrumb`, `UserMenu` | Bootstrap 5 (offcanvas) |
 | [Menus and toolbar](./menus) | `MenuButton`, `SplitButton`, `Toolbar`, `ContextMenu` | – |
 | [Accordion, card, splitter](./containers) | `Accordion`, `Card`, `Splitter` | Bootstrap 5 |
+| [Tile layout](./tilelayout) | `TileLayout` | Bootstrap 5 |
 | [Modal](./modal) | `Celerik\Ui\Components\Modal` | Bootstrap 5 |
 | [Tabs](./tabs) | `Celerik\Ui\Components\Tabs` | Bootstrap 5 |
 | [Notification](./notification) | `Celerik\Ui\Components\Notification` | Notyf 3 |

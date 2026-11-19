@@ -8,6 +8,7 @@ The same version is published on Packagist (`celerik/ui`) and npm (`@celerikui/u
 
 ### Added
 
+- **Tile layout** (`TileLayout`, the Telerik TileLayout): dashboard tiles, titled regions spanning columns and rows of a grid (one column on small screens). With `reorderable()` and `resizable()`, each tile's Arrange button shows one-click tools (move earlier or later, narrower, wider, shorter, taller), arrow keys move it and Shift arrows resize it, and it can be dragged by its button or its corner. Tiles move in the page, so the reading order follows the screen; each change is announced, kept in the browser with `remember()` and fired as `celerik:change`.
 - **Accordion, card and splitter**:
   - `Accordion` (the Telerik PanelBar): WAI-ARIA accordion headings and regions, one panel open at a time or `multiple()`, arrow keys between headings; every panel shown without JavaScript.
   - `Card`: title (a link covering the card, its actions above it), subtitle, text, picture, content and footer.

@@ -48,6 +48,7 @@ use Celerik\Ui\Components\TreeList;
 use Celerik\Ui\Components\TreeView;
 use Celerik\Ui\Components\UserMenu;
 use Celerik\Ui\Components\ThemeBuilder;
+use Celerik\Ui\Components\TileLayout;
 use Celerik\Ui\Components\Toolbar;
 use Celerik\Ui\Data\ArrayDataSource;
 use Celerik\Ui\Data\InvalidCardMove;
@@ -453,6 +454,12 @@ if ($path === '/admin' || str_starts_with($path, '/admin/')) {
             . Splitter::make('member-split')
                 ->pane('Files of Ada.', size: 30, min: 20, max: 70, label: 'Files')
                 ->pane('Preview of the selected file.', label: 'Preview')
+                ->render()
+            . TileLayout::make('member-tiles')->columns(3)->addClass('my-3')
+                ->tile('teams', 'Teams', 'Two teams.', cols: 2)
+                ->tile('logins', 'Logins', '12 this month.')
+                ->tile('tasks', 'Tasks', 'Three open tasks.')
+                ->reorderable()->resizable()
                 ->render()
             . Grid::make('admin-members')->caption('Recent activity')->column('what', 'What')->column('when', 'When')
                 ->rows([['what' => 'Signed in', 'when' => 'Today'], ['what' => 'Changed role', 'when' => 'Yesterday']])

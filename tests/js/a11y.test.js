@@ -146,6 +146,15 @@ describe('accessibility (axe-core, WCAG 2.1 AA)', () => {
     expect(await violations()).toEqual([]);
   });
 
+  test('tile layout: PHP markup, then enhanced with its tools shown', async () => {
+    const { initTileLayout } = await import('../../resources/js/tilelayout.js');
+    const layout = loadFixture('tilelayout');
+    expect(await violations()).toEqual([]);
+    initTileLayout(layout, readOptions(layout));
+    layout.querySelector('.celerik-tile-handle').click();
+    expect(await violations()).toEqual([]);
+  });
+
   test('scheduler markup from PHP (no-JS fallback list)', async () => {
     loadFixture('scheduler');
     expect(await violations()).toEqual([]);

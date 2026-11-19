@@ -906,6 +906,137 @@ html:not(.celerik-js) .celerik-splitter-handle {
   display: none;
 }
 
+// Tile layout (Components\TileLayout): tiles on a grid of columns, spans as classes (no
+// inline styles). The flow is not dense: what is seen keeps the order of the page.
+.celerik-tilelayout {
+  --celerik-tile-columns: 3;
+  --celerik-tile-row: 10rem;
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(var(--celerik-tile-columns), minmax(0, 1fr));
+  grid-auto-rows: minmax(var(--celerik-tile-row), auto);
+  gap: 1rem;
+}
+
+@for $i from 1 through 12 {
+  .celerik-tilelayout-cols-#{$i} {
+    --celerik-tile-columns: #{$i};
+  }
+
+  .celerik-tile-cols-#{$i} {
+    grid-column: span $i;
+  }
+}
+
+@for $i from 1 through 6 {
+  .celerik-tile-rows-#{$i} {
+    grid-row: span $i;
+  }
+}
+
+.celerik-tile {
+  position: relative;
+  min-width: 0;
+  margin: 0;
+
+  &.is-dragging,
+  &.is-resizing {
+    box-shadow: var(--bs-box-shadow);
+    outline: 2px dashed var(--bs-primary);
+    outline-offset: 2px;
+  }
+}
+
+.celerik-tile-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.celerik-tile-title {
+  flex: 1 1 auto;
+  min-width: 0;
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.celerik-tile-handle {
+  min-width: 1.5rem;
+  min-height: 1.5rem;
+  cursor: grab;
+  touch-action: none;
+
+  .is-dragging & {
+    cursor: grabbing;
+  }
+}
+
+.celerik-tile-tools {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+  padding: 0.5rem 1rem;
+  border-bottom: var(--bs-card-border-width) solid var(--bs-card-border-color);
+
+  &[hidden] {
+    display: none;
+  }
+
+  [aria-disabled='true'] {
+    opacity: 0.65;
+    cursor: not-allowed;
+  }
+}
+
+.celerik-tile-body {
+  min-height: 0;
+  overflow: auto;
+}
+
+// The corner grip: a 24px target (WCAG 2.5.8); the tools resize without it.
+.celerik-tile-grip {
+  position: absolute;
+  inset-block-end: 0;
+  inset-inline-end: 0;
+  width: 1.5rem;
+  height: 1.5rem;
+  cursor: nwse-resize;
+  touch-action: none;
+  background: linear-gradient(135deg, transparent 55%, var(--bs-secondary-color) 55%, var(--bs-secondary-color) 62%,
+    transparent 62%, transparent 75%, var(--bs-secondary-color) 75%, var(--bs-secondary-color) 82%, transparent 82%);
+
+  [dir='rtl'] & {
+    cursor: nesw-resize;
+    transform: scaleX(-1);
+  }
+}
+
+// Without JavaScript nothing can be arranged.
+html:not(.celerik-js) {
+  .celerik-tile-handle,
+  .celerik-tile-grip {
+    display: none;
+  }
+}
+
+// Small screens: one column, each tile as high as its content.
+@media (max-width: 767.98px) {
+  .celerik-tilelayout {
+    grid-template-columns: minmax(0, 1fr);
+    grid-auto-rows: auto;
+
+    > .celerik-tile {
+      grid-column: auto;
+      grid-row: auto;
+    }
+  }
+
+  .celerik-tile-grip {
+    display: none;
+  }
+}
+
 // A grid's empty state (Grid::emptyState()) and its "no rows match" state, in the table's
 // only row.
 .celerik-grid .celerik-grid-empty {
@@ -1824,7 +1955,7 @@ td[aria-busy='true'] .celerik-grid-editor {
     .celerik-filemanager, .celerik-theme-builder, .celerik-action-dialog,
     .celerik-modal, .celerik-listview, .celerik-treelist, .celerik-board, .celerik-admin, .celerik-nav,
     .celerik-usermenu, .celerik-menubutton, .celerik-splitbutton, .celerik-toolbar, .celerik-menu-list,
-    .celerik-accordion, .celerik-splitter, .notyf)
+    .celerik-accordion, .celerik-splitter, .celerik-tilelayout, .notyf)
     :focus-visible,
   .celerik-action-button:focus-visible,
   // A date field's focus is on its day, month and year parts or its calendar button,

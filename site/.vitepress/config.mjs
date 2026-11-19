@@ -123,6 +123,7 @@ export default defineConfig({
             { text: 'Admin layout', link: '/components/admin-layout' },
             { text: 'Menus and toolbar', link: '/components/menus' },
             { text: 'Accordion, card, splitter', link: '/components/containers' },
+            { text: 'Tile layout', link: '/components/tilelayout' },
             { text: 'Modal', link: '/components/modal' },
             { text: 'Tabs', link: '/components/tabs' },
             { text: 'Notification', link: '/components/notification' },
