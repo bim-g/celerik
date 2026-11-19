@@ -179,13 +179,14 @@ final class DisplayElementsTest extends TestCase
 
     public function testRequiredParts(): void
     {
-        foreach ([
+        $renders = [
             static fn () => Avatar::make()->render(),
             static fn () => Chip::make()->render(),
             static fn () => Tooltip::make()->trigger('x')->render(),
             static fn () => Popover::make()->content('x')->render(),
             static fn () => Progress::make()->value(1)->render(),
-        ] as $render) {
+        ];
+        foreach ($renders as $render) {
             try {
                 $render();
                 self::fail('A required part was missing.');
