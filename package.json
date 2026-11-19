@@ -89,6 +89,7 @@
     "parsleyjs": "^2.9.2",
     "quill": "^2.0.3",
     "sass": "^1.83.0",
+    "sortablejs": "^1.15.7",
     "tom-select": "^2.6.2",
     "vite": "^6.0.7",
     "vitepress": "^1.6.4"

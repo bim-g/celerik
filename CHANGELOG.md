@@ -6,6 +6,17 @@ The same version is published on Packagist (`celerik/ui`) and npm (`@celerikui/u
 
 ## [Unreleased]
 
+### Added
+
+- **TaskBoard**: a Kanban board, `TaskBoard::make()->columns([...])->cards($tasks, column: 'status')->moveUrl('/tasks/{id}/move')`.
+  - Cards move three ways: dragged (SortableJS), from the keyboard (Space, arrows, Space or Escape, each step announced), or with a Move form on each card that posts without JavaScript and moves cards without dragging (WCAG 2.5.7).
+  - Column limits, counts in the column headings, card titles, descriptions, meta texts and links.
+  - `TaskBoard::cardMove($_POST)` reads a move (a column of the board and a position); a refused move (`InvalidCardMove`, 422) puts the card back and says why.
+
+### Changed
+
+- The bundle includes SortableJS 1.15 (MIT), loaded only on pages with a task board.
+
 ## [0.3.0] - 2026-11-19
 
 Phase 5 (Data): grid filters, actions, selection, columns to show or hide, empty states, totals and groups, inline editing; actions that open a form in a modal; ListView, TreeView and TreeList. It also brings the flat design and field border contrast prepared as 0.2.1, which was not published.

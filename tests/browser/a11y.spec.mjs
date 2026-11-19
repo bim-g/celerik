@@ -58,6 +58,13 @@ for (const theme of THEMES) {
         expect(await axeViolations(page, { include: '#plan' })).toEqual([]);
       });
 
+      test('no axe-core violations in a task board, a card picked up', async ({ page }) => {
+        await openComponents(page, { theme, mode });
+        await page.locator('#sprint .celerik-board-card').first().focus();
+        await page.keyboard.press('Space');
+        expect(await axeViolations(page, { include: '#sprint' })).toEqual([]);
+      });
+
       test('no axe-core violations in a list view with its pager', async ({ page }) => {
         await openComponents(page, { theme, mode });
         await expect(page.locator('#team [role=status]')).toHaveText('1–4 of 6', { timeout: 15_000 });

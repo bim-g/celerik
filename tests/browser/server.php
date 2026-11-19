@@ -34,10 +34,12 @@ use Celerik\Ui\Components\Modal;
 use Celerik\Ui\Components\Notification;
 use Celerik\Ui\Components\Scheduler;
 use Celerik\Ui\Components\Tabs;
+use Celerik\Ui\Components\TaskBoard;
 use Celerik\Ui\Components\TreeList;
 use Celerik\Ui\Components\TreeView;
 use Celerik\Ui\Components\ThemeBuilder;
 use Celerik\Ui\Data\ArrayDataSource;
+use Celerik\Ui\Data\InvalidCardMove;
 use Celerik\Ui\Data\InvalidCellEdit;
 use Celerik\Ui\FileManager\FileManagerConfig;
 use Celerik\Ui\FileManager\FileManagerConnector;
@@ -291,6 +293,39 @@ if ($path === '/folders/6/children') {
     exit;
 }
 
+// A task board and its move endpoint: Plan cannot go back to To do, as a rule of the app.
+$board = TaskBoard::make('sprint')
+    ->label('Sprint')
+    ->columns(['todo' => 'To do', 'doing' => ['label' => 'In progress', 'limit' => 2], 'done' => 'Done'])
+    ->cards([
+        ['id' => 1, 'status' => 'todo', 'title' => 'Write docs', 'owner' => 'Ada'],
+        ['id' => 2, 'status' => 'todo', 'title' => 'Fix login', 'owner' => 'Alan'],
+        ['id' => 3, 'status' => 'doing', 'title' => 'Design board', 'owner' => 'Grace'],
+        ['id' => 4, 'status' => 'done', 'title' => 'Plan', 'owner' => 'Ada'],
+    ])
+    ->meta('owner')
+    ->moveUrl('/tasks/{id}/move')
+    ->csrf('test-token');
+if (preg_match('#^/tasks/(\d+)/move$#', $path, $match) === 1 && ($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
+    header('Content-Type: application/json');
+    if (($_SERVER['HTTP_X_CSRF_TOKEN'] ?? '') !== 'test-token' || ($_POST['_method'] ?? '') !== 'PATCH') {
+        http_response_code(419);
+        echo json_encode(['message' => 'The page expired.']);
+        exit;
+    }
+    try {
+        $move = $board->cardMove($_POST);
+        if ($match[1] === '4' && $move->column === 'todo') {
+            throw new InvalidCardMove('A planned task cannot go back to To do.');
+        }
+        echo json_encode(['message' => 'Moved.']);
+    } catch (InvalidCardMove $refusal) {
+        http_response_code(422);
+        echo json_encode($refusal->toArray());
+    }
+    exit;
+}
+
 // Bootstrap is the only look; ?theme= is ignored.
 $theme = 'bootstrap';
 $mode = ($_GET['mode'] ?? '') === 'dark' ? 'dark' : 'light';
@@ -383,6 +418,8 @@ $components = [
     $team,
 
     $folders,
+
+    $board,
 
     TreeList::make('plan')
         ->caption('Plan')

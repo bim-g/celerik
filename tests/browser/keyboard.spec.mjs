@@ -447,6 +447,50 @@ test.describe('tree list', () => {
   });
 });
 
+test.describe('task board', () => {
+  const card = (page, title) => page.locator('#sprint .celerik-board-card').filter({ hasText: title });
+  const titles = (page, column) => page.locator(`#sprint .celerik-board-cards[data-column="${column}"] .celerik-board-card-title`)
+    .allTextContents();
+  const said = (page) => page.locator('#sprint > [role=status]');
+
+  test('cards move from the keyboard: Space picks up, arrows move, Space drops; a refusal puts the card back', async ({ page }) => {
+    const docs = card(page, 'Write docs');
+    await docs.focus();
+    await page.keyboard.press('Space');
+    await expect(said(page)).toHaveText('Picked up Write docs, in To do, position 1 of 2.');
+    await page.keyboard.press('ArrowRight');
+    await expect(docs).toBeFocused();
+    await expect(said(page)).toHaveText('Write docs: In progress, position 1 of 2.');
+    // In progress is now full (2 of 2): Done is next.
+    await page.keyboard.press('ArrowRight');
+    await expect(said(page)).toHaveText('Write docs: Done, position 1 of 2.');
+    await page.keyboard.press('Space');
+    await expect(said(page)).toHaveText('Moved Write docs to Done, position 1 of 2.', { timeout: 15_000 });
+    expect(await titles(page, 'done')).toEqual(['Write docs', 'Plan']);
+    expect(await axeViolations(page, { include: '#sprint' })).toEqual([]);
+
+    // The endpoint refuses Plan's move: it goes back, and the reason is read.
+    const plan = card(page, 'Plan');
+    await plan.getByRole('combobox', { name: 'Move Plan to' }).selectOption('todo');
+    await plan.getByRole('button', { name: 'Move' }).click();
+    await expect(said(page)).toHaveText(
+      'A planned task cannot go back to To do. The card could not be moved. It is back in Done.',
+      { timeout: 15_000 },
+    );
+    expect(await titles(page, 'done')).toEqual(['Write docs', 'Plan']);
+  });
+
+  test('cards are dragged between columns, not into a full one', async ({ page }) => {
+    await card(page, 'Fix login').dragTo(page.locator('#sprint .celerik-board-cards[data-column="done"]'));
+    await expect.poll(() => titles(page, 'done')).toContain('Fix login');
+    await expect(said(page)).toHaveText(/^Moved Fix login to Done/, { timeout: 15_000 });
+
+    await card(page, 'Write docs').dragTo(card(page, 'Design board'));
+    await card(page, 'Plan').dragTo(card(page, 'Design board'));
+    expect(await titles(page, 'doing')).toHaveLength(2);
+  });
+});
+
 test.describe('form', () => {
   test('a failed submit moves focus to the first invalid field', async ({ page }) => {
     const form = page.locator('#signup');

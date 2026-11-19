@@ -9,6 +9,7 @@ register('grid', async (element, options) => (await import('./grid.js')).initGri
 register('listview', async (element, options) => (await import('./listview.js')).initListView(element, options));
 register('treeview', async (element, options) => (await import('./tree.js')).initTree(element, options));
 register('treelist', async (element, options) => (await import('./treelist.js')).initTreeList(element, options));
+register('taskboard', async (element, options) => (await import('./taskboard.js')).initTaskBoard(element, options));
 register('chart', async (element, options) => (await import('./chart.js')).initChart(element, options));
 register('form', async (element, options) => (await import('./form.js')).initForm(element, options));
 register('scheduler', async (element, options) => (await import('./scheduler.js')).initScheduler(element, options));

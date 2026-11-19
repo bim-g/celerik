@@ -13,6 +13,7 @@ use Celerik\Ui\Components\Modal;
 use Celerik\Ui\Components\Notification;
 use Celerik\Ui\Components\Scheduler;
 use Celerik\Ui\Components\Tabs;
+use Celerik\Ui\Components\TaskBoard;
 use Celerik\Ui\Components\ThemeBuilder;
 use Celerik\Ui\Components\TreeList;
 use Celerik\Ui\Components\TreeView;
@@ -34,6 +35,7 @@ final class ComponentRegistry
             ->register(ListView::class)
             ->register(TreeView::class)
             ->register(TreeList::class)
+            ->register(TaskBoard::class)
             ->register(Chart::class)
             ->register(Form::class)
             ->register(Scheduler::class)
