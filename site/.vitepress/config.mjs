@@ -122,6 +122,7 @@ export default defineConfig({
             { text: 'Scheduler', link: '/components/scheduler' },
             { text: 'Admin layout', link: '/components/admin-layout' },
             { text: 'Menus and toolbar', link: '/components/menus' },
+            { text: 'Accordion, card, splitter', link: '/components/containers' },
             { text: 'Modal', link: '/components/modal' },
             { text: 'Tabs', link: '/components/tabs' },
             { text: 'Notification', link: '/components/notification' },

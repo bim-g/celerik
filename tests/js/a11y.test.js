@@ -130,6 +130,22 @@ describe('accessibility (axe-core, WCAG 2.1 AA)', () => {
     expect(await violations()).toEqual([]);
   });
 
+  test('accordion, card and splitter: PHP markup, then enhanced', async () => {
+    const { initAccordion, initSplitter } = await import('../../resources/js/layout.js');
+    const accordion = loadFixture('accordion');
+    expect(await violations()).toEqual([]);
+    initAccordion(accordion, readOptions(accordion));
+    expect(await violations()).toEqual([]);
+
+    loadFixture('card');
+    expect(await violations()).toEqual([]);
+
+    const splitter = loadFixture('splitter');
+    expect(await violations()).toEqual([]);
+    initSplitter(splitter, readOptions(splitter));
+    expect(await violations()).toEqual([]);
+  });
+
   test('scheduler markup from PHP (no-JS fallback list)', async () => {
     loadFixture('scheduler');
     expect(await violations()).toEqual([]);

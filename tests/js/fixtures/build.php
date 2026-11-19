@@ -14,9 +14,11 @@ use Celerik\Ui\Components\Form;
 use Celerik\Ui\Components\Form\Field;
 use Celerik\Ui\Components\Form\Repeater;
 use Celerik\Ui\Components\Form\Section;
+use Celerik\Ui\Components\Accordion;
 use Celerik\Ui\Components\Action;
 use Celerik\Ui\Components\AdminLayout;
 use Celerik\Ui\Components\Breadcrumb;
+use Celerik\Ui\Components\Card;
 use Celerik\Ui\Components\Navigation;
 use Celerik\Ui\Components\UserMenu;
 use Celerik\Ui\Components\Grid;
@@ -29,6 +31,7 @@ use Celerik\Ui\Components\Modal;
 use Celerik\Ui\Components\Notification;
 use Celerik\Ui\Components\Scheduler;
 use Celerik\Ui\Components\SplitButton;
+use Celerik\Ui\Components\Splitter;
 use Celerik\Ui\Components\Tabs;
 use Celerik\Ui\Components\TaskBoard;
 use Celerik\Ui\Components\TreeList;
@@ -347,6 +350,24 @@ $fixtures = [
         ->group('Products', static fn (Navigation $group) => $group->item('Grid', '/grid')->item('Charts', '/charts'))
         ->group('Company', static fn (Navigation $group) => $group->item('About', '/about'))
         ->current('/grid'),
+
+    'accordion' => Accordion::make('faq')
+        ->panel('Shipping', 'We ship within two days.', open: true)
+        ->panel('Returns <policy>', Html::raw('<p>Thirty days, <a href="/returns">free</a>.</p>'))
+        ->panel('Payment', 'Cards and transfers.'),
+
+    'card' => Card::make('revenue')
+        ->title('Revenue')
+        ->subtitle('November')
+        ->text('Up 12% on October.')
+        ->image('/img/chart.png', 'Revenue by week')
+        ->link('/reports/revenue')
+        ->actions(Action::link('export', 'Export', '/reports/revenue.csv'))
+        ->footer('Updated today'),
+
+    'splitter' => Splitter::make('mail')
+        ->pane('Inbox, Sent, Drafts', size: 30, min: 20, max: 60, label: 'Folders')
+        ->pane('The message.', label: 'Message'),
 
     'chart' => Chart::make('sales')
         ->type('bar')

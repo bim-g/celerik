@@ -8,6 +8,11 @@ The same version is published on Packagist (`celerik/ui`) and npm (`@celerikui/u
 
 ### Added
 
+- **Accordion, card and splitter**:
+  - `Accordion` (the Telerik PanelBar): WAI-ARIA accordion headings and regions, one panel open at a time or `multiple()`, arrow keys between headings; every panel shown without JavaScript.
+  - `Card`: title (a link covering the card, its actions above it), subtitle, text, picture, content and footer.
+  - `Splitter`: panes side by side or stacked, resized from WAI-ARIA window splitter dividers with the keyboard (arrows, Home, End, Enter) or any pointer, sizes remembered on request and set without inline styles.
+
 - **Menus and toolbar** (WAI-ARIA menu button and toolbar patterns):
   - `MenuButton`: a button that opens a menu of links, actions and dividers. Arrow keys, Home, End and type-ahead move; Escape returns focus; disabled items. Without JavaScript, a plain list.
   - `SplitButton`: a main action and a "More options" menu.

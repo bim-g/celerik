@@ -18,9 +18,11 @@
 declare(strict_types=1);
 
 use Celerik\Ui\Assets;
+use Celerik\Ui\Components\Accordion;
 use Celerik\Ui\Components\Action;
 use Celerik\Ui\Components\AdminLayout;
 use Celerik\Ui\Components\Breadcrumb;
+use Celerik\Ui\Components\Card;
 use Celerik\Ui\Components\Chart;
 use Celerik\Ui\Components\ContextMenu;
 use Celerik\Ui\Components\FileManager;
@@ -39,6 +41,7 @@ use Celerik\Ui\Components\Navigation;
 use Celerik\Ui\Components\Notification;
 use Celerik\Ui\Components\Scheduler;
 use Celerik\Ui\Components\SplitButton;
+use Celerik\Ui\Components\Splitter;
 use Celerik\Ui\Components\Tabs;
 use Celerik\Ui\Components\TaskBoard;
 use Celerik\Ui\Components\TreeList;
@@ -434,6 +437,22 @@ if ($path === '/admin' || str_starts_with($path, '/admin/')) {
             . ContextMenu::make('file-menu')->for('#files [data-id]')->label('File actions')
                 ->link('Open {name}', '/admin/files/{id}')
                 ->link('Download', '/admin/files/{id}/download')
+                ->render()
+            . '<div class="row g-3 my-3"><div class="col-md-6">'
+            . Card::make('member-card')->title('Ada Lovelace', level: 2)->subtitle('Engineer')
+                ->text('Member since 2024.')->link('/admin/members/42/profile')
+                ->actions(Action::link('message', 'Send a message', '/admin/members/42/message'))
+                ->render()
+            . '</div><div class="col-md-6">'
+            . Accordion::make('member-faq')->headingLevel(2)
+                ->panel('Access', 'Admin of two teams.', open: true)
+                ->panel('Billing', 'Paid by the company.')
+                ->panel('Notes', 'None yet.')
+                ->render()
+            . '</div></div>'
+            . Splitter::make('member-split')
+                ->pane('Files of Ada.', size: 30, min: 20, max: 70, label: 'Files')
+                ->pane('Preview of the selected file.', label: 'Preview')
                 ->render()
             . Grid::make('admin-members')->caption('Recent activity')->column('what', 'What')->column('when', 'When')
                 ->rows([['what' => 'Signed in', 'when' => 'Today'], ['what' => 'Changed role', 'when' => 'Yesterday']])
