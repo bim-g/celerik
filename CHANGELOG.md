@@ -6,6 +6,10 @@ The same version is published on Packagist (`celerik/ui`) and npm (`@celerikui/u
 
 ## [Unreleased]
 
+### Added
+
+- **Record view** (`RecordView`, Filament's infolists): a read-only layout of a record's fields, by sections, each a heading and a description list in 1 to 4 columns (one on small screens). The record is an array, an ArrayAccess (an Eloquent model) or an object, read with dot notation. `RecordView\Entry` shows text, e-mail and phone links, safe URLs, dates in `<time>`, formatted numbers, yes or no, colored badges, lists and pictures, with `format()`, `placeholder()`, `help()` and `span()`; empty values show a dash read as "Not set".
+
 ## [0.4.0] - 2026-11-19
 
 Phase 6 (Navigation and layout): an admin layout with navigation, breadcrumb and user menu; menu and split buttons, toolbars and context menus; accordion, card, splitter and tile layout. It also brings the Kanban task board, the last item of Phase 5.

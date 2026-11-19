@@ -146,6 +146,11 @@ describe('accessibility (axe-core, WCAG 2.1 AA)', () => {
     expect(await violations()).toEqual([]);
   });
 
+  test('record view: sections of labels and values', async () => {
+    loadFixture('recordview');
+    expect(await violations()).toEqual([]);
+  });
+
   test('tile layout: PHP markup, then enhanced with its tools shown', async () => {
     const { initTileLayout } = await import('../../resources/js/tilelayout.js');
     const layout = loadFixture('tilelayout');

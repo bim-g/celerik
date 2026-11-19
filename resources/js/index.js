@@ -11,11 +11,12 @@ register('treeview', async (element, options) => (await import('./tree.js')).ini
 register('treelist', async (element, options) => (await import('./treelist.js')).initTreeList(element, options));
 register('taskboard', async (element, options) => (await import('./taskboard.js')).initTaskBoard(element, options));
 register('usermenu', async (element, options) => (await import('./usermenu.js')).initUserMenu(element, options));
-// The layout, the breadcrumb and cards are HTML and CSS (Bootstrap's offcanvas opens the sidebar on
+// The layout, the breadcrumb, cards and record views are HTML and CSS (Bootstrap's offcanvas opens the sidebar on
 // small screens): nothing to set up.
 register('adminlayout', () => true);
 register('breadcrumb', () => true);
 register('card', () => true);
+register('recordview', () => true);
 register('accordion', async (element, options) => (await import('./layout.js')).initAccordion(element, options));
 register('splitter', async (element, options) => (await import('./layout.js')).initSplitter(element, options));
 register('tilelayout', async (element, options) => (await import('./tilelayout.js')).initTileLayout(element, options));

@@ -36,6 +36,8 @@ use Celerik\Ui\Components\Tabs;
 use Celerik\Ui\Components\TaskBoard;
 use Celerik\Ui\Components\TreeList;
 use Celerik\Ui\Components\TreeView;
+use Celerik\Ui\Components\RecordView;
+use Celerik\Ui\Components\RecordView\Entry;
 use Celerik\Ui\Components\ThemeBuilder;
 use Celerik\Ui\Components\TileLayout;
 use Celerik\Ui\Components\Toolbar;
@@ -375,6 +377,34 @@ $fixtures = [
         ->tile('orders', 'Orders', Html::raw('<p>48 new orders.</p>'), rows: 2)
         ->tile('visits', 'Visits <today>', '1,204 visits.')
         ->reorderable()->resizable()->remember(),
+
+    'recordview' => RecordView::make('member')
+        ->record([
+            'name' => 'Ada <Lovelace>',
+            'email' => 'ada@example.com',
+            'website' => 'javascript:alert(1)',
+            'joined' => '2024-03-01',
+            'balance' => 1234.5,
+            'admin' => true,
+            'status' => 'active',
+            'teams' => ['Core', 'Docs'],
+            'company' => ['name' => 'Analytical Engines'],
+            'phone' => null,
+        ])
+        ->section('Profile', [
+            Entry::text('name', 'Name'),
+            Entry::email('email', 'E-mail'),
+            Entry::url('website', 'Website'),
+            Entry::phone('phone', 'Phone'),
+            Entry::text('company.name', 'Company')->span(2),
+        ], description: 'Who the member is.', columns: 2)
+        ->section('Account', [
+            Entry::date('joined', 'Member since', 'j F Y'),
+            Entry::number('balance', 'Balance', 2, prefix: '$'),
+            Entry::boolean('admin', 'Administrator'),
+            Entry::badge('status', 'Status', ['active' => 'success']),
+            Entry::list('teams', 'Teams', badges: true),
+        ], columns: 3),
 
     'chart' => Chart::make('sales')
         ->type('bar')

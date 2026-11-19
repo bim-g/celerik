@@ -124,6 +124,7 @@ export default defineConfig({
             { text: 'Menus and toolbar', link: '/components/menus' },
             { text: 'Accordion, card, splitter', link: '/components/containers' },
             { text: 'Tile layout', link: '/components/tilelayout' },
+            { text: 'Record view', link: '/components/recordview' },
             { text: 'Modal', link: '/components/modal' },
             { text: 'Tabs', link: '/components/tabs' },
             { text: 'Notification', link: '/components/notification' },
