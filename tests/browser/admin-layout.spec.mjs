@@ -79,4 +79,62 @@ test.describe('admin layout', () => {
       expect(await axeViolations(page)).toEqual([]);
     });
   }
+
+  test('a toolbar is one tab stop; its menu button opens with the keyboard and an action asks first', async ({ page }) => {
+    await open(page);
+    const toolbar = page.getByRole('toolbar', { name: 'Member' });
+    const edit = toolbar.getByRole('link', { name: 'Edit' });
+    const exportButton = toolbar.getByRole('button', { name: 'Export' });
+    await edit.focus();
+    await page.keyboard.press('ArrowRight');
+    await expect(exportButton).toBeFocused();
+    await expect(exportButton).toHaveAttribute('aria-haspopup', 'menu');
+
+    await page.keyboard.press('Enter');
+    const menu = page.getByRole('menu', { name: 'Export' });
+    await expect(menu).toBeVisible();
+    await expect(menu.getByRole('menuitem', { name: 'CSV' })).toBeFocused();
+    await page.keyboard.press('End');
+    await expect(menu.getByRole('menuitem', { name: 'Deactivate' })).toBeFocused();
+    expect(await axeViolations(page, { include: '#member-tools' })).toEqual([]);
+    await page.keyboard.press('Enter');
+    await expect(menu).toBeHidden();
+    const dialog = page.getByRole('alertdialog', { name: 'Deactivate Ada Lovelace?' });
+    await expect(dialog).toBeVisible();
+    await page.keyboard.press('Escape');
+    await expect(exportButton).toBeFocused();
+
+    // Tab leaves the toolbar from any of its controls.
+    await page.keyboard.press('Tab');
+    await expect(toolbar.locator(':focus')).toHaveCount(0);
+  });
+
+  test('a context menu opens with Shift+F10 on a file and with a right click, for that file', async ({ page }) => {
+    await open(page);
+    const file = page.locator('#files [data-id="8"]');
+    await file.focus();
+    await page.keyboard.press('Shift+F10');
+    const menu = page.getByRole('menu', { name: 'File actions' });
+    await expect(menu).toBeVisible();
+    await expect(menu.getByRole('menuitem', { name: 'Open Photo.jpg' })).toBeFocused();
+    await expect(menu.getByRole('menuitem', { name: 'Download' })).toHaveAttribute('href', '/admin/files/8/download');
+    expect(await axeViolations(page, { include: '.celerik-contextmenu-list' })).toEqual([]);
+    await page.keyboard.press('Escape');
+    await expect(menu).toBeHidden();
+    await expect(file).toBeFocused();
+
+    await page.locator('#files [data-id="7"]').click({ button: 'right' });
+    await expect(menu.getByRole('menuitem', { name: 'Open Contract.pdf' })).toBeVisible();
+  });
+
+  test('a horizontal navigation group drops down and closes with Escape', async ({ page }) => {
+    await page.setViewportSize({ width: 1280, height: 800 });
+    await open(page);
+    const site = page.getByRole('navigation', { name: 'Site' });
+    await site.getByText('Help', { exact: true }).click();
+    await expect(site.getByRole('link', { name: 'Guide' })).toBeVisible();
+    await site.getByRole('link', { name: 'Guide' }).focus();
+    await page.keyboard.press('Escape');
+    await expect(site.getByRole('link', { name: 'Guide' })).toBeHidden();
+  });
 });

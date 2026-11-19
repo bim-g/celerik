@@ -84,10 +84,10 @@ The **Phase** column refers to the [roadmap](ROADMAP.md); "–" means not yet sc
 |---|---|---|---|
 | TabStrip | Bootstrap Tabs | MIT | 2 ✅ (`Tabs`) |
 | AppBar, Drawer (sidebar), Breadcrumb, user menu: an admin layout | Native (Bootstrap navbar, offcanvas, breadcrumb) | MIT | 6 ✅ (`AdminLayout`, `Navigation`, `Breadcrumb`, `UserMenu`) |
-| Menu | Native (Bootstrap navbar and dropdowns) | MIT | 6 |
-| ContextMenu | Bootstrap dropdown positioned with Popper | MIT | 6 |
-| DropDownButton, SplitButton, ButtonGroup | Native (Bootstrap) | MIT | 6 |
-| Toolbar | Native (Bootstrap `btn-toolbar`) | MIT | 6 |
+| Menu | Native (`Navigation::horizontal()`, disclosure navigation) | MIT | 6 ✅ |
+| ContextMenu | Native (WAI-ARIA menu) | MIT | 6 ✅ (`ContextMenu`) |
+| DropDownButton, SplitButton, ButtonGroup | Native (WAI-ARIA menu button) | MIT | 6 ✅ (`MenuButton`, `SplitButton`) |
+| Toolbar | Native (WAI-ARIA toolbar) | MIT | 6 ✅ (`Toolbar`) |
 | PanelBar, ExpansionPanel | Bootstrap Accordion / Collapse | MIT | 6 |
 | Card | Native (Bootstrap card) | MIT | 6 |
 | Splitter | Split.js | MIT | 6 |

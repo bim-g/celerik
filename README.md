@@ -59,6 +59,7 @@ Releases include the built bundle (`public/`), so no Node.js is needed to instal
 | TreeList | `Components\TreeList` | – | WAI-ARIA treegrid: nested rows from flat or nested data, open and close, keyboard between rows and cells, expand and collapse all, row actions |
 | TaskBoard | `Components\TaskBoard` | SortableJS 1 | Kanban columns with limits; cards dragged, moved from the keyboard (announced), or with a Move form that works without JavaScript (WCAG 2.5.7) |
 | AdminLayout, Navigation, Breadcrumb, UserMenu | `Components\AdminLayout`, ... | Bootstrap 5 | App bar, sidebar navigation (offcanvas on small screens, shown without JavaScript), breadcrumb, user menu, skip link; current page marked |
+| MenuButton, SplitButton, Toolbar, ContextMenu | `Components\MenuButton`, ... | – | WAI-ARIA menu buttons with links and actions, a split button, a one-tab-stop toolbar, a context menu (right click, Shift+F10) filled from the target's data |
 | Chart | `Components\Chart` | Chart.js 4 | Embedded or remote data, `fromRows()`, hidden data table as text alternative |
 | Form | `Components\Form` | Parsley.js, Inputmask | HTML5 rules, masks, CSRF, method spoofing, server errors and old input |
 | File upload | `Field::file()` + `Upload\UploadHandler` | FilePond 4 | Async or classic uploads; real MIME detection, extension whitelist, random names; falls back to a plain file input |

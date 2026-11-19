@@ -19,6 +19,7 @@ Every component is a PHP class with a fluent API. It renders accessible Bootstra
 | [File upload](./upload) | `Field::file()` | FilePond 4 |
 | [Scheduler](./scheduler) | `Celerik\Ui\Components\Scheduler` | FullCalendar 6 |
 | [Admin layout](./admin-layout), navigation, breadcrumb, user menu | `AdminLayout`, `Navigation`, `Breadcrumb`, `UserMenu` | Bootstrap 5 (offcanvas) |
+| [Menus and toolbar](./menus) | `MenuButton`, `SplitButton`, `Toolbar`, `ContextMenu` | – |
 | [Modal](./modal) | `Celerik\Ui\Components\Modal` | Bootstrap 5 |
 | [Tabs](./tabs) | `Celerik\Ui\Components\Tabs` | Bootstrap 5 |
 | [Notification](./notification) | `Celerik\Ui\Components\Notification` | Notyf 3 |

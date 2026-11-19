@@ -8,6 +8,13 @@ The same version is published on Packagist (`celerik/ui`) and npm (`@celerikui/u
 
 ### Added
 
+- **Menus and toolbar** (WAI-ARIA menu button and toolbar patterns):
+  - `MenuButton`: a button that opens a menu of links, actions and dividers. Arrow keys, Home, End and type-ahead move; Escape returns focus; disabled items. Without JavaScript, a plain list.
+  - `SplitButton`: a main action and a "More options" menu.
+  - `Toolbar`: a named row of controls with one tab stop and arrow keys between them.
+  - `ContextMenu`: a menu for the elements matching a selector, opened by a right click, Shift+F10 or the Menu key, its `{field}`s filled from the element's `data-*` values.
+  - `Navigation::horizontal()`: a site's menu bar, its groups dropping down and closing with Escape or when focus leaves.
+
 - **Admin layout**: `AdminLayout` frames an admin screen with a skip link, an app bar, a sidebar and the main content.
   - `Navigation`: links and groups (native disclosures). The current page has `aria-current="page"`, or its section `aria-current="true"`, and its group starts open.
   - `Breadcrumb`: a navigation landmark ending with the current page.

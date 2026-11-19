@@ -47,6 +47,7 @@ $navigation = Navigation::make('main')->label('Main')
 - **The current page**: the link to it has `aria-current="page"`. When no link is the page itself, e.g. `/members/42`, the closest section (`/members`) has `aria-current="true"`. Queries are ignored.
 - **Groups** are native disclosures (`<details>`): they open and close with the keyboard and without JavaScript. A group holding the current link starts open.
 - **Name each navigation** with `label()` when a page has more than one.
+- **`horizontal()`** makes it a bar across the page, a site's menu: its groups drop down below their names, closed at first, and close with Escape, when another opens, or when focus or a click leaves.
 
 ## Breadcrumb
 

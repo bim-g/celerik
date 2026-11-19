@@ -114,6 +114,22 @@ describe('accessibility (axe-core, WCAG 2.1 AA)', () => {
     expect(await violations()).toEqual([]);
   });
 
+  test('menus: PHP markup, a toolbar with an open menu, a horizontal navigation', async () => {
+    const element = loadFixture('menus');
+    expect(await violations()).toEqual([]);
+    const { initToolbar, initMenuButton, initNavigation } = await import('../../resources/js/menu.js');
+    initMenuButton(document.getElementById('export'));
+    initMenuButton(document.getElementById('save'));
+    initToolbar(element);
+    document.getElementById('export-button').click();
+    expect(await violations()).toEqual([]);
+
+    const nav = loadFixture('nav-horizontal');
+    initNavigation(nav, { horizontal: true });
+    nav.querySelector('details').open = true;
+    expect(await violations()).toEqual([]);
+  });
+
   test('scheduler markup from PHP (no-JS fallback list)', async () => {
     loadFixture('scheduler');
     expect(await violations()).toEqual([]);

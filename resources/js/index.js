@@ -11,11 +11,15 @@ register('treeview', async (element, options) => (await import('./tree.js')).ini
 register('treelist', async (element, options) => (await import('./treelist.js')).initTreeList(element, options));
 register('taskboard', async (element, options) => (await import('./taskboard.js')).initTaskBoard(element, options));
 register('usermenu', async (element, options) => (await import('./usermenu.js')).initUserMenu(element, options));
-// The layout, its navigation and breadcrumb are HTML and CSS (Bootstrap's offcanvas opens the
-// sidebar on small screens): nothing to set up.
+// The layout and the breadcrumb are HTML and CSS (Bootstrap's offcanvas opens the sidebar on
+// small screens): nothing to set up.
 register('adminlayout', () => true);
-register('navigation', () => true);
 register('breadcrumb', () => true);
+register('navigation', async (element, options) => (await import('./menu.js')).initNavigation(element, options));
+register('menubutton', async (element) => (await import('./menu.js')).initMenuButton(element));
+register('splitbutton', async (element) => (await import('./menu.js')).initMenuButton(element));
+register('toolbar', async (element) => (await import('./menu.js')).initToolbar(element));
+register('contextmenu', async (element, options) => (await import('./menu.js')).initContextMenu(element, options));
 register('chart', async (element, options) => (await import('./chart.js')).initChart(element, options));
 register('form', async (element, options) => (await import('./form.js')).initForm(element, options));
 register('scheduler', async (element, options) => (await import('./scheduler.js')).initScheduler(element, options));
