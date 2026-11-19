@@ -8,6 +8,7 @@
 declare(strict_types=1);
 
 use Celerik\Ui\Components\Chart;
+use Celerik\Ui\Components\ContextMenu;
 use Celerik\Ui\Components\FileManager;
 use Celerik\Ui\Components\Form;
 use Celerik\Ui\Components\Form\Field;
@@ -23,14 +24,17 @@ use Celerik\Ui\Components\Grid\Column;
 use Celerik\Ui\Components\Grid\Editor;
 use Celerik\Ui\Components\Grid\Filter;
 use Celerik\Ui\Components\ListView;
+use Celerik\Ui\Components\MenuButton;
 use Celerik\Ui\Components\Modal;
 use Celerik\Ui\Components\Notification;
 use Celerik\Ui\Components\Scheduler;
+use Celerik\Ui\Components\SplitButton;
 use Celerik\Ui\Components\Tabs;
 use Celerik\Ui\Components\TaskBoard;
 use Celerik\Ui\Components\TreeList;
 use Celerik\Ui\Components\TreeView;
 use Celerik\Ui\Components\ThemeBuilder;
+use Celerik\Ui\Components\Toolbar;
 use Celerik\Ui\Support\Html;
 use Celerik\Ui\Theme\Theme;
 use Celerik\Ui\Upload\UploadRules;
@@ -312,6 +316,37 @@ $fixtures = [
         ->breadcrumb(Breadcrumb::make()->item('Home', '/')->item('Members', '/members')->item('Ada Lovelace'))
         ->title('Ada Lovelace')
         ->content(Html::raw('<p>Member since 2024.</p>')),
+
+    'menus' => Toolbar::make('tools')
+        ->label('Members')
+        ->add(Action::link('new', 'New member', '/members/new')->variant('primary')->solid())
+        ->separator()
+        ->add(
+            MenuButton::make('export')->label('Export')
+                ->link('CSV', '/members.csv')
+                ->link('Excel', '/members.xlsx')
+                ->link('PDF (soon)', '/members.pdf', disabled: true)
+                ->divider()
+                ->action(Action::request('email', 'E-mail me the list', '/members/email')->csrf('t0k3n')),
+            SplitButton::make('save')
+                ->main(Action::request('save', 'Save', '/posts/1')->variant('primary')->solid())
+                ->variant('primary', solid: true)
+                ->link('Preview', '/posts/1/preview')
+                ->action(Action::request('draft', 'Save as draft', '/posts/1/draft')),
+        ),
+
+    'contextmenu' => ContextMenu::make('file-menu')
+        ->for('#files [data-id]')
+        ->label('File actions')
+        ->link('Open {name}', '/files/{id}')
+        ->divider()
+        ->action(Action::request('delete', 'Delete', '/files/{id}')->method('DELETE')->confirm('Delete {name}?')),
+
+    'nav-horizontal' => Navigation::make('site')->label('Site')->horizontal()
+        ->item('Home', '/')
+        ->group('Products', static fn (Navigation $group) => $group->item('Grid', '/grid')->item('Charts', '/charts'))
+        ->group('Company', static fn (Navigation $group) => $group->item('About', '/about'))
+        ->current('/grid'),
 
     'chart' => Chart::make('sales')
         ->type('bar')

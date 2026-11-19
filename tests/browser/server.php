@@ -22,6 +22,7 @@ use Celerik\Ui\Components\Action;
 use Celerik\Ui\Components\AdminLayout;
 use Celerik\Ui\Components\Breadcrumb;
 use Celerik\Ui\Components\Chart;
+use Celerik\Ui\Components\ContextMenu;
 use Celerik\Ui\Components\FileManager;
 use Celerik\Ui\Components\Form;
 use Celerik\Ui\Components\Form\Field;
@@ -32,16 +33,19 @@ use Celerik\Ui\Components\Grid\Column;
 use Celerik\Ui\Components\Grid\Editor;
 use Celerik\Ui\Components\Grid\Filter;
 use Celerik\Ui\Components\ListView;
+use Celerik\Ui\Components\MenuButton;
 use Celerik\Ui\Components\Modal;
 use Celerik\Ui\Components\Navigation;
 use Celerik\Ui\Components\Notification;
 use Celerik\Ui\Components\Scheduler;
+use Celerik\Ui\Components\SplitButton;
 use Celerik\Ui\Components\Tabs;
 use Celerik\Ui\Components\TaskBoard;
 use Celerik\Ui\Components\TreeList;
 use Celerik\Ui\Components\TreeView;
 use Celerik\Ui\Components\UserMenu;
 use Celerik\Ui\Components\ThemeBuilder;
+use Celerik\Ui\Components\Toolbar;
 use Celerik\Ui\Data\ArrayDataSource;
 use Celerik\Ui\Data\InvalidCardMove;
 use Celerik\Ui\Data\InvalidCellEdit;
@@ -402,8 +406,39 @@ if ($path === '/admin' || str_starts_with($path, '/admin/')) {
             ->action(Action::request('logout', 'Sign out', '/logout')->csrf('test-token')))
         ->breadcrumb(Breadcrumb::make()->item('Dashboard', '/admin')->item('Members', '/admin/members')->item('Ada Lovelace'))
         ->title('Ada Lovelace')
-        ->content(Grid::make('admin-members')->caption('Recent activity')->column('what', 'What')->column('when', 'When')
-            ->rows([['what' => 'Signed in', 'when' => 'Today'], ['what' => 'Changed role', 'when' => 'Yesterday']]));
+        ->appBar(Navigation::make('site')->label('Site')->horizontal()
+            ->group('Help', static fn (Navigation $group) => $group
+                ->item('Guide', '/admin/help/guide')
+                ->item('Shortcuts', '/admin/help/shortcuts')))
+        ->content(Html::raw(
+            Toolbar::make('member-tools')->label('Member')
+                ->add(Action::link('edit', 'Edit', '/admin/members/42/edit')->variant('primary')->solid())
+                ->separator()
+                ->add(
+                    MenuButton::make('export')->label('Export')
+                        ->link('CSV', '/admin/members.csv')
+                        ->link('PDF (soon)', '/admin/members.pdf', disabled: true)
+                        ->divider()
+                        ->action(Action::request('deactivate', 'Deactivate', '/staff/Ada%20Lovelace/deactivate')
+                            ->confirm('Deactivate Ada Lovelace?')
+                            ->csrf('test-token')),
+                    SplitButton::make('save')
+                        ->main(Action::link('save', 'Save', '/admin/members/42/save')->variant('primary')->solid())
+                        ->variant('primary', solid: true)
+                        ->link('Save as draft', '/admin/members/42/draft'),
+                )
+                ->render()
+            . '<h2 class="h5 mt-4">Files</h2><ul id="files" class="list-unstyled">'
+            . '<li data-id="7" data-name="Contract.pdf" tabindex="0">Contract.pdf</li>'
+            . '<li data-id="8" data-name="Photo.jpg" tabindex="0">Photo.jpg</li></ul>'
+            . ContextMenu::make('file-menu')->for('#files [data-id]')->label('File actions')
+                ->link('Open {name}', '/admin/files/{id}')
+                ->link('Download', '/admin/files/{id}/download')
+                ->render()
+            . Grid::make('admin-members')->caption('Recent activity')->column('what', 'What')->column('when', 'When')
+                ->rows([['what' => 'Signed in', 'when' => 'Today'], ['what' => 'Changed role', 'when' => 'Yesterday']])
+                ->render(),
+        ));
     $mode = ($_GET['mode'] ?? '') === 'dark' ? 'dark' : 'light';
     ?>
 <!doctype html>

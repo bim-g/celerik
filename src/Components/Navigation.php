@@ -33,6 +33,8 @@ final class Navigation extends Component
 
     private ?string $current = null;
 
+    private bool $horizontal = false;
+
     public static function name(): string
     {
         return 'navigation';
@@ -73,6 +75,18 @@ final class Navigation extends Component
     }
 
     /**
+     * A bar of links across the page (a site's menu), its groups opening below their names,
+     * instead of a column. With JavaScript, an open group closes with Escape, when another
+     * opens, and when focus or a click leaves it.
+     */
+    public function horizontal(bool $horizontal = true): self
+    {
+        $this->horizontal = $horizontal;
+
+        return $this;
+    }
+
+    /**
      * The current page's URL or path, e.g. $_SERVER['REQUEST_URI'] (its query is ignored).
      */
     public function current(?string $url): self
@@ -84,7 +98,7 @@ final class Navigation extends Component
 
     public function toArray(): array
     {
-        return [];
+        return $this->horizontal ? ['horizontal' => true] : [];
     }
 
     public function render(): string
@@ -96,7 +110,10 @@ final class Navigation extends Component
 
         return Html::tag(
             'nav',
-            array_merge($this->rootAttributes(['celerik-nav']), ['aria-label' => $this->label]),
+            array_merge(
+                $this->rootAttributes($this->horizontal ? ['celerik-nav', 'celerik-nav-horizontal'] : ['celerik-nav']),
+                ['aria-label' => $this->label],
+            ),
             $this->renderList($exact, $section),
         );
     }
@@ -168,7 +185,8 @@ final class Navigation extends Component
                 continue;
             }
             $group = $entry['nav'];
-            $open = in_array($exact ?? $section, $group->urls(), true);
+            // A column opens the group holding the current page; a bar's groups drop down on demand.
+            $open = !$this->horizontal && in_array($exact ?? $section, $group->urls(), true);
             $items .= Html::tag('li', [], Html::tag(
                 'details',
                 ['class' => 'celerik-nav-group', 'open' => $open],

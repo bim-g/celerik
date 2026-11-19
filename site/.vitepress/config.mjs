@@ -121,6 +121,7 @@ export default defineConfig({
             { text: 'File upload', link: '/components/upload' },
             { text: 'Scheduler', link: '/components/scheduler' },
             { text: 'Admin layout', link: '/components/admin-layout' },
+            { text: 'Menus and toolbar', link: '/components/menus' },
             { text: 'Modal', link: '/components/modal' },
             { text: 'Tabs', link: '/components/tabs' },
             { text: 'Notification', link: '/components/notification' },

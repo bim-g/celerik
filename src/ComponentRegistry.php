@@ -7,17 +7,21 @@ namespace Celerik\Ui;
 use Celerik\Ui\Components\AdminLayout;
 use Celerik\Ui\Components\Breadcrumb;
 use Celerik\Ui\Components\Chart;
+use Celerik\Ui\Components\ContextMenu;
 use Celerik\Ui\Components\FileManager;
 use Celerik\Ui\Components\Form;
 use Celerik\Ui\Components\Grid;
 use Celerik\Ui\Components\ListView;
+use Celerik\Ui\Components\MenuButton;
 use Celerik\Ui\Components\Modal;
 use Celerik\Ui\Components\Navigation;
 use Celerik\Ui\Components\Notification;
 use Celerik\Ui\Components\Scheduler;
+use Celerik\Ui\Components\SplitButton;
 use Celerik\Ui\Components\Tabs;
 use Celerik\Ui\Components\TaskBoard;
 use Celerik\Ui\Components\ThemeBuilder;
+use Celerik\Ui\Components\Toolbar;
 use Celerik\Ui\Components\TreeList;
 use Celerik\Ui\Components\TreeView;
 use Celerik\Ui\Components\UserMenu;
@@ -51,7 +55,11 @@ final class ComponentRegistry
             ->register(AdminLayout::class)
             ->register(Navigation::class)
             ->register(Breadcrumb::class)
-            ->register(UserMenu::class);
+            ->register(UserMenu::class)
+            ->register(MenuButton::class)
+            ->register(SplitButton::class)
+            ->register(Toolbar::class)
+            ->register(ContextMenu::class);
     }
 
     /**

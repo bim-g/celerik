@@ -690,6 +690,133 @@ summary.celerik-nav-link {
   border-top: 1px solid var(--bs-border-color);
 }
 
+// Menus (MenuButton, SplitButton, ContextMenu): a list under its button, or at the pointer.
+// Without JavaScript, the button is hidden and the items are a plain list.
+.celerik-menubutton,
+.celerik-splitbutton {
+  position: relative;
+  display: inline-flex;
+  vertical-align: middle;
+}
+
+html:not(.celerik-js) .celerik-menu-toggle {
+  display: none;
+}
+
+.celerik-menu-list {
+  z-index: 1035;
+  min-width: 12rem;
+  margin: 0;
+  padding: 0.375rem;
+  border: 1px solid var(--bs-border-color);
+  border-radius: var(--bs-border-radius-lg);
+  background-color: var(--bs-body-bg);
+  color: var(--bs-body-color);
+
+  .celerik-js :is(.celerik-menubutton, .celerik-splitbutton) > & {
+    position: absolute;
+    top: calc(100% + 0.25rem);
+    left: 0;
+  }
+
+  .celerik-js .celerik-menu-end > & {
+    right: 0;
+    left: auto;
+  }
+
+  &.celerik-contextmenu-list {
+    position: fixed;
+  }
+
+  form {
+    margin: 0;
+  }
+}
+
+// Every item looks the same, a link or a request action's button.
+.celerik-menu-item,
+.celerik-menu-list .celerik-action button {
+  display: block;
+  width: 100%;
+  padding: 0.375rem 0.75rem;
+  border: 0;
+  border-radius: var(--bs-border-radius);
+  background: none;
+  color: var(--bs-body-color);
+  font-size: 1rem;
+  text-align: start;
+  text-decoration: none;
+  white-space: nowrap;
+
+  &:hover,
+  &:focus {
+    background-color: var(--bs-tertiary-bg);
+    color: var(--bs-emphasis-color);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--bs-focus-ring-color, var(--bs-primary));
+    outline-offset: -2px;
+  }
+
+  &[aria-disabled='true'],
+  &[data-disabled] {
+    color: var(--bs-secondary-color);
+    cursor: not-allowed;
+  }
+}
+
+.celerik-menu-divider {
+  margin: 0.375rem 0;
+  border-top: 1px solid var(--bs-border-color);
+}
+
+// Toolbar (Components\Toolbar): its controls in a row, separators between groups.
+.celerik-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.celerik-toolbar-item form {
+  margin: 0;
+}
+
+.celerik-toolbar-separator {
+  align-self: stretch;
+  width: 1px;
+  background-color: var(--bs-border-color);
+}
+
+// Navigation::horizontal(): a bar of links, its groups dropping down below their names.
+.celerik-nav-horizontal {
+  padding: 0;
+
+  > .celerik-nav-list {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 0.25rem;
+  }
+
+  .celerik-nav-group {
+    position: relative;
+
+    > .celerik-nav-list {
+      position: absolute;
+      z-index: 1030;
+      top: calc(100% + 0.25rem);
+      left: 0;
+      min-width: 13rem;
+      margin: 0;
+      padding: 0.375rem;
+      border: 1px solid var(--bs-border-color);
+      border-radius: var(--bs-border-radius-lg);
+      background-color: var(--bs-body-bg);
+    }
+  }
+}
+
 // A grid's empty state (Grid::emptyState()) and its "no rows match" state, in the table's
 // only row.
 .celerik-grid .celerik-grid-empty {
@@ -1607,7 +1734,7 @@ td[aria-busy='true'] .celerik-grid-editor {
   :is(.dt-container, .celerik-grid-filters, .celerik-form, .celerik-scheduler, .celerik-scheduler-dialog, .celerik-tabs,
     .celerik-filemanager, .celerik-theme-builder, .celerik-action-dialog,
     .celerik-modal, .celerik-listview, .celerik-treelist, .celerik-board, .celerik-admin, .celerik-nav,
-    .celerik-usermenu, .notyf)
+    .celerik-usermenu, .celerik-menubutton, .celerik-splitbutton, .celerik-toolbar, .celerik-menu-list, .notyf)
     :focus-visible,
   .celerik-action-button:focus-visible,
   // A date field's focus is on its day, month and year parts or its calendar button,
