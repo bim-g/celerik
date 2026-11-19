@@ -91,7 +91,7 @@ The **Phase** column refers to the [roadmap](ROADMAP.md); "–" means not yet sc
 | PanelBar, ExpansionPanel | Native (WAI-ARIA accordion, Bootstrap's look) | MIT | 6 ✅ (`Accordion`) |
 | Card | Native (Bootstrap card) | MIT | 6 ✅ (`Card`) |
 | Splitter | Native (WAI-ARIA window splitter) | MIT | 6 ✅ (`Splitter`) |
-| TileLayout (dashboards) | Gridstack.js | MIT | 6 |
+| TileLayout (dashboards) | Native (CSS grid; one-click tools, keys and drag) | MIT | 6 ✅ (`TileLayout`) |
 
 ### Feedback & Display
 

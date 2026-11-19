@@ -24,6 +24,7 @@ use Celerik\Ui\Components\Splitter;
 use Celerik\Ui\Components\Tabs;
 use Celerik\Ui\Components\TaskBoard;
 use Celerik\Ui\Components\ThemeBuilder;
+use Celerik\Ui\Components\TileLayout;
 use Celerik\Ui\Components\Toolbar;
 use Celerik\Ui\Components\TreeList;
 use Celerik\Ui\Components\TreeView;
@@ -65,7 +66,8 @@ final class ComponentRegistry
             ->register(ContextMenu::class)
             ->register(Accordion::class)
             ->register(Card::class)
-            ->register(Splitter::class);
+            ->register(Splitter::class)
+            ->register(TileLayout::class);
     }
 
     /**

@@ -188,4 +188,55 @@ test.describe('admin layout', () => {
     });
     expect(hit).toBe(true);
   });
+
+  test('the tile layout: tools, keys, a drag and the corner grip rearrange the tiles', async ({ page }) => {
+    await page.setViewportSize({ width: 1280, height: 900 });
+    await open(page);
+    const layout = page.locator('#member-tiles');
+    const order = () => layout.locator('.celerik-tile').evaluateAll((tiles) => tiles.map((tile) => tile.dataset.tile));
+    expect(await order()).toEqual(['teams', 'logins', 'tasks']);
+
+    // One click shows the tools; their buttons move and resize.
+    const arrangeTasks = page.getByRole('button', { name: 'Arrange Tasks' });
+    await arrangeTasks.click();
+    const tools = page.getByRole('group', { name: 'Tasks' });
+    await tools.getByRole('button', { name: 'Move earlier' }).click();
+    expect(await order()).toEqual(['teams', 'tasks', 'logins']);
+    await expect(layout.getByRole('status')).toHaveText('Tasks: position 2 of 3.');
+    await tools.getByRole('button', { name: 'Wider' }).click();
+    await expect(page.locator('#member-tiles-tile-tasks')).toHaveAttribute('data-cols', '2');
+    await page.keyboard.press('Escape');
+    await expect(tools).toBeHidden();
+
+    // Keys on the Arrange button.
+    const arrangeTeams = page.getByRole('button', { name: 'Arrange Teams' });
+    await arrangeTeams.focus();
+    await page.keyboard.press('ArrowRight');
+    expect(await order()).toEqual(['tasks', 'teams', 'logins']);
+    await expect(arrangeTeams).toBeFocused();
+    await page.keyboard.press('Shift+ArrowLeft');
+    await expect(page.locator('#member-tiles-tile-teams')).toHaveAttribute('data-cols', '1');
+
+    // Dragging the Arrange button onto another tile takes its place.
+    const from = await page.getByRole('button', { name: 'Arrange Logins' }).boundingBox();
+    const to = await page.locator('#member-tiles-tile-tasks').boundingBox();
+    await page.mouse.move(from.x + from.width / 2, from.y + from.height / 2);
+    await page.mouse.down();
+    await page.mouse.move(to.x + to.width / 2, to.y + to.height / 2, { steps: 8 });
+    await page.mouse.up();
+    expect(await order()).toEqual(['logins', 'tasks', 'teams']);
+
+    // The corner grip: dragged down a row and across the layout.
+    const tile = page.locator('#member-tiles-tile-logins');
+    const box = await tile.boundingBox();
+    const grip = await tile.locator('.celerik-tile-grip').boundingBox();
+    const whole = await layout.boundingBox();
+    await page.mouse.move(grip.x + grip.width / 2, grip.y + grip.height / 2);
+    await page.mouse.down();
+    await page.mouse.move(whole.x + whole.width - 4, box.y + box.height * 2, { steps: 8 });
+    await page.mouse.up();
+    await expect(tile).toHaveAttribute('data-cols', '3');
+    await expect(tile).toHaveAttribute('data-rows', '2');
+    expect((await tile.boundingBox()).width).toBeGreaterThan(whole.width * 0.95);
+  });
 });

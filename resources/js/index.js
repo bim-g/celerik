@@ -18,6 +18,7 @@ register('breadcrumb', () => true);
 register('card', () => true);
 register('accordion', async (element, options) => (await import('./layout.js')).initAccordion(element, options));
 register('splitter', async (element, options) => (await import('./layout.js')).initSplitter(element, options));
+register('tilelayout', async (element, options) => (await import('./tilelayout.js')).initTileLayout(element, options));
 register('navigation', async (element, options) => (await import('./menu.js')).initNavigation(element, options));
 register('menubutton', async (element) => (await import('./menu.js')).initMenuButton(element));
 register('splitbutton', async (element) => (await import('./menu.js')).initMenuButton(element));

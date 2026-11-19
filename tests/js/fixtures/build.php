@@ -37,6 +37,7 @@ use Celerik\Ui\Components\TaskBoard;
 use Celerik\Ui\Components\TreeList;
 use Celerik\Ui\Components\TreeView;
 use Celerik\Ui\Components\ThemeBuilder;
+use Celerik\Ui\Components\TileLayout;
 use Celerik\Ui\Components\Toolbar;
 use Celerik\Ui\Support\Html;
 use Celerik\Ui\Theme\Theme;
@@ -368,6 +369,12 @@ $fixtures = [
     'splitter' => Splitter::make('mail')
         ->pane('Inbox, Sent, Drafts', size: 30, min: 20, max: 60, label: 'Folders')
         ->pane('The message.', label: 'Message'),
+
+    'tilelayout' => TileLayout::make('dashboard')->columns(4)
+        ->tile('revenue', 'Revenue', 'Up 12% on October.', cols: 2)
+        ->tile('orders', 'Orders', Html::raw('<p>48 new orders.</p>'), rows: 2)
+        ->tile('visits', 'Visits <today>', '1,204 visits.')
+        ->reorderable()->resizable()->remember(),
 
     'chart' => Chart::make('sales')
         ->type('bar')
