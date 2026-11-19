@@ -23,6 +23,7 @@ use Celerik\Ui\Components\Modal;
 use Celerik\Ui\Components\Notification;
 use Celerik\Ui\Components\Scheduler;
 use Celerik\Ui\Components\Tabs;
+use Celerik\Ui\Components\TaskBoard;
 use Celerik\Ui\Components\TreeList;
 use Celerik\Ui\Components\TreeView;
 use Celerik\Ui\Components\ThemeBuilder;
@@ -275,6 +276,21 @@ $fixtures = [
             ]],
             ['id' => 7, 'name' => 'Launch', 'owner' => 'Ada', 'hours' => 4],
         ]),
+
+    'taskboard' => TaskBoard::make('sprint')
+        ->label('Sprint')
+        ->columns(['todo' => 'To do', 'doing' => ['label' => 'In progress', 'limit' => 2], 'done' => 'Done'])
+        ->cards([
+            ['id' => 1, 'status' => 'todo', 'title' => 'Write <docs>', 'owner' => 'Ada'],
+            ['id' => 2, 'status' => 'todo', 'title' => 'Fix login', 'owner' => 'Alan'],
+            ['id' => 3, 'status' => 'doing', 'title' => 'Design board', 'owner' => 'Grace'],
+            ['id' => 4, 'status' => 'doing', 'title' => 'API', 'owner' => 'Alan'],
+            ['id' => 5, 'status' => 'done', 'title' => 'Plan', 'owner' => 'Ada'],
+        ])
+        ->meta('owner')
+        ->link('/tasks/{id}')
+        ->moveUrl('/tasks/{id}/move')
+        ->csrf('t0k3n'),
 
     'chart' => Chart::make('sales')
         ->type('bar')

@@ -8,6 +8,7 @@ Every component is a PHP class with a fluent API. It renders accessible Bootstra
 | [List view](./listview) | `Celerik\Ui\Components\ListView` | – |
 | [Tree view](./treeview) | `Celerik\Ui\Components\TreeView` | – |
 | [Tree list](./treelist) | `Celerik\Ui\Components\TreeList` | – |
+| [Task board](./taskboard) | `Celerik\Ui\Components\TaskBoard` | SortableJS 1 |
 | [Actions](./actions) | `Celerik\Ui\Components\Action` | – |
 | [Chart](./chart) | `Celerik\Ui\Components\Chart` | Chart.js 4 |
 | [Form and fields](./form) | `Celerik\Ui\Components\Form`, `Form\Field` | Parsley.js, Inputmask |
@@ -38,6 +39,10 @@ Every component is a PHP class with a fluent API. It renders accessible Bootstra
 ## Tree list
 
 <Demo name="treelist" :min-height="460" />
+
+## Task board
+
+<Demo name="taskboard" :min-height="520" />
 
 ## Chart
 

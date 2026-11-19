@@ -20,13 +20,13 @@ The **Phase** column refers to the [roadmap](ROADMAP.md); "–" means not yet sc
 | Component | Library | License | Phase |
 |---|---|---|---|
 | Grid | DataTables 🧩 (+ Buttons) | MIT | 1 ✅ |
-| Grid filters, row actions, bulk actions, totals, grouping, inline editing | DataTables 🧩 + native | MIT | 5 |
+| Grid filters, row actions, bulk actions, totals, grouping, inline editing | DataTables 🧩 + native | MIT | 5 ✅ |
 | Grid (alternative) | AG Grid Community | MIT | – |
-| Pager | Native (Bootstrap pagination) | MIT | 5 |
-| ListView | Native (Bootstrap list group) + Pager | MIT | 5 |
-| TreeView | jsTree 🧩 | MIT | 5 |
-| TreeList | FancyTree 🧩 | MIT | 5 |
-| TaskBoard (Kanban) | SortableJS | MIT | 5 |
+| Pager | Native (Bootstrap pagination, in ListView) | MIT | 5 ✅ |
+| ListView | Native + Pager | MIT | 5 ✅ |
+| TreeView | Native (WAI-ARIA tree) | MIT | 5 ✅ |
+| TreeList | Native (WAI-ARIA treegrid) | MIT | 5 ✅ |
+| TaskBoard (Kanban) | SortableJS | MIT | 5 ✅ |
 | Filter (query builder) | jQuery QueryBuilder 🧩 (to evaluate) | MIT | – |
 | PivotGrid | PivotTable.js 🧩 | MIT | Later |
 | Spreadsheet | Univer | Apache 2.0 | Later |

@@ -14,8 +14,9 @@
     if (url.pathname.indexOf('/demo-api/') === -1) {
       return send(resource, init);
     }
-    // A grid cell edit (Grid::inlineEdit()) is accepted quietly: the grid announces it.
-    var edit = init && init.body instanceof FormData && init.body.has('field');
+    // A grid cell edit (Grid::inlineEdit()) or a board move is accepted quietly: the
+    // component announces it.
+    var edit = init && init.body instanceof FormData && (init.body.has('field') || init.body.has('column'));
     var body = edit ? '{}' : JSON.stringify({ message: 'Done. This demo has no server, so nothing was saved.' });
     return new Promise(function (resolve) {
       setTimeout(function () {

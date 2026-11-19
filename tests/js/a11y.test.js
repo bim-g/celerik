@@ -96,6 +96,17 @@ describe('accessibility (axe-core, WCAG 2.1 AA)', () => {
     expect(await violations()).toEqual([]);
   });
 
+  test('task board: PHP markup, then a card picked up', async () => {
+    const element = loadFixture('taskboard');
+    expect(await violations()).toEqual([]);
+    const { initTaskBoard } = await import('../../resources/js/taskboard.js');
+    initTaskBoard(element, readOptions(element), { fetch: jest.fn() });
+    const card = element.querySelector('.celerik-board-card');
+    card.focus();
+    card.dispatchEvent(new KeyboardEvent('keydown', { key: ' ', bubbles: true }));
+    expect(await violations()).toEqual([]);
+  });
+
   test('scheduler markup from PHP (no-JS fallback list)', async () => {
     loadFixture('scheduler');
     expect(await violations()).toEqual([]);

@@ -45,9 +45,7 @@ Every component follows the same rules: a PHP builder, an endpoint helper when i
 - The bundle on npm (`@celerikui/ui`) and on the jsDelivr CDN (`Assets::cdnUrl()`).
 - Reproducible CI and releases, weekly dependency updates, a [changelog](CHANGELOG.md) and release notes grouped by kind of change.
 
-## Next
-
-### Phase 5 — Data
+### Phase 5 — Data ✅
 
 Tables and lists that do the work of an admin screen.
 
@@ -61,7 +59,9 @@ Tables and lists that do the work of an admin screen.
   - an empty state ✅.
 - Actions: buttons that open a confirmation dialog (✅) or a form in a modal (✅), usable anywhere (grid rows, toolbars, pages).
 - ListView with a pager (✅), TreeView (✅), TreeList (✅).
-- Task board (Kanban) with drag and drop.
+- Task board (Kanban) with drag and drop ✅.
+
+## Next
 
 ### Phase 6 — Navigation and layout
 

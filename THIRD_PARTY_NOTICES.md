@@ -4,8 +4,8 @@ Celerik UI is MIT licensed (see [LICENSE.md](LICENSE.md)). The built bundle in `
 
 | Library | Version | License | Bundled in |
 |---|---|---|---|
-| [DataTables](https://datatables.net) (`datatables.net`, `datatables.net-bs5`) | 2.x | MIT | `chunks/grid-*.js`, `celerik.css` |
-| [DataTables Buttons](https://datatables.net/extensions/buttons/) (`datatables.net-buttons`, `-bs5`) | 3.x | MIT | `chunks/grid-*.js`, `celerik.css` |
+| [DataTables](https://datatables.net) (`datatables.net`, `datatables.net-bs5`) | 3.x | MIT | `chunks/grid-*.js`, `celerik.css` |
+| [DataTables Buttons](https://datatables.net/extensions/buttons/) (`datatables.net-buttons`, `-bs5`) | 4.x | MIT | `chunks/grid-*.js`, `celerik.css` |
 | [Chart.js](https://www.chartjs.org) | 4.x | MIT | `chunks/chart-*.js` |
 | [Parsley.js](https://parsleyjs.org) | 2.9 | MIT | `chunks/form-*.js` |
 | [Inputmask](https://github.com/RobinHerbots/Inputmask) | 5.x | MIT | `chunks/form-*.js` |
@@ -17,6 +17,7 @@ Celerik UI is MIT licensed (see [LICENSE.md](LICENSE.md)). The built bundle in `
 | [Quill](https://quilljs.com) | 2.x | BSD-3-Clause | `chunks/editor-*.js`, `chunks/editor-*.css` |
 | [Parchment](https://github.com/slab/parchment) (Quill dependency) | 3.x | BSD-3-Clause | `chunks/editor-*.js` |
 | [quill-delta](https://github.com/slab/delta), [eventemitter3](https://github.com/primus/eventemitter3), [lodash-es](https://lodash.com) (Quill dependencies) | – | MIT | `chunks/editor-*.js` |
+| [SortableJS](https://sortablejs.github.io/Sortable/) | 1.15 | MIT | `chunks/taskboard-*.js` |
 | [Notyf](https://carlosroso.com/notyf/) | 3.x | MIT | `chunks/notification-*.js`, `chunks/notification-*.css` |
 | [jQuery UI](https://jqueryui.com) (for elFinder) | 1.14 | MIT | `chunks/filemanager-*.js`, `chunks/filemanager-*.css`, `chunks/ui-icons_*.png` |
 

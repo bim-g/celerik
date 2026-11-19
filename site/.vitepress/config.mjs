@@ -113,6 +113,7 @@ export default defineConfig({
             { text: 'List view', link: '/components/listview' },
             { text: 'Tree view', link: '/components/treeview' },
             { text: 'Tree list', link: '/components/treelist' },
+            { text: 'Task board', link: '/components/taskboard' },
             { text: 'Actions', link: '/components/actions' },
             { text: 'Chart', link: '/components/chart' },
             { text: 'Form', link: '/components/form' },
