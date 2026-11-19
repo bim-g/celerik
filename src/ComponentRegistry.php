@@ -18,6 +18,7 @@ use Celerik\Ui\Components\MenuButton;
 use Celerik\Ui\Components\Modal;
 use Celerik\Ui\Components\Navigation;
 use Celerik\Ui\Components\Notification;
+use Celerik\Ui\Components\RecordView;
 use Celerik\Ui\Components\Scheduler;
 use Celerik\Ui\Components\SplitButton;
 use Celerik\Ui\Components\Splitter;
@@ -67,7 +68,8 @@ final class ComponentRegistry
             ->register(Accordion::class)
             ->register(Card::class)
             ->register(Splitter::class)
-            ->register(TileLayout::class);
+            ->register(TileLayout::class)
+            ->register(RecordView::class);
     }
 
     /**

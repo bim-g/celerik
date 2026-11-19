@@ -62,6 +62,7 @@ Releases include the built bundle (`public/`), so no Node.js is needed to instal
 | MenuButton, SplitButton, Toolbar, ContextMenu | `Components\MenuButton`, ... | – | WAI-ARIA menu buttons with links and actions, a split button, a one-tab-stop toolbar, a context menu (right click, Shift+F10) filled from the target's data |
 | Accordion, Card, Splitter | `Components\Accordion`, ... | Bootstrap 5 | WAI-ARIA accordion (one or several open), cards with a covering title link and actions, resizable panes (window splitter: keys, drag, remembered sizes, CSP-safe) |
 | Tile layout | `Components\TileLayout` | Bootstrap 5 | Dashboard tiles on a grid of columns, moved and resized with one-click tools, arrow keys or a drag, announced, remembered, CSP-safe |
+| Record view | `Components\RecordView` | – | A read-only record by sections (Filament's infolists): text, links, dates, numbers, yes/no, badges, lists, pictures; placeholders for empty values; 1 to 4 columns |
 | Chart | `Components\Chart` | Chart.js 4 | Embedded or remote data, `fromRows()`, hidden data table as text alternative |
 | Form | `Components\Form` | Parsley.js, Inputmask | HTML5 rules, masks, CSRF, method spoofing, server errors and old input |
 | File upload | `Field::file()` + `Upload\UploadHandler` | FilePond 4 | Async or classic uploads; real MIME detection, extension whitelist, random names; falls back to a plain file input |

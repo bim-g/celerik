@@ -1020,6 +1020,75 @@ html:not(.celerik-js) {
   }
 }
 
+// Record view (Components\RecordView): sections of labels and values, in 1 to 4 columns
+// (one on small screens).
+.celerik-recordview {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.celerik-recordview-title {
+  margin-bottom: 0.25rem;
+  font-size: 1.125rem;
+  font-weight: 600;
+}
+
+.celerik-recordview-description {
+  margin-bottom: 0.75rem;
+  color: var(--bs-secondary-color);
+}
+
+.celerik-recordview-entries {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1rem 1.5rem;
+  margin: 0;
+
+  dt {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--bs-secondary-color);
+  }
+
+  dd {
+    margin: 0.125rem 0 0;
+    overflow-wrap: anywhere;
+  }
+}
+
+@media (min-width: 768px) {
+  @for $i from 2 through 4 {
+    .celerik-recordview-cols-#{$i} {
+      grid-template-columns: repeat($i, minmax(0, 1fr));
+    }
+
+    .celerik-recordview-span-#{$i} {
+      grid-column: span $i;
+    }
+  }
+}
+
+.celerik-recordview-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.celerik-recordview-yes .celerik-recordview-mark {
+  color: var(--bs-success-text-emphasis);
+}
+
+.celerik-recordview-no .celerik-recordview-mark {
+  color: var(--bs-danger-text-emphasis);
+}
+
+.celerik-recordview-image {
+  max-height: 12rem;
+}
+
 // Small screens: one column, each tile as high as its content.
 @media (max-width: 767.98px) {
   .celerik-tilelayout {

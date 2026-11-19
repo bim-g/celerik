@@ -75,7 +75,7 @@ The frame of an application.
 
 Showing records and states.
 
-- Record view: a read-only layout of a record's fields, by sections (Filament's infolists).
+- Record view: a read-only layout of a record's fields, by sections (Filament's infolists) ✅.
 - Stat tiles with a trend and a sparkline, and dashboard widgets (stats, chart, table).
 - Badge, avatar, chip, tooltip and popover, progress bar and circle, loader and skeleton.
 - Timeline, carousel.

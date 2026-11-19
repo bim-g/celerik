@@ -100,7 +100,7 @@ The **Phase** column refers to the [roadmap](ROADMAP.md); "–" means not yet sc
 | Window / Dialog / Modal | Bootstrap Modal | MIT | 2 ✅ (`Modal`) |
 | Notification | Notyf | MIT | 2 ✅ (`Notification`) |
 | Actions: confirmation dialog, form in a modal (Filament) | Bootstrap Modal | MIT | 5 |
-| Record view (Filament infolists) | Native | – | 7 |
+| Record view (Filament infolists) | Native | – | 7 ✅ (`RecordView`) |
 | Stat tile, dashboard widgets | Native + Chart.js | MIT | 7 |
 | Badge, Avatar, Chip | Native (Bootstrap) | MIT | 7 |
 | Tooltip, Popover | Bootstrap (Popper) | MIT | 7 |
