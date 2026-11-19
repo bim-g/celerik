@@ -6,6 +6,10 @@ The same version is published on Packagist (`celerik/ui`) and npm (`@celerikui/u
 
 ## [Unreleased]
 
+## [0.4.0] - 2026-11-19
+
+Phase 6 (Navigation and layout): an admin layout with navigation, breadcrumb and user menu; menu and split buttons, toolbars and context menus; accordion, card, splitter and tile layout. It also brings the Kanban task board, the last item of Phase 5.
+
 ### Added
 
 - **Tile layout** (`TileLayout`, the Telerik TileLayout): dashboard tiles, titled regions spanning columns and rows of a grid (one column on small screens). With `reorderable()` and `resizable()`, each tile's Arrange button shows one-click tools (move earlier or later, narrower, wider, shorter, taller), arrow keys move it and Shift arrows resize it, and it can be dragged by its button or its corner. Tiles move in the page, so the reading order follows the screen; each change is announced, kept in the browser with `remember()` and fired as `celerik:change`.
@@ -218,7 +222,8 @@ The Phase 1 MVP ([#11](https://github.com/kivudesign/celerik/pull/11)).
 - Bootstrap SCSS theme and JS wrappers.
 - Examples for plain PHP, Laravel and Symfony.
 
-[Unreleased]: https://github.com/kivudesign/celerik/compare/v0.3.0...HEAD
+[Unreleased]: https://github.com/kivudesign/celerik/compare/v0.4.0...HEAD
+[0.4.0]: https://github.com/kivudesign/celerik/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.com/kivudesign/celerik/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/kivudesign/celerik/compare/v0.1.6...v0.2.0
 [0.1.6]: https://github.com/kivudesign/celerik/compare/v0.1.5...v0.1.6

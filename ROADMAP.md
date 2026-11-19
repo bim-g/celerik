@@ -63,7 +63,7 @@ Tables and lists that do the work of an admin screen.
 
 ## Next
 
-### Phase 6 — Navigation and layout
+### Phase 6 — Navigation and layout ✅
 
 The frame of an application.
 
