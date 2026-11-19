@@ -22,6 +22,8 @@ use Celerik\Ui\Components\RecordView;
 use Celerik\Ui\Components\Scheduler;
 use Celerik\Ui\Components\SplitButton;
 use Celerik\Ui\Components\Splitter;
+use Celerik\Ui\Components\Stat;
+use Celerik\Ui\Components\Stats;
 use Celerik\Ui\Components\Tabs;
 use Celerik\Ui\Components\TaskBoard;
 use Celerik\Ui\Components\ThemeBuilder;
@@ -69,7 +71,9 @@ final class ComponentRegistry
             ->register(Card::class)
             ->register(Splitter::class)
             ->register(TileLayout::class)
-            ->register(RecordView::class);
+            ->register(RecordView::class)
+            ->register(Stat::class)
+            ->register(Stats::class);
     }
 
     /**

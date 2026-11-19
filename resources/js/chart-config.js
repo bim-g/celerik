@@ -95,7 +95,10 @@ export function buildChartConfig(options, { reducedMotion = false, theme = null 
     data: styleData(data, type, options, theme),
     options: deepMerge({
       responsive: true,
-      maintainAspectRatio: !options.height,
+      // The chart fills its container, which a fixed height or a CSS aspect ratio sizes
+      // (chartShape()): Chart.js' own ratio caps the height at the container's, so a chart
+      // could never grow with a wider container.
+      maintainAspectRatio: false,
       ...(reducedMotion ? { animation: false } : {}),
       plugins: {
         title: {
@@ -138,4 +141,10 @@ export function renderDataTable(figure, caption, data) {
 
   figure.appendChild(table);
   return table;
+}
+
+// The container's shape for a chart without a fixed height: Chart.js' default ratios, square
+// for round charts, twice as wide as high for the others.
+export function chartShape(type) {
+  return ['pie', 'doughnut', 'polarArea', 'radar'].includes(type) ? 'square' : 'wide';
 }

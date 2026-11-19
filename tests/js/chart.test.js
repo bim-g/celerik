@@ -1,5 +1,5 @@
 import {
-  buildChartConfig, LINE_DASHES, POINT_STYLES, renderDataTable, withColors,
+  buildChartConfig, chartShape, LINE_DASHES, POINT_STYLES, renderDataTable, withColors,
 } from '../../resources/js/chart-config.js';
 import { readOptions } from '../../resources/js/core.js';
 import { loadFixture } from './helpers.js';
@@ -13,7 +13,10 @@ describe('chart config', () => {
     expect(config.data.labels).toEqual(['Jan', 'Feb', 'Mar']);
     expect(config.data.datasets[0]).toEqual({ label: 'Revenue', data: [1200, 1900, 1500] });
     expect(config.options.plugins.title).toEqual({ display: true, text: 'Monthly revenue', font: { size: 14, weight: '600' } });
-    expect(config.options.maintainAspectRatio).toBe(true);
+    // The container is sized (a height or a CSS ratio); the chart fills it.
+    expect(config.options.maintainAspectRatio).toBe(false);
+    expect(chartShape('bar')).toBe('wide');
+    expect(chartShape('doughnut')).toBe('square');
   });
 
   test('a fixed height disables the aspect ratio and raw options are merged', () => {
