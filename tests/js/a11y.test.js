@@ -88,6 +88,14 @@ describe('accessibility (axe-core, WCAG 2.1 AA)', () => {
     }
   });
 
+  test('tree list: PHP markup, then a treegrid', async () => {
+    const element = loadFixture('treelist');
+    expect(await violations()).toEqual([]);
+    const { initTreeList } = await import('../../resources/js/treelist.js');
+    initTreeList(element, readOptions(element));
+    expect(await violations()).toEqual([]);
+  });
+
   test('scheduler markup from PHP (no-JS fallback list)', async () => {
     loadFixture('scheduler');
     expect(await violations()).toEqual([]);

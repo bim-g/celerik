@@ -51,6 +51,13 @@ for (const theme of THEMES) {
         expect(await axeViolations(page, { include: '#folders' })).toEqual([]);
       });
 
+      test('no axe-core violations in a tree list, all rows open', async ({ page }) => {
+        await openComponents(page, { theme, mode });
+        await page.getByRole('button', { name: 'Expand all' }).click();
+        await page.getByRole('treegrid', { name: 'Plan' }).getByRole('row').nth(3).focus();
+        expect(await axeViolations(page, { include: '#plan' })).toEqual([]);
+      });
+
       test('no axe-core violations in a list view with its pager', async ({ page }) => {
         await openComponents(page, { theme, mode });
         await expect(page.locator('#team [role=status]')).toHaveText('1–4 of 6', { timeout: 15_000 });
