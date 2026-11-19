@@ -18,7 +18,7 @@ final class ComponentRegistryTest extends TestCase
     {
         $registry = ComponentRegistry::withDefaults();
 
-        self::assertSame(['grid', 'listview', 'treeview', 'treelist', 'taskboard', 'chart', 'form', 'scheduler', 'modal', 'tabs', 'notification', 'filemanager', 'themebuilder', 'adminlayout', 'navigation', 'breadcrumb', 'usermenu', 'menubutton', 'splitbutton', 'toolbar', 'contextmenu'], array_keys($registry->all()));
+        self::assertSame(['grid', 'listview', 'treeview', 'treelist', 'taskboard', 'chart', 'form', 'scheduler', 'modal', 'tabs', 'notification', 'filemanager', 'themebuilder', 'adminlayout', 'navigation', 'breadcrumb', 'usermenu', 'menubutton', 'splitbutton', 'toolbar', 'contextmenu', 'accordion', 'card', 'splitter'], array_keys($registry->all()));
         self::assertInstanceOf(Grid::class, $registry->create('grid', 'orders'));
         self::assertSame('orders', $registry->create('grid', 'orders')->getId());
     }

@@ -88,9 +88,9 @@ The **Phase** column refers to the [roadmap](ROADMAP.md); "–" means not yet sc
 | ContextMenu | Native (WAI-ARIA menu) | MIT | 6 ✅ (`ContextMenu`) |
 | DropDownButton, SplitButton, ButtonGroup | Native (WAI-ARIA menu button) | MIT | 6 ✅ (`MenuButton`, `SplitButton`) |
 | Toolbar | Native (WAI-ARIA toolbar) | MIT | 6 ✅ (`Toolbar`) |
-| PanelBar, ExpansionPanel | Bootstrap Accordion / Collapse | MIT | 6 |
-| Card | Native (Bootstrap card) | MIT | 6 |
-| Splitter | Split.js | MIT | 6 |
+| PanelBar, ExpansionPanel | Native (WAI-ARIA accordion, Bootstrap's look) | MIT | 6 ✅ (`Accordion`) |
+| Card | Native (Bootstrap card) | MIT | 6 ✅ (`Card`) |
+| Splitter | Native (WAI-ARIA window splitter) | MIT | 6 ✅ (`Splitter`) |
 | TileLayout (dashboards) | Gridstack.js | MIT | 6 |
 
 ### Feedback & Display

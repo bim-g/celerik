@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace Celerik\Ui;
 
+use Celerik\Ui\Components\Accordion;
 use Celerik\Ui\Components\AdminLayout;
 use Celerik\Ui\Components\Breadcrumb;
+use Celerik\Ui\Components\Card;
 use Celerik\Ui\Components\Chart;
 use Celerik\Ui\Components\ContextMenu;
 use Celerik\Ui\Components\FileManager;
@@ -18,6 +20,7 @@ use Celerik\Ui\Components\Navigation;
 use Celerik\Ui\Components\Notification;
 use Celerik\Ui\Components\Scheduler;
 use Celerik\Ui\Components\SplitButton;
+use Celerik\Ui\Components\Splitter;
 use Celerik\Ui\Components\Tabs;
 use Celerik\Ui\Components\TaskBoard;
 use Celerik\Ui\Components\ThemeBuilder;
@@ -59,7 +62,10 @@ final class ComponentRegistry
             ->register(MenuButton::class)
             ->register(SplitButton::class)
             ->register(Toolbar::class)
-            ->register(ContextMenu::class);
+            ->register(ContextMenu::class)
+            ->register(Accordion::class)
+            ->register(Card::class)
+            ->register(Splitter::class);
     }
 
     /**

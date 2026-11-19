@@ -137,4 +137,55 @@ test.describe('admin layout', () => {
     await page.keyboard.press('Escape');
     await expect(site.getByRole('link', { name: 'Guide' })).toBeHidden();
   });
+
+  test('the accordion: one panel at a time, arrows between headings', async ({ page }) => {
+    await open(page);
+    const access = page.getByRole('button', { name: 'Access' });
+    const billing = page.getByRole('button', { name: 'Billing' });
+    await expect(access).toHaveAttribute('aria-expanded', 'true');
+    await expect(page.getByRole('region', { name: 'Billing' })).toBeHidden();
+    await access.focus();
+    await page.keyboard.press('ArrowDown');
+    await expect(billing).toBeFocused();
+    await page.keyboard.press('Enter');
+    await expect(page.getByRole('region', { name: 'Billing' })).toBeVisible();
+    await expect(access).toHaveAttribute('aria-expanded', 'false');
+  });
+
+  test('the splitter: keys and a drag resize the panes', async ({ page }) => {
+    await page.setViewportSize({ width: 1280, height: 900 });
+    await open(page);
+    const divider = page.getByRole('separator', { name: 'Resize Files' });
+    await expect(divider).toHaveAttribute('aria-valuenow', '30');
+    await divider.focus();
+    await page.keyboard.press('ArrowRight');
+    await expect(divider).toHaveAttribute('aria-valuenow', '35');
+    await page.keyboard.press('Home');
+    await expect(divider).toHaveAttribute('aria-valuenow', '20');
+
+    const box = await page.locator('#member-split').boundingBox();
+    const handle = await divider.boundingBox();
+    await page.mouse.move(handle.x + handle.width / 2, handle.y + handle.height / 2);
+    await page.mouse.down();
+    await page.mouse.move(box.x + box.width * 0.5, handle.y + handle.height / 2, { steps: 5 });
+    await page.mouse.up();
+    const value = Number(await divider.getAttribute('aria-valuenow'));
+    expect(value).toBeGreaterThan(45);
+    expect(value).toBeLessThan(55);
+    const files = await page.locator('#member-split-pane-1').boundingBox();
+    expect(files.width / box.width).toBeGreaterThan(0.4);
+  });
+
+  test('the card: its title link covers it, its action is its own', async ({ page }) => {
+    await open(page);
+    const card = page.locator('#member-card');
+    await expect(card.getByRole('link', { name: 'Ada Lovelace' })).toHaveAttribute('href', '/admin/members/42/profile');
+    const action = card.getByRole('link', { name: 'Send a message' });
+    // The action sits above the stretched link: it is what a click on it reaches.
+    const hit = await action.evaluate((link) => {
+      const rect = link.getBoundingClientRect();
+      return document.elementFromPoint(rect.x + rect.width / 2, rect.y + rect.height / 2) === link;
+    });
+    expect(hit).toBe(true);
+  });
 });
