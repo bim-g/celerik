@@ -8,6 +8,15 @@ The same version is published on Packagist (`celerik/ui`) and npm (`@celerikui/u
 
 ### Added
 
+- **Display elements**:
+  - `Badge`: a status or count in an AA color, with a text for screen readers only ("3 unread messages").
+  - `Avatar`: a picture or initials on a color from the name, named after the person, with a status dot told apart by its shape (online, away, busy, offline); `decorative()` next to a written name.
+  - `Chip`: plain; removable (a 24px Remove button that takes its hidden field away, moves focus to the next chip, announces it and fires a cancelable `celerik:remove`); or a filter checkbox posted with its form.
+  - `Tooltip`: the WAI-ARIA tooltip, meeting WCAG 1.4.13 (hoverable, Escape hides it without moving focus, persistent); it describes its control and flips or slides to stay on screen.
+  - `Popover`: a native disclosure with a titled panel; Escape, focus and clicks elsewhere close it.
+  - `Progress`: a native `<progress>` bar or an SVG progressbar circle, determinate or not, with colors kept at 3:1, without inline styles.
+  - `Loader` and `Skeleton`: status regions saying what is loading; their animations stop or slow for reduced motion.
+
 - **Stat tiles and dashboards**:
   - `Stat`: a label, a value, a trend against a previous period said in words ("Up 12.5% vs last month", green or red as `goodWhen()` says), a description, a link covering the tile, and a sparkline: an SVG drawn by PHP, named after its values, with colors kept at 3:1 contrast.
   - `Stats`: a named list of stat tiles in 1 to 6 columns.

@@ -23,6 +23,7 @@ Every component is a PHP class with a fluent API. It renders accessible Bootstra
 | [Accordion, card, splitter](./containers) | `Accordion`, `Card`, `Splitter` | Bootstrap 5 |
 | [Tile layout](./tilelayout) | `TileLayout` | Bootstrap 5 |
 | [Stats and dashboards](./stats) | `Stat`, `Stats` | – |
+| [Badges, avatars, chips, tooltips, progress](./display) | `Badge`, `Avatar`, `Chip`, `Tooltip`, `Popover`, `Progress`, `Loader`, `Skeleton` | Bootstrap 5 |
 | [Record view](./recordview) | `RecordView`, `RecordView\Entry` | – |
 | [Modal](./modal) | `Celerik\Ui\Components\Modal` | Bootstrap 5 |
 | [Tabs](./tabs) | `Celerik\Ui\Components\Tabs` | Bootstrap 5 |

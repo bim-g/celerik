@@ -32,6 +32,14 @@ use Celerik\Ui\Components\Notification;
 use Celerik\Ui\Components\Scheduler;
 use Celerik\Ui\Components\SplitButton;
 use Celerik\Ui\Components\Splitter;
+use Celerik\Ui\Components\Avatar;
+use Celerik\Ui\Components\Badge;
+use Celerik\Ui\Components\Chip;
+use Celerik\Ui\Components\Loader;
+use Celerik\Ui\Components\Popover;
+use Celerik\Ui\Components\Progress;
+use Celerik\Ui\Components\Skeleton;
+use Celerik\Ui\Components\Tooltip;
 use Celerik\Ui\Components\Stat;
 use Celerik\Ui\Components\Stats;
 use Celerik\Ui\Components\Tabs;
@@ -387,6 +395,43 @@ $fixtures = [
             ->trend(0.4, 'vs last month', ' pts')->sparkline([1.6, 1.7, 1.9, 2.1])->color('danger'),
         Stat::make('tickets')->label('Open tickets <support>')->value(1204)->trend(0)->description('Answered within a day.'),
     ),
+
+    'chips' => new class () {
+        public function render(): string
+        {
+            return '<div class="chips">'
+                . Chip::make('chip-php')->label('PHP')->removable('skills[]', 'php')
+                . Chip::make('chip-js')->label('JavaScript')->removable('skills[]', 'js')
+                . Chip::make('chip-go')->label('Go <lang>')->removable('skills[]', 'go')
+                    ->avatar(Avatar::make()->person('Go Gopher'))
+                . Chip::make('chip-filter')->label('Remote')->checkbox('remote', '1', checked: true)
+                . Chip::make()->label('Plain')
+                . '</div>';
+        }
+    },
+
+    'tooltip' => Tooltip::make('save-tip')->text('Saves a draft you can finish later')
+        ->trigger(Html::raw('<button type="button" class="btn btn-primary">Save</button>')),
+
+    'popover' => Popover::make('pricing-help')->button('?', 'About pricing')->title('Pricing')
+        ->content(Html::raw('<p>Prices include taxes. <a href="/pricing">See all prices</a>.</p>')),
+
+    'display' => new class () {
+        public function render(): string
+        {
+            return '<div>'
+                . Badge::make()->text('3')->color('danger')->pill()->hiddenText('unread messages')
+                . Avatar::make()->person('Ada Lovelace')->status('online')
+                . Avatar::make()->person('Alan Turing')->image('/avatars/alan.jpg')->size('lg')
+                . Avatar::make()->person('Grace Hopper')->decorative() . ' Grace Hopper'
+                . Progress::make('upload')->label('Uploading report.pdf')->value(40)->showValue()
+                . Progress::make('sync')->label('Syncing', visible: false)
+                . Progress::make('profile')->label('Profile complete')->value(3)->max(4)->circle()->showValue()
+                . Loader::make()->label('Loading orders')
+                . Skeleton::make()->label('Loading profile')->avatar()->heading()->lines(3)
+                . '</div>';
+        }
+    },
 
     'recordview' => RecordView::make('member')
         ->record([

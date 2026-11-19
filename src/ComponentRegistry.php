@@ -6,20 +6,27 @@ namespace Celerik\Ui;
 
 use Celerik\Ui\Components\Accordion;
 use Celerik\Ui\Components\AdminLayout;
+use Celerik\Ui\Components\Avatar;
+use Celerik\Ui\Components\Badge;
 use Celerik\Ui\Components\Breadcrumb;
 use Celerik\Ui\Components\Card;
 use Celerik\Ui\Components\Chart;
+use Celerik\Ui\Components\Chip;
 use Celerik\Ui\Components\ContextMenu;
 use Celerik\Ui\Components\FileManager;
 use Celerik\Ui\Components\Form;
 use Celerik\Ui\Components\Grid;
 use Celerik\Ui\Components\ListView;
+use Celerik\Ui\Components\Loader;
 use Celerik\Ui\Components\MenuButton;
 use Celerik\Ui\Components\Modal;
 use Celerik\Ui\Components\Navigation;
 use Celerik\Ui\Components\Notification;
+use Celerik\Ui\Components\Popover;
+use Celerik\Ui\Components\Progress;
 use Celerik\Ui\Components\RecordView;
 use Celerik\Ui\Components\Scheduler;
+use Celerik\Ui\Components\Skeleton;
 use Celerik\Ui\Components\SplitButton;
 use Celerik\Ui\Components\Splitter;
 use Celerik\Ui\Components\Stat;
@@ -29,6 +36,7 @@ use Celerik\Ui\Components\TaskBoard;
 use Celerik\Ui\Components\ThemeBuilder;
 use Celerik\Ui\Components\TileLayout;
 use Celerik\Ui\Components\Toolbar;
+use Celerik\Ui\Components\Tooltip;
 use Celerik\Ui\Components\TreeList;
 use Celerik\Ui\Components\TreeView;
 use Celerik\Ui\Components\UserMenu;
@@ -73,7 +81,15 @@ final class ComponentRegistry
             ->register(TileLayout::class)
             ->register(RecordView::class)
             ->register(Stat::class)
-            ->register(Stats::class);
+            ->register(Stats::class)
+            ->register(Badge::class)
+            ->register(Avatar::class)
+            ->register(Chip::class)
+            ->register(Tooltip::class)
+            ->register(Popover::class)
+            ->register(Progress::class)
+            ->register(Loader::class)
+            ->register(Skeleton::class);
     }
 
     /**

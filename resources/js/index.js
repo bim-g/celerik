@@ -19,6 +19,10 @@ register('card', () => true);
 register('recordview', () => true);
 register('stat', () => true);
 register('stats', () => true);
+register('chip', async (element, options) => (await import('./display.js')).initChip(element, options));
+register('tooltip', async (element, options) => (await import('./display.js')).initTooltip(element, options));
+// A popover is a disclosure, as the user menu is: Escape, focus and clicks elsewhere close it.
+register('popover', async (element) => (await import('./usermenu.js')).initUserMenu(element));
 register('accordion', async (element, options) => (await import('./layout.js')).initAccordion(element, options));
 register('splitter', async (element, options) => (await import('./layout.js')).initSplitter(element, options));
 register('tilelayout', async (element, options) => (await import('./tilelayout.js')).initTileLayout(element, options));
