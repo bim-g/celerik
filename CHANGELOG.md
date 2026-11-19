@@ -6,6 +6,10 @@ The same version is published on Packagist (`celerik/ui`) and npm (`@celerikui/u
 
 ## [Unreleased]
 
+## [0.3.0] - 2026-11-19
+
+Phase 5 (Data): grid filters, actions, selection, columns to show or hide, empty states, totals and groups, inline editing; actions that open a form in a modal; ListView, TreeView and TreeList. It also brings the flat design and field border contrast prepared as 0.2.1, which was not published.
+
 ### Added
 
 - **Grid column filters**: `Column::filter()` with `Filter::text()`, `Filter::select([...])`, `Filter::boolean()` and `Filter::dateRange()`. They appear in a filter bar above the table (a `search` landmark with a labelled field per column and a **Clear filters** button) and work client-side, and server-side through `respond()` with `ArrayDataSource`, `EloquentDataSource` and `DoctrineDataSource`. `Grid::labels()` translates the bar.
@@ -57,15 +61,8 @@ The same version is published on Packagist (`celerik/ui`) and npm (`@celerikui/u
 - A grid without rows, or without matches, shows Celerik's empty states instead of DataTables' "No data available in table" and "No matching records found".
 - Column filters find their column by name, so they keep working when a selection column comes first.
 - `ArrayDataSource` matches a true/false value with a `1`/`0` filter, as a database does, as well as with "Yes"/"No".
-
-### Fixed
-
-- Server-side grids show their row counts and pages again ("Showing 1 to 5 of 6 entries"), instead of "filtered from NaN total entries" and a NaN last page. DataTables 3 makes its own requests and ignored the jQuery `dataFilter` that read the endpoint's `meta`; the grid now tells it where the counts are (`ajax.dataSrc`). Out-of-order answers are dropped again by their draw counter.
-
-## [0.2.1] - 2026-11-16
-
-### Changed
-
+- **The grid runs on DataTables 3** (with the Buttons extension 4) instead of 2. Raw options passed with `Grid::options()` follow DataTables 3. A server-side grid tells DataTables where its endpoint's row counts are (`ajax.dataSrc` on `meta`), as DataTables 3 makes its own requests rather than jQuery's.
+- `<html>` gets a `celerik-js` class once the bundle runs, to show what needs JavaScript (such as actions that open a form).
 - **A flat design for every component** (`resources/scss/_flat.scss`): 1px borders instead of drop shadows, and no bevels or gradients.
   - Toasts, searchable-select dropdowns and the calendar's popovers and event dialog have borders instead of shadows.
   - The calendar toolbar has outline buttons; the current view and the New event button are filled with the primary color. Weekday names and day numbers are plain text, underlined on hover and focus.
@@ -191,8 +188,8 @@ The Phase 1 MVP ([#11](https://github.com/kivudesign/celerik/pull/11)).
 - Bootstrap SCSS theme and JS wrappers.
 - Examples for plain PHP, Laravel and Symfony.
 
-[Unreleased]: https://github.com/kivudesign/celerik/compare/v0.2.1...HEAD
-[0.2.1]: https://github.com/kivudesign/celerik/compare/v0.2.0...v0.2.1
+[Unreleased]: https://github.com/kivudesign/celerik/compare/v0.3.0...HEAD
+[0.3.0]: https://github.com/kivudesign/celerik/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/kivudesign/celerik/compare/v0.1.6...v0.2.0
 [0.1.6]: https://github.com/kivudesign/celerik/compare/v0.1.5...v0.1.6
 [0.1.5]: https://github.com/kivudesign/celerik/compare/v0.1.3...v0.1.5
