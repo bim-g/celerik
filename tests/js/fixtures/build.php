@@ -32,6 +32,8 @@ use Celerik\Ui\Components\Notification;
 use Celerik\Ui\Components\Scheduler;
 use Celerik\Ui\Components\SplitButton;
 use Celerik\Ui\Components\Splitter;
+use Celerik\Ui\Components\Stat;
+use Celerik\Ui\Components\Stats;
 use Celerik\Ui\Components\Tabs;
 use Celerik\Ui\Components\TaskBoard;
 use Celerik\Ui\Components\TreeList;
@@ -377,6 +379,14 @@ $fixtures = [
         ->tile('orders', 'Orders', Html::raw('<p>48 new orders.</p>'), rows: 2)
         ->tile('visits', 'Visits <today>', '1,204 visits.')
         ->reorderable()->resizable()->remember(),
+
+    'stats' => Stats::make('kpis')->label('This month')->columns(3)->add(
+        Stat::make('revenue')->label('Revenue')->value('$12,400')
+            ->trend(12.5, 'vs last month')->sparkline([8, 9, 12, 11, 14, 13, 16])->link('/reports/revenue'),
+        Stat::make('churn')->label('Churn')->value('2.1%')->goodWhen('down')
+            ->trend(0.4, 'vs last month', ' pts')->sparkline([1.6, 1.7, 1.9, 2.1])->color('danger'),
+        Stat::make('tickets')->label('Open tickets <support>')->value(1204)->trend(0)->description('Answered within a day.'),
+    ),
 
     'recordview' => RecordView::make('member')
         ->record([

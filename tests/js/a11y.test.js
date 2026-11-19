@@ -146,6 +146,11 @@ describe('accessibility (axe-core, WCAG 2.1 AA)', () => {
     expect(await violations()).toEqual([]);
   });
 
+  test('stats: a named list of stat tiles with sparklines', async () => {
+    loadFixture('stats');
+    expect(await violations()).toEqual([]);
+  });
+
   test('record view: sections of labels and values', async () => {
     loadFixture('recordview');
     expect(await violations()).toEqual([]);

@@ -8,7 +8,16 @@ The same version is published on Packagist (`celerik/ui`) and npm (`@celerikui/u
 
 ### Added
 
+- **Stat tiles and dashboards**:
+  - `Stat`: a label, a value, a trend against a previous period said in words ("Up 12.5% vs last month", green or red as `goodWhen()` says), a description, a link covering the tile, and a sparkline: an SVG drawn by PHP, named after its values, with colors kept at 3:1 contrast.
+  - `Stats`: a named list of stat tiles in 1 to 6 columns.
+  - Dashboard widgets: charts, grids and stats in a `TileLayout`; a chart redraws when its tile is resized, and a stat in a tile has no second border.
+
 - **Record view** (`RecordView`, Filament's infolists): a read-only layout of a record's fields, by sections, each a heading and a description list in 1 to 4 columns (one on small screens). The record is an array, an ArrayAccess (an Eloquent model) or an object, read with dot notation. `RecordView\Entry` shows text, e-mail and phone links, safe URLs, dates in `<time>`, formatted numbers, yes or no, colored badges, lists and pictures, with `format()`, `placeholder()`, `help()` and `span()`; empty values show a dash read as "Not set".
+
+### Fixed
+
+- A chart without a fixed height grows again when its container gets wider (a wider window, a widened tile). Its container now keeps the chart's shape with a CSS aspect ratio (2:1, square for round charts) and the chart fills it; Chart.js' own ratio capped the height at the container's, so the chart kept its first width.
 
 ## [0.4.0] - 2026-11-19
 

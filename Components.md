@@ -101,7 +101,7 @@ The **Phase** column refers to the [roadmap](ROADMAP.md); "–" means not yet sc
 | Notification | Notyf | MIT | 2 ✅ (`Notification`) |
 | Actions: confirmation dialog, form in a modal (Filament) | Bootstrap Modal | MIT | 5 |
 | Record view (Filament infolists) | Native | – | 7 ✅ (`RecordView`) |
-| Stat tile, dashboard widgets | Native + Chart.js | MIT | 7 |
+| Stat tile, dashboard widgets | Native (SVG sparkline) + Chart.js in a TileLayout | MIT | 7 ✅ (`Stat`, `Stats`) |
 | Badge, Avatar, Chip | Native (Bootstrap) | MIT | 7 |
 | Tooltip, Popover | Bootstrap (Popper) | MIT | 7 |
 | ProgressBar, circular progress | Native (Bootstrap progress, SVG) | MIT | 7 |
@@ -115,7 +115,7 @@ The **Phase** column refers to the [roadmap](ROADMAP.md); "–" means not yet sc
 | Component | Library | License | Phase |
 |---|---|---|---|
 | Chart (line, bar, pie, doughnut, radar, scatter…) | Chart.js | MIT | 1 ✅ |
-| Sparkline | Chart.js mini charts | MIT | 7 |
+| Sparkline | Native SVG, drawn by PHP | MIT | 7 ✅ (`Stat::sparkline()`) |
 | Gauges (radial / linear) | JustGage / Gauge.js (to evaluate) | MIT | 8 |
 | Map | Leaflet | BSD-2 | 8 |
 | Diagram | Mermaid | MIT | 8 |

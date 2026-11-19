@@ -23,7 +23,9 @@ import {
   Title,
   Tooltip,
 } from 'chart.js';
-import { buildChartConfig, readChartTheme, renderDataTable, styleData } from './chart-config.js';
+import {
+  buildChartConfig, chartShape, readChartTheme, renderDataTable, styleData,
+} from './chart-config.js';
 import { prefersReducedMotion } from './core.js';
 
 // Everything the PHP Chart types and common options need. Time scales are left out:
@@ -40,6 +42,8 @@ export function initChart(element, options) {
   const canvas = element.querySelector('canvas');
   if (options.height) {
     canvas.parentElement.style.height = `${options.height}px`;
+  } else {
+    canvas.parentElement.classList.add(`celerik-chart__canvas--${chartShape(options.type ?? 'line')}`);
   }
 
   // Flat colors that follow Bootstrap and the color mode: the text, grid lines and font of
