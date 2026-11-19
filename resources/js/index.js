@@ -10,6 +10,12 @@ register('listview', async (element, options) => (await import('./listview.js'))
 register('treeview', async (element, options) => (await import('./tree.js')).initTree(element, options));
 register('treelist', async (element, options) => (await import('./treelist.js')).initTreeList(element, options));
 register('taskboard', async (element, options) => (await import('./taskboard.js')).initTaskBoard(element, options));
+register('usermenu', async (element, options) => (await import('./usermenu.js')).initUserMenu(element, options));
+// The layout, its navigation and breadcrumb are HTML and CSS (Bootstrap's offcanvas opens the
+// sidebar on small screens): nothing to set up.
+register('adminlayout', () => true);
+register('navigation', () => true);
+register('breadcrumb', () => true);
 register('chart', async (element, options) => (await import('./chart.js')).initChart(element, options));
 register('form', async (element, options) => (await import('./form.js')).initForm(element, options));
 register('scheduler', async (element, options) => (await import('./scheduler.js')).initScheduler(element, options));

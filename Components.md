@@ -83,7 +83,7 @@ The **Phase** column refers to the [roadmap](ROADMAP.md); "–" means not yet sc
 | Component | Library | License | Phase |
 |---|---|---|---|
 | TabStrip | Bootstrap Tabs | MIT | 2 ✅ (`Tabs`) |
-| AppBar, Drawer (sidebar), Breadcrumb: an admin layout | Native (Bootstrap navbar, offcanvas, breadcrumb) | MIT | 6 |
+| AppBar, Drawer (sidebar), Breadcrumb, user menu: an admin layout | Native (Bootstrap navbar, offcanvas, breadcrumb) | MIT | 6 ✅ (`AdminLayout`, `Navigation`, `Breadcrumb`, `UserMenu`) |
 | Menu | Native (Bootstrap navbar and dropdowns) | MIT | 6 |
 | ContextMenu | Bootstrap dropdown positioned with Popper | MIT | 6 |
 | DropDownButton, SplitButton, ButtonGroup | Native (Bootstrap) | MIT | 6 |

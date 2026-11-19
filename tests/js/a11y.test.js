@@ -107,6 +107,13 @@ describe('accessibility (axe-core, WCAG 2.1 AA)', () => {
     expect(await violations()).toEqual([]);
   });
 
+  test('admin layout: app bar, navigation, breadcrumb and an open user menu', async () => {
+    loadFixture('admin-layout');
+    expect(await violations()).toEqual([]);
+    document.querySelector('.celerik-usermenu').open = true;
+    expect(await violations()).toEqual([]);
+  });
+
   test('scheduler markup from PHP (no-JS fallback list)', async () => {
     loadFixture('scheduler');
     expect(await violations()).toEqual([]);

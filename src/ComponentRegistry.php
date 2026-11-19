@@ -4,12 +4,15 @@ declare(strict_types=1);
 
 namespace Celerik\Ui;
 
+use Celerik\Ui\Components\AdminLayout;
+use Celerik\Ui\Components\Breadcrumb;
 use Celerik\Ui\Components\Chart;
 use Celerik\Ui\Components\FileManager;
 use Celerik\Ui\Components\Form;
 use Celerik\Ui\Components\Grid;
 use Celerik\Ui\Components\ListView;
 use Celerik\Ui\Components\Modal;
+use Celerik\Ui\Components\Navigation;
 use Celerik\Ui\Components\Notification;
 use Celerik\Ui\Components\Scheduler;
 use Celerik\Ui\Components\Tabs;
@@ -17,6 +20,7 @@ use Celerik\Ui\Components\TaskBoard;
 use Celerik\Ui\Components\ThemeBuilder;
 use Celerik\Ui\Components\TreeList;
 use Celerik\Ui\Components\TreeView;
+use Celerik\Ui\Components\UserMenu;
 use InvalidArgumentException;
 
 /**
@@ -43,7 +47,11 @@ final class ComponentRegistry
             ->register(Tabs::class)
             ->register(Notification::class)
             ->register(FileManager::class)
-            ->register(ThemeBuilder::class);
+            ->register(ThemeBuilder::class)
+            ->register(AdminLayout::class)
+            ->register(Navigation::class)
+            ->register(Breadcrumb::class)
+            ->register(UserMenu::class);
     }
 
     /**

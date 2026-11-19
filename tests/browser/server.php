@@ -19,6 +19,8 @@ declare(strict_types=1);
 
 use Celerik\Ui\Assets;
 use Celerik\Ui\Components\Action;
+use Celerik\Ui\Components\AdminLayout;
+use Celerik\Ui\Components\Breadcrumb;
 use Celerik\Ui\Components\Chart;
 use Celerik\Ui\Components\FileManager;
 use Celerik\Ui\Components\Form;
@@ -31,12 +33,14 @@ use Celerik\Ui\Components\Grid\Editor;
 use Celerik\Ui\Components\Grid\Filter;
 use Celerik\Ui\Components\ListView;
 use Celerik\Ui\Components\Modal;
+use Celerik\Ui\Components\Navigation;
 use Celerik\Ui\Components\Notification;
 use Celerik\Ui\Components\Scheduler;
 use Celerik\Ui\Components\Tabs;
 use Celerik\Ui\Components\TaskBoard;
 use Celerik\Ui\Components\TreeList;
 use Celerik\Ui\Components\TreeView;
+use Celerik\Ui\Components\UserMenu;
 use Celerik\Ui\Components\ThemeBuilder;
 use Celerik\Ui\Data\ArrayDataSource;
 use Celerik\Ui\Data\InvalidCardMove;
@@ -378,6 +382,47 @@ if ($path === '/theme-css' && ($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
 // The ThemeBuilder, previewing real components: GET /theme-builder?mode=dark
 if ($path === '/theme-builder') {
     require __DIR__ . '/theme-builder-page.php';
+    exit;
+}
+
+// An admin page: the layout, its navigation, breadcrumb and user menu around a grid.
+if ($path === '/admin' || str_starts_with($path, '/admin/')) {
+    $layout = AdminLayout::make('app')
+        ->brand('Acme', '/admin')
+        ->navigation(Navigation::make('main')->label('Main')
+            ->item('Dashboard', '/admin')
+            ->group('Members', static fn (Navigation $group) => $group
+                ->item('All members', '/admin/members')
+                ->item('Invitations', '/admin/members/invitations', badge: '3'))
+            ->item('Settings', '/admin/settings')
+            ->current($path))
+        ->userMenu(UserMenu::make('account')->user('Ada Lovelace', 'ada@example.com')
+            ->link('Profile', '/admin/profile')
+            ->divider()
+            ->action(Action::request('logout', 'Sign out', '/logout')->csrf('test-token')))
+        ->breadcrumb(Breadcrumb::make()->item('Dashboard', '/admin')->item('Members', '/admin/members')->item('Ada Lovelace'))
+        ->title('Ada Lovelace')
+        ->content(Grid::make('admin-members')->caption('Recent activity')->column('what', 'What')->column('when', 'When')
+            ->rows([['what' => 'Signed in', 'when' => 'Today'], ['what' => 'Changed role', 'when' => 'Yesterday']]));
+    $mode = ($_GET['mode'] ?? '') === 'dark' ? 'dark' : 'light';
+    ?>
+<!doctype html>
+<html lang="en" data-bs-theme="<?= $mode ?>">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="data:,">
+    <title>Admin layout (<?= $mode ?>)</title>
+    <link rel="stylesheet" href="/vendor/bootstrap/css/bootstrap.min.css">
+    <script src="/vendor/jquery/jquery.min.js" defer></script>
+    <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js" defer></script>
+    <?= Assets::tags('/assets') ?>
+</head>
+<body>
+<?= $layout->render() ?>
+</body>
+</html>
+    <?php
     exit;
 }
 
