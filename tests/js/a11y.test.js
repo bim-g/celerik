@@ -146,6 +146,33 @@ describe('accessibility (axe-core, WCAG 2.1 AA)', () => {
     expect(await violations()).toEqual([]);
   });
 
+  test('badges, avatars, progress, loader and skeleton', async () => {
+    loadFixture('display');
+    expect(await violations()).toEqual([]);
+  });
+
+  test('chips, tooltip and popover: PHP markup, then enhanced and open', async () => {
+    const { initChip, initTooltip } = await import('../../resources/js/display.js');
+    const { initUserMenu } = await import('../../resources/js/usermenu.js');
+    const chips = loadFixture('chips').parentElement;
+    expect(await violations()).toEqual([]);
+    for (const chip of chips.querySelectorAll('[data-celerik="chip"]')) {
+      initChip(chip, readOptions(chip));
+    }
+    chips.querySelector('.celerik-chip-remove').click();
+    expect(await violations()).toEqual([]);
+
+    const tooltip = loadFixture('tooltip');
+    initTooltip(tooltip, readOptions(tooltip));
+    tooltip.querySelector('button').focus();
+    expect(await violations()).toEqual([]);
+
+    const popover = loadFixture('popover');
+    initUserMenu(popover);
+    popover.open = true;
+    expect(await violations()).toEqual([]);
+  });
+
   test('stats: a named list of stat tiles with sparklines', async () => {
     loadFixture('stats');
     expect(await violations()).toEqual([]);

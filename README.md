@@ -63,6 +63,7 @@ Releases include the built bundle (`public/`), so no Node.js is needed to instal
 | Accordion, Card, Splitter | `Components\Accordion`, ... | Bootstrap 5 | WAI-ARIA accordion (one or several open), cards with a covering title link and actions, resizable panes (window splitter: keys, drag, remembered sizes, CSP-safe) |
 | Tile layout | `Components\TileLayout` | Bootstrap 5 | Dashboard tiles on a grid of columns, moved and resized with one-click tools, arrow keys or a drag, announced, remembered, CSP-safe |
 | Stats | `Components\Stat`, `Components\Stats` | – | Stat tiles with a trend said in words and an SVG sparkline named by its values; rows of stats; dashboard widgets in a tile layout |
+| Display elements | `Components\Badge`, `Avatar`, `Chip`, `Tooltip`, `Popover`, `Progress`, `Loader`, `Skeleton` | Bootstrap 5 | Badges with hidden text; avatars named with a status shaped as well as colored; removable and filter chips; WCAG 1.4.13 tooltips; native-disclosure popovers; native progress bars and SVG circles; loaders and skeletons as status regions |
 | Record view | `Components\RecordView` | – | A read-only record by sections (Filament's infolists): text, links, dates, numbers, yes/no, badges, lists, pictures; placeholders for empty values; 1 to 4 columns |
 | Chart | `Components\Chart` | Chart.js 4 | Embedded or remote data, `fromRows()`, hidden data table as text alternative |
 | Form | `Components\Form` | Parsley.js, Inputmask | HTML5 rules, masks, CSRF, method spoofing, server errors and old input |

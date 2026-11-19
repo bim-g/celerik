@@ -1245,6 +1245,486 @@ html:not(.celerik-js) {
   }
 }
 
+// Avatar (Components\Avatar): a picture or initials; a status dot shaped by its status.
+.celerik-avatar {
+  --celerik-avatar-size: 2rem;
+  position: relative;
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  width: var(--celerik-avatar-size);
+  height: var(--celerik-avatar-size);
+  border-radius: 50%;
+  font-size: calc(var(--celerik-avatar-size) * 0.4);
+  font-weight: 600;
+  line-height: 1;
+  vertical-align: middle;
+  user-select: none;
+
+  &.celerik-avatar-square {
+    border-radius: var(--bs-border-radius);
+  }
+}
+
+.celerik-avatar-sm { --celerik-avatar-size: 1.5rem; }
+.celerik-avatar-lg { --celerik-avatar-size: 2.5rem; }
+.celerik-avatar-xl { --celerik-avatar-size: 3.5rem; }
+
+.celerik-avatar-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: inherit;
+}
+
+// Online: a filled dot; away: half filled; busy: a bar; offline: a ring.
+.celerik-avatar-status {
+  position: absolute;
+  inset-block-end: -1px;
+  inset-inline-end: -1px;
+  width: max(0.625rem, calc(var(--celerik-avatar-size) * 0.32));
+  height: max(0.625rem, calc(var(--celerik-avatar-size) * 0.32));
+  border: 2px solid var(--bs-body-bg);
+  border-radius: 50%;
+  background-color: var(--bs-body-bg);
+  box-shadow: inset 0 0 0 2px var(--celerik-status);
+}
+
+// Plain colors in light mode, emphasis colors in dark mode: 3:1 against the page either way.
+.celerik-avatar-status-online {
+  --celerik-status: var(--bs-success);
+  background-color: var(--celerik-status);
+}
+
+.celerik-avatar-status-away {
+  --celerik-status: var(--bs-warning-text-emphasis);
+  background-image: linear-gradient(to top, var(--celerik-status) 50%, transparent 50%);
+}
+
+.celerik-avatar-status-busy {
+  --celerik-status: var(--bs-danger);
+  background-color: var(--celerik-status);
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 42% 22%;
+    background-color: var(--bs-body-bg);
+  }
+}
+
+.celerik-avatar-status-offline {
+  --celerik-status: var(--bs-secondary-color);
+}
+
+[data-bs-theme="dark"] {
+  .celerik-avatar-status-online { --celerik-status: var(--bs-success-text-emphasis); }
+  .celerik-avatar-status-busy { --celerik-status: var(--bs-danger-text-emphasis); }
+}
+
+// Chip (Components\Chip): plain, removable, or a filter checkbox.
+.celerik-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  min-height: 1.75rem;
+  padding: 0.125rem 0.625rem;
+  border: var(--bs-border-width) solid var(--bs-border-color);
+  border-radius: 50rem;
+  background-color: var(--bs-body-bg);
+  color: var(--bs-body-color);
+  font-size: 0.875rem;
+  line-height: 1.25;
+  vertical-align: middle;
+
+  .celerik-avatar {
+    margin-inline-start: -0.375rem;
+  }
+
+  &:has(.celerik-chip-remove) {
+    padding-inline-end: 0.125rem;
+  }
+}
+
+// A 24px target (WCAG 2.5.8).
+.celerik-chip-remove {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: none;
+  color: var(--bs-secondary-color);
+  font-size: 1rem;
+  line-height: 1;
+
+  &:hover {
+    background-color: var(--bs-tertiary-bg);
+    color: var(--bs-body-color);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--bs-focus-ring-color, var(--bs-primary));
+    outline-offset: 1px;
+  }
+}
+
+html:not(.celerik-js) .celerik-chip-remove {
+  display: none;
+}
+
+.celerik-chip-check {
+  display: inline-block;
+
+  .celerik-chip {
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .btn-check:checked + .celerik-chip {
+    border-color: var(--bs-primary-border-subtle);
+    background-color: var(--bs-primary-bg-subtle);
+    color: var(--bs-primary-text-emphasis);
+
+    // Checked is shown by a mark, not only by color.
+    &::before {
+      content: '\2713';
+      font-weight: 600;
+    }
+  }
+
+  .btn-check:focus-visible + .celerik-chip {
+    outline: 2px solid var(--bs-focus-ring-color, var(--bs-primary));
+    outline-offset: 2px;
+  }
+}
+
+// Tooltip (Components\Tooltip): placed by classes from JavaScript.
+.celerik-tooltip-wrap {
+  position: relative;
+  display: inline-block;
+}
+
+.celerik-tooltip-text {
+  text-decoration: underline dotted;
+  text-underline-offset: 0.2em;
+  cursor: help;
+}
+
+.celerik-tooltip {
+  position: absolute;
+  z-index: 1080;
+  inset-inline-start: 50%;
+  width: max-content;
+  max-width: min(16rem, calc(100vw - 1rem));
+  padding: 0.25rem 0.5rem;
+  border-radius: var(--bs-border-radius);
+  background-color: var(--bs-emphasis-color);
+  color: var(--bs-body-bg);
+  font-size: 0.875rem;
+  font-weight: 400;
+  line-height: 1.4;
+  text-align: start;
+  white-space: normal;
+  transform: translateX(-50%);
+
+  &[hidden] {
+    display: none;
+  }
+
+  &.is-above {
+    bottom: calc(100% + 0.375rem);
+  }
+
+  &.is-below {
+    top: calc(100% + 0.375rem);
+  }
+
+  &.is-start {
+    inset-inline-start: 0;
+    transform: none;
+  }
+
+  &.is-end {
+    inset-inline-start: auto;
+    inset-inline-end: 0;
+    transform: none;
+  }
+}
+
+[dir="rtl"] .celerik-tooltip:not(.is-start, .is-end) {
+  transform: translateX(50%);
+}
+
+// Popover (Components\Popover): a disclosure whose panel floats under its button.
+.celerik-popover {
+  position: relative;
+  display: inline-block;
+
+  > summary {
+    list-style: none;
+
+    &::-webkit-details-marker {
+      display: none;
+    }
+  }
+}
+
+.celerik-popover-panel {
+  position: absolute;
+  z-index: 1070;
+  top: calc(100% + 0.25rem);
+  inset-inline-start: 0;
+  width: max-content;
+  max-width: min(20rem, calc(100vw - 1rem));
+  padding: 0.75rem;
+  border: var(--bs-border-width) solid var(--bs-border-color);
+  border-radius: var(--bs-border-radius);
+  background-color: var(--bs-body-bg);
+  font-size: 0.875rem;
+
+  .celerik-popover-end > & {
+    inset-inline-start: auto;
+    inset-inline-end: 0;
+  }
+
+  > :last-child > :last-child {
+    margin-bottom: 0;
+  }
+}
+
+.celerik-popover-title {
+  margin-bottom: 0.25rem;
+  font-weight: 600;
+}
+
+// Progress (Components\Progress): a native <progress> bar, or an SVG circle. Fill colors keep
+// 3:1 against the track (WCAG 1.4.11): info and warning use their darker emphasis colors.
+.celerik-progress,
+.celerik-progress-circle {
+  --celerik-progress-color: var(--bs-primary);
+  --celerik-progress-track: var(--bs-secondary-bg);
+}
+
+.celerik-progress-secondary { --celerik-progress-color: var(--bs-secondary-color); }
+.celerik-progress-success { --celerik-progress-color: var(--bs-success); }
+.celerik-progress-danger { --celerik-progress-color: var(--bs-danger); }
+.celerik-progress-warning { --celerik-progress-color: var(--bs-warning-text-emphasis); }
+.celerik-progress-info { --celerik-progress-color: var(--bs-info-text-emphasis); }
+
+.celerik-progress-text {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 0.25rem;
+  font-size: 0.875rem;
+}
+
+.celerik-progress-value {
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+}
+
+.celerik-progress-bar {
+  display: block;
+  width: 100%;
+  height: 0.5rem;
+  border: 0;
+  border-radius: 50rem;
+  overflow: hidden;
+  appearance: none;
+  background-color: var(--celerik-progress-track);
+  color: var(--celerik-progress-color);
+
+  .celerik-progress-sm & { height: 0.25rem; }
+  .celerik-progress-lg & { height: 1rem; }
+
+  &::-webkit-progress-bar {
+    background-color: var(--celerik-progress-track);
+  }
+
+  &::-webkit-progress-value {
+    border-radius: 50rem;
+    background-color: var(--celerik-progress-color);
+  }
+
+  &::-moz-progress-bar {
+    border-radius: 50rem;
+    background-color: var(--celerik-progress-color);
+  }
+
+  // Indeterminate: a segment that slides along the track.
+  &:indeterminate {
+    background-image: linear-gradient(90deg, transparent 0 35%, var(--celerik-progress-color) 35% 65%, transparent 65%);
+    background-size: 200% 100%;
+    animation: celerik-progress-slide 1.5s linear infinite;
+
+    &::-webkit-progress-bar {
+      background-color: transparent;
+    }
+
+    &::-moz-progress-bar {
+      background-color: transparent;
+    }
+  }
+}
+
+@keyframes celerik-progress-slide {
+  from { background-position: 100% 0; }
+  to { background-position: -100% 0; }
+}
+
+.celerik-progress-circle {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.875rem;
+  vertical-align: middle;
+}
+
+.celerik-progress-dial {
+  position: relative;
+  width: 3rem;
+  height: 3rem;
+
+  .celerik-progress-sm & { width: 2rem; height: 2rem; }
+  .celerik-progress-lg & { width: 4.5rem; height: 4.5rem; }
+
+  svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  .celerik-progress-value {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+  }
+
+  .celerik-progress-sm & .celerik-progress-value { font-size: 0.5625rem; }
+  .celerik-progress-lg & .celerik-progress-value { font-size: 1rem; }
+}
+
+.celerik-progress-track {
+  stroke: var(--celerik-progress-track);
+  stroke-width: 3.5;
+}
+
+.celerik-progress-arc {
+  stroke: var(--celerik-progress-color);
+  stroke-width: 3.5;
+  stroke-linecap: round;
+}
+
+.celerik-progress-circle.is-indeterminate svg {
+  animation: celerik-progress-spin 1.2s linear infinite;
+}
+
+@keyframes celerik-progress-spin {
+  to { transform: rotate(360deg); }
+}
+
+// Loader (Components\Loader) and skeleton (Components\Skeleton).
+.celerik-loader {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.celerik-skeleton {
+  display: block;
+}
+
+.celerik-skeleton-shapes {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+
+  .placeholder {
+    display: block;
+    border-radius: var(--bs-border-radius-sm);
+  }
+}
+
+.celerik-skeleton-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.25rem;
+}
+
+.celerik-skeleton-avatar {
+  flex: 0 0 auto;
+  width: 2.5rem;
+  height: 2.5rem;
+
+  &.placeholder {
+    border-radius: 50%;
+  }
+}
+
+.celerik-skeleton-image {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .celerik-progress-bar:indeterminate,
+  .celerik-progress-circle.is-indeterminate svg,
+  .celerik-skeleton .placeholder {
+    animation: none;
+  }
+
+  .celerik-progress-bar:indeterminate {
+    background-position: 50% 0;
+  }
+}
+
+@media (forced-colors: active) {
+  .celerik-avatar-status {
+    forced-color-adjust: none;
+    border-color: Canvas;
+    background-color: Canvas;
+    box-shadow: inset 0 0 0 2px CanvasText;
+  }
+
+  .celerik-avatar-status-online,
+  .celerik-avatar-status-busy {
+    background-color: CanvasText;
+  }
+
+  .celerik-avatar-status-away {
+    background-image: linear-gradient(to top, CanvasText 50%, transparent 50%);
+  }
+
+  .celerik-avatar-status-busy::after {
+    background-color: Canvas;
+  }
+
+  .celerik-tooltip,
+  .celerik-popover-panel,
+  .celerik-chip {
+    border: 1px solid CanvasText;
+  }
+
+  .celerik-progress-arc {
+    stroke: Highlight;
+  }
+
+  .celerik-progress-track {
+    stroke: GrayText;
+  }
+}
+
 // Small screens: one column, each tile as high as its content.
 @media (max-width: 767.98px) {
   .celerik-tilelayout {
@@ -2189,7 +2669,7 @@ td[aria-busy='true'] .celerik-grid-editor {
     .celerik-filemanager, .celerik-theme-builder, .celerik-action-dialog,
     .celerik-modal, .celerik-listview, .celerik-treelist, .celerik-board, .celerik-admin, .celerik-nav,
     .celerik-usermenu, .celerik-menubutton, .celerik-splitbutton, .celerik-toolbar, .celerik-menu-list,
-    .celerik-accordion, .celerik-splitter, .celerik-tilelayout, .notyf)
+    .celerik-accordion, .celerik-splitter, .celerik-tilelayout, .celerik-chip-check, .celerik-popover, .notyf)
     :focus-visible,
   .celerik-action-button:focus-visible,
   // A date field's focus is on its day, month and year parts or its calendar button,

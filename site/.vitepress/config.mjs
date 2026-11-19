@@ -126,6 +126,7 @@ export default defineConfig({
             { text: 'Tile layout', link: '/components/tilelayout' },
             { text: 'Record view', link: '/components/recordview' },
             { text: 'Stats and dashboards', link: '/components/stats' },
+            { text: 'Badges, chips, tooltips, progress', link: '/components/display' },
             { text: 'Modal', link: '/components/modal' },
             { text: 'Tabs', link: '/components/tabs' },
             { text: 'Notification', link: '/components/notification' },

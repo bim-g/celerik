@@ -102,10 +102,10 @@ The **Phase** column refers to the [roadmap](ROADMAP.md); "–" means not yet sc
 | Actions: confirmation dialog, form in a modal (Filament) | Bootstrap Modal | MIT | 5 |
 | Record view (Filament infolists) | Native | – | 7 ✅ (`RecordView`) |
 | Stat tile, dashboard widgets | Native (SVG sparkline) + Chart.js in a TileLayout | MIT | 7 ✅ (`Stat`, `Stats`) |
-| Badge, Avatar, Chip | Native (Bootstrap) | MIT | 7 |
-| Tooltip, Popover | Bootstrap (Popper) | MIT | 7 |
-| ProgressBar, circular progress | Native (Bootstrap progress, SVG) | MIT | 7 |
-| Loader, Skeleton | Native (Bootstrap spinners, placeholders) | MIT | 7 |
+| Badge, Avatar, Chip | Native (Bootstrap) | MIT | 7 ✅ (`Badge`, `Avatar`, `Chip`) |
+| Tooltip, Popover | Native (WAI-ARIA tooltip; `<details>` popover) | MIT | 7 ✅ (`Tooltip`, `Popover`) |
+| ProgressBar, circular progress | Native (`<progress>`, SVG) | MIT | 7 ✅ (`Progress`) |
+| Loader, Skeleton | Native (Bootstrap spinners, placeholders) | MIT | 7 ✅ (`Loader`, `Skeleton`) |
 | Timeline | Native | – | 7 |
 | ScrollView (carousel) | Bootstrap Carousel | MIT | 7 |
 | Chat | Native | – | – |
