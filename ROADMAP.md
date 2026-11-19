@@ -67,7 +67,7 @@ Tables and lists that do the work of an admin screen.
 
 The frame of an application.
 
-- Admin layout: app bar, sidebar navigation (the Telerik Drawer), breadcrumb, user menu.
+- Admin layout: app bar, sidebar navigation (the Telerik Drawer), breadcrumb, user menu ✅.
 - Menu, context menu, dropdown and split buttons, toolbar.
 - Accordion (the Telerik PanelBar), card, splitter, tile layout for dashboards.
 

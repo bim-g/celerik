@@ -8,6 +8,12 @@ The same version is published on Packagist (`celerik/ui`) and npm (`@celerikui/u
 
 ### Added
 
+- **Admin layout**: `AdminLayout` frames an admin screen with a skip link, an app bar, a sidebar and the main content.
+  - `Navigation`: links and groups (native disclosures). The current page has `aria-current="page"`, or its section `aria-current="true"`, and its group starts open.
+  - `Breadcrumb`: a navigation landmark ending with the current page.
+  - `UserMenu`: the user's name and picture or initials, links and actions such as Sign out, in a disclosure that Escape closes.
+  - On small screens the sidebar is Bootstrap's offcanvas, opened by the app bar's menu button; without JavaScript it is shown above the content.
+
 - **TaskBoard**: a Kanban board, `TaskBoard::make()->columns([...])->cards($tasks, column: 'status')->moveUrl('/tasks/{id}/move')`.
   - Cards move three ways: dragged (SortableJS), from the keyboard (Space, arrows, Space or Escape, each step announced), or with a Move form on each card that posts without JavaScript and moves cards without dragging (WCAG 2.5.7).
   - Column limits, counts in the column headings, card titles, descriptions, meta texts and links.

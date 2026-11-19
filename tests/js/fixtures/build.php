@@ -14,6 +14,10 @@ use Celerik\Ui\Components\Form\Field;
 use Celerik\Ui\Components\Form\Repeater;
 use Celerik\Ui\Components\Form\Section;
 use Celerik\Ui\Components\Action;
+use Celerik\Ui\Components\AdminLayout;
+use Celerik\Ui\Components\Breadcrumb;
+use Celerik\Ui\Components\Navigation;
+use Celerik\Ui\Components\UserMenu;
 use Celerik\Ui\Components\Grid;
 use Celerik\Ui\Components\Grid\Column;
 use Celerik\Ui\Components\Grid\Editor;
@@ -291,6 +295,23 @@ $fixtures = [
         ->link('/tasks/{id}')
         ->moveUrl('/tasks/{id}/move')
         ->csrf('t0k3n'),
+
+    'admin-layout' => AdminLayout::make('app')
+        ->brand('Acme', '/')
+        ->navigation(Navigation::make('main')->label('Main')
+            ->item('Dashboard', '/')
+            ->group('Members', static fn (Navigation $group) => $group
+                ->item('All members', '/members')
+                ->item('Invitations', '/members/invitations', badge: '3'))
+            ->item('Settings', '/settings')
+            ->current('/members/42?tab=profile'))
+        ->userMenu(UserMenu::make('account')->user('Ada Lovelace', 'ada@example.com')
+            ->link('Profile', '/profile')
+            ->divider()
+            ->action(Action::request('logout', 'Sign out', '/logout')->csrf('t0k3n')))
+        ->breadcrumb(Breadcrumb::make()->item('Home', '/')->item('Members', '/members')->item('Ada Lovelace'))
+        ->title('Ada Lovelace')
+        ->content(Html::raw('<p>Member since 2024.</p>')),
 
     'chart' => Chart::make('sales')
         ->type('bar')

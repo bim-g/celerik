@@ -120,6 +120,7 @@ export default defineConfig({
             { text: 'Rich text editor', link: '/components/editor' },
             { text: 'File upload', link: '/components/upload' },
             { text: 'Scheduler', link: '/components/scheduler' },
+            { text: 'Admin layout', link: '/components/admin-layout' },
             { text: 'Modal', link: '/components/modal' },
             { text: 'Tabs', link: '/components/tabs' },
             { text: 'Notification', link: '/components/notification' },
