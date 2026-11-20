@@ -132,6 +132,7 @@ export default defineConfig({
             { text: 'Gauges and sparklines', link: '/components/gauge' },
             { text: 'Gantt chart', link: '/components/gantt' },
             { text: 'Map', link: '/components/map' },
+            { text: 'Org chart', link: '/components/orgchart' },
             { text: 'Modal', link: '/components/modal' },
             { text: 'Tabs', link: '/components/tabs' },
             { text: 'Notification', link: '/components/notification' },

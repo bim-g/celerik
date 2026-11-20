@@ -68,6 +68,7 @@ Releases include the built bundle (`public/`), so no Node.js is needed to instal
 | Gauges, Sparklines | `Components\Gauge`, `Components\Sparkline` | – | Semicircle or bar meters with named bands and a target, the value text saying it all; line, area and bar sparklines the size of a word, named by their range; SVG drawn by PHP |
 | Gantt | `Components\Gantt` | – | A table of tasks (dates, progress, dependencies) whose last column is the timeline: bars and milestones drawn by PHP, a day, week or month scale, today's line, dependency arrows; scrolls sideways with the task names kept in view |
 | Map | `Components\Map` | Leaflet 1.9 | Markers with popups, and the same places written as a list (the text alternative) with "Show on map" buttons; a named, keyboard-driven map region, named marker buttons, no wheel trap, reduced motion, dark tiles; OpenStreetMap or your own tiles |
+| Org chart | `Components\OrgChart` | – | People in nested lists drawn as a tree by CSS (an indented list in narrow containers), from nodes or database rows; collapsible teams with named buttons; no JavaScript needed |
 | Record view | `Components\RecordView` | – | A read-only record by sections (Filament's infolists): text, links, dates, numbers, yes/no, badges, lists, pictures; placeholders for empty values; 1 to 4 columns |
 | Chart | `Components\Chart` | Chart.js 4 | Embedded or remote data, `fromRows()`, hidden data table as text alternative |
 | Form | `Components\Form` | Parsley.js, Inputmask | HTML5 rules, masks, CSRF, method spoofing, server errors and old input |

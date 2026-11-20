@@ -20,6 +20,7 @@ register('recordview', () => true);
 register('stat', () => true);
 register('stats', () => true);
 register('timeline', () => true);
+register('orgchart', async (element, options) => (await import('./orgchart.js')).initOrgChart(element, options));
 register('map', async (element, options) => (await import('./map.js')).initMap(element, options));
 register('gantt', async (element) => (await import('./gantt.js')).initGantt(element));
 register('carousel', async (element, options) => (await import('./carousel.js')).initCarousel(element, options));

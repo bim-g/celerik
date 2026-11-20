@@ -53,6 +53,7 @@ use Celerik\Ui\Components\TileLayout;
 use Celerik\Ui\Components\Toolbar;
 use Celerik\Ui\Components\Gantt;
 use Celerik\Ui\Components\Map;
+use Celerik\Ui\Components\OrgChart;
 use Celerik\Ui\Components\Gauge;
 use Celerik\Ui\Components\Sparkline;
 use Celerik\Ui\Components\Timeline;
@@ -452,6 +453,13 @@ $fixtures = [
 
     'carousel-autoplay' => Carousel::make('promo')->label('Promotions')->autoplay(5)->loop(false)
         ->slide('First')->slide('Second')->slide('Third'),
+
+    'orgchart' => OrgChart::make('company')->label('Company')->expandLevels(2)
+        ->node('grace', 'Grace Hopper', 'Chief executive')
+        ->node('ada', 'Ada Lovelace', 'CTO', parent: 'grace', url: '/people/ada')
+        ->node('alan', 'Alan Turing', 'Engineer', parent: 'ada')
+        ->node('barbara', 'Barbara Liskov', 'Engineer', parent: 'alan')
+        ->node('katherine', 'Katherine <Johnson>', 'CFO', parent: 'grace'),
 
     'map' => Map::make('offices')->label('Our offices')
         ->tiles('/tiles/{z}/{x}/{y}.svg', 'Test tiles', '/tiles/licence')

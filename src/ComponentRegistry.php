@@ -26,6 +26,7 @@ use Celerik\Ui\Components\MenuButton;
 use Celerik\Ui\Components\Modal;
 use Celerik\Ui\Components\Navigation;
 use Celerik\Ui\Components\Notification;
+use Celerik\Ui\Components\OrgChart;
 use Celerik\Ui\Components\Popover;
 use Celerik\Ui\Components\Progress;
 use Celerik\Ui\Components\RecordView;
@@ -101,7 +102,8 @@ final class ComponentRegistry
             ->register(Sparkline::class)
             ->register(Gauge::class)
             ->register(Gantt::class)
-            ->register(Map::class);
+            ->register(Map::class)
+            ->register(OrgChart::class);
     }
 
     /**
