@@ -6,6 +6,10 @@ The same version is published on Packagist (`celerik/ui`) and npm (`@celerikui/u
 
 ## [Unreleased]
 
+## [0.5.0] - 2026-11-20
+
+Phase 7 (Display and feedback): a record view; stat tiles with trends and sparklines, and dashboard widgets; badges, avatars, chips, tooltips, popovers, progress bars and circles, loaders and skeletons; a timeline and a carousel. It also fixes charts that stopped growing with their container.
+
 ### Added
 
 - **Timeline and carousel**:
@@ -248,7 +252,8 @@ The Phase 1 MVP ([#11](https://github.com/kivudesign/celerik/pull/11)).
 - Bootstrap SCSS theme and JS wrappers.
 - Examples for plain PHP, Laravel and Symfony.
 
-[Unreleased]: https://github.com/kivudesign/celerik/compare/v0.4.0...HEAD
+[Unreleased]: https://github.com/kivudesign/celerik/compare/v0.5.0...HEAD
+[0.5.0]: https://github.com/kivudesign/celerik/compare/v0.4.0...v0.5.0
 [0.4.0]: https://github.com/kivudesign/celerik/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.com/kivudesign/celerik/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/kivudesign/celerik/compare/v0.1.6...v0.2.0
