@@ -69,6 +69,7 @@ Releases include the built bundle (`public/`), so no Node.js is needed to instal
 | Gantt | `Components\Gantt` | – | A table of tasks (dates, progress, dependencies) whose last column is the timeline: bars and milestones drawn by PHP, a day, week or month scale, today's line, dependency arrows; scrolls sideways with the task names kept in view |
 | Map | `Components\Map` | Leaflet 1.9 | Markers with popups, and the same places written as a list (the text alternative) with "Show on map" buttons; a named, keyboard-driven map region, named marker buttons, no wheel trap, reduced motion, dark tiles; OpenStreetMap or your own tiles |
 | Org chart | `Components\OrgChart` | – | People in nested lists drawn as a tree by CSS (an indented list in narrow containers), from nodes or database rows; collapsible teams with named buttons; no JavaScript needed |
+| Diagram | `Components\Diagram` | – | Flowcharts drawn by PHP as an SVG (boxes, terminals, decisions, labelled arrows, loops, lanes for long arrows), downwards or to the right, with every step and arrow also written as linked text |
 | Record view | `Components\RecordView` | – | A read-only record by sections (Filament's infolists): text, links, dates, numbers, yes/no, badges, lists, pictures; placeholders for empty values; 1 to 4 columns |
 | Chart | `Components\Chart` | Chart.js 4 | Embedded or remote data, `fromRows()`, hidden data table as text alternative |
 | Form | `Components\Form` | Parsley.js, Inputmask | HTML5 rules, masks, CSRF, method spoofing, server errors and old input |

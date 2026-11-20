@@ -133,6 +133,7 @@ export default defineConfig({
             { text: 'Gantt chart', link: '/components/gantt' },
             { text: 'Map', link: '/components/map' },
             { text: 'Org chart', link: '/components/orgchart' },
+            { text: 'Diagram', link: '/components/diagram' },
             { text: 'Modal', link: '/components/modal' },
             { text: 'Tabs', link: '/components/tabs' },
             { text: 'Notification', link: '/components/notification' },

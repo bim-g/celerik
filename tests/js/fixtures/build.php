@@ -53,6 +53,7 @@ use Celerik\Ui\Components\TileLayout;
 use Celerik\Ui\Components\Toolbar;
 use Celerik\Ui\Components\Gantt;
 use Celerik\Ui\Components\Map;
+use Celerik\Ui\Components\Diagram;
 use Celerik\Ui\Components\OrgChart;
 use Celerik\Ui\Components\Gauge;
 use Celerik\Ui\Components\Sparkline;
@@ -453,6 +454,14 @@ $fixtures = [
 
     'carousel-autoplay' => Carousel::make('promo')->label('Promotions')->autoplay(5)->loop(false)
         ->slide('First')->slide('Second')->slide('Third'),
+
+    'diagram' => Diagram::make('signup')->label('Sign-up <flow>')
+        ->node('form', 'Fill in the form')
+        ->node('valid', 'Is it valid?', 'decision')
+        ->node('done', 'Account created', 'terminal', 'success')
+        ->edge('form', 'valid')
+        ->edge('valid', 'done', 'Yes')
+        ->edge('valid', 'form', 'No'),
 
     'orgchart' => OrgChart::make('company')->label('Company')->expandLevels(2)
         ->node('grace', 'Grace Hopper', 'Chief executive')
