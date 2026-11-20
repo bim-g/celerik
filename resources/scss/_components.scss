@@ -1725,6 +1725,252 @@ html:not(.celerik-js) .celerik-chip-remove {
   }
 }
 
+// Sparkline (Components\Sparkline): the size of a word, 4 wide for 1 high.
+.celerik-sparkline {
+  --celerik-sparkline-color: var(--bs-primary-text-emphasis);
+  display: inline-block;
+  width: 6em;
+  height: 1.5em;
+  overflow: visible;
+  color: var(--celerik-sparkline-color);
+  vertical-align: middle;
+}
+
+.celerik-sparkline-sm {
+  width: 4em;
+  height: 1em;
+}
+
+.celerik-sparkline-lg {
+  width: 10em;
+  height: 2.5em;
+}
+
+// Text-emphasis colors keep 3:1 against the page (WCAG 1.4.11), in both modes.
+@each $color in primary, secondary, success, danger, warning, info {
+  .celerik-sparkline-#{$color} {
+    --celerik-sparkline-color: var(--bs-#{$color}-text-emphasis);
+  }
+}
+
+.celerik-sparkline-line {
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+  vector-effect: non-scaling-stroke;
+}
+
+.celerik-sparkline-area {
+  fill: currentColor;
+  opacity: 0.15;
+}
+
+.celerik-sparkline-dot,
+.celerik-sparkline-bar {
+  fill: currentColor;
+}
+
+// Negative bars are lighter as well as below the line.
+.celerik-sparkline-bar.is-negative {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.5;
+  vector-effect: non-scaling-stroke;
+}
+
+// Gauge (Components\Gauge): a meter drawn as a semicircle or a bar.
+.celerik-gauge {
+  --celerik-gauge-track: var(--bs-secondary-bg);
+  margin-bottom: 1rem;
+}
+
+.celerik-gauge-label {
+  margin: 0 0 0.25rem;
+  font-weight: 600;
+}
+
+.celerik-gauge-reading {
+  margin: 0;
+  line-height: 1.2;
+}
+
+.celerik-gauge-value {
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.celerik-gauge-band {
+  color: var(--bs-secondary-color);
+  font-size: 0.875em;
+}
+
+.celerik-gauge-scale {
+  display: flex;
+  justify-content: space-between;
+  margin: 0.125rem 0 0;
+  color: var(--bs-secondary-color);
+  font-size: 0.75rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.celerik-gauge-svg {
+  display: block;
+  width: 100%;
+  overflow: visible;
+}
+
+.celerik-gauge-track {
+  fill: none;
+  stroke: var(--celerik-gauge-track);
+}
+
+.celerik-gauge-range,
+.celerik-gauge-fill {
+  fill: none;
+}
+
+.celerik-gauge-target {
+  stroke: var(--bs-emphasis-color);
+  stroke-width: 2;
+  stroke-linecap: round;
+}
+
+// Colors keep 3:1 against the page and the track (warning and info use darker shades).
+@each $color, $value in (
+  'primary': var(--bs-primary),
+  'secondary': var(--bs-secondary-color),
+  'success': var(--bs-success),
+  'danger': var(--bs-danger),
+  'warning': var(--bs-warning-text-emphasis),
+  'info': var(--bs-info-text-emphasis)
+) {
+  .celerik-gauge-#{$color} {
+    stroke: $value;
+  }
+
+  .celerik-gauge-linear .celerik-gauge-#{$color} {
+    fill: $value;
+    stroke: none;
+  }
+}
+
+// The semicircle: the value in its middle, the scale's ends under its ends.
+.celerik-gauge-arc {
+  width: 9rem;
+  max-width: 100%;
+  text-align: center;
+
+  &.celerik-gauge-sm { width: 6rem; }
+  &.celerik-gauge-lg { width: 13rem; }
+
+  .celerik-gauge-body {
+    position: relative;
+  }
+
+  .celerik-gauge-track,
+  .celerik-gauge-fill {
+    stroke-width: 10;
+  }
+
+  .celerik-gauge-range {
+    stroke-width: 3;
+  }
+
+  .celerik-gauge-reading {
+    position: absolute;
+    inset-inline: 0;
+    bottom: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .celerik-gauge-value {
+    font-size: 1.25rem;
+  }
+
+  &.celerik-gauge-sm .celerik-gauge-value { font-size: 0.875rem; }
+  &.celerik-gauge-lg .celerik-gauge-value { font-size: 1.75rem; }
+
+  // The band's name stays, smaller: it is the sign that is not a color.
+  &.celerik-gauge-sm .celerik-gauge-band { font-size: 0.6875rem; }
+
+  .celerik-gauge-scale {
+    padding-inline: 0.25rem;
+  }
+}
+
+// The bar: the label and the value on one line above it.
+.celerik-gauge-linear {
+  .celerik-gauge-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0 0.75rem;
+    margin-bottom: 0.25rem;
+  }
+
+  .celerik-gauge-label {
+    margin: 0;
+  }
+
+  .celerik-gauge-svg {
+    height: 0.75rem;
+  }
+
+  &.celerik-gauge-sm .celerik-gauge-svg { height: 0.5rem; }
+  &.celerik-gauge-lg .celerik-gauge-svg { height: 1.125rem; }
+
+  .celerik-gauge-track {
+    fill: var(--celerik-gauge-track);
+    stroke: none;
+  }
+}
+
+@media (forced-colors: active) {
+  .celerik-sparkline {
+    color: CanvasText !important;
+  }
+
+  .celerik-sparkline-area {
+    display: none;
+  }
+
+  .celerik-gauge-svg {
+    forced-color-adjust: none;
+  }
+
+  .celerik-gauge-track {
+    stroke: GrayText;
+  }
+
+  .celerik-gauge-linear .celerik-gauge-track {
+    fill: GrayText;
+  }
+
+  .celerik-gauge-fill {
+    stroke: Highlight;
+  }
+
+  .celerik-gauge-linear .celerik-gauge-fill {
+    fill: Highlight;
+  }
+
+  .celerik-gauge-range {
+    stroke: CanvasText;
+  }
+
+  .celerik-gauge-linear .celerik-gauge-range {
+    fill: CanvasText;
+  }
+
+  .celerik-gauge-target {
+    stroke: CanvasText;
+  }
+}
+
 // Timeline (Components\Timeline): an ordered list along a line. Plain HTML.
 .celerik-timeline {
   --celerik-timeline-rail: 1.75rem;

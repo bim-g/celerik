@@ -129,6 +129,7 @@ export default defineConfig({
             { text: 'Badges, chips, tooltips, progress', link: '/components/display' },
             { text: 'Timeline', link: '/components/timeline' },
             { text: 'Carousel', link: '/components/carousel' },
+            { text: 'Gauges and sparklines', link: '/components/gauge' },
             { text: 'Modal', link: '/components/modal' },
             { text: 'Tabs', link: '/components/tabs' },
             { text: 'Notification', link: '/components/notification' },

@@ -51,6 +51,8 @@ use Celerik\Ui\Components\RecordView\Entry;
 use Celerik\Ui\Components\ThemeBuilder;
 use Celerik\Ui\Components\TileLayout;
 use Celerik\Ui\Components\Toolbar;
+use Celerik\Ui\Components\Gauge;
+use Celerik\Ui\Components\Sparkline;
 use Celerik\Ui\Components\Timeline;
 use Celerik\Ui\Components\Carousel;
 use Celerik\Ui\Support\Html;
@@ -448,6 +450,24 @@ $fixtures = [
 
     'carousel-autoplay' => Carousel::make('promo')->label('Promotions')->autoplay(5)->loop(false)
         ->slide('First')->slide('Second')->slide('Third'),
+
+    'gauges' => new class () {
+        public function render(): string
+        {
+            return '<div>'
+                . Gauge::make('cpu')->label('CPU <load>')->value(72)->format('{value}%')
+                    ->band(0, 60, 'success', 'Normal')->band(60, 85, 'warning', 'High')->band(85, 100, 'danger', 'Critical')
+                    ->target(90)
+                . Gauge::make('quota')->label('Storage')->value(1250)->range(0, 2000)->format('{value} GB')->linear()
+                . '<p>Revenue '
+                . Sparkline::make()->label('Revenue')->values([8, 9, 12, 11, 14, 13, 16])->type('area')->markLast()
+                . ' and profit '
+                . Sparkline::make()->label('Profit')->values([3, -2, 0, 5])->type('bar')->color('success')
+                . ' and '
+                . Sparkline::make()->values([1, 2, 3])->decorative() . ' 1, 2, 3</p>'
+                . '</div>';
+        }
+    },
 
     'recordview' => RecordView::make('member')
         ->record([

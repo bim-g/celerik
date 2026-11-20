@@ -112,15 +112,7 @@ final class Stat extends Component
      */
     public function sparkline(array $values): self
     {
-        if (count($values) < 2) {
-            throw new InvalidArgumentException('A sparkline needs two values or more.');
-        }
-        foreach ($values as $value) {
-            if (!is_int($value) && !is_float($value)) {
-                throw new InvalidArgumentException('A sparkline holds numbers.');
-            }
-        }
-        $this->sparkline = array_map('floatval', array_values($values));
+        $this->sparkline = Sparkline::numbers($values);
 
         return $this;
     }
@@ -219,29 +211,9 @@ final class Stat extends Component
         if ($this->sparkline === []) {
             return '';
         }
-        $values = $this->sparkline;
-        $min = min($values);
-        $max = max($values);
-        $count = count($values);
-        $points = [];
-        foreach ($values as $index => $value) {
-            $x = $index * self::WIDTH / ($count - 1);
-            // A 2-unit margin keeps the stroke inside; equal values draw a line in the middle.
-            $y = $max === $min
-                ? self::HEIGHT / 2
-                : self::HEIGHT - 2 - ($value - $min) / ($max - $min) * (self::HEIGHT - 4);
-            $points[] = self::coordinate($x) . ',' . self::coordinate($y);
-        }
-        $line = implode(' ', $points);
+        $line = implode(' ', Sparkline::points($this->sparkline, self::WIDTH, self::HEIGHT));
         $area = '0,' . self::HEIGHT . ' ' . $line . ' ' . self::WIDTH . ',' . self::HEIGHT;
-        $name = strtr($this->labels['sparkline'], [
-            '{label}' => $this->label,
-            '{count}' => (string) $count,
-            '{first}' => self::number($values[0]),
-            '{last}' => self::number($values[$count - 1]),
-            '{min}' => self::number($min),
-            '{max}' => self::number($max),
-        ]);
+        $name = Sparkline::describe($this->labels['sparkline'], $this->label, $this->sparkline);
 
         return Html::tag('svg', [
             'class' => 'celerik-stat-sparkline',
@@ -264,10 +236,5 @@ final class Stat extends Component
         $text = number_format((float) $value, 2, '.', ',');
 
         return str_contains($text, '.') ? rtrim(rtrim($text, '0'), '.') : $text;
-    }
-
-    private static function coordinate(float $value): string
-    {
-        return rtrim(rtrim(number_format($value, 2, '.', ''), '0'), '.');
     }
 }
