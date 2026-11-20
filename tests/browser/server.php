@@ -388,6 +388,11 @@ if ($path === '/theme-css' && ($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
 }
 
 // The ThemeBuilder, previewing real components: GET /theme-builder?mode=dark
+if ($path === '/gantt') {
+    require __DIR__ . '/gantt-page.php';
+    exit;
+}
+
 if ($path === '/gauges') {
     require __DIR__ . '/gauge-page.php';
     exit;

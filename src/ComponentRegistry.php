@@ -16,6 +16,7 @@ use Celerik\Ui\Components\Chip;
 use Celerik\Ui\Components\ContextMenu;
 use Celerik\Ui\Components\FileManager;
 use Celerik\Ui\Components\Form;
+use Celerik\Ui\Components\Gantt;
 use Celerik\Ui\Components\Gauge;
 use Celerik\Ui\Components\Grid;
 use Celerik\Ui\Components\ListView;
@@ -97,7 +98,8 @@ final class ComponentRegistry
             ->register(Timeline::class)
             ->register(Carousel::class)
             ->register(Sparkline::class)
-            ->register(Gauge::class);
+            ->register(Gauge::class)
+            ->register(Gantt::class);
     }
 
     /**

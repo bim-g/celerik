@@ -8,6 +8,7 @@ The same version is published on Packagist (`celerik/ui`) and npm (`@celerikui/u
 
 ### Added
 
+- **Gantt chart** (`Gantt`): a table of tasks, named by its label, with each task's start and end (`<time>` elements), progress and the tasks it depends on; its last column is the timeline. Each row draws its bar as an SVG sized by attributes, so bars line up with their rows without inline styles. Milestones are diamonds and say "Milestone"; the scale is by day (weekends shaded), week or month; a line marks today. With JavaScript, decorative arrows join each task to the tasks that wait for it, and the first scroll brings today into view. The timeline scrolls sideways in a named, keyboard-scrollable region, with the task names kept in view.
 - **Gauges and sparklines**:
   - `Gauge`: a value on a scale, as a semicircle or a bar (`linear()`), drawn by PHP as an SVG. A meter (`role="meter"`) named by its label, whose value text gives the value, its band and the target ("72%, High, target 90%"); colored bands whose name is written next to the value; a target mark; `range()`, `format()`, `decimals()`, sizes; colors kept at 3:1, and system colors in forced-colors mode.
   - `Sparkline`: a line, area or bar chart the size of a word, for text, table cells and record views; an image named after its values' range, or `decorative()` next to the written values. `Stat::sparkline()` now draws with it.

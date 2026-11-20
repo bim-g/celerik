@@ -72,7 +72,7 @@ The **Phase** column refers to the [roadmap](ROADMAP.md); "–" means not yet sc
 |---|---|---|---|
 | Scheduler | FullCalendar (standard plugins) | MIT | 2 ✅ |
 | Calendar | FullCalendar (`Scheduler` month view) | MIT | 2 ✅ |
-| Gantt | Frappe Gantt | MIT | 8 |
+| Gantt | Native (a table with SVG bars drawn by PHP) | – | 8 ✅ (`Gantt`) |
 
 > The npm package named `elfinder` is **not** elFinder (it is an unrelated "element finder" tool): elFinder is installed with Composer (`studio-42/elfinder`).
 

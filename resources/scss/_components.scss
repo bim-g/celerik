@@ -1971,6 +1971,193 @@ html:not(.celerik-js) .celerik-chip-remove {
   }
 }
 
+// Gantt chart (Components\Gantt): a table whose last column is the timeline. It scrolls
+// sideways; the task names stay in view.
+.celerik-gantt {
+  margin-bottom: 1rem;
+}
+
+.celerik-gantt-scroll {
+  overflow-x: auto;
+  border: var(--bs-border-width) solid var(--bs-border-color);
+  border-radius: var(--bs-border-radius);
+
+  &:focus-visible {
+    outline: 2px solid var(--bs-focus-ring-color, var(--bs-primary));
+    outline-offset: 2px;
+  }
+}
+
+.celerik-gantt-canvas {
+  position: relative;
+  width: max-content;
+  min-width: 100%;
+}
+
+.celerik-gantt-table {
+  border-collapse: separate;
+  border-spacing: 0;
+  font-size: 0.875rem;
+
+  th,
+  td {
+    height: 2.25rem;
+    padding: 0 0.75rem;
+    border-bottom: var(--bs-border-width) solid var(--bs-border-color);
+    white-space: nowrap;
+    vertical-align: middle;
+  }
+
+  thead th {
+    height: auto;
+    padding-block: 0.25rem;
+    background-color: var(--bs-tertiary-bg);
+    font-weight: 600;
+    text-align: start;
+    vertical-align: bottom;
+  }
+
+  tbody tr:last-child > * {
+    border-bottom: 0;
+  }
+
+  td:nth-child(n + 2):nth-child(-n + 4) {
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+.celerik-gantt-label {
+  margin: 0 0 0.5rem;
+  font-weight: 600;
+}
+
+// The task names stay at the start while the timeline scrolls.
+.celerik-gantt-table th:first-child {
+  position: sticky;
+  inset-inline-start: 0;
+  z-index: 2;
+  max-width: 16rem;
+  overflow: hidden;
+  background-color: var(--bs-body-bg);
+  text-overflow: ellipsis;
+}
+
+.celerik-gantt-table thead th:first-child {
+  background-color: var(--bs-tertiary-bg);
+}
+
+.celerik-gantt-name {
+  font-weight: 500;
+}
+
+.celerik-gantt-table .celerik-gantt-timeline {
+  padding: 0;
+  border-inline-start: var(--bs-border-width) solid var(--bs-border-color);
+}
+
+.celerik-gantt-row,
+.celerik-gantt-scale {
+  display: block;
+}
+
+.celerik-gantt-row {
+  margin-block: 0.25rem;
+}
+
+.celerik-gantt-scale text {
+  fill: var(--bs-secondary-color);
+  font-size: 11px;
+}
+
+.celerik-gantt-grid {
+  stroke: var(--bs-border-color-translucent);
+  stroke-width: 1;
+}
+
+.celerik-gantt-weekend {
+  fill: var(--bs-tertiary-bg);
+}
+
+.celerik-gantt-today {
+  stroke: var(--bs-danger-text-emphasis);
+  stroke-width: 2;
+}
+
+// A bar: a light fill with a border in its color (3:1), the done part filled.
+@each $color in primary, secondary, success, danger, warning, info {
+  .celerik-gantt-bar.celerik-gantt-#{$color} {
+    fill: var(--bs-#{$color}-bg-subtle);
+    stroke: var(--bs-#{$color}-text-emphasis);
+  }
+
+  .celerik-gantt-done.celerik-gantt-#{$color},
+  .celerik-gantt-milestone.celerik-gantt-#{$color} {
+    fill: var(--bs-#{$color}-text-emphasis);
+  }
+}
+
+.celerik-gantt-bar {
+  stroke-width: 1.5;
+}
+
+.celerik-gantt-arrows {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.celerik-gantt-link {
+  fill: none;
+  stroke: var(--bs-secondary-color);
+  stroke-width: 1.5;
+}
+
+.celerik-gantt-arrowhead {
+  fill: var(--bs-secondary-color);
+}
+
+@media (forced-colors: active) {
+  .celerik-gantt-row,
+  .celerik-gantt-scale,
+  .celerik-gantt-arrows {
+    forced-color-adjust: none;
+  }
+
+  .celerik-gantt-scale text {
+    fill: CanvasText;
+  }
+
+  .celerik-gantt-bar[class] {
+    fill: Canvas;
+    stroke: CanvasText;
+  }
+
+  .celerik-gantt-done[class],
+  .celerik-gantt-milestone[class] {
+    fill: CanvasText;
+  }
+
+  .celerik-gantt-weekend {
+    fill: Canvas;
+  }
+
+  .celerik-gantt-grid {
+    stroke: GrayText;
+  }
+
+  .celerik-gantt-today,
+  .celerik-gantt-link {
+    stroke: Highlight;
+  }
+
+  .celerik-gantt-arrowhead {
+    fill: Highlight;
+  }
+}
+
 // Timeline (Components\Timeline): an ordered list along a line. Plain HTML.
 .celerik-timeline {
   --celerik-timeline-rail: 1.75rem;
@@ -3230,7 +3417,7 @@ td[aria-busy='true'] .celerik-grid-editor {
     .celerik-filemanager, .celerik-theme-builder, .celerik-action-dialog,
     .celerik-modal, .celerik-listview, .celerik-treelist, .celerik-board, .celerik-admin, .celerik-nav,
     .celerik-usermenu, .celerik-menubutton, .celerik-splitbutton, .celerik-toolbar, .celerik-menu-list,
-    .celerik-accordion, .celerik-splitter, .celerik-tilelayout, .celerik-chip-check, .celerik-popover, .celerik-carousel, .notyf)
+    .celerik-accordion, .celerik-splitter, .celerik-tilelayout, .celerik-chip-check, .celerik-popover, .celerik-carousel, .celerik-gantt, .notyf)
     :focus-visible,
   .celerik-action-button:focus-visible,
   // A date field's focus is on its day, month and year parts or its calendar button,
