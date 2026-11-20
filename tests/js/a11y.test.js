@@ -173,6 +173,14 @@ describe('accessibility (axe-core, WCAG 2.1 AA)', () => {
     expect(await violations()).toEqual([]);
   });
 
+  test('org chart: nested named lists, then with teams collapsed', async () => {
+    const { initOrgChart } = await import('../../resources/js/orgchart.js');
+    const chart = loadFixture('orgchart');
+    expect(await violations()).toEqual([]);
+    initOrgChart(chart, readOptions(chart));
+    expect(await violations()).toEqual([]);
+  });
+
   test('map: the list of places, then the map with a popup open', async () => {
     const { initMap } = await import('../../resources/js/map.js');
     const map = loadFixture('map');

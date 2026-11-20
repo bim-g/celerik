@@ -119,7 +119,7 @@ The **Phase** column refers to the [roadmap](ROADMAP.md); "–" means not yet sc
 | Gauges (radial / linear) | Native SVG, drawn by PHP (`role="meter"`) | – | 8 ✅ (`Gauge`) |
 | Map | Leaflet | BSD-2 | 8 ✅ (`Map`) |
 | Diagram | Mermaid | MIT | 8 |
-| OrgChart | D3 hierarchy layout | ISC | 8 |
+| OrgChart | Native (nested lists drawn by CSS) | – | 8 ✅ (`OrgChart`) |
 | QRCode | qrcode-generator | MIT | 8 |
 | Barcode | JsBarcode | MIT | 8 |
 | Advanced charts | Plotly.js / D3.js | MIT / ISC | – |

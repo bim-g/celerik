@@ -388,6 +388,11 @@ if ($path === '/theme-css' && ($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
 }
 
 // The ThemeBuilder, previewing real components: GET /theme-builder?mode=dark
+if ($path === '/orgchart') {
+    require __DIR__ . '/orgchart-page.php';
+    exit;
+}
+
 if ($path === '/map') {
     require __DIR__ . '/map-page.php';
     exit;
