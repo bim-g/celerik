@@ -51,6 +51,8 @@ use Celerik\Ui\Components\RecordView\Entry;
 use Celerik\Ui\Components\ThemeBuilder;
 use Celerik\Ui\Components\TileLayout;
 use Celerik\Ui\Components\Toolbar;
+use Celerik\Ui\Components\Timeline;
+use Celerik\Ui\Components\Carousel;
 use Celerik\Ui\Support\Html;
 use Celerik\Ui\Theme\Theme;
 use Celerik\Ui\Upload\UploadRules;
@@ -432,6 +434,20 @@ $fixtures = [
                 . '</div>';
         }
     },
+
+    'timeline' => Timeline::make('order-history')->label('Order history')
+        ->event('Order placed', new DateTimeImmutable('2026-11-01T09:30:00+00:00'), 'Paid by card.', color: 'success')
+        ->event('Packed <fast>', 'Nov 2', color: 'info', marker: '2')
+        ->event('Shipped', 'Yesterday', Html::raw('<p>Tracking: <a href="/track/1">TR-1</a></p>'), current: true)
+        ->event('Delivered', marker: '4', color: 'warning'),
+
+    'carousel' => Carousel::make('news')->label('News')
+        ->slide(Html::raw('<h2>Spring sale</h2><p>Up to <a href="/sale">40% off</a>.</p>'), label: 'Spring sale')
+        ->slide('A new office <Goma>')
+        ->image('/img/lake.jpg', 'Lake Kivu at dawn', caption: 'Our view'),
+
+    'carousel-autoplay' => Carousel::make('promo')->label('Promotions')->autoplay(5)->loop(false)
+        ->slide('First')->slide('Second')->slide('Third'),
 
     'recordview' => RecordView::make('member')
         ->record([

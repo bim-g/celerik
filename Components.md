@@ -106,8 +106,8 @@ The **Phase** column refers to the [roadmap](ROADMAP.md); "–" means not yet sc
 | Tooltip, Popover | Native (WAI-ARIA tooltip; `<details>` popover) | MIT | 7 ✅ (`Tooltip`, `Popover`) |
 | ProgressBar, circular progress | Native (`<progress>`, SVG) | MIT | 7 ✅ (`Progress`) |
 | Loader, Skeleton | Native (Bootstrap spinners, placeholders) | MIT | 7 ✅ (`Loader`, `Skeleton`) |
-| Timeline | Native | – | 7 |
-| ScrollView (carousel) | Bootstrap Carousel | MIT | 7 |
+| Timeline | Native | – | 7 ✅ (`Timeline`) |
+| ScrollView (carousel) | Native (WAI-ARIA carousel) | – | 7 ✅ (`Carousel`) |
 | Chat | Native | – | – |
 
 ### Charts & Visualization

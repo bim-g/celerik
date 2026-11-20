@@ -173,6 +173,23 @@ describe('accessibility (axe-core, WCAG 2.1 AA)', () => {
     expect(await violations()).toEqual([]);
   });
 
+  test('timeline: a named ordered list with a current step', async () => {
+    loadFixture('timeline');
+    expect(await violations()).toEqual([]);
+  });
+
+  test('carousels: PHP markup, then enhanced and moved', async () => {
+    const { initCarousel } = await import('../../resources/js/carousel.js');
+    let carousel = loadFixture('carousel');
+    expect(await violations()).toEqual([]);
+    initCarousel(carousel, readOptions(carousel)).next();
+    expect(await violations()).toEqual([]);
+
+    carousel = loadFixture('carousel-autoplay');
+    initCarousel(carousel, readOptions(carousel)).stop();
+    expect(await violations()).toEqual([]);
+  });
+
   test('stats: a named list of stat tiles with sparklines', async () => {
     loadFixture('stats');
     expect(await violations()).toEqual([]);

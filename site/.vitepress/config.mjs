@@ -127,6 +127,8 @@ export default defineConfig({
             { text: 'Record view', link: '/components/recordview' },
             { text: 'Stats and dashboards', link: '/components/stats' },
             { text: 'Badges, chips, tooltips, progress', link: '/components/display' },
+            { text: 'Timeline', link: '/components/timeline' },
+            { text: 'Carousel', link: '/components/carousel' },
             { text: 'Modal', link: '/components/modal' },
             { text: 'Tabs', link: '/components/tabs' },
             { text: 'Notification', link: '/components/notification' },

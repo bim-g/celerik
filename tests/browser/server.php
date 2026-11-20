@@ -388,6 +388,21 @@ if ($path === '/theme-css' && ($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
 }
 
 // The ThemeBuilder, previewing real components: GET /theme-builder?mode=dark
+if ($path === '/timeline-carousel') {
+    require __DIR__ . '/timeline-carousel-page.php';
+    exit;
+}
+
+// The documentation's carousel pictures.
+if (preg_match('#^/images/carousel/([a-z]+\.svg)$#', $path, $picture) === 1) {
+    $file = dirname(__DIR__, 2) . '/site/public/images/carousel/' . $picture[1];
+    if (is_file($file)) {
+        header('Content-Type: image/svg+xml');
+        readfile($file);
+        exit;
+    }
+}
+
 if ($path === '/display') {
     require __DIR__ . '/display-page.php';
     exit;
