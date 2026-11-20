@@ -30,6 +30,7 @@ Every component is a PHP class with a fluent API. It renders accessible Bootstra
 | [Gantt chart](./gantt) | `Gantt` | – |
 | [Map](./map) | `Map` | Leaflet 1.9 |
 | [Org chart](./orgchart) | `OrgChart` | – |
+| [Diagram](./diagram) | `Diagram` | – |
 | [Record view](./recordview) | `RecordView`, `RecordView\Entry` | – |
 | [Modal](./modal) | `Celerik\Ui\Components\Modal` | Bootstrap 5 |
 | [Tabs](./tabs) | `Celerik\Ui\Components\Tabs` | Bootstrap 5 |

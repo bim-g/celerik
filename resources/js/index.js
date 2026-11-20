@@ -11,7 +11,7 @@ register('treeview', async (element, options) => (await import('./tree.js')).ini
 register('treelist', async (element, options) => (await import('./treelist.js')).initTreeList(element, options));
 register('taskboard', async (element, options) => (await import('./taskboard.js')).initTaskBoard(element, options));
 register('usermenu', async (element, options) => (await import('./usermenu.js')).initUserMenu(element, options));
-// The layout, the breadcrumb, cards, record views, stats and timelines are HTML and CSS (Bootstrap's offcanvas opens the sidebar on
+// The layout, the breadcrumb, cards, record views, stats, timelines and diagrams are HTML and CSS (Bootstrap's offcanvas opens the sidebar on
 // small screens): nothing to set up.
 register('adminlayout', () => true);
 register('breadcrumb', () => true);
@@ -20,6 +20,7 @@ register('recordview', () => true);
 register('stat', () => true);
 register('stats', () => true);
 register('timeline', () => true);
+register('diagram', () => true);
 register('orgchart', async (element, options) => (await import('./orgchart.js')).initOrgChart(element, options));
 register('map', async (element, options) => (await import('./map.js')).initMap(element, options));
 register('gantt', async (element) => (await import('./gantt.js')).initGantt(element));

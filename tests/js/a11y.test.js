@@ -173,6 +173,13 @@ describe('accessibility (axe-core, WCAG 2.1 AA)', () => {
     expect(await violations()).toEqual([]);
   });
 
+  test('diagram: a named image and its steps as text, open', async () => {
+    const diagram = loadFixture('diagram');
+    expect(await violations()).toEqual([]);
+    diagram.querySelector('details').open = true;
+    expect(await violations()).toEqual([]);
+  });
+
   test('org chart: nested named lists, then with teams collapsed', async () => {
     const { initOrgChart } = await import('../../resources/js/orgchart.js');
     const chart = loadFixture('orgchart');

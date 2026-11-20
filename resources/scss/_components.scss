@@ -2653,6 +2653,133 @@ html:not(.celerik-js) .celerik-orgchart-toggle {
   }
 }
 
+// Diagram (Components\Diagram): a flowchart drawn by PHP, and its steps as text.
+.celerik-diagram {
+  margin: 0 0 1rem;
+}
+
+// The drawing shrinks to its container; it never grows past its own size.
+.celerik-diagram-svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin-inline: auto;
+}
+
+.celerik-diagram-shape {
+  fill: var(--bs-tertiary-bg);
+  stroke: var(--bs-secondary-color);
+  stroke-width: 1.5;
+}
+
+@each $color in primary, secondary, success, danger, warning, info {
+  .celerik-diagram-#{$color} {
+    fill: var(--bs-#{$color}-bg-subtle);
+    stroke: var(--bs-#{$color}-text-emphasis);
+  }
+}
+
+.celerik-diagram-text {
+  fill: var(--bs-body-color);
+  font-size: 13px;
+}
+
+.celerik-diagram-edge {
+  fill: none;
+  stroke: var(--bs-secondary-color);
+  stroke-width: 1.5;
+
+  &.is-loop {
+    stroke-dasharray: 5 4;
+  }
+}
+
+.celerik-diagram-arrowhead {
+  fill: var(--bs-secondary-color);
+}
+
+.celerik-diagram-edge-label {
+  rect {
+    fill: var(--bs-body-bg);
+    stroke: var(--bs-border-color);
+  }
+
+  text {
+    fill: var(--bs-body-color);
+    font-size: 12px;
+  }
+}
+
+.celerik-diagram-caption {
+  margin-top: 0.5rem;
+  color: var(--bs-secondary-color);
+  font-size: 0.875rem;
+  text-align: center;
+}
+
+.celerik-diagram-details {
+  margin-top: 0.5rem;
+
+  > summary {
+    width: fit-content;
+    color: var(--bs-link-color);
+    cursor: pointer;
+
+    &:focus-visible {
+      outline: 2px solid var(--bs-focus-ring-color, var(--bs-primary));
+      outline-offset: 2px;
+    }
+  }
+}
+
+.celerik-diagram-steps {
+  margin: 0.5rem 0 0;
+
+  li {
+    margin-bottom: 0.25rem;
+
+    &:target {
+      background-color: var(--bs-highlight-bg, var(--bs-warning-bg-subtle));
+    }
+  }
+}
+
+.celerik-diagram-step {
+  font-weight: 600;
+}
+
+.celerik-diagram-tag {
+  color: var(--bs-secondary-color);
+  font-size: 0.875em;
+}
+
+.celerik-diagram-links {
+  display: block;
+  font-size: 0.875rem;
+}
+
+@media (forced-colors: active) {
+  .celerik-diagram-svg {
+    forced-color-adjust: none;
+  }
+
+  .celerik-diagram-shape[class],
+  .celerik-diagram-edge-label rect {
+    fill: Canvas;
+    stroke: CanvasText;
+  }
+
+  .celerik-diagram-text,
+  .celerik-diagram-edge-label text,
+  .celerik-diagram-arrowhead {
+    fill: CanvasText;
+  }
+
+  .celerik-diagram-edge {
+    stroke: CanvasText;
+  }
+}
+
 // Timeline (Components\Timeline): an ordered list along a line. Plain HTML.
 .celerik-timeline {
   --celerik-timeline-rail: 1.75rem;
@@ -3912,7 +4039,7 @@ td[aria-busy='true'] .celerik-grid-editor {
     .celerik-filemanager, .celerik-theme-builder, .celerik-action-dialog,
     .celerik-modal, .celerik-listview, .celerik-treelist, .celerik-board, .celerik-admin, .celerik-nav,
     .celerik-usermenu, .celerik-menubutton, .celerik-splitbutton, .celerik-toolbar, .celerik-menu-list,
-    .celerik-accordion, .celerik-splitter, .celerik-tilelayout, .celerik-chip-check, .celerik-popover, .celerik-carousel, .celerik-gantt, .celerik-map, .celerik-orgchart, .notyf)
+    .celerik-accordion, .celerik-splitter, .celerik-tilelayout, .celerik-chip-check, .celerik-popover, .celerik-carousel, .celerik-gantt, .celerik-map, .celerik-orgchart, .celerik-diagram, .notyf)
     :focus-visible,
   .celerik-action-button:focus-visible,
   // A date field's focus is on its day, month and year parts or its calendar button,

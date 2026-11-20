@@ -14,6 +14,7 @@ use Celerik\Ui\Components\Carousel;
 use Celerik\Ui\Components\Chart;
 use Celerik\Ui\Components\Chip;
 use Celerik\Ui\Components\ContextMenu;
+use Celerik\Ui\Components\Diagram;
 use Celerik\Ui\Components\FileManager;
 use Celerik\Ui\Components\Form;
 use Celerik\Ui\Components\Gantt;
@@ -103,7 +104,8 @@ final class ComponentRegistry
             ->register(Gauge::class)
             ->register(Gantt::class)
             ->register(Map::class)
-            ->register(OrgChart::class);
+            ->register(OrgChart::class)
+            ->register(Diagram::class);
     }
 
     /**
