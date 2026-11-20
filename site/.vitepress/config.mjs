@@ -130,6 +130,7 @@ export default defineConfig({
             { text: 'Timeline', link: '/components/timeline' },
             { text: 'Carousel', link: '/components/carousel' },
             { text: 'Gauges and sparklines', link: '/components/gauge' },
+            { text: 'Gantt chart', link: '/components/gantt' },
             { text: 'Modal', link: '/components/modal' },
             { text: 'Tabs', link: '/components/tabs' },
             { text: 'Notification', link: '/components/notification' },

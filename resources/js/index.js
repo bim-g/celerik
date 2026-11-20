@@ -20,6 +20,7 @@ register('recordview', () => true);
 register('stat', () => true);
 register('stats', () => true);
 register('timeline', () => true);
+register('gantt', async (element) => (await import('./gantt.js')).initGantt(element));
 register('carousel', async (element, options) => (await import('./carousel.js')).initCarousel(element, options));
 register('chip', async (element, options) => (await import('./display.js')).initChip(element, options));
 register('tooltip', async (element, options) => (await import('./display.js')).initTooltip(element, options));

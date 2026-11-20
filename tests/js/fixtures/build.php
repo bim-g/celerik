@@ -51,6 +51,7 @@ use Celerik\Ui\Components\RecordView\Entry;
 use Celerik\Ui\Components\ThemeBuilder;
 use Celerik\Ui\Components\TileLayout;
 use Celerik\Ui\Components\Toolbar;
+use Celerik\Ui\Components\Gantt;
 use Celerik\Ui\Components\Gauge;
 use Celerik\Ui\Components\Sparkline;
 use Celerik\Ui\Components\Timeline;
@@ -450,6 +451,12 @@ $fixtures = [
 
     'carousel-autoplay' => Carousel::make('promo')->label('Promotions')->autoplay(5)->loop(false)
         ->slide('First')->slide('Second')->slide('Third'),
+
+    'gantt' => Gantt::make('launch')->label('Product launch')->today('2026-11-20')
+        ->task('design', 'Design', '2026-11-02', '2026-11-13', progress: 100)
+        ->task('build', 'Build <api>', '2026-11-16', '2026-11-27', progress: 40, depends: ['design'], color: 'success')
+        ->task('docs', 'Docs', '2026-11-16', '2026-11-20', depends: ['design'], color: 'secondary')
+        ->milestone('release', 'Release', '2026-11-30', depends: ['build', 'docs'], color: 'danger'),
 
     'gauges' => new class () {
         public function render(): string

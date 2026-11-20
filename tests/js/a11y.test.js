@@ -173,6 +173,14 @@ describe('accessibility (axe-core, WCAG 2.1 AA)', () => {
     expect(await violations()).toEqual([]);
   });
 
+  test('gantt: a named table with its timeline, then with arrows', async () => {
+    const { initGantt } = await import('../../resources/js/gantt.js');
+    const gantt = loadFixture('gantt');
+    expect(await violations()).toEqual([]);
+    initGantt(gantt);
+    expect(await violations()).toEqual([]);
+  });
+
   test('gauges and sparklines: named meters and images', async () => {
     loadFixture('gauges');
     expect(await violations()).toEqual([]);
