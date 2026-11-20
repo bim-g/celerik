@@ -388,6 +388,18 @@ if ($path === '/theme-css' && ($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
 }
 
 // The ThemeBuilder, previewing real components: GET /theme-builder?mode=dark
+if ($path === '/map') {
+    require __DIR__ . '/map-page.php';
+    exit;
+}
+
+// Map tiles: the same local picture for every tile.
+if (preg_match('#^/tiles/\d+/\d+/\d+\.svg$#', $path) === 1) {
+    header('Content-Type: image/svg+xml');
+    readfile(__DIR__ . '/map-tile.svg');
+    exit;
+}
+
 if ($path === '/gantt') {
     require __DIR__ . '/gantt-page.php';
     exit;

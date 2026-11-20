@@ -6,6 +6,7 @@ namespace Celerik\Ui\Components;
 
 use Celerik\Ui\Component;
 use Celerik\Ui\Support\Html;
+use Celerik\Ui\Support\Url;
 use InvalidArgumentException;
 use Stringable;
 
@@ -82,7 +83,7 @@ final class Card extends Component
      */
     public function image(?string $url, string $alt = ''): self
     {
-        $this->imageUrl = $url === null ? null : self::safeUrl($url);
+        $this->imageUrl = $url === null ? null : Url::safe($url);
         $this->imageAlt = $alt;
 
         return $this;
@@ -165,19 +166,5 @@ final class Card extends Component
             $this->rootAttributes(['card', 'celerik-card']),
             $image . Html::tag('div', ['class' => 'card-body'], $body) . $footer,
         ) . $modals;
-    }
-
-    private static function safeUrl(string $url): ?string
-    {
-        $url = trim($url);
-        if ($url === '' || preg_match('/[\x00-\x20\x7f]/', $url) === 1) {
-            return null;
-        }
-        $scheme = parse_url($url, PHP_URL_SCHEME);
-        if ($scheme === false) {
-            return null;
-        }
-
-        return $scheme === null || in_array(strtolower($scheme), ['http', 'https'], true) ? $url : null;
     }
 }

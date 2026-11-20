@@ -117,7 +117,7 @@ The **Phase** column refers to the [roadmap](ROADMAP.md); "–" means not yet sc
 | Chart (line, bar, pie, doughnut, radar, scatter…) | Chart.js | MIT | 1 ✅ |
 | Sparkline | Native SVG, drawn by PHP | – | 7 ✅ (`Stat::sparkline()`), 8 ✅ (`Sparkline`) |
 | Gauges (radial / linear) | Native SVG, drawn by PHP (`role="meter"`) | – | 8 ✅ (`Gauge`) |
-| Map | Leaflet | BSD-2 | 8 |
+| Map | Leaflet | BSD-2 | 8 ✅ (`Map`) |
 | Diagram | Mermaid | MIT | 8 |
 | OrgChart | D3 hierarchy layout | ISC | 8 |
 | QRCode | qrcode-generator | MIT | 8 |

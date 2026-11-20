@@ -80,6 +80,7 @@ celerik/
 │   │   ├── upload.js  upload-config.js      # FilePond, loaded only for forms with uploads
 │   │   ├── modal.js  tabs.js  bootstrap-global.js   # Bootstrap JS (peer dependency)
 │   │   ├── notification.js  notification-config.js  # Notyf, Celerik.notify()
+│   │   ├── map.js  # Leaflet
 │   │   ├── filemanager.js  filemanager-config.js    # jQuery UI + the app's copy of elFinder
 │   │   ├── themebuilder.js  theme-css.js            # ThemeBuilder; theme stylesheet + contrast in JS
 │   │   └── jquery-global.js      # `jquery` → window.jQuery (peer dependency)

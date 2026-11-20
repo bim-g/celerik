@@ -19,6 +19,7 @@ Celerik UI is MIT licensed (see [LICENSE.md](LICENSE.md)). The built bundle in `
 | [quill-delta](https://github.com/slab/delta), [eventemitter3](https://github.com/primus/eventemitter3), [lodash-es](https://lodash.com) (Quill dependencies) | – | MIT | `chunks/editor-*.js` |
 | [SortableJS](https://sortablejs.github.io/Sortable/) | 1.15 | MIT | `chunks/taskboard-*.js` |
 | [Notyf](https://carlosroso.com/notyf/) | 3.x | MIT | `chunks/notification-*.js`, `chunks/notification-*.css` |
+| [Leaflet](https://leafletjs.com) | 1.9 | BSD-2-Clause | `chunks/map-*.js`, `chunks/map-*.css` (its images inlined) |
 | [jQuery UI](https://jqueryui.com) (for elFinder) | 1.14 | MIT | `chunks/filemanager-*.js`, `chunks/filemanager-*.css`, `chunks/ui-icons_*.png` |
 
 ## Peer dependencies (not bundled, loaded by the application)

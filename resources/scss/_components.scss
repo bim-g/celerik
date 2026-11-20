@@ -2158,6 +2158,254 @@ html:not(.celerik-js) .celerik-chip-remove {
   }
 }
 
+// Map (Components\Map, Leaflet): a named region and, under it, the list of its places.
+.celerik-map {
+  margin-bottom: 1rem;
+}
+
+.celerik-map-canvas {
+  position: relative;
+  z-index: 0;
+  height: 22.5rem;
+  border: var(--bs-border-width) solid var(--bs-border-color);
+  border-radius: var(--bs-border-radius);
+  background-color: var(--bs-tertiary-bg);
+  font: inherit;
+
+  &.celerik-map-sm { height: 15rem; }
+  &.celerik-map-lg { height: 30rem; }
+
+  &:focus-visible {
+    outline: 2px solid var(--bs-focus-ring-color, var(--bs-primary));
+    outline-offset: 2px;
+  }
+
+  // Leaflet's own colors follow the page: controls, popups and the attribution.
+  &.leaflet-container {
+    background-color: var(--bs-tertiary-bg);
+    color: var(--bs-body-color);
+    font: inherit;
+  }
+
+  .leaflet-bar a {
+    border-bottom-color: var(--bs-border-color);
+    background-color: var(--bs-body-bg);
+    color: var(--bs-body-color);
+
+    &:hover,
+    &:focus-visible {
+      background-color: var(--bs-tertiary-bg);
+      color: var(--bs-emphasis-color);
+    }
+
+    &.leaflet-disabled {
+      background-color: var(--bs-secondary-bg);
+      color: var(--bs-secondary-color);
+    }
+  }
+
+  .leaflet-bar {
+    border-color: var(--bs-border-color);
+  }
+
+  // A solid background keeps the attribution readable over any tile (AA). Leaflet's
+  // stylesheet loads after Celerik's: these rules are one class more specific than its own.
+  &.leaflet-container .leaflet-control-attribution {
+    background-color: var(--bs-body-bg);
+    color: var(--bs-body-color);
+    font-size: 0.75rem;
+
+    a {
+      color: var(--bs-link-color);
+    }
+  }
+
+  .leaflet-popup-content-wrapper,
+  .leaflet-popup-tip {
+    background-color: var(--bs-body-bg);
+    color: var(--bs-body-color);
+    box-shadow: var(--bs-box-shadow);
+  }
+
+  .leaflet-popup-content-wrapper {
+    border: var(--bs-border-width) solid var(--bs-border-color);
+    border-radius: var(--bs-border-radius);
+  }
+
+  .leaflet-popup-content {
+    margin: 0.75rem 2rem 0.75rem 0.875rem;
+    font-size: 0.875rem;
+    line-height: 1.4;
+  }
+
+  // A 24px target (WCAG 2.5.8).
+  a.leaflet-popup-close-button {
+    width: 1.75rem;
+    height: 1.75rem;
+    color: var(--bs-secondary-color);
+    font: 1.25rem / 1.75rem inherit;
+
+    &:hover,
+    &:focus-visible {
+      color: var(--bs-emphasis-color);
+    }
+  }
+
+  :is(.leaflet-bar a, .leaflet-popup-close-button, .leaflet-control-attribution a, .celerik-map-popup a):focus-visible {
+    outline: 2px solid var(--bs-focus-ring-color, var(--bs-primary));
+    outline-offset: 1px;
+  }
+
+  // Links, not Leaflet's links that play buttons (zoom, close).
+  &.leaflet-container a:not([role='button']) {
+    color: var(--bs-link-color);
+  }
+
+  &.leaflet-container .celerik-map-popup p {
+    margin: 0 0 0.25rem;
+  }
+}
+
+// Darker tiles in dark mode.
+[data-bs-theme='dark'] .celerik-map-canvas .leaflet-tile-pane {
+  filter: invert(1) hue-rotate(180deg) brightness(0.9) contrast(0.9);
+}
+
+.celerik-map-noscript {
+  margin: 0;
+  padding: 1rem;
+  color: var(--bs-secondary-color);
+}
+
+.celerik-map-popup-name {
+  margin: 0 0 0.25rem;
+  font-weight: 600;
+}
+
+.celerik-map-popup-description {
+  margin: 0 0 0.25rem;
+}
+
+// A pin drawn with CSS: a round head on a point, with a white ring (3:1 on any tile).
+.celerik-map-marker {
+  --celerik-map-pin: var(--bs-primary);
+  border-radius: 50%;
+  background: none;
+  border: 0;
+
+  &:focus-visible {
+    outline: 3px solid var(--bs-focus-ring-color, var(--bs-primary));
+    outline-offset: 2px;
+  }
+}
+
+.celerik-map-pin {
+  position: absolute;
+  top: 2px;
+  left: 4px;
+  width: 20px;
+  height: 20px;
+  border: 2px solid #fff;
+  border-radius: 50% 50% 50% 0;
+  background-color: var(--celerik-map-pin);
+  box-shadow: 0 1px 3px rgb(0 0 0 / 0.5);
+  transform: rotate(-45deg);
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: #fff;
+  }
+}
+
+@each $color, $value in (
+  'primary': var(--bs-primary),
+  'secondary': var(--bs-secondary),
+  'success': var(--bs-success),
+  'danger': var(--bs-danger),
+  'warning': #b78103,
+  'info': #087990
+) {
+  .celerik-map-marker-#{$color},
+  .celerik-map-place-#{$color} {
+    --celerik-map-pin: #{$value};
+  }
+}
+
+// The list of places: a pin's color beside each name, as on the map.
+.celerik-map-places {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+  gap: 0.5rem 1rem;
+  margin: 0.75rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.celerik-map-place {
+  position: relative;
+  padding: 0.5rem 0.75rem 0.5rem 1.5rem;
+  border: var(--bs-border-width) solid var(--bs-border-color);
+  border-radius: var(--bs-border-radius);
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0.85rem;
+    left: 0.6rem;
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 50%;
+    background-color: var(--celerik-map-pin);
+  }
+}
+
+.celerik-map-place-name {
+  margin: 0;
+  font-weight: 600;
+}
+
+.celerik-map-place-description {
+  margin: 0;
+  color: var(--bs-secondary-color);
+  font-size: 0.875rem;
+}
+
+.celerik-map-place-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.25rem 0.75rem;
+  margin-top: 0.375rem;
+  font-size: 0.875rem;
+}
+
+html:not(.celerik-js) .celerik-map-show {
+  display: none;
+}
+
+@media (forced-colors: active) {
+  .celerik-map-pin {
+    forced-color-adjust: none;
+    border-color: Canvas;
+    background-color: CanvasText;
+
+    &::after {
+      background-color: Canvas;
+    }
+  }
+
+  .celerik-map-canvas .leaflet-bar a,
+  .celerik-map-canvas .leaflet-popup-content-wrapper {
+    border: 1px solid CanvasText;
+  }
+}
+
 // Timeline (Components\Timeline): an ordered list along a line. Plain HTML.
 .celerik-timeline {
   --celerik-timeline-rail: 1.75rem;
@@ -3417,7 +3665,7 @@ td[aria-busy='true'] .celerik-grid-editor {
     .celerik-filemanager, .celerik-theme-builder, .celerik-action-dialog,
     .celerik-modal, .celerik-listview, .celerik-treelist, .celerik-board, .celerik-admin, .celerik-nav,
     .celerik-usermenu, .celerik-menubutton, .celerik-splitbutton, .celerik-toolbar, .celerik-menu-list,
-    .celerik-accordion, .celerik-splitter, .celerik-tilelayout, .celerik-chip-check, .celerik-popover, .celerik-carousel, .celerik-gantt, .notyf)
+    .celerik-accordion, .celerik-splitter, .celerik-tilelayout, .celerik-chip-check, .celerik-popover, .celerik-carousel, .celerik-gantt, .celerik-map, .notyf)
     :focus-visible,
   .celerik-action-button:focus-visible,
   // A date field's focus is on its day, month and year parts or its calendar button,

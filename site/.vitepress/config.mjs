@@ -131,6 +131,7 @@ export default defineConfig({
             { text: 'Carousel', link: '/components/carousel' },
             { text: 'Gauges and sparklines', link: '/components/gauge' },
             { text: 'Gantt chart', link: '/components/gantt' },
+            { text: 'Map', link: '/components/map' },
             { text: 'Modal', link: '/components/modal' },
             { text: 'Tabs', link: '/components/tabs' },
             { text: 'Notification', link: '/components/notification' },

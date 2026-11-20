@@ -52,6 +52,7 @@ use Celerik\Ui\Components\ThemeBuilder;
 use Celerik\Ui\Components\TileLayout;
 use Celerik\Ui\Components\Toolbar;
 use Celerik\Ui\Components\Gantt;
+use Celerik\Ui\Components\Map;
 use Celerik\Ui\Components\Gauge;
 use Celerik\Ui\Components\Sparkline;
 use Celerik\Ui\Components\Timeline;
@@ -451,6 +452,12 @@ $fixtures = [
 
     'carousel-autoplay' => Carousel::make('promo')->label('Promotions')->autoplay(5)->loop(false)
         ->slide('First')->slide('Second')->slide('Third'),
+
+    'map' => Map::make('offices')->label('Our offices')
+        ->tiles('/tiles/{z}/{x}/{y}.svg', 'Test tiles', '/tiles/licence')
+        ->labels(['zoomIn' => 'Zoom in (test)'])
+        ->marker(-1.6792, 29.2228, 'Goma <HQ>', 'Avenue du Lac 12', url: '/offices/goma')
+        ->marker(-2.5083, 28.8608, 'Bukavu', color: 'success'),
 
     'gantt' => Gantt::make('launch')->label('Product launch')->today('2026-11-20')
         ->task('design', 'Design', '2026-11-02', '2026-11-13', progress: 100)

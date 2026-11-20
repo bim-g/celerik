@@ -20,6 +20,7 @@ use Celerik\Ui\Components\Gantt;
 use Celerik\Ui\Components\Gauge;
 use Celerik\Ui\Components\Grid;
 use Celerik\Ui\Components\ListView;
+use Celerik\Ui\Components\Map;
 use Celerik\Ui\Components\Loader;
 use Celerik\Ui\Components\MenuButton;
 use Celerik\Ui\Components\Modal;
@@ -99,7 +100,8 @@ final class ComponentRegistry
             ->register(Carousel::class)
             ->register(Sparkline::class)
             ->register(Gauge::class)
-            ->register(Gantt::class);
+            ->register(Gantt::class)
+            ->register(Map::class);
     }
 
     /**
