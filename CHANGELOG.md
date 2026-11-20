@@ -8,6 +8,10 @@ The same version is published on Packagist (`celerik/ui`) and npm (`@celerikui/u
 
 ### Added
 
+- **Timeline and carousel**:
+  - `Timeline`: a named ordered list of events, each with a title, a date in a `<time>` element or a text, a description, a colored marker (with a short text such as "✓"), a link, and a current step (`aria-current="step"` and a ring); `alternate()` uses both sides of the line on wide screens. Plain HTML.
+  - `Carousel`: the WAI-ARIA carousel, with picture slides (cropped to a ratio, captioned, lazy after the first) or HTML slides; Previous, Next and a 24px button per slide; the new slide announced; touch swipe; the height of the tallest slide. `autoplay()` comes with a Stop button first, pauses for the pointer and focus, stops once the user picks a slide and does not start for reduced motion (WCAG 2.2.2). Without JavaScript the slides are shown one under the other.
+
 - **Display elements**:
   - `Badge`: a status or count in an AA color, with a text for screen readers only ("3 unread messages").
   - `Avatar`: a picture or initials on a color from the name, named after the person, with a status dot told apart by its shape (online, away, busy, offline); `decorative()` next to a written name.

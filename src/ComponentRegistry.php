@@ -10,6 +10,7 @@ use Celerik\Ui\Components\Avatar;
 use Celerik\Ui\Components\Badge;
 use Celerik\Ui\Components\Breadcrumb;
 use Celerik\Ui\Components\Card;
+use Celerik\Ui\Components\Carousel;
 use Celerik\Ui\Components\Chart;
 use Celerik\Ui\Components\Chip;
 use Celerik\Ui\Components\ContextMenu;
@@ -35,6 +36,7 @@ use Celerik\Ui\Components\Tabs;
 use Celerik\Ui\Components\TaskBoard;
 use Celerik\Ui\Components\ThemeBuilder;
 use Celerik\Ui\Components\TileLayout;
+use Celerik\Ui\Components\Timeline;
 use Celerik\Ui\Components\Toolbar;
 use Celerik\Ui\Components\Tooltip;
 use Celerik\Ui\Components\TreeList;
@@ -89,7 +91,9 @@ final class ComponentRegistry
             ->register(Popover::class)
             ->register(Progress::class)
             ->register(Loader::class)
-            ->register(Skeleton::class);
+            ->register(Skeleton::class)
+            ->register(Timeline::class)
+            ->register(Carousel::class);
     }
 
     /**

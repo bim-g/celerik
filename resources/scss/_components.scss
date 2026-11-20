@@ -1725,6 +1725,321 @@ html:not(.celerik-js) .celerik-chip-remove {
   }
 }
 
+// Timeline (Components\Timeline): an ordered list along a line. Plain HTML.
+.celerik-timeline {
+  --celerik-timeline-rail: 1.75rem;
+  margin: 0 0 1rem;
+  padding: 0;
+  list-style: none;
+}
+
+.celerik-timeline-event {
+  position: relative;
+  display: grid;
+  grid-template-columns: var(--celerik-timeline-rail) minmax(0, 1fr);
+  column-gap: 0.75rem;
+  padding-bottom: 1.5rem;
+
+  // The line, from this marker down to the next one: a border, which forced colors keep.
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0.75rem;
+    bottom: -0.75rem;
+    inset-inline-start: calc(var(--celerik-timeline-rail) / 2 - 1px);
+    border-inline-start: 2px solid var(--bs-border-color);
+  }
+
+  &:last-child {
+    padding-bottom: 0;
+
+    &::before {
+      display: none;
+    }
+  }
+}
+
+.celerik-timeline-marker {
+  position: relative;
+  z-index: 1;
+  justify-self: center;
+  width: 0.875rem;
+  height: 0.875rem;
+  margin-top: 0.3125rem;
+  border: 2px solid var(--bs-primary);
+  border-radius: 50%;
+  background-color: var(--bs-body-bg);
+
+  // A text marker ("✓", "3") keeps an AA contrast: a subtle background, an emphasis color.
+  &.has-text {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: var(--celerik-timeline-rail);
+    height: var(--celerik-timeline-rail);
+    margin-top: 0;
+    border-color: var(--bs-primary-border-subtle);
+    background-color: var(--bs-primary-bg-subtle);
+    color: var(--bs-primary-text-emphasis);
+    font-size: 0.8125rem;
+    font-weight: 600;
+    line-height: 1;
+  }
+}
+
+@each $color in primary, secondary, success, danger, warning, info {
+  .celerik-timeline-marker-#{$color} {
+    border-color: var(--bs-#{$color});
+    background-color: var(--bs-#{$color});
+
+    &.has-text {
+      border-color: var(--bs-#{$color}-border-subtle);
+      background-color: var(--bs-#{$color}-bg-subtle);
+      color: var(--bs-#{$color}-text-emphasis);
+    }
+  }
+}
+
+// The current step: a ring around its marker (not only a color) and a bold title.
+.celerik-timeline-event.is-current {
+  .celerik-timeline-marker {
+    outline: 2px solid var(--bs-emphasis-color);
+    outline-offset: 2px;
+  }
+
+  .celerik-timeline-title {
+    font-weight: 700;
+  }
+}
+
+.celerik-timeline-body {
+  min-width: 0;
+}
+
+.celerik-timeline-title {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.5;
+}
+
+.celerik-timeline-time {
+  display: block;
+  margin: 0;
+  color: var(--bs-secondary-color);
+  font-size: 0.875rem;
+}
+
+.celerik-timeline-content {
+  margin-top: 0.25rem;
+
+  > :last-child {
+    margin-bottom: 0;
+  }
+}
+
+// Both sides of the line on wide screens; one side on phones.
+@media (min-width: 768px) {
+  .celerik-timeline-alternate .celerik-timeline-event {
+    grid-template-columns: minmax(0, 1fr) var(--celerik-timeline-rail) minmax(0, 1fr);
+
+    &::before {
+      inset-inline-start: calc(50% - 1px);
+    }
+
+    .celerik-timeline-marker {
+      grid-row: 1;
+      grid-column: 2;
+    }
+
+    .celerik-timeline-body {
+      grid-row: 1;
+      grid-column: 3;
+    }
+
+    &:nth-child(even) .celerik-timeline-body {
+      grid-column: 1;
+      text-align: end;
+    }
+  }
+}
+
+// Carousel (Components\Carousel): its controls come first (the rotation button is reached
+// before the slides) and are shown under the slides.
+.celerik-carousel {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.celerik-carousel-controls {
+  display: flex;
+  flex-wrap: wrap;
+  order: 1;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+html:not(.celerik-js) .celerik-carousel-controls {
+  display: none;
+}
+
+// Without JavaScript the slides are shown one under the other. With it, they share one
+// cell: the carousel keeps the height of its tallest slide, and only one is shown.
+.celerik-carousel-slides {
+  display: grid;
+  gap: 1rem;
+  min-width: 0;
+}
+
+.celerik-js .celerik-carousel-slide {
+  grid-area: 1 / 1;
+  min-width: 0;
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 0.35s ease, visibility 0s linear 0.35s;
+
+  &.is-active {
+    visibility: visible;
+    opacity: 1;
+    transition: opacity 0.35s ease;
+  }
+}
+
+.celerik-carousel-previous,
+.celerik-carousel-next,
+.celerik-carousel-rotate {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2rem;
+  min-height: 2rem;
+
+  &[aria-disabled='true'] {
+    opacity: 0.5;
+    cursor: default;
+  }
+}
+
+.celerik-carousel:not(.is-playing) .celerik-carousel-icon-pause,
+.celerik-carousel.is-playing .celerik-carousel-icon-play {
+  display: none;
+}
+
+[dir='rtl'] .celerik-carousel-previous .celerik-carousel-icon,
+[dir='rtl'] .celerik-carousel-next .celerik-carousel-icon {
+  transform: scaleX(-1);
+}
+
+.celerik-carousel-picker {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+// A 24px target (WCAG 2.5.8); the current slide's dot is filled, the others are rings.
+.celerik-carousel-dot {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: none;
+  color: var(--bs-secondary-color);
+
+  &::before {
+    content: '';
+    width: 0.625rem;
+    height: 0.625rem;
+    border: 2px solid currentColor;
+    border-radius: 50%;
+  }
+
+  &:hover {
+    background-color: var(--bs-tertiary-bg);
+    color: var(--bs-body-color);
+  }
+
+  &[aria-current='true'] {
+    color: var(--bs-primary-text-emphasis);
+
+    &::before {
+      width: 0.75rem;
+      height: 0.75rem;
+      background-color: currentColor;
+    }
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--bs-focus-ring-color, var(--bs-primary));
+    outline-offset: 1px;
+  }
+}
+
+.celerik-carousel-figure {
+  margin: 0;
+}
+
+.celerik-carousel-image {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  border-radius: var(--bs-border-radius);
+  object-fit: cover;
+}
+
+@each $name, $ratio in ('4x3': 4 / 3, '3x2': 3 / 2, '21x9': 21 / 9, '1x1': 1) {
+  .celerik-carousel-ratio-#{$name} .celerik-carousel-image {
+    aspect-ratio: $ratio;
+  }
+}
+
+.celerik-carousel-caption {
+  margin-top: 0.5rem;
+  color: var(--bs-secondary-color);
+  font-size: 0.875rem;
+  text-align: center;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .celerik-js .celerik-carousel-slide,
+  .celerik-js .celerik-carousel-slide.is-active {
+    transition: none;
+  }
+}
+
+@media (forced-colors: active) {
+  .celerik-timeline-marker {
+    forced-color-adjust: none;
+    border-color: CanvasText;
+    background-color: Canvas;
+    color: CanvasText;
+  }
+
+  .celerik-timeline-marker[class*='celerik-timeline-marker-']:not(.has-text) {
+    background-color: CanvasText;
+  }
+
+  .celerik-timeline-event.is-current .celerik-timeline-marker {
+    outline-color: Highlight;
+  }
+
+  .celerik-carousel-dot {
+    forced-color-adjust: none;
+    color: CanvasText;
+
+    &[aria-current='true'] {
+      color: Highlight;
+    }
+  }
+}
+
 // Small screens: one column, each tile as high as its content.
 @media (max-width: 767.98px) {
   .celerik-tilelayout {
@@ -2669,7 +2984,7 @@ td[aria-busy='true'] .celerik-grid-editor {
     .celerik-filemanager, .celerik-theme-builder, .celerik-action-dialog,
     .celerik-modal, .celerik-listview, .celerik-treelist, .celerik-board, .celerik-admin, .celerik-nav,
     .celerik-usermenu, .celerik-menubutton, .celerik-splitbutton, .celerik-toolbar, .celerik-menu-list,
-    .celerik-accordion, .celerik-splitter, .celerik-tilelayout, .celerik-chip-check, .celerik-popover, .notyf)
+    .celerik-accordion, .celerik-splitter, .celerik-tilelayout, .celerik-chip-check, .celerik-popover, .celerik-carousel, .notyf)
     :focus-visible,
   .celerik-action-button:focus-visible,
   // A date field's focus is on its day, month and year parts or its calendar button,

@@ -71,14 +71,14 @@ The frame of an application.
 - Menu, context menu, dropdown and split buttons, toolbar ✅.
 - Accordion (the Telerik PanelBar) ✅, card ✅, splitter ✅, tile layout for dashboards ✅.
 
-### Phase 7 — Display and feedback
+### Phase 7 — Display and feedback ✅
 
 Showing records and states.
 
 - Record view: a read-only layout of a record's fields, by sections (Filament's infolists) ✅.
 - Stat tiles with a trend and a sparkline ✅, and dashboard widgets (stats, chart, table) ✅.
 - Badge, avatar, chip, tooltip and popover, progress bar and circle, loader and skeleton ✅.
-- Timeline, carousel.
+- Timeline ✅, carousel ✅.
 
 ### Phase 8 — Visualization, media and specialized editors
 
