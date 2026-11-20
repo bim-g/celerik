@@ -173,6 +173,11 @@ describe('accessibility (axe-core, WCAG 2.1 AA)', () => {
     expect(await violations()).toEqual([]);
   });
 
+  test('gauges and sparklines: named meters and images', async () => {
+    loadFixture('gauges');
+    expect(await violations()).toEqual([]);
+  });
+
   test('timeline: a named ordered list with a current step', async () => {
     loadFixture('timeline');
     expect(await violations()).toEqual([]);

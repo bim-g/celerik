@@ -6,6 +6,12 @@ The same version is published on Packagist (`celerik/ui`) and npm (`@celerikui/u
 
 ## [Unreleased]
 
+### Added
+
+- **Gauges and sparklines**:
+  - `Gauge`: a value on a scale, as a semicircle or a bar (`linear()`), drawn by PHP as an SVG. A meter (`role="meter"`) named by its label, whose value text gives the value, its band and the target ("72%, High, target 90%"); colored bands whose name is written next to the value; a target mark; `range()`, `format()`, `decimals()`, sizes; colors kept at 3:1, and system colors in forced-colors mode.
+  - `Sparkline`: a line, area or bar chart the size of a word, for text, table cells and record views; an image named after its values' range, or `decorative()` next to the written values. `Stat::sparkline()` now draws with it.
+
 ## [0.5.0] - 2026-11-20
 
 Phase 7 (Display and feedback): a record view; stat tiles with trends and sparklines, and dashboard widgets; badges, avatars, chips, tooltips, popovers, progress bars and circles, loaders and skeletons; a timeline and a carousel. It also fixes charts that stopped growing with their container.

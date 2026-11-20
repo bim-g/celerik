@@ -16,6 +16,7 @@ use Celerik\Ui\Components\Chip;
 use Celerik\Ui\Components\ContextMenu;
 use Celerik\Ui\Components\FileManager;
 use Celerik\Ui\Components\Form;
+use Celerik\Ui\Components\Gauge;
 use Celerik\Ui\Components\Grid;
 use Celerik\Ui\Components\ListView;
 use Celerik\Ui\Components\Loader;
@@ -28,6 +29,7 @@ use Celerik\Ui\Components\Progress;
 use Celerik\Ui\Components\RecordView;
 use Celerik\Ui\Components\Scheduler;
 use Celerik\Ui\Components\Skeleton;
+use Celerik\Ui\Components\Sparkline;
 use Celerik\Ui\Components\SplitButton;
 use Celerik\Ui\Components\Splitter;
 use Celerik\Ui\Components\Stat;
@@ -93,7 +95,9 @@ final class ComponentRegistry
             ->register(Loader::class)
             ->register(Skeleton::class)
             ->register(Timeline::class)
-            ->register(Carousel::class);
+            ->register(Carousel::class)
+            ->register(Sparkline::class)
+            ->register(Gauge::class);
     }
 
     /**

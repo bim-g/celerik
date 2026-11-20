@@ -388,6 +388,11 @@ if ($path === '/theme-css' && ($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
 }
 
 // The ThemeBuilder, previewing real components: GET /theme-builder?mode=dark
+if ($path === '/gauges') {
+    require __DIR__ . '/gauge-page.php';
+    exit;
+}
+
 if ($path === '/timeline-carousel') {
     require __DIR__ . '/timeline-carousel-page.php';
     exit;
