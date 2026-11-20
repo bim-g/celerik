@@ -11,6 +11,10 @@ final class Url
 {
     /**
      * A relative, http or https URL, or null (javascript:, data: and other schemes are dropped).
+     *
+     * The scheme is read as browsers read it: the letters before the first colon, when no
+     * "/", "?" or "#" comes first. PHP's parse_url() reads "javascript:0" as a host and a
+     * port, so it is not used.
      */
     public static function safe(string $url): ?string
     {
@@ -19,11 +23,10 @@ final class Url
         if ($url === '' || preg_match('/[\x00-\x20\x7f]/', $url) === 1) {
             return null;
         }
-        $scheme = parse_url($url, PHP_URL_SCHEME);
-        if ($scheme === false) {
-            return null;
+        if (preg_match('/^([a-z][a-z0-9+.-]*):/i', $url, $scheme) === 1) {
+            return in_array(strtolower($scheme[1]), ['http', 'https'], true) ? $url : null;
         }
 
-        return $scheme === null || in_array(strtolower($scheme), ['http', 'https'], true) ? $url : null;
+        return $url;
     }
 }

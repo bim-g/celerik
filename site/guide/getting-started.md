@@ -1,6 +1,6 @@
 # Getting started
 
-Celerik UI is a set of PHP components that render accessible Bootstrap 5 markup. A small JavaScript bundle then enhances them with proven open-source libraries (DataTables, Chart.js, Parsley.js, FullCalendar, Quill, FilePond, Notyf, elFinder), each loaded only on the pages that use it.
+Celerik UI is a set of PHP components that render accessible Bootstrap 5 markup. A small JavaScript bundle then enhances them with proven open-source libraries (DataTables, Chart.js, Parsley.js, FullCalendar, Quill, FilePond, Notyf, Leaflet, elFinder), each loaded only on the pages that use it.
 
 You build a component in PHP, print it in your template, and, for server-side data, answer its requests with the same definition.
 

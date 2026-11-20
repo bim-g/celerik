@@ -6,6 +6,7 @@ namespace Celerik\Ui\Components;
 
 use Celerik\Ui\Component;
 use Celerik\Ui\Support\Html;
+use Celerik\Ui\Support\Url;
 use LogicException;
 
 /**
@@ -42,7 +43,7 @@ final class UserMenu extends Component
     {
         $this->userName = $name;
         $this->detail = $detail;
-        $this->avatar = $avatar === null ? null : self::safeUrl($avatar);
+        $this->avatar = $avatar === null ? null : Url::safe($avatar);
 
         return $this;
     }
@@ -128,19 +129,5 @@ final class UserMenu extends Component
         $last = count($words) > 1 ? mb_substr((string) end($words), 0, 1) : '';
 
         return mb_strtoupper($first . $last);
-    }
-
-    private static function safeUrl(string $url): ?string
-    {
-        $url = trim($url);
-        if ($url === '' || preg_match('/[\x00-\x20\x7f]/', $url) === 1) {
-            return null;
-        }
-        $scheme = parse_url($url, PHP_URL_SCHEME);
-        if ($scheme === false) {
-            return null;
-        }
-
-        return $scheme === null || in_array(strtolower($scheme), ['http', 'https'], true) ? $url : null;
     }
 }

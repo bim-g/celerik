@@ -82,7 +82,7 @@ Showing records and states.
 
 ### Phase 8 — Visualization, media and specialized editors
 
-- Gauges ✅, sparklines ✅, Gantt chart ✅, map, diagram and org chart.
+- Gauges ✅, sparklines ✅, Gantt chart ✅, map ✅, diagram and org chart.
 - QR code and barcode, signature pad, PDF viewer, media player.
 - Markdown editor, code editor, image editor.
 

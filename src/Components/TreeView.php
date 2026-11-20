@@ -7,6 +7,7 @@ namespace Celerik\Ui\Components;
 use Celerik\Ui\Component;
 use Celerik\Ui\Support\Arr;
 use Celerik\Ui\Support\Html;
+use Celerik\Ui\Support\Url;
 use InvalidArgumentException;
 use JsonSerializable;
 
@@ -319,7 +320,7 @@ final class TreeView extends Component implements JsonSerializable
                     $node['label'],
                 ));
             }
-            $href = isset($node['href']) ? self::safeUrl((string) $node['href']) : null;
+            $href = isset($node['href']) ? Url::safe((string) $node['href']) : null;
             $children = $node['children'] ?? [];
             if (!is_iterable($children)) {
                 throw new InvalidArgumentException(sprintf(
@@ -361,22 +362,5 @@ final class TreeView extends Component implements JsonSerializable
             static fn (array $match): string => rawurlencode(Arr::toText(Arr::get($row, $match[1]))),
             $template,
         );
-    }
-
-    /**
-     * A link: relative, http or https. Anything else (javascript:, data:) is dropped.
-     */
-    private static function safeUrl(string $url): ?string
-    {
-        $url = trim($url);
-        if ($url === '' || preg_match('/[\x00-\x20\x7f]/', $url) === 1) {
-            return null;
-        }
-        $scheme = parse_url($url, PHP_URL_SCHEME);
-        if ($scheme === false) {
-            return null;
-        }
-
-        return $scheme === null || in_array(strtolower($scheme), ['http', 'https'], true) ? $url : null;
     }
 }

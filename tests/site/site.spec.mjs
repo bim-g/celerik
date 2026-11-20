@@ -1,3 +1,4 @@
+import { readFileSync } from 'node:fs';
 import AxeBuilder from '@axe-core/playwright';
 import { expect, test } from '@playwright/test';
 import { settled } from '../browser/helpers.mjs';
@@ -6,6 +7,13 @@ import { demoNames, sitePages, WCAG_TAGS } from './helpers.mjs';
 // The built documentation site: npm run docs:build && npm run test:site.
 const pages = sitePages();
 const demos = demoNames();
+
+// The map demo's OpenStreetMap tiles are answered with a local picture: no network in tests.
+const tile = readFileSync(new URL('../browser/map-tile.svg', import.meta.url));
+const localTiles = (page) => page.route('https://tile.openstreetmap.org/**', (route) => route.fulfill({
+  contentType: 'image/svg+xml',
+  body: tile,
+}));
 
 async function setMode(page, mode) {
   await page.addInitScript((dark) => {
@@ -51,6 +59,7 @@ for (const name of demos) {
         });
       });
 
+      await localTiles(page);
       await page.goto(`demos/${name}.html?mode=${mode}`);
       await page.waitForFunction(() => window.celerikReady === document.querySelectorAll('[data-celerik]').length, null, { timeout: 30_000 });
       await settled(page);

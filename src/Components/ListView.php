@@ -10,6 +10,7 @@ use Celerik\Ui\Data\DataResult;
 use Celerik\Ui\Data\DataSourceInterface;
 use Celerik\Ui\Support\Arr;
 use Celerik\Ui\Support\Html;
+use Celerik\Ui\Support\Url;
 use InvalidArgumentException;
 use LogicException;
 
@@ -416,7 +417,7 @@ final class ListView extends Component
         }
 
         $image = '';
-        $src = $this->imageField === null ? null : self::safeUrl($text($this->imageField));
+        $src = $this->imageField === null ? null : Url::safe($text($this->imageField));
         if ($src !== null) {
             $image = Html::tag('img', [
                 'class' => 'celerik-listview-image',
@@ -610,23 +611,5 @@ final class ListView extends Component
             static fn (array $match): string => rawurlencode(Arr::toText(Arr::get($row, $match[1]))),
             $template,
         );
-    }
-
-    /**
-     * A picture's URL: relative, http or https. Anything else (javascript:, data:) is left out.
-     */
-    private static function safeUrl(string $url): ?string
-    {
-        $url = trim($url);
-        // Browsers drop tabs and line breaks from URLs: "java\tscript:" would run.
-        if ($url === '' || preg_match('/[\x00-\x20\x7f]/', $url) === 1) {
-            return null;
-        }
-        $scheme = parse_url($url, PHP_URL_SCHEME);
-        if ($scheme === false) {
-            return null;
-        }
-
-        return $scheme === null || in_array(strtolower($scheme), ['http', 'https'], true) ? $url : null;
     }
 }
