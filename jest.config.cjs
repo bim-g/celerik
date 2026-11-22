@@ -10,6 +10,8 @@ module.exports = {
   moduleNameMapper: {
     // Stylesheets imported by Quill and FilePond modules are irrelevant in jsdom.
     '\\.css$': '<rootDir>/tests/js/style-stub.js',
+    // Vite's ?url imports (the PDF.js worker) are a file name in the bundle.
+    '\\?url$': '<rootDir>/tests/js/style-stub.js',
     // Quill imports lodash-es (644 ES module files that every worker would transform);
     // the CommonJS build has the same API and needs no transform. Tests only.
     '^lodash-es$': 'lodash',

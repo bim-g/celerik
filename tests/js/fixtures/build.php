@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 use Celerik\Ui\Components\Barcode;
 use Celerik\Ui\Components\Chart;
+use Celerik\Ui\Components\PdfViewer;
 use Celerik\Ui\Components\QrCode;
 use Celerik\Ui\Support\QrMatrix;
 use Celerik\Ui\Components\ContextMenu;
@@ -466,6 +467,7 @@ $fixtures = [
         ->edge('valid', 'done', 'Yes')
         ->edge('valid', 'form', 'No'),
 
+    'pdfviewer' => PdfViewer::make('report')->url('/files/report.pdf')->label('Annual report 2026'),
     'qrcode' => QrCode::make('site')->value('https://example.com/?a=1&b=2')->label('Our <website>'),
     'qrcode-hidden' => QrCode::make('wifi')->value('WIFI:T:WPA;S:Office;P:Grüße;;')->label('Office Wi-Fi')
         ->hideValue()->level('H'),

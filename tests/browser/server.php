@@ -388,6 +388,18 @@ if ($path === '/theme-css' && ($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
 }
 
 // The ThemeBuilder, previewing real components: GET /theme-builder?mode=dark
+if ($path === '/pdf') {
+    require __DIR__ . '/pdf-page.php';
+    exit;
+}
+
+if ($path === '/files/report.pdf') {
+    require_once __DIR__ . '/sample-pdf.php';
+    header('Content-Type: application/pdf');
+    echo celerik_sample_report();
+    exit;
+}
+
 if ($path === '/signature') {
     require __DIR__ . '/signature-page.php';
     exit;

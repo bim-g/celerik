@@ -32,6 +32,7 @@ Every component is a PHP class with a fluent API. It renders accessible Bootstra
 | [Org chart](./orgchart) | `OrgChart` | – |
 | [Diagram](./diagram) | `Diagram` | – |
 | [QR code and barcode](./qrcode) | `QrCode`, `Barcode` | – |
+| [PDF viewer](./pdfviewer) | `PdfViewer` | PDF.js 6 |
 | [Record view](./recordview) | `RecordView`, `RecordView\Entry` | – |
 | [Modal](./modal) | `Celerik\Ui\Components\Modal` | Bootstrap 5 |
 | [Tabs](./tabs) | `Celerik\Ui\Components\Tabs` | Bootstrap 5 |

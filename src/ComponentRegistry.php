@@ -29,6 +29,7 @@ use Celerik\Ui\Components\Modal;
 use Celerik\Ui\Components\Navigation;
 use Celerik\Ui\Components\Notification;
 use Celerik\Ui\Components\OrgChart;
+use Celerik\Ui\Components\PdfViewer;
 use Celerik\Ui\Components\Popover;
 use Celerik\Ui\Components\Progress;
 use Celerik\Ui\Components\QrCode;
@@ -109,7 +110,8 @@ final class ComponentRegistry
             ->register(OrgChart::class)
             ->register(Diagram::class)
             ->register(QrCode::class)
-            ->register(Barcode::class);
+            ->register(Barcode::class)
+            ->register(PdfViewer::class);
     }
 
     /**

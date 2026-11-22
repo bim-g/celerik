@@ -71,6 +71,7 @@ Releases include the built bundle (`public/`), so no Node.js is needed to instal
 | Org chart | `Components\OrgChart` | – | People in nested lists drawn as a tree by CSS (an indented list in narrow containers), from nodes or database rows; collapsible teams with named buttons; no JavaScript needed |
 | QR code | `Components\QrCode` | – | A QR code drawn by PHP as an SVG (any text, levels L to H, versions 1 to 40), with its value written under it, as a link for a web address |
 | Barcode | `Components\Barcode` | – | A Code 128 or EAN-13 barcode drawn by PHP as an SVG, with its value written under it (the EAN-13 check digit added or checked) |
+| PDF viewer | `Components\PdfViewer` | PDF.js | A PDF's pages with a text layer (read by screen readers, found by the browser's search), previous and next, a page number, zoom, and a download link always there |
 | Diagram | `Components\Diagram` | – | Flowcharts drawn by PHP as an SVG (boxes, terminals, decisions, labelled arrows, loops, lanes for long arrows), downwards or to the right, with every step and arrow also written as linked text |
 | Record view | `Components\RecordView` | – | A read-only record by sections (Filament's infolists): text, links, dates, numbers, yes/no, badges, lists, pictures; placeholders for empty values; 1 to 4 columns |
 | Chart | `Components\Chart` | Chart.js 4 | Embedded or remote data, `fromRows()`, hidden data table as text alternative |
