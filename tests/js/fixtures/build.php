@@ -733,6 +733,17 @@ $fixtures = [
         )
         ->submit('Sign'),
 
+    'form-markdown' => Form::make('post')
+        ->action('/posts')
+        ->csrf('test-token')
+        ->add(
+            Field::markdown('body', 'Body')->required(),
+            Field::markdown('notes', 'Notes')->value("## Notes
+
+**Hi** <img src=x onerror=alert(1)>"),
+        )
+        ->submit('Publish'),
+
     'form-key-value' => Form::make('webhook')
         ->action('/webhook')
         ->csrf('test-token')

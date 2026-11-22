@@ -6,7 +6,7 @@ module.exports = {
     '\\.m?js$': 'babel-jest',
   },
   // These packages ship ES modules only for the browser; transform them too.
-  transformIgnorePatterns: ['/node_modules/(?!(preact|@fullcalendar|quill|parchment)/)'],
+  transformIgnorePatterns: ['/node_modules/(?!(preact|@fullcalendar|quill|parchment|marked)/)'],
   moduleNameMapper: {
     // Stylesheets imported by Quill and FilePond modules are irrelevant in jsdom.
     '\\.css$': '<rootDir>/tests/js/style-stub.js',

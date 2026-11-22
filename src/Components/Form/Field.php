@@ -38,6 +38,22 @@ final class Field
         'missing' => 'Draw or type your signature.',
     ];
 
+    /** The texts of a markdown() field (markdownLabels()). */
+    public const MARKDOWN_LABELS = [
+        'toolbar' => 'Formatting',
+        'bold' => 'Bold',
+        'italic' => 'Italic',
+        'heading' => 'Heading',
+        'link' => 'Link',
+        'bulletList' => 'Bulleted list',
+        'numberedList' => 'Numbered list',
+        'quote' => 'Quote',
+        'code' => 'Code',
+        'write' => 'Write',
+        'preview' => 'Preview',
+        'empty' => 'Nothing to preview.',
+    ];
+
     /** The largest signature image signatureImage() accepts, in bytes. */
     public const SIGNATURE_MAX_BYTES = 512000;
 
@@ -83,6 +99,9 @@ final class Field
 
     /** @var array<string, string> */
     private array $signatureLabels = self::SIGNATURE_LABELS;
+
+    /** @var array<string, string> */
+    private array $markdownLabels = self::MARKDOWN_LABELS;
 
     /** @var array{url: string, value: string, label: string, limit: int}|null */
     private ?array $remote = null;
@@ -508,6 +527,38 @@ final class Field
     public static function editor(string $name, ?string $label = null): self
     {
         return new self('editor', $name, $label ?? self::humanize($name));
+    }
+
+    /**
+     * Markdown: a native textarea (screen readers, spelling, autofill and phones keep working),
+     * with a formatting toolbar (buttons and Ctrl+B, Ctrl+I, Ctrl+K) and Write and Preview tabs.
+     * The preview is sanitized (DOMPurify). It submits the Markdown text: render it on the server
+     * with a Markdown library that escapes HTML (league/commonmark with html_input "escape").
+     * Without JavaScript it is a plain textarea.
+     */
+    public static function markdown(string $name, ?string $label = null): self
+    {
+        return new self('markdown', $name, $label ?? self::humanize($name));
+    }
+
+    /**
+     * Texts of a markdown() field, for translation: toolbar (its name), bold, italic, heading,
+     * link, bulletList, numberedList, quote, code (the buttons), write and preview (the tabs)
+     * and empty (an empty preview).
+     *
+     * @param array<string, string> $labels
+     */
+    public function markdownLabels(array $labels): self
+    {
+        $this->assertType('markdown', 'markdownLabels');
+        foreach ($labels as $key => $text) {
+            if (!array_key_exists($key, self::MARKDOWN_LABELS)) {
+                throw new InvalidArgumentException(sprintf('Unknown Markdown label "%s".', $key));
+            }
+            $this->markdownLabels[$key] = $text;
+        }
+
+        return $this;
     }
 
     /**
@@ -951,6 +1002,15 @@ final class Field
                 ],
                 Html::escape(Arr::toText($value)),
             ),
+            'markdown' => Html::tag(
+                'textarea',
+                $attributes + [
+                    'class' => $this->controlClass('form-control celerik-markdown-source', $error),
+                    'rows' => 8,
+                    'data-celerik-markdown' => self::json($this->markdownLabels),
+                ],
+                Html::escape(Arr::toText($value)),
+            ),
             'checkbox', 'switch' => Html::tag('input', $attributes + [
                 'type' => 'checkbox',
                 'role' => $this->type === 'switch' ? 'switch' : null,
@@ -1043,7 +1103,7 @@ final class Field
             $this->type,
             [
                 'checkbox', 'switch', 'radio', 'checkboxes', 'period', 'rating', 'otp', 'keyvalue',
-                'signature', 'range', 'color', 'file', 'editor', 'hidden',
+                'signature', 'markdown', 'range', 'color', 'file', 'editor', 'hidden',
             ],
             true,
         );

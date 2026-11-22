@@ -112,6 +112,7 @@ Every kind of field:
 | `otp` | A one-time code, one input drawn as boxes | [One-time codes](#one-time-codes) |
 | `keyValue` | Rows of key-value pairs | [Key-value lists](#key-value-lists) |
 | `signature` | A pad to draw on, or a name to type | [Signatures](#signatures) |
+| `markdown` | A textarea with a formatting toolbar and a preview | [Markdown](#markdown) |
 | `radio`, `checkboxes`, `checkbox`, `switch`, `range`, `color`, `rating` | Choice groups, toggles, sliders, color pickers, stars | [Choices, switches, sliders, colors and ratings](#choices-switches-sliders-colors-and-ratings) |
 | `editor`, `file` | Rich text (Quill), uploads (FilePond) | [Rich text editor](./editor), [File upload](./upload) |
 
@@ -214,6 +215,30 @@ It returns `null` for anything that is not a PNG (whatever the data URL says) an
 | `signatureLabels([...])` | Translates the texts: `draw` (the instructions), `type` (the name label), `clear` (the button), `empty` and `signed` (the name of the pad, which says whether it is signed). |
 
 The pad looks like a sheet of paper, light with dark ink, in dark mode and in forced colors too. A form shown again with its errors keeps the signature. Signatures are not available in repeaters.
+
+### Markdown
+
+<Demo name="form-markdown" :min-height="460" />
+
+<<< @/demos/form-markdown.php
+
+`Field::markdown($name)` keeps the **native textarea** as the field, so screen readers, spelling, autofill and phone keyboards work as in any textarea, and adds:
+
+- **A formatting toolbar**: bold, italic, heading, link, bulleted and numbered lists, quote and code. Each button styles the selection, or removes the style when it is already there; a list button changes the kind of a list. The toolbar is one tab stop, and the arrow keys, Home and End move between its buttons. **Ctrl+B**, **Ctrl+I** and **Ctrl+K** (⌘ on a Mac) work in the text. Formatting goes through the browser's own editing, so **Undo** undoes it.
+- **Write and Preview tabs** (the WAI-ARIA tabs, with the arrow keys). The preview is the Markdown as HTML (GitHub-flavored, by [marked](https://marked.js.org)), sanitized by [DOMPurify](https://github.com/cure53/DOMPurify): no scripts, no event handlers, no `javascript:` links. A field with an error goes back to Write.
+
+It submits the **Markdown text**. Render it on the server with a library that escapes HTML, never as it is:
+
+```php
+use League\CommonMark\GithubFlavoredMarkdownConverter;
+
+$html = (new GithubFlavoredMarkdownConverter([
+    'html_input' => 'escape',
+    'allow_unsafe_links' => false,
+]))->convert($post->body);
+```
+
+`markdownLabels([...])` translates the texts: `toolbar`, `bold`, `italic`, `heading`, `link`, `bulletList`, `numberedList`, `quote`, `code`, `write`, `preview` and `empty`. marked and DOMPurify (87 KB) are loaded only by forms that have a Markdown field. Without JavaScript it is a plain textarea.
 
 ### Key-value lists
 

@@ -61,7 +61,7 @@ The **Phase** column refers to the [roadmap](ROADMAP.md); "–" means not yet sc
 | Wizard, Stepper | Native | – | 4 ✅ (`Form::wizard()`; standalone Stepper later) |
 | Upload | FilePond (+ validate-type, validate-size, image-preview plugins) | MIT | 2 ✅ (`Field::file`) |
 | Rich Text Editor | Quill 2 | BSD-3 | 2 ✅ (`Field::editor`) |
-| Markdown Editor | EasyMDE | MIT | 8 |
+| Markdown Editor | Native textarea, with marked (MIT) and DOMPurify (Apache 2.0) for the preview; EasyMDE's CodeMirror 5 editor is hard to use with a screen reader | MIT, Apache 2.0 | 8 ✅ (`Field::markdown()`) |
 | Code editor | CodeMirror 6 | MIT | 8 |
 | ImageEditor | Filerobot Image Editor (to evaluate) | MIT | 8 |
 | File Manager | elFinder 2.1 (`studio-42/elfinder` on Composer) 🧩, with jQuery UI | BSD-3 / MIT | 2 ✅ (`FileManager`) |
