@@ -7,6 +7,7 @@ import { initRepeaters } from './form-repeater.js';
 import { initWizard } from './form-wizard.js';
 import { initOtps } from './form-otp.js';
 import { initKeyValues, keyValidators } from './form-key-value.js';
+import { initSignatures, signatureGiven } from './form-signature.js';
 
 // min, max and range that also understand times and date-times, and "after" for the end of
 // a date range (Field::dateRange()). Parsley keeps its messages for min, max and range.
@@ -36,7 +37,17 @@ for (const [name, validate] of Object.entries(keyValidators)) {
   });
 }
 
+// A required signature (Field::signature()): a drawing or a typed name. The message comes
+// from the input (data-parsley-error-message).
+Parsley.addValidator('signature', {
+  requirementType: 'string',
+  validateString: (value, requirement, field) => signatureGiven(field.$element[0]),
+  messages: { en: 'Draw or type your signature.' },
+});
+
 export async function initForm(element, options) {
+  // Before Parsley reads the fields: a signature's input changes its constraints.
+  initSignatures(element);
   const parsley = $(element).parsley(buildParsleyConfig(options));
 
   // Server-side errors are rendered by PHP; drop them once the field is re-validated.
@@ -89,6 +100,7 @@ export async function initForm(element, options) {
 // demand).
 function enhanceFields(form, container, parsley) {
   initOtps(container);
+  initSignatures(container);
   initKeyValues(container, parsley);
 
   for (const input of container.querySelectorAll('[data-celerik-mask]')) {

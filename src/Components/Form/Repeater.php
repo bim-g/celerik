@@ -22,7 +22,7 @@ final class Repeater
     public const PLACEHOLDER = '__index__';
 
     /** Fields form.js cannot set up in a row added in the browser. */
-    private const UNSUPPORTED = ['file', 'editor', 'hidden'];
+    private const UNSUPPORTED = ['file', 'editor', 'hidden', 'signature'];
 
     /** @var list<Field> */
     private array $schema = [];

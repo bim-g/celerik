@@ -28,6 +28,19 @@ final class Field
     private const TOOLBARS = ['basic', 'standard', 'full'];
     private const PERIOD_TYPES = ['date', 'time', 'datetime-local'];
 
+    /** The texts of a signature() field (signatureLabels()). */
+    public const SIGNATURE_LABELS = [
+        'draw' => 'Draw your signature with a mouse, a finger or a pen, or type your name.',
+        'type' => 'Type your name',
+        'clear' => 'Clear the signature',
+        'empty' => 'Signature pad, empty',
+        'signed' => 'Signature pad, signed',
+        'missing' => 'Draw or type your signature.',
+    ];
+
+    /** The largest signature image signatureImage() accepts, in bytes. */
+    public const SIGNATURE_MAX_BYTES = 512000;
+
     /** The row index in the template form.js copies for a new key-value row. */
     public const PAIR_PLACEHOLDER = '__pair__';
 
@@ -67,6 +80,9 @@ final class Field
 
     /** @var list<string> */
     private array $keySuggestions = [];
+
+    /** @var array<string, string> */
+    private array $signatureLabels = self::SIGNATURE_LABELS;
 
     /** @var array{url: string, value: string, label: string, limit: int}|null */
     private ?array $remote = null;
@@ -495,6 +511,56 @@ final class Field
     }
 
     /**
+     * A signature: drawn with a mouse, a finger or a pen on a pad, or typed (the way for
+     * keyboards and screen readers, shown as handwriting on the pad). It submits a PNG image
+     * as a data URL (`data:image/png;base64,...`), which signatureImage() checks and decodes;
+     * without JavaScript, the pad is hidden and the typed name is submitted as text.
+     */
+    public static function signature(string $name, ?string $label = null): self
+    {
+        return new self('signature', $name, $label ?? self::humanize($name));
+    }
+
+    /**
+     * Texts of a signature() field, for translation: draw (the instructions), type (the
+     * label of the name input), clear (the button), empty and signed (the pad's name) and
+     * missing (the message of a required field).
+     *
+     * @param array<string, string> $labels
+     */
+    public function signatureLabels(array $labels): self
+    {
+        $this->assertType('signature', 'signatureLabels');
+        foreach ($labels as $key => $text) {
+            if (!array_key_exists($key, self::SIGNATURE_LABELS)) {
+                throw new InvalidArgumentException(sprintf('Unknown signature label "%s".', $key));
+            }
+            $this->signatureLabels[$key] = $text;
+        }
+
+        return $this;
+    }
+
+    /**
+     * The PNG bytes of a submitted signature() value, or null when it is not a PNG data URL
+     * (the typed name, submitted as text without JavaScript, or anything else) or when it is
+     * larger than $maxBytes. Store the bytes as a file; never echo the value into a page.
+     */
+    public static function signatureImage(mixed $value, int $maxBytes = self::SIGNATURE_MAX_BYTES): ?string
+    {
+        $prefix = 'data:image/png;base64,';
+        if (!is_string($value) || !str_starts_with($value, $prefix) || strlen($value) > $maxBytes * 4 / 3 + 64) {
+            return null;
+        }
+        $bytes = base64_decode(substr($value, strlen($prefix)), true);
+        if ($bytes === false || strlen($bytes) > $maxBytes || !str_starts_with($bytes, "\x89PNG\r\n\x1a\n")) {
+            return null;
+        }
+
+        return $bytes;
+    }
+
+    /**
      * Accepted files for a file field (defaults to UploadRules::images()). Use the same
      * rules in the UploadHandler.
      */
@@ -829,6 +895,10 @@ final class Field
             return $this->renderKeyValue($id, $value, $error, $helpText, $helpId, $errorId);
         }
 
+        if ($this->type === 'signature') {
+            return $this->renderSignature($id, $value, $error, $helpText, $helpId, $errorId);
+        }
+
         $attributes = array_merge($this->attributes, [
             'id' => $id,
             'name' => $this->name,
@@ -973,7 +1043,7 @@ final class Field
             $this->type,
             [
                 'checkbox', 'switch', 'radio', 'checkboxes', 'period', 'rating', 'otp', 'keyvalue',
-                'range', 'color', 'file', 'editor', 'hidden',
+                'signature', 'range', 'color', 'file', 'editor', 'hidden',
             ],
             true,
         );
@@ -1110,6 +1180,80 @@ final class Field
             'class' => 'celerik-rating',
             'aria-describedby' => Html::classes([$helpId, $errorId]),
         ], $legend . $content);
+
+        $feedback = $errorId === null ? '' : Html::tag(
+            'div',
+            ['id' => $errorId, 'class' => 'invalid-feedback d-block celerik-server-error'],
+            Html::escape($error),
+        );
+        $help = $helpId === null
+            ? ''
+            : Html::tag('div', ['id' => $helpId, 'class' => 'form-text'], Html::escape($helpText));
+
+        return Html::tag('div', ['class' => 'mb-3'], $fieldset . $feedback . $help);
+    }
+
+    /**
+     * A signature() field: a fieldset with the pad (hidden until form.js draws it: a canvas
+     * and a Clear button), the name input (the field's id, so error summary links lead to it)
+     * and a hidden input for the image. form.js moves the name to the hidden input.
+     */
+    private function renderSignature(
+        string $id,
+        mixed $value,
+        ?string $error,
+        ?string $helpText,
+        ?string $helpId,
+        ?string $errorId,
+    ): string {
+        $image = self::signatureImage($value) === null ? null : (string) $value;
+        $typed = $image === null && $value !== null ? Arr::toText($value) : null;
+        $labels = $this->signatureLabels;
+
+        $pad = Html::tag('div', ['class' => 'celerik-signature-pad', 'hidden' => true], Html::tag(
+            'p',
+            ['id' => $id . '-draw', 'class' => 'form-text mt-0 mb-1'],
+            Html::escape($labels['draw']),
+        ) . Html::tag('div', ['class' => 'celerik-signature-surface'], Html::tag('canvas', [
+            'class' => 'celerik-signature-canvas',
+            'role' => 'img',
+            'aria-label' => $labels['empty'],
+        ], '')) . Html::tag('button', [
+            'type' => 'button',
+            'class' => 'btn btn-sm celerik-action-button btn-outline-secondary celerik-signature-clear',
+        ], Html::escape($labels['clear'])));
+
+        $input = Html::tag('input', array_merge($this->attributes, [
+            'type' => 'text',
+            'id' => $id,
+            'name' => $this->name,
+            'value' => $typed,
+            'required' => $this->required,
+            'autocomplete' => 'name',
+            'spellcheck' => 'false',
+            'aria-describedby' => Html::classes([$helpId, $errorId]),
+            'aria-invalid' => $error === null ? null : 'true',
+            'data-parsley-error-message' => $this->message ?? $labels['missing'],
+            'class' => $this->controlClass('form-control celerik-signature-typed', $error),
+        ]));
+        $hidden = Html::tag('input', [
+            'type' => 'hidden',
+            'id' => $id . '-image',
+            'class' => 'celerik-signature-value',
+            'value' => $image,
+        ]);
+
+        $legend = Html::tag(
+            'legend',
+            ['class' => 'form-label fs-6'],
+            Html::escape($this->label) . ($this->required ? self::REQUIRED_MARKER : ''),
+        );
+        $label = Html::tag('label', ['for' => $id, 'class' => 'form-label'], Html::escape($labels['type']));
+        $fieldset = Html::tag('fieldset', [
+            'id' => $id . '-group',
+            'class' => 'celerik-signature',
+            'data-celerik-signature' => self::json(['empty' => $labels['empty'], 'signed' => $labels['signed']]),
+        ], $legend . $pad . $label . $input . $hidden);
 
         $feedback = $errorId === null ? '' : Html::tag(
             'div',

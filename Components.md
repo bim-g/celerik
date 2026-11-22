@@ -50,7 +50,7 @@ The **Phase** column refers to the [roadmap](ROADMAP.md); "–" means not yet sc
 | RangeSlider | noUiSlider | MIT | – |
 | ListBox (two lists, move items between them) | Native + SortableJS | MIT | – |
 | DropDownTree | To evaluate | – | – |
-| Signature | signature_pad | MIT | 8 |
+| Signature | Native (a canvas and pointer events, with a name to type as the keyboard way) | – | 8 ✅ (`Field::signature()`) |
 
 ### Forms
 

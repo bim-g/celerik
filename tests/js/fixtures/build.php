@@ -719,6 +719,15 @@ $fixtures = [
         ->errors(['backup' => 'This code has expired.'])
         ->submit('Verify'),
 
+    'form-signature' => Form::make('contract')
+        ->action('/sign')
+        ->csrf('test-token')
+        ->add(
+            Field::signature('signature', 'Your signature')->required(),
+            Field::signature('witness', 'Witness')->value('Grace Hopper'),
+        )
+        ->submit('Sign'),
+
     'form-key-value' => Form::make('webhook')
         ->action('/webhook')
         ->csrf('test-token')

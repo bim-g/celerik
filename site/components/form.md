@@ -111,6 +111,7 @@ Every kind of field:
 | `tags` | Free-text tags with suggestions | [Tags](#tags) |
 | `otp` | A one-time code, one input drawn as boxes | [One-time codes](#one-time-codes) |
 | `keyValue` | Rows of key-value pairs | [Key-value lists](#key-value-lists) |
+| `signature` | A pad to draw on, or a name to type | [Signatures](#signatures) |
 | `radio`, `checkboxes`, `checkbox`, `switch`, `range`, `color`, `rating` | Choice groups, toggles, sliders, color pickers, stars | [Choices, switches, sliders, colors and ratings](#choices-switches-sliders-colors-and-ratings) |
 | `editor`, `file` | Rich text (Quill), uploads (FilePond) | [Rich text editor](./editor), [File upload](./upload) |
 
@@ -187,6 +188,32 @@ Tags are user input: check them on the server, e.g. `'skills' => ['array', 'max:
 | `message('…')` | Replaces the default "Enter the 6-digit code." message, e.g. to translate it. |
 
 The form is submitted with the button: a complete code is not sent on its own, so the user can check it first. Check the code on the server, and limit the attempts.
+
+### Signatures
+
+<Demo name="form-signature" :min-height="420" />
+
+<<< @/demos/form-signature.php
+
+`Field::signature($name)` is a pad to sign on with a mouse, a finger or a pen, and a **name input**: typing a name draws it on the pad as handwriting. The name input is the way for keyboards and screen readers (drawing a signature depends on the path of the pointer, which no keyboard can give), and anyone can use it.
+
+Either way the field submits a **PNG image** of 600 × 200 pixels, dark ink on a transparent background, as a data URL. `Field::signatureImage()` checks it and returns the PNG bytes, or `null`:
+
+```php
+$png = Field::signatureImage($request->input('signature'));
+if ($png !== null) {
+    Storage::put("signatures/{$contract->id}.png", $png);
+}
+```
+
+It returns `null` for anything that is not a PNG (whatever the data URL says) and for an image over 500 KB (`signatureImage($value, $maxBytes)` changes the limit). Without JavaScript the pad stays hidden and the typed name is submitted as text: keep it as the signature, or ask again.
+
+| Option | Use |
+|---|---|
+| `required()` | A drawing or a name is needed. The message is "Draw or type your signature."; `message('…')` replaces it. |
+| `signatureLabels([...])` | Translates the texts: `draw` (the instructions), `type` (the name label), `clear` (the button), `empty` and `signed` (the name of the pad, which says whether it is signed). |
+
+The pad looks like a sheet of paper, light with dark ink, in dark mode and in forced colors too. A form shown again with its errors keeps the signature. Signatures are not available in repeaters.
 
 ### Key-value lists
 
