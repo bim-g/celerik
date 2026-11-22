@@ -120,8 +120,8 @@ The **Phase** column refers to the [roadmap](ROADMAP.md); "–" means not yet sc
 | Map | Leaflet | BSD-2 | 8 ✅ (`Map`) |
 | Diagram | Native (a flowchart drawn by PHP as an SVG; Mermaid's `<style>` elements break a strict CSP) | – | 8 ✅ (`Diagram`) |
 | OrgChart | Native (nested lists drawn by CSS) | – | 8 ✅ (`OrgChart`) |
-| QRCode | qrcode-generator | MIT | 8 |
-| Barcode | JsBarcode | MIT | 8 |
+| QRCode | Native (an encoder in PHP drawing an SVG: no JavaScript needed) | – | 8 ✅ (`QrCode`) |
+| Barcode | Native (Code 128 and EAN-13 drawn by PHP as an SVG) | – | 8 ✅ (`Barcode`) |
 | Advanced charts | Plotly.js / D3.js | MIT / ISC | – |
 | StockChart | TradingView Lightweight Charts | Apache 2.0 | – |
 | BulletGraph | D3.js custom chart | ISC | – |

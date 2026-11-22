@@ -8,6 +8,7 @@ use Celerik\Ui\Components\Accordion;
 use Celerik\Ui\Components\AdminLayout;
 use Celerik\Ui\Components\Avatar;
 use Celerik\Ui\Components\Badge;
+use Celerik\Ui\Components\Barcode;
 use Celerik\Ui\Components\Breadcrumb;
 use Celerik\Ui\Components\Card;
 use Celerik\Ui\Components\Carousel;
@@ -30,6 +31,7 @@ use Celerik\Ui\Components\Notification;
 use Celerik\Ui\Components\OrgChart;
 use Celerik\Ui\Components\Popover;
 use Celerik\Ui\Components\Progress;
+use Celerik\Ui\Components\QrCode;
 use Celerik\Ui\Components\RecordView;
 use Celerik\Ui\Components\Scheduler;
 use Celerik\Ui\Components\Skeleton;
@@ -105,7 +107,9 @@ final class ComponentRegistry
             ->register(Gantt::class)
             ->register(Map::class)
             ->register(OrgChart::class)
-            ->register(Diagram::class);
+            ->register(Diagram::class)
+            ->register(QrCode::class)
+            ->register(Barcode::class);
     }
 
     /**

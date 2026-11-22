@@ -180,6 +180,13 @@ describe('accessibility (axe-core, WCAG 2.1 AA)', () => {
     expect(await violations()).toEqual([]);
   });
 
+  test('QR codes and barcodes: named images and their values as text', async () => {
+    for (const name of ['qrcode', 'qrcode-hidden', 'barcode', 'barcode-code128']) {
+      loadFixture(name);
+      expect(await violations()).toEqual([]);
+    }
+  });
+
   test('org chart: nested named lists, then with teams collapsed', async () => {
     const { initOrgChart } = await import('../../resources/js/orgchart.js');
     const chart = loadFixture('orgchart');

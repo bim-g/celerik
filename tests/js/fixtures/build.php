@@ -7,7 +7,10 @@
 
 declare(strict_types=1);
 
+use Celerik\Ui\Components\Barcode;
 use Celerik\Ui\Components\Chart;
+use Celerik\Ui\Components\QrCode;
+use Celerik\Ui\Support\QrMatrix;
 use Celerik\Ui\Components\ContextMenu;
 use Celerik\Ui\Components\FileManager;
 use Celerik\Ui\Components\Form;
@@ -463,6 +466,12 @@ $fixtures = [
         ->edge('valid', 'done', 'Yes')
         ->edge('valid', 'form', 'No'),
 
+    'qrcode' => QrCode::make('site')->value('https://example.com/?a=1&b=2')->label('Our <website>'),
+    'qrcode-hidden' => QrCode::make('wifi')->value('WIFI:T:WPA;S:Office;P:Grüße;;')->label('Office Wi-Fi')
+        ->hideValue()->level('H'),
+    'barcode' => Barcode::make('isbn')->type('ean13')->value('978020137962')->label('ISBN'),
+    'barcode-code128' => Barcode::make('order')->value('Order ABC-123456789xyz'),
+
     'orgchart' => OrgChart::make('company')->label('Company')->expandLevels(2)
         ->node('grace', 'Grace Hopper', 'Chief executive')
         ->node('ada', 'Ada Lovelace', 'CTO', parent: 'grace', url: '/people/ada')
@@ -750,6 +759,27 @@ foreach ($fixtures as $name => $component) {
     file_put_contents(__DIR__ . '/' . $name . '.html', $component->render() . "\n");
 }
 
+// QR codes of every version and level, and barcodes, decoded by ZXing in codes.test.js.
+$codes = ['qr' => [], 'barcodes' => []];
+$texts = ['https://example.com/a?b=c', '0123456789012345', 'HELLO WORLD 42', 'Grüße — café ✓'];
+foreach (QrMatrix::LEVELS as $level) {
+    foreach (range(1, 40) as $version) {
+        $text = $texts[$version % 4];
+        $codes['qr'][] = ['text' => $text, 'level' => $level, 'version' => $version, 'rows' => array_map(
+            static fn (array $row): string => implode('', array_map('intval', $row)),
+            QrMatrix::encode($text, $level, $version),
+        )];
+    }
+}
+foreach (['Hello, World!', '1234567890', 'ABC123456789xyz', "AB	cd", '12345', '9', 'Order 2026-11-22'] as $text) {
+    $codes['barcodes'][] = ['type' => 'code128', 'text' => $text, 'modules' => Barcode::modules($text)[0]];
+}
+foreach (['978020137962', '4006381333931', '001234567890'] as $text) {
+    [$modules, $full] = Barcode::modules($text, 'ean13');
+    $codes['barcodes'][] = ['type' => 'ean13', 'text' => $full, 'modules' => $modules];
+}
+file_put_contents(__DIR__ . '/codes.json', json_encode($codes, JSON_THROW_ON_ERROR | JSON_UNESCAPED_UNICODE));
+
 // The stylesheet of the bootstrap preset (presets.test.js), and the teal browser-test theme
 // with a font and a whole-number radius: resources/js/theme-css.js must write the same text
 // (theme-css.test.js).
@@ -759,4 +789,4 @@ $custom = Theme::fromJson((string) file_get_contents(dirname(__DIR__, 2) . '/bro
     ->radius(1.0);
 file_put_contents(__DIR__ . '/theme-custom.css', $custom->toCss());
 
-echo 'Wrote ' . count($fixtures) . " fixtures and 2 theme stylesheets to tests/js/fixtures\n";
+echo 'Wrote ' . count($fixtures) . " fixtures, 2 theme stylesheets and codes.json to tests/js/fixtures\n";
