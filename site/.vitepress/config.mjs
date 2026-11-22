@@ -135,6 +135,7 @@ export default defineConfig({
             { text: 'Org chart', link: '/components/orgchart' },
             { text: 'Diagram', link: '/components/diagram' },
             { text: 'QR code and barcode', link: '/components/qrcode' },
+            { text: 'PDF viewer', link: '/components/pdfviewer' },
             { text: 'Modal', link: '/components/modal' },
             { text: 'Tabs', link: '/components/tabs' },
             { text: 'Notification', link: '/components/notification' },

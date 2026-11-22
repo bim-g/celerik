@@ -2893,6 +2893,183 @@ a.celerik-qrcode-value {
   }
 }
 
+// PDF viewer (Components\PdfViewer): a title and a download link, a toolbar, and the pages in
+// a scrolling area. Pages stay white like paper in dark mode; PDF.js sizes them by the CSSOM.
+.celerik-pdf {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1rem;
+  border: 1px solid var(--bs-border-color);
+  border-radius: var(--bs-border-radius);
+  overflow: hidden;
+}
+
+.celerik-pdf-header,
+.celerik-pdf-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  border-bottom: 1px solid var(--bs-border-color);
+  background: var(--bs-body-bg);
+}
+
+.celerik-pdf-toolbar[hidden] {
+  display: none;
+}
+
+.celerik-pdf-title {
+  margin: 0;
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+
+.celerik-pdf-tools {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+}
+
+.celerik-pdf-page-label {
+  margin: 0;
+}
+
+.celerik-pdf-page-input {
+  width: 4.5rem;
+}
+
+.celerik-pdf-zoom {
+  width: auto;
+}
+
+.celerik-pdf-tools .btn {
+  min-width: 2rem;
+  min-height: 2rem;
+}
+
+.celerik-pdf-viewport {
+  position: relative;
+  height: 40rem;
+  max-height: 85vh;
+  padding: 1rem;
+  overflow: auto;
+  background: var(--bs-secondary-bg);
+
+  &:focus-visible {
+    outline: 0;
+    box-shadow: inset var(--celerik-focus-ring);
+  }
+}
+
+.celerik-pdf-sm .celerik-pdf-viewport {
+  height: 24rem;
+}
+
+.celerik-pdf-lg .celerik-pdf-viewport {
+  height: 60rem;
+}
+
+.celerik-pdf-page {
+  position: relative;
+  margin: 0 auto 1rem;
+  background: #fff;
+  box-shadow: 0 1px 3px rgb(0 0 0 / 0.3);
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.celerik-pdf-canvas {
+  display: block;
+}
+
+// Messages (loading, an error, no JavaScript) sit on the page's background, where links keep
+// their contrast.
+.celerik-pdf-message {
+  max-width: 40rem;
+  margin: 0 auto;
+  padding: 0.75rem 1rem;
+  border-radius: var(--bs-border-radius);
+  background: var(--bs-body-bg);
+}
+
+@media (forced-colors: active) {
+  .celerik-pdf-page {
+    border: 1px solid CanvasText;
+    forced-color-adjust: none;
+  }
+}
+
+// The text layer of PDF.js (pdf_viewer.css, Apache-2.0): transparent text over the canvas, at
+// the place and size of the drawn text, for selection, search and screen readers.
+.celerik-pdf .textLayer {
+  --min-font-size: 1;
+  --text-scale-factor: calc(var(--total-scale-factor) * var(--min-font-size));
+  --min-font-size-inv: calc(1 / var(--min-font-size));
+
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: clip;
+  line-height: 1;
+  text-align: initial;
+  letter-spacing: normal;
+  word-spacing: normal;
+  text-size-adjust: none;
+  forced-color-adjust: none;
+  transform-origin: 0 0;
+  caret-color: CanvasText;
+
+  :is(span, br) {
+    position: absolute;
+    color: transparent;
+    white-space: pre;
+    cursor: text;
+    transform-origin: 0% 0%;
+    user-select: text;
+  }
+
+  > :not(.markedContent),
+  .markedContent span:not(.markedContent) {
+    --font-height: 0;
+    --scale-x: 1;
+    --rotate: 0deg;
+
+    z-index: 1;
+    font-size: calc(var(--text-scale-factor) * var(--font-height));
+    transform: rotate(var(--rotate)) scaleX(var(--scale-x)) scale(var(--min-font-size-inv));
+  }
+
+  .markedContent {
+    display: contents;
+  }
+
+  ::selection {
+    background: rgb(0 0 255 / 0.25);
+    color: transparent;
+  }
+
+  br::selection {
+    background: transparent;
+  }
+
+  .endOfContent {
+    position: absolute;
+    inset: 100% 0 0;
+    z-index: 0;
+    display: block;
+    cursor: default;
+    user-select: none;
+  }
+
+  &.selecting .endOfContent {
+    top: 0;
+  }
+}
+
 // Timeline (Components\Timeline): an ordered list along a line. Plain HTML.
 .celerik-timeline {
   --celerik-timeline-rail: 1.75rem;
@@ -4153,7 +4330,7 @@ td[aria-busy='true'] .celerik-grid-editor {
     .celerik-modal, .celerik-listview, .celerik-treelist, .celerik-board, .celerik-admin, .celerik-nav,
     .celerik-usermenu, .celerik-menubutton, .celerik-splitbutton, .celerik-toolbar, .celerik-menu-list,
     .celerik-accordion, .celerik-splitter, .celerik-tilelayout, .celerik-chip-check, .celerik-popover, .celerik-carousel, .celerik-gantt, .celerik-map, .celerik-orgchart, .celerik-diagram,
-    .celerik-qrcode, .notyf)
+    .celerik-qrcode, .celerik-pdf, .notyf)
     :focus-visible,
   .celerik-action-button:focus-visible,
   // A date field's focus is on its day, month and year parts or its calendar button,

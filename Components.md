@@ -130,7 +130,7 @@ The **Phase** column refers to the [roadmap](ROADMAP.md); "–" means not yet sc
 
 | Component | Library | License | Phase |
 |---|---|---|---|
-| PDF Viewer | PDF.js | Apache 2.0 | 8 |
+| PDF Viewer | PDF.js | Apache 2.0 | 8 ✅ (`PdfViewer`) |
 | Media Player | Plyr | MIT | 8 |
 | Drag & Drop, Sortable | SortableJS | MIT | 5 |
 | Captcha | hCaptcha / reCAPTCHA / Cloudflare Turnstile (external services) | service terms | – |

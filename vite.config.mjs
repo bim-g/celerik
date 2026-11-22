@@ -36,8 +36,13 @@ export default defineConfig({
       output: {
         entryFileNames: 'celerik.js',
         chunkFileNames: 'chunks/[name]-[hash].js',
-        // The entry stylesheet keeps its stable name; chunk stylesheets are hashed.
-        assetFileNames: (asset) => (asset.names?.includes('index.css') ? 'celerik.css' : 'chunks/[name]-[hash][extname]'),
+        // The entry stylesheet keeps its stable name; chunk stylesheets are hashed. The PDF.js
+        // worker (an ES module) is named .js: every server sends that as JavaScript, which a
+        // module worker needs, while some send .mjs as a download.
+        assetFileNames: (asset) => {
+          if (asset.names?.includes('index.css')) return 'celerik.css';
+          return asset.names?.some((name) => name.endsWith('.mjs')) ? 'chunks/[name]-[hash].js' : 'chunks/[name]-[hash][extname]';
+        },
       },
     },
   },
