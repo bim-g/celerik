@@ -2780,6 +2780,73 @@ html:not(.celerik-js) .celerik-orgchart-toggle {
   }
 }
 
+// QR code and barcode (Components\QrCode, Components\Barcode): drawn by PHP, with their value
+// as text. The code stays dark on a light tile in dark mode and in forced colors: scanners
+// need that contrast.
+.celerik-qrcode,
+.celerik-barcode {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  max-width: 100%;
+  margin: 0 0 1rem;
+  vertical-align: top;
+}
+
+.celerik-qrcode-image,
+.celerik-barcode-image {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  forced-color-adjust: none;
+}
+
+.celerik-qrcode-image {
+  border-radius: var(--bs-border-radius-sm);
+}
+
+.celerik-qrcode-light,
+.celerik-barcode-light {
+  fill: #fff;
+}
+
+.celerik-qrcode-dark,
+.celerik-barcode-dark {
+  fill: #000;
+}
+
+// The caption takes the width of the code, however long the value.
+.celerik-qrcode-caption,
+.celerik-barcode-caption {
+  inline-size: 0;
+  min-inline-size: 100%;
+  text-align: center;
+  overflow-wrap: anywhere;
+}
+
+.celerik-qrcode-label,
+.celerik-barcode-label {
+  display: block;
+  font-weight: 600;
+}
+
+.celerik-qrcode-value,
+.celerik-barcode-value {
+  display: block;
+  font-family: var(--bs-font-monospace);
+  font-size: 0.875rem;
+}
+
+.celerik-barcode-value {
+  letter-spacing: 0.1em;
+}
+
+a.celerik-qrcode-value {
+  padding-block: 0.125rem;
+  line-height: 1.25rem;
+}
+
 // Timeline (Components\Timeline): an ordered list along a line. Plain HTML.
 .celerik-timeline {
   --celerik-timeline-rail: 1.75rem;
@@ -4039,7 +4106,8 @@ td[aria-busy='true'] .celerik-grid-editor {
     .celerik-filemanager, .celerik-theme-builder, .celerik-action-dialog,
     .celerik-modal, .celerik-listview, .celerik-treelist, .celerik-board, .celerik-admin, .celerik-nav,
     .celerik-usermenu, .celerik-menubutton, .celerik-splitbutton, .celerik-toolbar, .celerik-menu-list,
-    .celerik-accordion, .celerik-splitter, .celerik-tilelayout, .celerik-chip-check, .celerik-popover, .celerik-carousel, .celerik-gantt, .celerik-map, .celerik-orgchart, .celerik-diagram, .notyf)
+    .celerik-accordion, .celerik-splitter, .celerik-tilelayout, .celerik-chip-check, .celerik-popover, .celerik-carousel, .celerik-gantt, .celerik-map, .celerik-orgchart, .celerik-diagram,
+    .celerik-qrcode, .notyf)
     :focus-visible,
   .celerik-action-button:focus-visible,
   // A date field's focus is on its day, month and year parts or its calendar button,

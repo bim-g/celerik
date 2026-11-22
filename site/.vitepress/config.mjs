@@ -134,6 +134,7 @@ export default defineConfig({
             { text: 'Map', link: '/components/map' },
             { text: 'Org chart', link: '/components/orgchart' },
             { text: 'Diagram', link: '/components/diagram' },
+            { text: 'QR code and barcode', link: '/components/qrcode' },
             { text: 'Modal', link: '/components/modal' },
             { text: 'Tabs', link: '/components/tabs' },
             { text: 'Notification', link: '/components/notification' },
