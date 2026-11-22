@@ -147,10 +147,15 @@ function enhanceFields(form, container, parsley) {
     }
   }
 
+  // Searchable selects (Tom Select) and Markdown fields (marked, DOMPurify) load on demand.
+  const loads = [];
   if (container.querySelector('select[data-celerik-select]')) {
-    return import('./select.js').then(({ initSelects }) => initSelects(container));
+    loads.push(import('./select.js').then(({ initSelects }) => initSelects(container)));
   }
-  return Promise.resolve();
+  if (container.querySelector('textarea[data-celerik-markdown]')) {
+    loads.push(import('./form-markdown.js').then(({ initMarkdowns }) => initMarkdowns(container)));
+  }
+  return Promise.all(loads);
 }
 
 // The error summary: filled and focused after a failed submit, focused on load when the
@@ -198,5 +203,9 @@ function reveal(element) {
   element.closest('form')?.celerikWizard?.showStepOf(element);
   for (let details = element.closest('details'); details; details = details.parentElement.closest('details')) {
     details.open = true;
+  }
+  // A Markdown field shown as its preview goes back to its text.
+  if (element.closest('.celerik-markdown-write')?.hidden) {
+    element.closest('.celerik-markdown').querySelector('.celerik-markdown-tab')?.click();
   }
 }

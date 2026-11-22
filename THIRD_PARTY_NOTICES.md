@@ -22,6 +22,8 @@ Celerik UI is MIT licensed (see [LICENSE.md](LICENSE.md)). The built bundle in `
 | [Leaflet](https://leafletjs.com) | 1.9 | BSD-2-Clause | `chunks/map-*.js`, `chunks/map-*.css` (its images inlined) |
 | [PDF.js](https://mozilla.github.io/pdf.js/) (`pdfjs-dist`: the library, its worker and the rules of its text layer) | 6.x | Apache-2.0 | `chunks/pdfviewer-*.js`, `chunks/pdf.worker.min-*.js`, `celerik.css` |
 | [Plyr](https://plyr.io) (its script, stylesheet and icons) | 3.8 | MIT | `chunks/mediaplayer-*.js`, `chunks/mediaplayer-*.css`, `chunks/plyr-*.svg` |
+| [marked](https://marked.js.org) | 18.x | MIT | `chunks/form-markdown-*.js` |
+| [DOMPurify](https://github.com/cure53/DOMPurify) | 3.x | Apache-2.0 (or MPL-2.0) | `chunks/form-markdown-*.js` |
 | [jQuery UI](https://jqueryui.com) (for elFinder) | 1.14 | MIT | `chunks/filemanager-*.js`, `chunks/filemanager-*.css`, `chunks/ui-icons_*.png` |
 
 ## Peer dependencies (not bundled, loaded by the application)

@@ -3165,6 +3165,127 @@ a.celerik-qrcode-value {
   }
 }
 
+// Markdown field (Field::markdown()): Write and Preview tabs and a formatting toolbar above
+// the textarea, in one bordered box. The selected tab is marked by a bar and bold text.
+.celerik-markdown {
+  border: var(--bs-border-width) solid var(--celerik-input-border, var(--bs-border-color));
+  border-radius: var(--bs-border-radius);
+  background: var(--bs-body-bg);
+
+  .celerik-markdown-source {
+    border: 0;
+    border-radius: 0 0 var(--bs-border-radius) var(--bs-border-radius);
+  }
+
+  &:has(.is-invalid) {
+    border-color: var(--bs-form-invalid-border-color);
+  }
+}
+
+// The server error follows the box, not the textarea (Bootstrap shows it after an invalid
+// control).
+.celerik-markdown:has(.is-invalid) ~ .invalid-feedback {
+  display: block;
+}
+
+.celerik-markdown-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 0.25rem;
+  padding: 0.25rem 0.25rem 0;
+  border-bottom: var(--bs-border-width) solid var(--bs-border-color);
+  border-radius: var(--bs-border-radius) var(--bs-border-radius) 0 0;
+  background: var(--bs-tertiary-bg);
+}
+
+.celerik-markdown-tabs {
+  display: flex;
+}
+
+.celerik-markdown-tab {
+  min-height: 2rem;
+  padding: 0.25rem 0.75rem;
+  border: 0;
+  border-bottom: 3px solid transparent;
+  background: none;
+  color: var(--bs-body-color);
+
+  &[aria-selected='true'] {
+    border-bottom-color: var(--bs-primary-text-emphasis);
+    font-weight: 600;
+  }
+}
+
+.celerik-markdown-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.125rem;
+  padding-bottom: 0.25rem;
+
+  &[hidden] {
+    display: none;
+  }
+}
+
+.celerik-markdown-action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2rem;
+  min-height: 2rem;
+  padding: 0;
+  color: var(--bs-body-color);
+
+  &:hover {
+    background: var(--bs-secondary-bg);
+  }
+
+  svg {
+    fill: none;
+    stroke: currentcolor;
+    stroke-width: 1.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+}
+
+.celerik-markdown-preview {
+  padding: 0.375rem 0.75rem;
+  overflow-wrap: anywhere;
+
+  > :last-child {
+    margin-bottom: 0;
+  }
+
+  img {
+    max-width: 100%;
+  }
+
+  pre {
+    padding: 0.5rem;
+    border-radius: var(--bs-border-radius-sm);
+    background: var(--bs-tertiary-bg);
+  }
+
+  blockquote {
+    padding-left: 0.75rem;
+    border-left: 3px solid var(--bs-border-color);
+    color: var(--bs-secondary-color);
+  }
+}
+
+.celerik-markdown-empty {
+  color: var(--bs-secondary-color);
+}
+
+@media (forced-colors: active) {
+  .celerik-markdown-tab[aria-selected='true'] {
+    border-bottom-color: Highlight;
+  }
+}
+
 // Timeline (Components\Timeline): an ordered list along a line. Plain HTML.
 .celerik-timeline {
   --celerik-timeline-rail: 1.75rem;
@@ -4425,7 +4546,7 @@ td[aria-busy='true'] .celerik-grid-editor {
     .celerik-modal, .celerik-listview, .celerik-treelist, .celerik-board, .celerik-admin, .celerik-nav,
     .celerik-usermenu, .celerik-menubutton, .celerik-splitbutton, .celerik-toolbar, .celerik-menu-list,
     .celerik-accordion, .celerik-splitter, .celerik-tilelayout, .celerik-chip-check, .celerik-popover, .celerik-carousel, .celerik-gantt, .celerik-map, .celerik-orgchart, .celerik-diagram,
-    .celerik-qrcode, .celerik-pdf, .celerik-media, .notyf)
+    .celerik-qrcode, .celerik-pdf, .celerik-media, .celerik-markdown, .notyf)
     :focus-visible,
   .celerik-action-button:focus-visible,
   // A date field's focus is on its day, month and year parts or its calendar button,
