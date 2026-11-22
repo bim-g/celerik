@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 use Celerik\Ui\Components\Barcode;
 use Celerik\Ui\Components\Chart;
+use Celerik\Ui\Components\MediaPlayer;
 use Celerik\Ui\Components\PdfViewer;
 use Celerik\Ui\Components\QrCode;
 use Celerik\Ui\Support\QrMatrix;
@@ -467,6 +468,8 @@ $fixtures = [
         ->edge('valid', 'done', 'Yes')
         ->edge('valid', 'form', 'No'),
 
+    'mediaplayer' => MediaPlayer::make('podcast')->audio()->label('Episode 12')->source('/media/12.mp3', 'audio/mpeg')
+        ->transcript([[0, 'Welcome back.', 'Ada'], [65, 'Today: Celerik.'], [130, 'Goodbye.']]),
     'pdfviewer' => PdfViewer::make('report')->url('/files/report.pdf')->label('Annual report 2026'),
     'qrcode' => QrCode::make('site')->value('https://example.com/?a=1&b=2')->label('Our <website>'),
     'qrcode-hidden' => QrCode::make('wifi')->value('WIFI:T:WPA;S:Office;P:Grüße;;')->label('Office Wi-Fi')

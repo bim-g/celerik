@@ -3070,6 +3070,101 @@ a.celerik-qrcode-value {
   }
 }
 
+// Media player (Components\MediaPlayer): Plyr in the theme's colors, its caption and the
+// transcript. The line being spoken is marked by a bar and bold text, not by color alone.
+.celerik-media {
+  --plyr-color-main: var(--bs-primary);
+  --plyr-font-family: var(--bs-body-font-family);
+  --plyr-audio-controls-background: var(--bs-body-bg);
+  --plyr-audio-control-color: var(--bs-body-color);
+  --plyr-menu-background: var(--bs-body-bg);
+  --plyr-menu-color: var(--bs-body-color);
+
+  margin: 0 0 1rem;
+}
+
+.celerik-media-frame {
+  overflow: hidden;
+  border-radius: var(--bs-border-radius);
+  background: #000;
+
+  video {
+    display: block;
+    width: 100%;
+  }
+}
+
+.celerik-media-audio .celerik-media-frame {
+  border: 1px solid var(--bs-border-color);
+  background: var(--bs-body-bg);
+
+  audio {
+    display: block;
+    width: 100%;
+  }
+}
+
+.celerik-media-caption {
+  margin-top: 0.5rem;
+  font-weight: 600;
+}
+
+.celerik-media-transcript {
+  margin-top: 0.5rem;
+
+  > summary {
+    display: inline-flex;
+    align-items: center;
+    min-height: 24px;
+    cursor: pointer;
+  }
+}
+
+.celerik-media-cues {
+  max-height: 16rem;
+  margin: 0.5rem 0 0;
+  padding: 0;
+  overflow-y: auto;
+  list-style: none;
+}
+
+.celerik-media-cue {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  padding: 0.125rem 0.5rem;
+  border-left: 3px solid transparent;
+
+  &[aria-current='true'] {
+    border-left-color: var(--bs-primary-text-emphasis);
+    background: var(--bs-primary-bg-subtle);
+    font-weight: 600;
+  }
+}
+
+.celerik-media-seek {
+  min-width: 3.5rem;
+  min-height: 24px;
+  padding: 0 0.25rem;
+  font-variant-numeric: tabular-nums;
+  color: var(--bs-link-color);
+  text-align: start;
+}
+
+.celerik-media-time {
+  font-variant-numeric: tabular-nums;
+}
+
+.celerik-media-speaker {
+  font-weight: 600;
+}
+
+@media (forced-colors: active) {
+  .celerik-media-cue[aria-current='true'] {
+    border-left-color: Highlight;
+  }
+}
+
 // Timeline (Components\Timeline): an ordered list along a line. Plain HTML.
 .celerik-timeline {
   --celerik-timeline-rail: 1.75rem;
@@ -4330,7 +4425,7 @@ td[aria-busy='true'] .celerik-grid-editor {
     .celerik-modal, .celerik-listview, .celerik-treelist, .celerik-board, .celerik-admin, .celerik-nav,
     .celerik-usermenu, .celerik-menubutton, .celerik-splitbutton, .celerik-toolbar, .celerik-menu-list,
     .celerik-accordion, .celerik-splitter, .celerik-tilelayout, .celerik-chip-check, .celerik-popover, .celerik-carousel, .celerik-gantt, .celerik-map, .celerik-orgchart, .celerik-diagram,
-    .celerik-qrcode, .celerik-pdf, .notyf)
+    .celerik-qrcode, .celerik-pdf, .celerik-media, .notyf)
     :focus-visible,
   .celerik-action-button:focus-visible,
   // A date field's focus is on its day, month and year parts or its calendar button,

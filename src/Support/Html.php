@@ -12,7 +12,9 @@ use Stringable;
  */
 final class Html
 {
-    private const VOID_ELEMENTS = ['input', 'img', 'br', 'hr', 'meta', 'link', 'source', 'col'];
+    private const VOID_ELEMENTS = [
+        'input', 'img', 'br', 'hr', 'meta', 'link', 'source', 'col', 'track', 'wbr', 'area', 'base', 'embed',
+    ];
 
     public static function escape(string|int|float|null $value): string
     {

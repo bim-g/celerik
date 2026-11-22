@@ -24,6 +24,7 @@ use Celerik\Ui\Components\Grid;
 use Celerik\Ui\Components\ListView;
 use Celerik\Ui\Components\Map;
 use Celerik\Ui\Components\Loader;
+use Celerik\Ui\Components\MediaPlayer;
 use Celerik\Ui\Components\MenuButton;
 use Celerik\Ui\Components\Modal;
 use Celerik\Ui\Components\Navigation;
@@ -111,7 +112,8 @@ final class ComponentRegistry
             ->register(Diagram::class)
             ->register(QrCode::class)
             ->register(Barcode::class)
-            ->register(PdfViewer::class);
+            ->register(PdfViewer::class)
+            ->register(MediaPlayer::class);
     }
 
     /**
