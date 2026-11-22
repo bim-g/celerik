@@ -35,4 +35,10 @@ final class HtmlTest extends TestCase
         self::assertSame('<input type="text">', Html::tag('input', ['type' => 'text']));
         self::assertSame('<p class="a b">x</p>', Html::tag('p', ['class' => Html::classes(['a', '', 'b', 'a'])], 'x'));
     }
+
+    public function testVoidElementsOfMediaAndText(): void
+    {
+        self::assertSame('<track kind="captions" src="/a.vtt">', Html::tag('track', ['kind' => 'captions', 'src' => '/a.vtt']));
+        self::assertSame('<wbr>', Html::tag('wbr', []));
+    }
 }

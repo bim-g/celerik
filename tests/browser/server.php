@@ -388,6 +388,29 @@ if ($path === '/theme-css' && ($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
 }
 
 // The ThemeBuilder, previewing real components: GET /theme-builder?mode=dark
+if ($path === '/media') {
+    require __DIR__ . '/media-page.php';
+    exit;
+}
+
+if ($path === '/media/tone.wav' || $path === '/media/tone.en.vtt') {
+    require_once __DIR__ . '/sample-media.php';
+    $wav = $path === '/media/tone.wav';
+    $body = $wav ? celerik_sample_wav() : celerik_sample_vtt();
+    header('Content-Type: ' . ($wav ? 'audio/wav' : 'text/vtt'));
+    header('Accept-Ranges: bytes');
+    // Browsers ask for ranges of media files; seeking needs them.
+    if ($wav && preg_match('/^bytes=(\d+)-(\d*)$/', $_SERVER['HTTP_RANGE'] ?? '', $range) === 1) {
+        $end = $range[2] === '' ? strlen($body) - 1 : min((int) $range[2], strlen($body) - 1);
+        http_response_code(206);
+        header(sprintf('Content-Range: bytes %d-%d/%d', $range[1], $end, strlen($body)));
+        $body = substr($body, (int) $range[1], $end - (int) $range[1] + 1);
+    }
+    header('Content-Length: ' . strlen($body));
+    echo $body;
+    exit;
+}
+
 if ($path === '/pdf') {
     require __DIR__ . '/pdf-page.php';
     exit;

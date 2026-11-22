@@ -26,6 +26,7 @@ register('barcode', () => true);
 register('orgchart', async (element, options) => (await import('./orgchart.js')).initOrgChart(element, options));
 register('map', async (element, options) => (await import('./map.js')).initMap(element, options));
 register('pdfviewer', async (element, options) => (await import('./pdfviewer.js')).initPdfViewer(element, options));
+register('mediaplayer', async (element, options) => (await import('./mediaplayer.js')).initMediaPlayer(element, options));
 register('gantt', async (element) => (await import('./gantt.js')).initGantt(element));
 register('carousel', async (element, options) => (await import('./carousel.js')).initCarousel(element, options));
 register('chip', async (element, options) => (await import('./display.js')).initChip(element, options));

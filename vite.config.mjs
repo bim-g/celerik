@@ -14,6 +14,8 @@ export default defineConfig({
   resolve: {
     alias: {
       jquery: fileURLToPath(new URL('./resources/js/jquery-global.js', import.meta.url)),
+      // Plyr's icons: its package does not export the file.
+      '@plyr-dist': fileURLToPath(new URL('./node_modules/plyr/dist', import.meta.url)),
     },
   },
   build: {

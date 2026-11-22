@@ -136,6 +136,7 @@ export default defineConfig({
             { text: 'Diagram', link: '/components/diagram' },
             { text: 'QR code and barcode', link: '/components/qrcode' },
             { text: 'PDF viewer', link: '/components/pdfviewer' },
+            { text: 'Media player', link: '/components/mediaplayer' },
             { text: 'Modal', link: '/components/modal' },
             { text: 'Tabs', link: '/components/tabs' },
             { text: 'Notification', link: '/components/notification' },
