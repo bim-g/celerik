@@ -2847,6 +2847,52 @@ a.celerik-qrcode-value {
   line-height: 1.25rem;
 }
 
+// Signature (Field::signature()): a pad like a sheet of paper, light with dark ink in dark
+// mode and in forced colors too, with a line to sign on. The pad is drawn with the pointer
+// only (touch-action: none keeps a finger from scrolling the page); the name input is the
+// way for keyboards and screen readers.
+.celerik-signature {
+  max-width: 36rem;
+}
+
+.celerik-signature-surface {
+  position: relative;
+  border: 1px solid var(--bs-border-color);
+  border-radius: var(--bs-border-radius);
+  background: #fff;
+  forced-color-adjust: none;
+
+  // The line to sign on.
+  &::after {
+    position: absolute;
+    right: 8%;
+    bottom: 22%;
+    left: 8%;
+    border-bottom: 1px solid #6c757d;
+    content: '';
+    pointer-events: none;
+  }
+}
+
+.celerik-signature-canvas {
+  display: block;
+  width: 100%;
+  aspect-ratio: 3 / 1;
+  cursor: crosshair;
+  touch-action: none;
+}
+
+.celerik-signature-clear {
+  min-height: 24px;
+  margin: 0.5rem 0 0.75rem;
+}
+
+@media (forced-colors: active) {
+  .celerik-signature-surface {
+    border-color: CanvasText;
+  }
+}
+
 // Timeline (Components\Timeline): an ordered list along a line. Plain HTML.
 .celerik-timeline {
   --celerik-timeline-rail: 1.75rem;
