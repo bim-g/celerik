@@ -6,9 +6,17 @@ The same version is published on Packagist (`caelrik/ui`) and npm (`@caelrik/ui`
 
 ## [Unreleased]
 
+## [0.7.1] - 2026-11-23
+
+The repository and its documentation follow the rename: they are now `kivudesign/caelrik` and <https://kivudesign.github.io/caelrik/>. The code and the names in it do not change.
+
 ### Changed
 
 - The repository is now [kivudesign/caelrik](https://github.com/kivudesign/caelrik) (GitHub redirects the old address), and the documentation is at <https://kivudesign.github.io/caelrik/>: the links in the README, the guides, the package metadata (`composer.json`, `package.json`) and the theme schema follow, and the site is built for `/caelrik/`.
+
+### Fixed
+
+- The changelog page of the documentation renders again: the 0.7.0 migration table has `{{ caelrik_assets() }}`, which the site tried to run as code.
 
 ## [0.7.0] - 2026-11-23
 
@@ -306,7 +314,8 @@ The Phase 1 MVP ([#11](https://github.com/kivudesign/caelrik/pull/11)).
 - Bootstrap SCSS theme and JS wrappers.
 - Examples for plain PHP, Laravel and Symfony.
 
-[Unreleased]: https://github.com/kivudesign/caelrik/compare/v0.7.0...HEAD
+[Unreleased]: https://github.com/kivudesign/caelrik/compare/v0.7.1...HEAD
+[0.7.1]: https://github.com/kivudesign/caelrik/compare/v0.7.0...v0.7.1
 [0.7.0]: https://github.com/kivudesign/caelrik/compare/v0.6.0...v0.7.0
 [0.6.0]: https://github.com/kivudesign/caelrik/compare/v0.5.0...v0.6.0
 [0.5.0]: https://github.com/kivudesign/caelrik/compare/v0.4.0...v0.5.0
