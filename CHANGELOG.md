@@ -1,10 +1,14 @@
 # Changelog
 
-All notable changes to Celerik UI are listed here, newest first. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and versions follow [Semantic Versioning](https://semver.org/). Before 1.0, a minor version (0.x.0) may include breaking changes; they are listed under **Changed** or **Removed**.
+All notable changes to Caelrik UI (named Celerik UI until 0.6.0) are listed here, newest first. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and versions follow [Semantic Versioning](https://semver.org/). Before 1.0, a minor version (0.x.0) may include breaking changes; they are listed under **Changed** or **Removed**.
 
-The same version is published on Packagist (`celerik/ui`) and npm (`@celerikui/ui`).
+The same version is published on Packagist (`caelrik/ui`) and npm (`@caelrik/ui`); up to 0.6.0, as `celerik/ui` and `@celerikui/ui`.
 
 ## [Unreleased]
+
+## [0.7.0] - 2026-11-23
+
+Celerik UI is now **Caelrik UI**. This release only renames the project: the packages (`caelrik/ui` on Packagist, `@caelrik/ui` on npm), the PHP namespace, the bundle files and every `caelrik-` name in HTML, CSS and JavaScript. Nothing else changes; the table below lists each name to replace.
 
 ### Changed
 
@@ -298,7 +302,8 @@ The Phase 1 MVP ([#11](https://github.com/kivudesign/celerik/pull/11)).
 - Bootstrap SCSS theme and JS wrappers.
 - Examples for plain PHP, Laravel and Symfony.
 
-[Unreleased]: https://github.com/kivudesign/celerik/compare/v0.6.0...HEAD
+[Unreleased]: https://github.com/kivudesign/celerik/compare/v0.7.0...HEAD
+[0.7.0]: https://github.com/kivudesign/celerik/compare/v0.6.0...v0.7.0
 [0.6.0]: https://github.com/kivudesign/celerik/compare/v0.5.0...v0.6.0
 [0.5.0]: https://github.com/kivudesign/celerik/compare/v0.4.0...v0.5.0
 [0.4.0]: https://github.com/kivudesign/celerik/compare/v0.3.0...v0.4.0
