@@ -85,4 +85,4 @@ Run before each release, on `tests/browser/server.php` (`php -S 127.0.0.1:8123 t
 
 ## Reporting a problem
 
-Open an issue on [GitHub](https://github.com/kivudesign/celerik/issues) with the label `accessibility`. Say which component, theme and mode, the browser and assistive technology (with versions), what you expected and what happened. Accessibility bugs that block a task are treated like other high-priority bugs.
+Open an issue on [GitHub](https://github.com/kivudesign/caelrik/issues) with the label `accessibility`. Say which component, theme and mode, the browser and assistive technology (with versions), what you expected and what happened. Accessibility bugs that block a task are treated like other high-priority bugs.

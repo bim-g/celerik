@@ -2,8 +2,8 @@
 
 > **Formerly Celerik UI.** From 0.7.0 the project is Caelrik UI: `caelrik/ui` on Packagist, `@caelrik/ui` on npm, the `Caelrik\Ui` namespace and the `caelrik-` prefix. The [changelog](CHANGELOG.md) lists every name to change.
 
-[![CI](https://github.com/kivudesign/celerik/actions/workflows/ci.yml/badge.svg)](https://github.com/kivudesign/celerik/actions/workflows/ci.yml)
-[![Documentation](https://img.shields.io/badge/docs-kivudesign.github.io%2Fcelerik-0a58ca)](https://kivudesign.github.io/celerik/)
+[![CI](https://github.com/kivudesign/caelrik/actions/workflows/ci.yml/badge.svg)](https://github.com/kivudesign/caelrik/actions/workflows/ci.yml)
+[![Documentation](https://img.shields.io/badge/docs-kivudesign.github.io%2Fcaelrik-0a58ca)](https://kivudesign.github.io/caelrik/)
 
 An open-source, Bootstrap-based UI component suite for PHP, inspired by Telerik UI. It works with plain PHP and has optional adapters for **Laravel 11+** and **Symfony 7**.
 
@@ -11,7 +11,7 @@ Components are written in PHP and render accessible, escaped HTML. A small JS bu
 
 > **Status: Phase 5 (data) in progress.** Grid, Chart, Form (with uploads, a rich text editor, selects, tags, dates, ratings, one-time codes, key-value lists, signatures, Markdown, code, an image editor for uploads, repeaters and wizards), Scheduler, Modal, Tabs, Notification, File Manager and ThemeBuilder are available, accessible to WCAG 2.2 AA and documented. The [roadmap](ROADMAP.md) lists the components still to come, toward Telerik UI's breadth.
 
-**Documentation: <https://kivudesign.github.io/celerik/>**, with getting started guides for plain PHP, Laravel and Symfony, every component with a live demo, the theming and security guides, and the API reference.
+**Documentation: <https://kivudesign.github.io/caelrik/>**, with getting started guides for plain PHP, Laravel and Symfony, every component with a live demo, the theming and security guides, and the API reference.
 
 ## Quick look
 
@@ -149,7 +149,7 @@ Components target WCAG 2.2 AA in light and dark mode, and respect reduced motion
 
 | Document | Purpose |
 |---|---|
-| [Documentation site](https://kivudesign.github.io/celerik/) | Guides, components with live demos, API reference (source in `site/`) |
+| [Documentation site](https://kivudesign.github.io/caelrik/) | Guides, components with live demos, API reference (source in `site/`) |
 | [ROADMAP.md](ROADMAP.md) | Phased delivery plan |
 | [Components.md](Components.md) | Telerik → open-source component mapping, licenses, phases |
 | [CONTRIBUTING.md](CONTRIBUTING.md) | How to contribute, project rules, adding a component |

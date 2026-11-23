@@ -11,7 +11,7 @@ hero:
       link: /guide/getting-started
     - theme: alt
       text: View on GitHub
-      link: https://github.com/kivudesign/celerik
+      link: https://github.com/kivudesign/caelrik
 
 features:
   - title: PHP first

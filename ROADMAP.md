@@ -31,7 +31,7 @@ Every component follows the same rules: a PHP builder, an endpoint helper when i
 
 - Accessibility polish: browser accessibility tests in light and dark mode, reduced motion, Windows High Contrast, keyboard editing in the Scheduler, form error summary, charts readable without color, WCAG 2.2 AA (see [ACCESSIBILITY.md](ACCESSIBILITY.md)).
 - ThemeBuilder: theme tokens and presets, `Theme` in PHP with WCAG contrast checks, the ThemeBuilder component and the `caelrik-theme` command (see [THEMING.md](THEMING.md)).
-- Documentation portal: guides, a page and a live demo per component, an API reference generated from the code, published to GitHub Pages (<https://kivudesign.github.io/celerik/>).
+- Documentation portal: guides, a page and a live demo per component, an API reference generated from the code, published to GitHub Pages (<https://kivudesign.github.io/caelrik/>).
 
 ### Phase 4 — Forms ✅
 
@@ -41,7 +41,7 @@ Every component follows the same rules: a PHP builder, an endpoint helper when i
 
 ### Distribution ✅
 
-- Releases include the built bundle, so installing needs no Node.js ([GitHub releases](https://github.com/kivudesign/celerik/releases), [Packagist](https://packagist.org/packages/caelrik/ui)).
+- Releases include the built bundle, so installing needs no Node.js ([GitHub releases](https://github.com/kivudesign/caelrik/releases), [Packagist](https://packagist.org/packages/caelrik/ui)).
 - The bundle on npm (`@caelrik/ui`) and on the jsDelivr CDN (`Assets::cdnUrl()`).
 - Reproducible CI and releases, weekly dependency updates, a [changelog](CHANGELOG.md) and release notes grouped by kind of change.
 
@@ -97,4 +97,4 @@ Showing records and states.
 - Review the public API (PHP builders, JavaScript API and events, CSS custom properties, theme schema, bundle files), and fix what needs fixing while 0.x allows it.
 - Publish a backward compatibility policy, then release 1.0 after a release candidate.
 
-Ideas and requests are welcome in the [issues](https://github.com/kivudesign/celerik/issues).
+Ideas and requests are welcome in the [issues](https://github.com/kivudesign/caelrik/issues).
