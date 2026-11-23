@@ -36,6 +36,9 @@ for (const mode of ['light', 'dark']) {
       test(`/${path} has no axe-core violations`, async ({ page }) => {
         await page.goto(path);
         await expect(page.locator('.VPContent')).toBeVisible();
+        // VitePress names the appearance switch once the page is hydrated: on a long page,
+        // axe could otherwise run first and find a button without a name.
+        await expect(page.locator('.VPNavBarAppearance .VPSwitchAppearance')).toHaveAttribute('title', /\S/);
         // Demos are checked on their own pages below, in both modes.
         expect(await axeViolations(page, (axe) => axe.exclude('.caelrik-demo iframe'))).toEqual([]);
       });
@@ -130,7 +133,8 @@ test.describe('keyboard', () => {
     const input = page.getByRole('searchbox').or(page.getByPlaceholder(/search/i)).first();
     await expect(input).toBeFocused();
     await page.keyboard.type('scheduler');
-    await expect(page.locator('.VPLocalSearchBox .result').first()).toBeVisible();
+    // The search index is loaded on first use.
+    await expect(page.locator('.VPLocalSearchBox .result').first()).toBeVisible({ timeout: 15000 });
     await page.keyboard.press('Escape');
     await expect(page.locator('.VPLocalSearchBox')).toHaveCount(0);
   });
