@@ -1,11 +1,11 @@
 {
     "name": "caelrik/ui",
     "description": "Open-source, Bootstrap-based UI component suite for PHP, with optional Laravel and Symfony adapters.",
-    "homepage": "https://kivudesign.github.io/celerik/",
+    "homepage": "https://kivudesign.github.io/caelrik/",
     "support": {
-        "docs": "https://kivudesign.github.io/celerik/",
-        "issues": "https://github.com/kivudesign/celerik/issues",
-        "source": "https://github.com/kivudesign/celerik"
+        "docs": "https://kivudesign.github.io/caelrik/",
+        "issues": "https://github.com/kivudesign/caelrik/issues",
+        "source": "https://github.com/kivudesign/caelrik"
     },
     "type": "library",
     "license": "MIT",

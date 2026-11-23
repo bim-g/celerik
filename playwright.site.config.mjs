@@ -4,7 +4,7 @@ import { defineConfig, devices } from '@playwright/test';
 // PLAYWRIGHT_CHANNEL=msedge or chrome uses an installed browser (see playwright.config.mjs).
 const port = Number(process.env.CAELRIK_SITE_PORT ?? 4174);
 // The site's path follows the repository's name on GitHub Pages (as DOCS_BASE in site/.vitepress/config.mjs).
-const base = process.env.DOCS_BASE ?? '/celerik/';
+const base = process.env.DOCS_BASE ?? '/caelrik/';
 
 export default defineConfig({
   testDir: 'tests/site',

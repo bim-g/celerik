@@ -6,7 +6,7 @@ use Caelrik\Ui\Support\Html;
 
 return [
     Html::raw('<div class="d-flex flex-wrap gap-4 align-items-start">'),
-    QrCode::make('site')->value('https://kivudesign.github.io/celerik/')->label('Caelrik UI'),
+    QrCode::make('site')->value('https://kivudesign.github.io/caelrik/')->label('Caelrik UI'),
     QrCode::make('wifi')->value('WIFI:T:WPA;S:Office;P:correct horse battery staple;;')->label('Office Wi-Fi')
         ->hideValue()->level('Q'),
     Html::raw('</div><div class="d-flex flex-wrap gap-4 align-items-start">'),

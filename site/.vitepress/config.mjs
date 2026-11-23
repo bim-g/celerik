@@ -11,7 +11,7 @@ const reference = existsSync(referenceFile) ? JSON.parse(readFileSync(referenceF
 // Guides include the repository's Markdown files (THEMING.md, ACCESSIBILITY.md…), whose
 // links are relative to the repository root. Root documents are linked to their page on
 // this site, other paths (theme/presets/, tests/…) to GitHub.
-const REPOSITORY = 'https://github.com/kivudesign/celerik';
+const REPOSITORY = 'https://github.com/kivudesign/caelrik';
 const ROOT_PAGES = {
   'THEMING.md': '/guides/theming',
   'ACCESSIBILITY.md': '/guides/accessibility',
@@ -58,12 +58,12 @@ function includedLastUpdated(pageData) {
 }
 
 // Documentation site: npm run docs:dev, npm run docs:build (output: site/.vitepress/dist).
-// DOCS_BASE is the path the site is served from: /celerik/ on GitHub Pages.
+// DOCS_BASE is the path the site is served from: /caelrik/ on GitHub Pages.
 export default defineConfig({
   title: 'Caelrik UI',
   description: 'Accessible, Bootstrap-based PHP UI components for plain PHP, Laravel and Symfony.',
   lang: 'en',
-  base: process.env.DOCS_BASE ?? '/celerik/',
+  base: process.env.DOCS_BASE ?? '/caelrik/',
   cleanUrls: true,
   lastUpdated: true,
   transformPageData: includedLastUpdated,
@@ -74,7 +74,7 @@ export default defineConfig({
     theme: { light: 'github-light-high-contrast', dark: 'github-dark-high-contrast' },
   },
   head: [
-    ['link', { rel: 'icon', type: 'image/svg+xml', href: `${process.env.DOCS_BASE ?? '/celerik/'}logo.svg` }],
+    ['link', { rel: 'icon', type: 'image/svg+xml', href: `${process.env.DOCS_BASE ?? '/caelrik/'}logo.svg` }],
     ['meta', { name: 'theme-color', content: '#0d6efd' }],
   ],
 
@@ -85,7 +85,7 @@ export default defineConfig({
       { text: 'Components', link: '/components/', activeMatch: '/components/' },
       { text: 'Guides', link: '/guides/theming', activeMatch: '/guides/' },
       { text: 'Reference', link: '/reference/', activeMatch: '/reference/' },
-      { text: 'GitHub', link: 'https://github.com/kivudesign/celerik' },
+      { text: 'GitHub', link: 'https://github.com/kivudesign/caelrik' },
     ],
 
     sidebar: {
@@ -179,11 +179,11 @@ export default defineConfig({
           'guides/testing.md': 'TESTING.md',
           'guides/roadmap.md': 'ROADMAP.md',
         }[filePath];
-        return `https://github.com/kivudesign/celerik/edit/main/${included ?? `site/${filePath}`}`;
+        return `https://github.com/kivudesign/caelrik/edit/main/${included ?? `site/${filePath}`}`;
       },
       text: 'Edit this page on GitHub',
     },
-    socialLinks: [{ icon: 'github', link: 'https://github.com/kivudesign/celerik' }],
+    socialLinks: [{ icon: 'github', link: 'https://github.com/kivudesign/caelrik' }],
     footer: {
       message: 'Released under the MIT License.',
       copyright: 'Caelrik UI contributors',

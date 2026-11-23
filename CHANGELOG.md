@@ -6,13 +6,17 @@ The same version is published on Packagist (`caelrik/ui`) and npm (`@caelrik/ui`
 
 ## [Unreleased]
 
+### Changed
+
+- The repository is now [kivudesign/caelrik](https://github.com/kivudesign/caelrik) (GitHub redirects the old address), and the documentation is at <https://kivudesign.github.io/caelrik/>: the links in the README, the guides, the package metadata (`composer.json`, `package.json`) and the theme schema follow, and the site is built for `/caelrik/`.
+
 ## [0.7.0] - 2026-11-23
 
 Celerik UI is now **Caelrik UI**. This release only renames the project: the packages (`caelrik/ui` on Packagist, `@caelrik/ui` on npm), the PHP namespace, the bundle files and every `caelrik-` name in HTML, CSS and JavaScript. Nothing else changes; the table below lists each name to replace.
 
 ### Changed
 
-- **Celerik UI is now Caelrik UI** ([#185](https://github.com/kivudesign/celerik/issues/185)), a name of its own, apart from other companies and products. This is a breaking change, with no aliases: every name below changes at once.
+- **Celerik UI is now Caelrik UI** ([#185](https://github.com/kivudesign/caelrik/issues/185)), a name of its own, apart from other companies and products. This is a breaking change, with no aliases: every name below changes at once.
 
   | Before | After |
   |---|---|
@@ -209,7 +213,7 @@ Phase 5 (Data): grid filters, actions, selection, columns to show or hide, empty
 - One-time code field: `Field::otp('code')` is one input shown as a box per character, so phones and browsers can fill the code they received (`autocomplete="one-time-code"`), a pasted `123 456` fills every box, and screen readers hear one text field. `codeLength()` (4 to 10), `alphanumeric()`, and a clear default message.
 - Tags input: `Field::tags('skills', ['PHP', 'Laravel'])` takes free-text tags (Enter, a comma or paste) and offers suggestions, local or `remote()`. Submits `skills[]`; `minTags()`, `maxTags()` and a translatable `addText()`. Case-insensitive duplicates are not added, and Enter does not submit the form while a tag is being typed.
 - Rating field: `Field::rating('score')` shows 3 to 10 stars (`stars()`), which are native radio buttons: arrow keys, validation and old input work as for a radio group, and no JavaScript is needed. An optional rating has a "No rating" choice; `ratingLabels()` translates the texts.
-- Form repeater: `Repeater::make('lines')->schema(...)` repeats a group of fields, submitted as `lines[0][product]`. Users add, remove and (with `reorderable()`) move rows; `min()`, `max()`, `defaultItems()`, `value()` and translatable `labels()`. Row keys are kept, so old input, errors such as `lines.3.qty` and the error summary find their row ([#97](https://github.com/kivudesign/celerik/pull/97)).
+- Form repeater: `Repeater::make('lines')->schema(...)` repeats a group of fields, submitted as `lines[0][product]`. Users add, remove and (with `reorderable()`) move rows; `min()`, `max()`, `defaultItems()`, `value()` and translatable `labels()`. Row keys are kept, so old input, errors such as `lines.3.qty` and the error summary find their row ([#97](https://github.com/kivudesign/caelrik/pull/97)).
 
 ### Development
 
@@ -219,51 +223,51 @@ Phase 5 (Data): grid filters, actions, selection, columns to show or hide, empty
 
 ### Added
 
-- Form wizard: `Form::wizard()` shows the form's sections one at a time, with a step indicator and Back and Next buttons. Next checks the step's fields first, Enter means Next, and after a failed submit (browser or server) the form shows the first step with an error. Its texts can be translated ([#95](https://github.com/kivudesign/celerik/pull/95)).
-- Form layout: `Section::make()` (a card with a heading, `collapsible()`) and `Section::fieldset()` group fields; `columns()` on a form or section lays them out in 1 to 6 columns from a breakpoint, and `columnSpan()` widens a field or section. A collapsed section opens by itself when a field inside it has an error ([#95](https://github.com/kivudesign/celerik/pull/95)).
-- Date and time fields: `Field::time()`, `Field::datetime()`, and `Field::dateRange($name, $label, 'date'|'time'|'datetime-local')`, two linked native inputs (`name[start]`, `name[end]`) whose end must be on or after the start ([#94](https://github.com/kivudesign/celerik/pull/94)).
-- Searchable selects ([Tom Select](https://tom-select.js.org)): `Field::select()->searchable()`, `->multiple()` (tags), and `->remote($url)` to load choices from an endpoint as the user types, answered by `$field->respond($source, $_GET)` with any data source ([#92](https://github.com/kivudesign/celerik/pull/92)).
-- Form fields: `Field::radio()` and `Field::checkboxes()` (groups in a fieldset, `inline()`), `Field::switch()`, `Field::range()` (shows its value) and `Field::color()`; `step()` for number, range, date and time fields ([#91](https://github.com/kivudesign/celerik/pull/91)).
+- Form wizard: `Form::wizard()` shows the form's sections one at a time, with a step indicator and Back and Next buttons. Next checks the step's fields first, Enter means Next, and after a failed submit (browser or server) the form shows the first step with an error. Its texts can be translated ([#95](https://github.com/kivudesign/caelrik/pull/95)).
+- Form layout: `Section::make()` (a card with a heading, `collapsible()`) and `Section::fieldset()` group fields; `columns()` on a form or section lays them out in 1 to 6 columns from a breakpoint, and `columnSpan()` widens a field or section. A collapsed section opens by itself when a field inside it has an error ([#95](https://github.com/kivudesign/caelrik/pull/95)).
+- Date and time fields: `Field::time()`, `Field::datetime()`, and `Field::dateRange($name, $label, 'date'|'time'|'datetime-local')`, two linked native inputs (`name[start]`, `name[end]`) whose end must be on or after the start ([#94](https://github.com/kivudesign/caelrik/pull/94)).
+- Searchable selects ([Tom Select](https://tom-select.js.org)): `Field::select()->searchable()`, `->multiple()` (tags), and `->remote($url)` to load choices from an endpoint as the user types, answered by `$field->respond($source, $_GET)` with any data source ([#92](https://github.com/kivudesign/caelrik/pull/92)).
+- Form fields: `Field::radio()` and `Field::checkboxes()` (groups in a fieldset, `inline()`), `Field::switch()`, `Field::range()` (shows its value) and `Field::color()`; `step()` for number, range, date and time fields ([#91](https://github.com/kivudesign/caelrik/pull/91)).
 
 ### Changed
 
-- The roadmap aims at Telerik UI's breadth with Filament's depth for admin screens, in phases by family of components. Celerik UI stays free and open source, with no paid or premium editions ([#93](https://github.com/kivudesign/celerik/pull/93)).
+- The roadmap aims at Telerik UI's breadth with Filament's depth for admin screens, in phases by family of components. Celerik UI stays free and open source, with no paid or premium editions ([#93](https://github.com/kivudesign/caelrik/pull/93)).
 
 ### Fixed
 
-- Client-side validation rejected every time and date-time field with a `min()` or `max()`: Parsley compared them as numbers. Bounds now compare numbers as numbers and ISO dates and times as text, and `17:00:00` equals `17:00` ([#94](https://github.com/kivudesign/celerik/pull/94)).
-- Server errors reported on one item of a field that submits an array (Laravel: `tags.1`, `languages.0`, `photos.0`) were not shown; they now show under the field and in the error summary ([#94](https://github.com/kivudesign/celerik/pull/94)).
+- Client-side validation rejected every time and date-time field with a `min()` or `max()`: Parsley compared them as numbers. Bounds now compare numbers as numbers and ISO dates and times as text, and `17:00:00` equals `17:00` ([#94](https://github.com/kivudesign/caelrik/pull/94)).
+- Server errors reported on one item of a field that submits an array (Laravel: `tags.1`, `languages.0`, `photos.0`) were not shown; they now show under the field and in the error summary ([#94](https://github.com/kivudesign/caelrik/pull/94)).
 
 ### Development
 
-- Release notes are grouped by kind of change, pull requests are labeled from their title, and a release needs its CHANGELOG section ([#88](https://github.com/kivudesign/celerik/pull/88)).
+- Release notes are grouped by kind of change, pull requests are labeled from their title, and a release needs its CHANGELOG section ([#88](https://github.com/kivudesign/caelrik/pull/88)).
 
 ## [0.1.3] - 2026-11-12
 
 ### Added
 
-- jQuery 4 support: the peer dependency accepts `^3.7.1 || ^4.0.0`, and the tests run on jQuery 4 ([#83](https://github.com/kivudesign/celerik/pull/83)).
+- jQuery 4 support: the peer dependency accepts `^3.7.1 || ^4.0.0`, and the tests run on jQuery 4 ([#83](https://github.com/kivudesign/caelrik/pull/83)).
 
 ### Changed
 
-- Docs and examples load `jquery@4.0.0` from the CDN ([#83](https://github.com/kivudesign/celerik/pull/83)).
-- The roadmap details Phase 4, forms ([#81](https://github.com/kivudesign/celerik/pull/81)).
+- Docs and examples load `jquery@4.0.0` from the CDN ([#83](https://github.com/kivudesign/caelrik/pull/83)).
+- The roadmap details Phase 4, forms ([#81](https://github.com/kivudesign/caelrik/pull/81)).
 
 ### Development
 
-- Lockfiles are committed, and CI installs from them. A CI job also tests the lowest dependency versions `composer.json` allows ([#63](https://github.com/kivudesign/celerik/pull/63)).
-- Dependabot opens weekly update pull requests for npm, Composer and GitHub Actions ([#63](https://github.com/kivudesign/celerik/pull/63)).
-- Faster browser tests: they wait for animations to finish instead of fixed delays, and run on 4 workers on CI ([#82](https://github.com/kivudesign/celerik/pull/82)).
+- Lockfiles are committed, and CI installs from them. A CI job also tests the lowest dependency versions `composer.json` allows ([#63](https://github.com/kivudesign/caelrik/pull/63)).
+- Dependabot opens weekly update pull requests for npm, Composer and GitHub Actions ([#63](https://github.com/kivudesign/caelrik/pull/63)).
+- Faster browser tests: they wait for animations to finish instead of fixed delays, and run on 4 workers on CI ([#82](https://github.com/kivudesign/caelrik/pull/82)).
 
 ## [0.1.1] - 2026-11-11
 
 ### Fixed
 
-- Scheduler: day numbers on today's cell were below 4.5:1 contrast. They now use the body text color ([#59](https://github.com/kivudesign/celerik/pull/59)).
+- Scheduler: day numbers on today's cell were below 4.5:1 contrast. They now use the body text color ([#59](https://github.com/kivudesign/caelrik/pull/59)).
 
 ### Development
 
-- GitHub Actions run on Node.js 24 ([#61](https://github.com/kivudesign/celerik/pull/61)).
+- GitHub Actions run on Node.js 24 ([#61](https://github.com/kivudesign/caelrik/pull/61)).
 
 ## [0.1.0] - 2026-11-11
 
@@ -271,28 +275,28 @@ The first release with the full component set, the prebuilt bundle and the npm p
 
 ### Added
 
-- **Scheduler** (FullCalendar), with Eloquent and Doctrine event sources ([#19](https://github.com/kivudesign/celerik/pull/19)).
-- **File uploads** (FilePond) and a **rich text editor** (Quill) for forms ([#20](https://github.com/kivudesign/celerik/pull/20)).
-- **Modal**, **Tabs** and **Notification** components ([#21](https://github.com/kivudesign/celerik/pull/21)).
-- **File Manager** (elFinder), with a locked-down configuration ([#22](https://github.com/kivudesign/celerik/pull/22)).
-- Material and Tailwind-inspired themes, dark mode on every theme ([#23](https://github.com/kivudesign/celerik/pull/23)).
-- Accessibility conformance statement and a screen-reader test plan ([#34](https://github.com/kivudesign/celerik/pull/34)).
-- **ThemeBuilder**: theme tokens, `Theme` in PHP, the builder component and the `celerik-theme` CLI ([#45](https://github.com/kivudesign/celerik/pull/45)).
-- Documentation site with live demos, guides and the API reference, on GitHub Pages ([#55](https://github.com/kivudesign/celerik/pull/55)).
-- The bundle is built at release time and published to npm as `@celerikui/ui`, served by jsDelivr (`Assets::cdnUrl()`) ([#56](https://github.com/kivudesign/celerik/pull/56), [#57](https://github.com/kivudesign/celerik/pull/57)).
+- **Scheduler** (FullCalendar), with Eloquent and Doctrine event sources ([#19](https://github.com/kivudesign/caelrik/pull/19)).
+- **File uploads** (FilePond) and a **rich text editor** (Quill) for forms ([#20](https://github.com/kivudesign/caelrik/pull/20)).
+- **Modal**, **Tabs** and **Notification** components ([#21](https://github.com/kivudesign/caelrik/pull/21)).
+- **File Manager** (elFinder), with a locked-down configuration ([#22](https://github.com/kivudesign/caelrik/pull/22)).
+- Material and Tailwind-inspired themes, dark mode on every theme ([#23](https://github.com/kivudesign/caelrik/pull/23)).
+- Accessibility conformance statement and a screen-reader test plan ([#34](https://github.com/kivudesign/caelrik/pull/34)).
+- **ThemeBuilder**: theme tokens, `Theme` in PHP, the builder component and the `celerik-theme` CLI ([#45](https://github.com/kivudesign/caelrik/pull/45)).
+- Documentation site with live demos, guides and the API reference, on GitHub Pages ([#55](https://github.com/kivudesign/caelrik/pull/55)).
+- The bundle is built at release time and published to npm as `@celerikui/ui`, served by jsDelivr (`Assets::cdnUrl()`) ([#56](https://github.com/kivudesign/caelrik/pull/56), [#57](https://github.com/kivudesign/caelrik/pull/57)).
 
 ### Changed
 
-- The bundle is split into chunks: each page loads only the code of the components it uses ([#18](https://github.com/kivudesign/celerik/pull/18)).
+- The bundle is split into chunks: each page loads only the code of the components it uses ([#18](https://github.com/kivudesign/caelrik/pull/18)).
 
 ### Fixed
 
-- `LIKE` wildcards (`%`, `_`) in Grid search terms are escaped ([#18](https://github.com/kivudesign/celerik/pull/18)).
-- Contrast fixes in dark mode ([#23](https://github.com/kivudesign/celerik/pull/23)).
+- `LIKE` wildcards (`%`, `_`) in Grid search terms are escaped ([#18](https://github.com/kivudesign/caelrik/pull/18)).
+- Contrast fixes in dark mode ([#23](https://github.com/kivudesign/caelrik/pull/23)).
 
 ## [0.0.1] - 2026-11-04
 
-The Phase 1 MVP ([#11](https://github.com/kivudesign/celerik/pull/11)).
+The Phase 1 MVP ([#11](https://github.com/kivudesign/caelrik/pull/11)).
 
 ### Added
 
@@ -302,16 +306,16 @@ The Phase 1 MVP ([#11](https://github.com/kivudesign/celerik/pull/11)).
 - Bootstrap SCSS theme and JS wrappers.
 - Examples for plain PHP, Laravel and Symfony.
 
-[Unreleased]: https://github.com/kivudesign/celerik/compare/v0.7.0...HEAD
-[0.7.0]: https://github.com/kivudesign/celerik/compare/v0.6.0...v0.7.0
-[0.6.0]: https://github.com/kivudesign/celerik/compare/v0.5.0...v0.6.0
-[0.5.0]: https://github.com/kivudesign/celerik/compare/v0.4.0...v0.5.0
-[0.4.0]: https://github.com/kivudesign/celerik/compare/v0.3.0...v0.4.0
-[0.3.0]: https://github.com/kivudesign/celerik/compare/v0.2.0...v0.3.0
-[0.2.0]: https://github.com/kivudesign/celerik/compare/v0.1.6...v0.2.0
-[0.1.6]: https://github.com/kivudesign/celerik/compare/v0.1.5...v0.1.6
-[0.1.5]: https://github.com/kivudesign/celerik/compare/v0.1.3...v0.1.5
-[0.1.3]: https://github.com/kivudesign/celerik/compare/v0.1.1...v0.1.3
-[0.1.1]: https://github.com/kivudesign/celerik/compare/v0.1.0...v0.1.1
-[0.1.0]: https://github.com/kivudesign/celerik/compare/v0.0.1...v0.1.0
-[0.0.1]: https://github.com/kivudesign/celerik/releases/tag/v0.0.1
+[Unreleased]: https://github.com/kivudesign/caelrik/compare/v0.7.0...HEAD
+[0.7.0]: https://github.com/kivudesign/caelrik/compare/v0.6.0...v0.7.0
+[0.6.0]: https://github.com/kivudesign/caelrik/compare/v0.5.0...v0.6.0
+[0.5.0]: https://github.com/kivudesign/caelrik/compare/v0.4.0...v0.5.0
+[0.4.0]: https://github.com/kivudesign/caelrik/compare/v0.3.0...v0.4.0
+[0.3.0]: https://github.com/kivudesign/caelrik/compare/v0.2.0...v0.3.0
+[0.2.0]: https://github.com/kivudesign/caelrik/compare/v0.1.6...v0.2.0
+[0.1.6]: https://github.com/kivudesign/caelrik/compare/v0.1.5...v0.1.6
+[0.1.5]: https://github.com/kivudesign/caelrik/compare/v0.1.3...v0.1.5
+[0.1.3]: https://github.com/kivudesign/caelrik/compare/v0.1.1...v0.1.3
+[0.1.1]: https://github.com/kivudesign/caelrik/compare/v0.1.0...v0.1.1
+[0.1.0]: https://github.com/kivudesign/caelrik/compare/v0.0.1...v0.1.0
+[0.0.1]: https://github.com/kivudesign/caelrik/releases/tag/v0.0.1
