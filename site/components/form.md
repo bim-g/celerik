@@ -113,6 +113,7 @@ Every kind of field:
 | `keyValue` | Rows of key-value pairs | [Key-value lists](#key-value-lists) |
 | `signature` | A pad to draw on, or a name to type | [Signatures](#signatures) |
 | `markdown` | A textarea with a formatting toolbar and a preview | [Markdown](#markdown) |
+| `code` | A code editor with syntax colors (CodeMirror 6) | [Code](#code) |
 | `radio`, `checkboxes`, `checkbox`, `switch`, `range`, `color`, `rating` | Choice groups, toggles, sliders, color pickers, stars | [Choices, switches, sliders, colors and ratings](#choices-switches-sliders-colors-and-ratings) |
 | `editor`, `file` | Rich text (Quill), uploads (FilePond) | [Rich text editor](./editor), [File upload](./upload) |
 
@@ -239,6 +240,26 @@ $html = (new GithubFlavoredMarkdownConverter([
 ```
 
 `markdownLabels([...])` translates the texts: `toolbar`, `bold`, `italic`, `heading`, `link`, `bulletList`, `numberedList`, `quote`, `code`, `write`, `preview` and `empty`. marked and DOMPurify (87 KB) are loaded only by forms that have a Markdown field. Without JavaScript it is a plain textarea.
+
+### Code
+
+<Demo name="form-code" :min-height="560" />
+
+<<< @/demos/form-code.php
+
+`Field::code($name)` is a code editor ([CodeMirror 6](https://codemirror.net)): line numbers, syntax colors, matching brackets, folding, search and replace (Ctrl+F), several cursors, and Undo. The textarea stays in the form, out of sight, and keeps the text, so validation, submit and reset work as with any field.
+
+| Option | Use |
+|---|---|
+| `language('php')` | The colors and indentation of `javascript`, `typescript`, `jsx`, `php`, `html`, `css`, `json`, `sql`, `python`, `markdown` or `xml` (`text` by default). Only that grammar is loaded. |
+| `tabIndents()` | Tab indents, as in a code editor. Escape, then Tab, leaves the editor. |
+| `codeLabels([...])` | Translates `keys` and `tabKeys`, the text under the editor that says what Tab does. |
+
+**The keyboard**: by default Tab moves to the next field, like in any form, so the editor is never a trap; Ctrl+] and Ctrl+[ indent and outdent, and the text under the editor says so (it describes the editor for screen readers). The editor's text is a multi-line text box named by the label, which takes the field's description, required state and error state; an error moves focus to it.
+
+**Colors** follow the page in light and dark mode, and every syntax color keeps 4.5:1. CodeMirror (400 KB, and each grammar on its own) is loaded only by forms that have a code field. Without JavaScript it is a plain textarea.
+
+Under a Content Security Policy, give `Assets::tags()` a nonce and allow it in `style-src`: CodeMirror injects its stylesheet as a `<style>` element, which takes the nonce from `<meta name="csp-nonce">` (see [Content Security Policy](../guide/csp)).
 
 ### Key-value lists
 

@@ -147,13 +147,17 @@ function enhanceFields(form, container, parsley) {
     }
   }
 
-  // Searchable selects (Tom Select) and Markdown fields (marked, DOMPurify) load on demand.
+  // Searchable selects (Tom Select), Markdown fields (marked, DOMPurify) and code fields
+  // (CodeMirror) load on demand.
   const loads = [];
   if (container.querySelector('select[data-celerik-select]')) {
     loads.push(import('./select.js').then(({ initSelects }) => initSelects(container)));
   }
   if (container.querySelector('textarea[data-celerik-markdown]')) {
     loads.push(import('./form-markdown.js').then(({ initMarkdowns }) => initMarkdowns(container)));
+  }
+  if (container.querySelector('textarea[data-celerik-code]')) {
+    loads.push(import('./form-code.js').then(({ initCodes }) => initCodes(container)));
   }
   return Promise.all(loads);
 }

@@ -84,7 +84,7 @@ Showing records and states.
 
 - Gauges ✅, sparklines ✅, Gantt chart ✅, map ✅, org chart ✅, diagram ✅.
 - QR code ✅ and barcode ✅, signature pad ✅, PDF viewer ✅, media player ✅.
-- Markdown editor ✅, code editor, image editor.
+- Markdown editor ✅, code editor ✅, image editor.
 
 ## Later
 

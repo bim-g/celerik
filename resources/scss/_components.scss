@@ -3286,6 +3286,80 @@ a.celerik-qrcode-value {
   }
 }
 
+// Code field (Field::code(), CodeMirror 6): a bordered box with the field's focus ring and
+// error border. Syntax colors keep 4.5:1 on the page in light and dark mode, and the theme of
+// form-code.js uses these variables.
+.celerik-code {
+  --celerik-code-selection: #b6d4fe;
+  --celerik-code-active-line: rgb(13 110 253 / 0.06);
+  --celerik-code-match: #fff3cd;
+  --celerik-code-keyword: #cf222e;
+  --celerik-code-string: #0a3069;
+  --celerik-code-comment: #57606a;
+  --celerik-code-number: #0550ae;
+  --celerik-code-function: #8250df;
+  --celerik-code-type: #953800;
+  --celerik-code-tag: #116329;
+  --celerik-code-property: #0550ae;
+  --celerik-code-link: #0969da;
+
+  overflow: hidden;
+  border: var(--bs-border-width) solid var(--celerik-input-border, var(--bs-border-color));
+  border-radius: var(--bs-border-radius);
+
+  &:focus-within {
+    border-color: var(--bs-primary);
+    box-shadow: var(--celerik-focus-ring, 0 0 0 0.25rem rgb(13 110 253 / 0.25));
+  }
+
+  &.is-invalid {
+    border-color: var(--bs-form-invalid-border-color);
+  }
+
+  .cm-editor {
+    min-height: 12rem;
+    max-height: 32rem;
+  }
+
+  .cm-scroller {
+    overflow: auto;
+  }
+}
+
+[data-bs-theme='dark'] .celerik-code {
+  --celerik-code-selection: #1f4c8f;
+  --celerik-code-active-line: rgb(255 255 255 / 0.05);
+  --celerik-code-match: #5c4813;
+  --celerik-code-keyword: #ff7b72;
+  --celerik-code-string: #a5d6ff;
+  --celerik-code-comment: #8b949e;
+  --celerik-code-number: #79c0ff;
+  --celerik-code-function: #d2a8ff;
+  --celerik-code-type: #ffa657;
+  --celerik-code-tag: #7ee787;
+  --celerik-code-property: #79c0ff;
+  --celerik-code-link: #58a6ff;
+}
+
+.celerik-code-keyword { color: var(--celerik-code-keyword); }
+.celerik-code-string { color: var(--celerik-code-string); }
+.celerik-code-comment { color: var(--celerik-code-comment); font-style: italic; }
+.celerik-code-number { color: var(--celerik-code-number); }
+.celerik-code-function { color: var(--celerik-code-function); }
+.celerik-code-type { color: var(--celerik-code-type); }
+.celerik-code-tag { color: var(--celerik-code-tag); }
+.celerik-code-property { color: var(--celerik-code-property); }
+.celerik-code-strong { font-weight: 700; }
+.celerik-code-emphasis { font-style: italic; }
+.celerik-code-link { color: var(--celerik-code-link); text-decoration: underline; }
+.celerik-code-invalid { text-decoration: underline wavy var(--bs-danger); }
+
+@media (forced-colors: active) {
+  .celerik-code {
+    border-color: CanvasText;
+  }
+}
+
 // Timeline (Components\Timeline): an ordered list along a line. Plain HTML.
 .celerik-timeline {
   --celerik-timeline-rail: 1.75rem;
@@ -4546,7 +4620,7 @@ td[aria-busy='true'] .celerik-grid-editor {
     .celerik-modal, .celerik-listview, .celerik-treelist, .celerik-board, .celerik-admin, .celerik-nav,
     .celerik-usermenu, .celerik-menubutton, .celerik-splitbutton, .celerik-toolbar, .celerik-menu-list,
     .celerik-accordion, .celerik-splitter, .celerik-tilelayout, .celerik-chip-check, .celerik-popover, .celerik-carousel, .celerik-gantt, .celerik-map, .celerik-orgchart, .celerik-diagram,
-    .celerik-qrcode, .celerik-pdf, .celerik-media, .celerik-markdown, .notyf)
+    .celerik-qrcode, .celerik-pdf, .celerik-media, .celerik-markdown, .celerik-code, .notyf)
     :focus-visible,
   .celerik-action-button:focus-visible,
   // A date field's focus is on its day, month and year parts or its calendar button,
