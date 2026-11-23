@@ -6,6 +6,10 @@ The same version is published on Packagist (`celerik/ui`) and npm (`@celerikui/u
 
 ## [Unreleased]
 
+## [0.6.0] - 2026-11-23
+
+Phase 8 (Visualization, media and specialized editors): gauges and sparklines, a Gantt chart, a map, an org chart and flowchart diagrams; QR codes and barcodes; a PDF viewer and a media player; and form fields for signatures, Markdown, code and picture editing. The charts, diagrams and codes are drawn by PHP as SVG with text alternatives; PDF.js, Plyr, CodeMirror, marked and DOMPurify are loaded only by pages that use them. It also fixes `Url::safe()`, which let `javascript:0` and `data:1` through, and `Html::tag()` closing `<track>`. Code fields need the page's nonce under a strict Content Security Policy (see the CSP guide).
+
 ### Added
 
 - **Image editor** (`Field::file()->imageEditor($ratios, $maxSize)`, native, 9 KB, loaded only by forms that use it): once a picture is chosen, crop it (free or in shapes such as 1:1 or 16:9), rotate and flip it, and the edited picture, at most `$maxSize` pixels, replaces the chosen file in the input. The crop area moves with the pointer (drag it or a corner), with the arrow keys (Shift resizes), or by its position and size in number fields; a status says the size sent. The camera's orientation is applied; the type and name are kept. No CSP change (`createImageBitmap`); without JavaScript the file is sent as chosen. Filerobot Image Editor was evaluated and not used: a beta that bundles React, Konva and styled-components (injected styles), with no keyboard or screen reader way.
@@ -274,7 +278,8 @@ The Phase 1 MVP ([#11](https://github.com/kivudesign/celerik/pull/11)).
 - Bootstrap SCSS theme and JS wrappers.
 - Examples for plain PHP, Laravel and Symfony.
 
-[Unreleased]: https://github.com/kivudesign/celerik/compare/v0.5.0...HEAD
+[Unreleased]: https://github.com/kivudesign/celerik/compare/v0.6.0...HEAD
+[0.6.0]: https://github.com/kivudesign/celerik/compare/v0.5.0...v0.6.0
 [0.5.0]: https://github.com/kivudesign/celerik/compare/v0.4.0...v0.5.0
 [0.4.0]: https://github.com/kivudesign/celerik/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.com/kivudesign/celerik/compare/v0.2.0...v0.3.0
