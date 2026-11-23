@@ -80,11 +80,11 @@ Showing records and states.
 - Badge, avatar, chip, tooltip and popover, progress bar and circle, loader and skeleton ✅.
 - Timeline ✅, carousel ✅.
 
-### Phase 8 — Visualization, media and specialized editors
+### Phase 8 — Visualization, media and specialized editors ✅
 
 - Gauges ✅, sparklines ✅, Gantt chart ✅, map ✅, org chart ✅, diagram ✅.
 - QR code ✅ and barcode ✅, signature pad ✅, PDF viewer ✅, media player ✅.
-- Markdown editor ✅, code editor ✅, image editor.
+- Markdown editor ✅, code editor ✅, image editor ✅.
 
 ## Later
 

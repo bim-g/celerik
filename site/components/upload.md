@@ -2,7 +2,7 @@
 
 File fields, plain or with [FilePond 4](https://pqina.nl/filepond/): previews, progress, and each file uploaded before the form is submitted. Files are checked by their content, not by their name.
 
-Uploads need a server, so there is no live demo on this site: see `examples/plain/article.php` in the repository.
+Uploads need a server, so there is no live demo of them on this site: see `examples/plain/article.php` in the repository. The [image editor](#editing-a-picture) has one: it works in the page.
 
 ## A plain file input
 
@@ -25,6 +25,24 @@ try {
     $errors['cv'] = $e->getMessage();
 }
 ```
+
+## Editing a picture
+
+<Demo name="form-image" :min-height="640" />
+
+<<< @/demos/form-image.php
+
+`imageEditor()` lets people crop, rotate and flip a picture before the form sends it: a profile picture, a product photo. Once a picture is chosen, the editor opens under the field, and the edited picture replaces the chosen file in the input, so the server receives it as any upload (store it with an `UploadHandler`, as above).
+
+```php
+Field::file('picture', 'Profile picture')->imageEditor(['1:1'], 512);
+```
+
+- **`$ratios`**: the shapes offered, `'free'` and `'width:height'` such as `'1:1'` or `'16:9'`; the first one is chosen first (`['free', '1:1', '4:3', '16:9']` by default). With one shape, there is no choice to make.
+- **`$maxSize`**: the longest side of the picture sent, in pixels (none by default).
+- **`imageEditorLabels([...])`** translates the texts (see `Field::IMAGE_EDITOR_LABELS`).
+
+The picture keeps its type (JPEG, PNG, WebP; others become PNG) and its name, and the camera's orientation is applied first. It works with one picture sent with the form: not with `upload()` (FilePond) or several files. Nothing is loaded from elsewhere, and no Content Security Policy change is needed (the picture is read with `createImageBitmap`, not a `blob:` URL). Without JavaScript the file is sent as chosen.
 
 ## Asynchronous uploads (FilePond)
 
@@ -75,3 +93,5 @@ The same rules set the input's `accept` attribute and the help text ("PNG, JPG. 
 ## Accessibility
 
 FilePond's browse button is labelled by the field label and its help text, works from the keyboard, and announces progress and errors. Without FilePond support, a plain file input is used.
+
+The image editor is a group named "Edit the picture", with named buttons (rotate, flip, undo) and a labelled shape select. The **crop area** is moved with the mouse or a finger (drag it, or a corner to resize it), or with the keyboard: it is a focus stop where the arrow keys move it and Shift with the arrow keys resizes it, as the text under it says. Its **position and size are also number fields** (left, top, width, height), the way for screen readers, where Enter applies the number. A status line says the size of the picture sent. The crop area's edges are drawn dark, light and dark, seen on any picture, with a thicker edge when focused; its corners are 24 pixels.

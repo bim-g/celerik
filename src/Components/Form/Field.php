@@ -54,6 +54,26 @@ final class Field
         'empty' => 'Nothing to preview.',
     ];
 
+    /** The texts of a file field's image editor (imageEditorLabels()). */
+    public const IMAGE_EDITOR_LABELS = [
+        'editor' => 'Edit the picture',
+        'rotateLeft' => 'Rotate left',
+        'rotateRight' => 'Rotate right',
+        'flipHorizontal' => 'Flip horizontally',
+        'flipVertical' => 'Flip vertically',
+        'reset' => 'Undo the changes',
+        'ratio' => 'Shape',
+        'free' => 'Free',
+        'crop' => 'Crop area',
+        'cropHelp' => 'Drag the crop area or its corners. With the keyboard, the arrow keys move it and '
+            . 'Shift with the arrow keys resizes it; or type its position and size.',
+        'left' => 'Left',
+        'top' => 'Top',
+        'width' => 'Width',
+        'height' => 'Height',
+        'result' => 'The picture sent: {width} × {height} pixels.',
+    ];
+
     /** The languages of a code() field. */
     public const CODE_LANGUAGES = [
         'text', 'javascript', 'typescript', 'jsx', 'php', 'html', 'css', 'json', 'sql', 'python', 'markdown', 'xml',
@@ -113,6 +133,12 @@ final class Field
 
     /** @var array<string, string> */
     private array $markdownLabels = self::MARKDOWN_LABELS;
+
+    /** @var array{ratios: list<string>, maxSize: ?int}|null */
+    private ?array $imageEditor = null;
+
+    /** @var array<string, string> */
+    private array $imageEditorLabels = self::IMAGE_EDITOR_LABELS;
 
     private string $codeLanguage = 'text';
     private bool $tabIndents = false;
@@ -699,6 +725,55 @@ final class Field
     {
         $this->assertType('file', 'rules');
         $this->uploadRules = $rules;
+
+        return $this;
+    }
+
+    /**
+     * An image editor for a file field of one picture: once a picture is chosen, it can be
+     * cropped (free or in $ratios such as "1:1" or "16:9"), rotated and flipped, and the edited
+     * picture is the file sent, at most $maxSize pixels on its longest side. The crop area moves
+     * with the mouse, a finger, the arrow keys, or its position and size typed in numbers.
+     * Not with upload() or several files. Without JavaScript the file is sent as chosen.
+     *
+     * @param list<string> $ratios "free" and "width:height" shapes, the first one chosen first
+     */
+    public function imageEditor(array $ratios = ['free', '1:1', '4:3', '16:9'], ?int $maxSize = null): self
+    {
+        $this->assertType('file', 'imageEditor');
+        if ($ratios === []) {
+            throw new InvalidArgumentException('An image editor needs at least one shape.');
+        }
+        foreach ($ratios as $ratio) {
+            if ($ratio !== 'free' && preg_match('/^[1-9]\d{0,2}:[1-9]\d{0,2}$/', $ratio) !== 1) {
+                throw new InvalidArgumentException(sprintf(
+                    'Unknown shape "%s": use "free" or "width:height".',
+                    $ratio,
+                ));
+            }
+        }
+        if ($maxSize !== null && $maxSize < 16) {
+            throw new InvalidArgumentException('An edited picture is at least 16 pixels.');
+        }
+        $this->imageEditor = ['ratios' => array_values(array_unique($ratios)), 'maxSize' => $maxSize];
+
+        return $this;
+    }
+
+    /**
+     * Texts of a file field's image editor, for translation (see IMAGE_EDITOR_LABELS).
+     *
+     * @param array<string, string> $labels
+     */
+    public function imageEditorLabels(array $labels): self
+    {
+        $this->assertType('file', 'imageEditorLabels');
+        foreach ($labels as $key => $text) {
+            if (!array_key_exists($key, self::IMAGE_EDITOR_LABELS)) {
+                throw new InvalidArgumentException(sprintf('Unknown image editor label "%s".', $key));
+            }
+            $this->imageEditorLabels[$key] = $text;
+        }
 
         return $this;
     }
@@ -1731,6 +1806,14 @@ final class Field
         $attributes['name'] = $multiple && !str_ends_with($this->name, '[]') ? $this->name . '[]' : $this->name;
         $attributes['placeholder'] = null;
 
+        if ($this->imageEditor !== null && ($this->uploadUrl !== null || $multiple)) {
+            throw new LogicException(sprintf(
+                'The image editor of field "%s" edits one picture sent with the form: '
+                    . 'not with upload() or several files.',
+                $this->name,
+            ));
+        }
+
         $upload = $this->uploadUrl === null ? null : self::json([
             'url' => $this->uploadUrl,
             'required' => $this->required,
@@ -1745,6 +1828,11 @@ final class Field
             'multiple' => $multiple,
             'class' => $this->controlClass('form-control', $error),
             'data-celerik-upload' => $upload,
+            'data-celerik-image-editor' => $this->imageEditor === null ? null : self::json([
+                'ratios' => $this->imageEditor['ratios'],
+                'maxSize' => $this->imageEditor['maxSize'],
+                'labels' => $this->imageEditorLabels,
+            ]),
             // FilePond replaces this input; it validates the files itself.
             'data-parsley-excluded' => $upload === null ? null : 'true',
         ]);

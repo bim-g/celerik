@@ -388,6 +388,11 @@ if ($path === '/theme-css' && ($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
 }
 
 // The ThemeBuilder, previewing real components: GET /theme-builder?mode=dark
+if ($path === '/image') {
+    require __DIR__ . '/image-page.php';
+    exit;
+}
+
 if ($path === '/code') {
     require __DIR__ . '/code-page.php';
     exit;
