@@ -63,7 +63,7 @@ The **Phase** column refers to the [roadmap](ROADMAP.md); "–" means not yet sc
 | Rich Text Editor | Quill 2 | BSD-3 | 2 ✅ (`Field::editor`) |
 | Markdown Editor | Native textarea, with marked (MIT) and DOMPurify (Apache 2.0) for the preview; EasyMDE's CodeMirror 5 editor is hard to use with a screen reader | MIT, Apache 2.0 | 8 ✅ (`Field::markdown()`) |
 | Code editor | CodeMirror 6 | MIT | 8 ✅ (`Field::code()`) |
-| ImageEditor | Filerobot Image Editor (to evaluate) | MIT | 8 |
+| ImageEditor | Native (canvas: crop, rotate, flip, resize; Filerobot was evaluated: a beta bundling React, Konva and styled-components, whose injected styles break a strict CSP, and whose canvas interface has no keyboard or screen reader way) | – | 8 ✅ (`Field::file()->imageEditor()`) |
 | File Manager | elFinder 2.1 (`studio-42/elfinder` on Composer) 🧩, with jQuery UI | BSD-3 / MIT | 2 ✅ (`FileManager`) |
 
 ### Scheduling

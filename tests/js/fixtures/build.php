@@ -754,6 +754,12 @@ const a = 1;")->help('JavaScript.'),
         )
         ->submit('Save'),
 
+    'form-image' => Form::make('profile')
+        ->action('/profile')
+        ->csrf('test-token')
+        ->add(Field::file('photo', 'Photo')->imageEditor(['free', '1:1'], 300))
+        ->submit('Save'),
+
     'form-key-value' => Form::make('webhook')
         ->action('/webhook')
         ->csrf('test-token')

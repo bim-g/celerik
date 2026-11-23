@@ -159,6 +159,9 @@ function enhanceFields(form, container, parsley) {
   if (container.querySelector('textarea[data-celerik-code]')) {
     loads.push(import('./form-code.js').then(({ initCodes }) => initCodes(container)));
   }
+  if (container.querySelector('input[type="file"][data-celerik-image-editor]')) {
+    loads.push(import('./form-image.js').then(({ initImageEditors }) => initImageEditors(container)));
+  }
   return Promise.all(loads);
 }
 
