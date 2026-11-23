@@ -9,7 +9,7 @@ Buttons that do something: open a page, or send a request to your endpoint, afte
 ## Links and requests
 
 ```php
-use Celerik\Ui\Components\Action;
+use Caelrik\Ui\Components\Action;
 
 // A link: an ordinary <a href>.
 echo Action::link('new', 'New member', '/members/create')->variant('primary')->solid();
@@ -68,10 +68,10 @@ Grid::make('members')
 - **The values**: fields named like the row's columns take the row's values; other fields keep the form's own. Only the form's fields are written in the page, not the whole row.
 - **The title** takes the row's values (`Edit {name}`), and so must name declared columns.
 - **The buttons**: the modal has **Cancel** and `$submitLabel` (the action's label by default), in place of the form's own submit button.
-- **Checks**: the form's rules (`required()`, `email()`, `min()`...) are checked in the browser first, as in any Celerik form.
+- **Checks**: the form's rules (`required()`, `email()`, `min()`...) are checked in the browser first, as in any Caelrik form.
 - **The request** is a form-encoded `POST`, with `_method` set to the action's method and the action's CSRF field and header, so PHP reads it in `$_POST`.
 - **The answer**:
-  - **2xx**: the modal closes, its `message` is shown, and `celerik:action` fires. A server-side grid reloads its rows; a client-side grid shows the values of `{"data": {...}}`, if the answer has them.
+  - **2xx**: the modal closes, its `message` is shown, and `caelrik:action` fires. A server-side grid reloads its rows; a client-side grid shows the values of `{"data": {...}}`, if the answer has them.
   - **422** with `errors` (`{"name": ["This name is taken."]}`, Laravel's shape): each error is shown on its field, and focus moves to the first. Other errors and messages go in an alert at the top of the form.
 - **Once per page**: `render()` writes the modal too; a grid writes it once for all its rows. On a page, `render(modal: false)` and `renderModal()` place them apart.
 - **Without JavaScript**, the button is not shown: the form needs it.
@@ -88,10 +88,10 @@ header('Content-Type: application/json');
 echo json_encode(['message' => "{$member->name} was deleted."]);
 ```
 
-After every request, the form fires `celerik:action`, with `{name, method, ok, status, data}` in `event.detail`:
+After every request, the form fires `caelrik:action`, with `{name, method, ok, status, data}` in `event.detail`:
 
 ```js
-document.addEventListener('celerik:action', (event) => {
+document.addEventListener('caelrik:action', (event) => {
   if (event.detail.ok && event.detail.name === 'archive') {
     window.location.reload();
   }

@@ -1,7 +1,7 @@
 <?php
 
-use Celerik\Ui\Components\Timeline;
-use Celerik\Ui\Support\Html;
+use Caelrik\Ui\Components\Timeline;
+use Caelrik\Ui\Support\Html;
 
 return [
     Html::raw('<div class="row g-4"><div class="col-md-5"><h2 class="h5">Order 1042</h2>'),

@@ -2,18 +2,18 @@
 
 declare(strict_types=1);
 
-namespace Celerik\Ui;
+namespace Caelrik\Ui;
 
-use Celerik\Ui\Support\Html;
+use Caelrik\Ui\Support\Html;
 use InvalidArgumentException;
 use Stringable;
 
 /**
- * Base class for every Celerik UI component.
+ * Base class for every Caelrik UI component.
  *
  * Components render framework-neutral HTML. Client-side behaviour is attached by the
- * JS bundle, which looks for `data-celerik="<name>"` and reads the JSON stored in
- * `data-celerik-options`. No inline scripts are emitted, so pages work under a strict CSP.
+ * JS bundle, which looks for `data-caelrik="<name>"` and reads the JSON stored in
+ * `data-caelrik-options`. No inline scripts are emitted, so pages work under a strict CSP.
  */
 abstract class Component implements Stringable
 {
@@ -45,7 +45,7 @@ abstract class Component implements Stringable
     }
 
     /**
-     * Short name used for `data-celerik` and the component registry (e.g. "grid").
+     * Short name used for `data-caelrik` and the component registry (e.g. "grid").
      */
     abstract public static function name(): string;
 
@@ -106,8 +106,8 @@ abstract class Component implements Stringable
         return array_merge($this->attributes, [
             'id' => $this->id,
             'class' => Html::classes([...$baseClasses, ...$this->classes]),
-            'data-celerik' => static::name(),
-            'data-celerik-options' => json_encode(
+            'data-caelrik' => static::name(),
+            'data-caelrik-options' => json_encode(
                 $this->toArray() === [] ? new \stdClass() : $this->toArray(),
                 JSON_THROW_ON_ERROR | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRESERVE_ZERO_FRACTION,
             ),

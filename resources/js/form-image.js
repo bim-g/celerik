@@ -59,7 +59,7 @@ export function outputSize(crop, maxSize) {
 function button(className, label, path) {
   const element = document.createElement('button');
   element.type = 'button';
-  element.className = `btn btn-sm celerik-action-button btn-outline-secondary ${className}`;
+  element.className = `btn btn-sm caelrik-action-button btn-outline-secondary ${className}`;
   element.setAttribute('aria-label', label);
   element.title = label;
   const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
@@ -76,56 +76,56 @@ function button(className, label, path) {
 }
 
 export function initImageEditor(input) {
-  if (input.celerikImageEditor) return input.celerikImageEditor;
-  const options = JSON.parse(input.getAttribute('data-celerik-image-editor') || '{}');
+  if (input.caelrikImageEditor) return input.caelrikImageEditor;
+  const options = JSON.parse(input.getAttribute('data-caelrik-image-editor') || '{}');
   const labels = options.labels ?? {};
   const ratios = options.ratios?.length ? options.ratios : ['free'];
   const id = input.id;
 
   // The editor, hidden until a picture is chosen.
   const editor = document.createElement('div');
-  editor.className = 'celerik-image-editor';
+  editor.className = 'caelrik-image-editor';
   editor.setAttribute('role', 'group');
   editor.setAttribute('aria-label', labels.editor);
   editor.hidden = true;
 
   const tools = document.createElement('div');
-  tools.className = 'celerik-image-tools';
-  const rotateLeft = button('celerik-image-rotate-left', labels.rotateLeft, 'M3 7a5 5 0 1 1 1.5 3.5M3 3v4h4');
-  const rotateRight = button('celerik-image-rotate-right', labels.rotateRight, 'M13 7a5 5 0 1 0-1.5 3.5M13 3v4H9');
-  const flipH = button('celerik-image-flip-h', labels.flipHorizontal, 'M8 2v12M6 4L2 8l4 4zM10 4l4 4-4 4z');
-  const flipV = button('celerik-image-flip-v', labels.flipVertical, 'M2 8h12M4 6l4-4 4 4zM4 10l4 4 4-4z');
-  const reset = button('celerik-image-reset', labels.reset, 'M3 8a5 5 0 1 0 1.5-3.5M3 2v3h3');
+  tools.className = 'caelrik-image-tools';
+  const rotateLeft = button('caelrik-image-rotate-left', labels.rotateLeft, 'M3 7a5 5 0 1 1 1.5 3.5M3 3v4h4');
+  const rotateRight = button('caelrik-image-rotate-right', labels.rotateRight, 'M13 7a5 5 0 1 0-1.5 3.5M13 3v4H9');
+  const flipH = button('caelrik-image-flip-h', labels.flipHorizontal, 'M8 2v12M6 4L2 8l4 4zM10 4l4 4-4 4z');
+  const flipV = button('caelrik-image-flip-v', labels.flipVertical, 'M2 8h12M4 6l4-4 4 4zM4 10l4 4 4-4z');
+  const reset = button('caelrik-image-reset', labels.reset, 'M3 8a5 5 0 1 0 1.5-3.5M3 2v3h3');
   const ratioLabel = document.createElement('label');
-  ratioLabel.className = 'celerik-image-ratio-label';
+  ratioLabel.className = 'caelrik-image-ratio-label';
   ratioLabel.htmlFor = `${id}-ratio`;
   ratioLabel.textContent = labels.ratio;
   const ratioSelect = document.createElement('select');
   ratioSelect.id = `${id}-ratio`;
-  ratioSelect.className = 'form-select form-select-sm celerik-image-ratio';
+  ratioSelect.className = 'form-select form-select-sm caelrik-image-ratio';
   for (const ratio of ratios) {
     ratioSelect.append(new Option(ratio === 'free' ? labels.free : ratio, ratio));
   }
   const ratioGroup = document.createElement('span');
-  ratioGroup.className = 'celerik-image-ratio-group';
+  ratioGroup.className = 'caelrik-image-ratio-group';
   ratioGroup.append(ratioLabel, ratioSelect);
   ratioGroup.hidden = ratios.length < 2;
   tools.append(rotateLeft, rotateRight, flipH, flipV, ratioGroup, reset);
 
   const stage = document.createElement('div');
-  stage.className = 'celerik-image-stage';
+  stage.className = 'caelrik-image-stage';
   const canvas = document.createElement('canvas');
-  canvas.className = 'celerik-image-canvas';
+  canvas.className = 'caelrik-image-canvas';
   canvas.setAttribute('aria-hidden', 'true');
   const box = document.createElement('div');
-  box.className = 'celerik-image-crop';
+  box.className = 'caelrik-image-crop';
   box.tabIndex = 0;
   box.setAttribute('role', 'group');
   box.setAttribute('aria-label', labels.crop);
   box.setAttribute('aria-describedby', `${id}-crop-help`);
   const corners = ['nw', 'ne', 'sw', 'se'].map((corner) => {
     const handle = document.createElement('span');
-    handle.className = `celerik-image-handle celerik-image-handle-${corner}`;
+    handle.className = `caelrik-image-handle caelrik-image-handle-${corner}`;
     handle.dataset.corner = corner;
     handle.setAttribute('aria-hidden', 'true');
     box.append(handle);
@@ -135,11 +135,11 @@ export function initImageEditor(input) {
 
   const help = document.createElement('p');
   help.id = `${id}-crop-help`;
-  help.className = 'form-text celerik-image-help';
+  help.className = 'form-text caelrik-image-help';
   help.textContent = labels.cropHelp;
 
   const numbers = document.createElement('fieldset');
-  numbers.className = 'celerik-image-numbers';
+  numbers.className = 'caelrik-image-numbers';
   const legend = document.createElement('legend');
   legend.className = 'visually-hidden';
   legend.textContent = labels.crop;
@@ -147,7 +147,7 @@ export function initImageEditor(input) {
   const fields = {};
   for (const key of ['x', 'y', 'width', 'height']) {
     const wrap = document.createElement('div');
-    wrap.className = 'celerik-image-number';
+    wrap.className = 'caelrik-image-number';
     const label = document.createElement('label');
     label.htmlFor = `${id}-crop-${key}`;
     label.className = 'form-label';
@@ -165,7 +165,7 @@ export function initImageEditor(input) {
   }
 
   const status = document.createElement('p');
-  status.className = 'form-text celerik-image-result';
+  status.className = 'form-text caelrik-image-result';
   status.setAttribute('role', 'status');
 
   editor.append(tools, stage, help, numbers, status);
@@ -244,7 +244,7 @@ export function initImageEditor(input) {
           transfer.items.add(new File([blob], name, { type, lastModified: Date.now() }));
           input.files = transfer.files;
           status.textContent = text(labels.result, { width: out.width, height: out.height });
-          input.dispatchEvent(new CustomEvent('celerik:image-edited', { bubbles: true, detail: { ...out, crop: { ...crop } } }));
+          input.dispatchEvent(new CustomEvent('caelrik:image-edited', { bubbles: true, detail: { ...out, crop: { ...crop } } }));
           return resolve();
         }, type, 0.92);
       });
@@ -421,12 +421,12 @@ export function initImageEditor(input) {
     commit: () => commit(true),
     handles: corners,
   };
-  input.celerikImageEditor = api;
+  input.caelrikImageEditor = api;
   return api;
 }
 
 export function initImageEditors(container) {
-  for (const input of container.querySelectorAll('input[type="file"][data-celerik-image-editor]')) {
+  for (const input of container.querySelectorAll('input[type="file"][data-caelrik-image-editor]')) {
     initImageEditor(input);
   }
 }

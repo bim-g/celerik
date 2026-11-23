@@ -13,7 +13,7 @@ const ZOOMS = [50, 75, 100, 125, 150, 200, 300];
 const GAP = 16;
 
 const dispatch = (element, name, detail) => element.dispatchEvent(
-  new CustomEvent(`celerik:${name}`, { bubbles: true, detail }),
+  new CustomEvent(`caelrik:${name}`, { bubbles: true, detail }),
 );
 
 const text = (template, values) => template.replace(/\{(\w+)\}/g, (match, key) => values[key] ?? match);
@@ -41,26 +41,26 @@ export function currentPage(pages, top, bottom) {
 
 export async function initPdfViewer(element, options) {
   const labels = options.labels ?? {};
-  const toolbar = element.querySelector('.celerik-pdf-toolbar');
-  const viewport = element.querySelector('.celerik-pdf-viewport');
-  const status = element.querySelector('.celerik-pdf-status');
-  const pageInput = element.querySelector('.celerik-pdf-page-input');
-  const total = element.querySelector('.celerik-pdf-total');
-  const zoomSelect = element.querySelector('.celerik-pdf-zoom');
+  const toolbar = element.querySelector('.caelrik-pdf-toolbar');
+  const viewport = element.querySelector('.caelrik-pdf-viewport');
+  const status = element.querySelector('.caelrik-pdf-status');
+  const pageInput = element.querySelector('.caelrik-pdf-page-input');
+  const total = element.querySelector('.caelrik-pdf-total');
+  const zoomSelect = element.querySelector('.caelrik-pdf-zoom');
   const buttons = {
-    previous: element.querySelector('.celerik-pdf-previous'),
-    next: element.querySelector('.celerik-pdf-next'),
-    zoomOut: element.querySelector('.celerik-pdf-zoom-out'),
-    zoomIn: element.querySelector('.celerik-pdf-zoom-in'),
+    previous: element.querySelector('.caelrik-pdf-previous'),
+    next: element.querySelector('.caelrik-pdf-next'),
+    zoomOut: element.querySelector('.caelrik-pdf-zoom-out'),
+    zoomIn: element.querySelector('.caelrik-pdf-zoom-in'),
   };
 
   const message = (content, link = false) => {
     const paragraph = document.createElement('p');
-    paragraph.className = 'celerik-pdf-message';
+    paragraph.className = 'caelrik-pdf-message';
     paragraph.textContent = content;
     if (link) {
       const anchor = document.createElement('a');
-      anchor.className = 'celerik-pdf-download';
+      anchor.className = 'caelrik-pdf-download';
       anchor.href = options.url;
       anchor.download = '';
       anchor.textContent = labels.download;
@@ -111,7 +111,7 @@ export async function initPdfViewer(element, options) {
     const view = page.getViewport({ scale });
     const ratio = window.devicePixelRatio || 1;
     const canvas = document.createElement('canvas');
-    canvas.className = 'celerik-pdf-canvas';
+    canvas.className = 'caelrik-pdf-canvas';
     canvas.setAttribute('aria-hidden', 'true');
     canvas.width = Math.floor(view.width * ratio);
     canvas.height = Math.floor(view.height * ratio);
@@ -134,7 +134,7 @@ export async function initPdfViewer(element, options) {
     const page = await pdf.getPage(entry.number);
     if (run !== generation) return;
     const layer = document.createElement('div');
-    layer.className = 'textLayer celerik-pdf-text';
+    layer.className = 'textLayer caelrik-pdf-text';
     entry.element.append(layer);
     await new TextLayer({
       textContentSource: page.streamTextContent(),
@@ -154,7 +154,7 @@ export async function initPdfViewer(element, options) {
     const fragment = document.createDocumentFragment();
     pages = sizes.map((size, index) => {
       const page = document.createElement('div');
-      page.className = 'celerik-pdf-page';
+      page.className = 'caelrik-pdf-page';
       page.setAttribute('role', 'group');
       page.setAttribute('aria-label', text(labels.pageName, { page: index + 1, total: count }));
       page.dataset.page = String(index + 1);

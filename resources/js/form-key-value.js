@@ -16,12 +16,12 @@ export function keyProblem(key, value, earlierKeys) {
 
 // The key inputs of the list holding this one, before it.
 function earlierKeys(input) {
-  const keys = [...input.closest('.celerik-key-value-rows').querySelectorAll('.celerik-key-value-key')];
+  const keys = [...input.closest('.caelrik-key-value-rows').querySelectorAll('.caelrik-key-value-key')];
   return keys.slice(0, keys.indexOf(input)).map((key) => key.value);
 }
 
 function rowValue(input) {
-  return input.closest('.celerik-key-value-row').querySelector('.celerik-key-value-value').value;
+  return input.closest('.caelrik-key-value-row').querySelector('.caelrik-key-value-value').value;
 }
 
 // Parsley validators for the key inputs (data-parsley-keyneeded, data-parsley-keyunique).
@@ -32,24 +32,24 @@ export const keyValidators = {
 
 // parsley: the form's Parsley instance, to check new inputs and re-check keys.
 export function initKeyValues(container, parsley) {
-  for (const root of container.querySelectorAll('[data-celerik-key-value]')) {
-    if (!root.celerikKeyValue) {
-      root.celerikKeyValue = true;
+  for (const root of container.querySelectorAll('[data-caelrik-key-value]')) {
+    if (!root.caelrikKeyValue) {
+      root.caelrikKeyValue = true;
       initKeyValue(root, parsley);
     }
   }
 }
 
 function initKeyValue(root, parsley) {
-  const config = JSON.parse(root.getAttribute('data-celerik-key-value'));
-  const list = root.querySelector('.celerik-key-value-rows');
+  const config = JSON.parse(root.getAttribute('data-caelrik-key-value'));
+  const list = root.querySelector('.caelrik-key-value-rows');
   const template = root.querySelector('template');
-  const add = root.querySelector('[data-celerik-key-value-add]');
+  const add = root.querySelector('[data-caelrik-key-value-add]');
   const rows = () => [...list.children];
-  const keyOf = (row) => row.querySelector('.celerik-key-value-key');
+  const keyOf = (row) => row.querySelector('.caelrik-key-value-key');
 
   let next = rows().reduce((max, row) => {
-    const index = row.getAttribute('data-celerik-index');
+    const index = row.getAttribute('data-caelrik-index');
     return /^\d+$/.test(index) ? Math.max(max, Number(index) + 1) : max;
   }, 0);
 
@@ -70,7 +70,7 @@ function initKeyValue(root, parsley) {
       const [keyLabel, valueLabel] = row.querySelectorAll('label');
       keyLabel.textContent = `${config.key} ${position}`;
       valueLabel.textContent = `${config.value} ${position}`;
-      row.querySelector('[data-celerik-key-value-remove] .visually-hidden').textContent = config.remove.replace(
+      row.querySelector('[data-caelrik-key-value-remove] .visually-hidden').textContent = config.remove.replace(
         '%d',
         position,
       );
@@ -85,7 +85,7 @@ function initKeyValue(root, parsley) {
       key.id = config.id;
     }
     // A list error from the server ("headers.1.key") is stale once the rows change.
-    root.querySelector(':scope > .celerik-server-error')?.remove();
+    root.querySelector(':scope > .caelrik-server-error')?.remove();
     parsley.refresh();
   };
 
@@ -97,11 +97,11 @@ function initKeyValue(root, parsley) {
   });
 
   list.addEventListener('click', (event) => {
-    const button = event.target.closest('[data-celerik-key-value-remove]');
+    const button = event.target.closest('[data-caelrik-key-value-remove]');
     if (!button) {
       return;
     }
-    const row = button.closest('.celerik-key-value-row');
+    const row = button.closest('.caelrik-key-value-row');
     // Focus goes to the row that takes its place, the one before it, or Add.
     const neighbour = row.nextElementSibling ?? row.previousElementSibling;
     row.remove();

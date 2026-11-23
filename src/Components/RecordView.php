@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Celerik\Ui\Components;
+namespace Caelrik\Ui\Components;
 
 use ArrayAccess;
-use Celerik\Ui\Component;
-use Celerik\Ui\Components\RecordView\Entry;
-use Celerik\Ui\Support\Html;
+use Caelrik\Ui\Component;
+use Caelrik\Ui\Components\RecordView\Entry;
+use Caelrik\Ui\Support\Html;
 use InvalidArgumentException;
 use LogicException;
 
@@ -128,35 +128,35 @@ final class RecordView extends Component
                     : Html::tag('div', ['class' => 'form-text'], Html::escape($entry->getHelp()));
                 $items .= Html::tag('div', [
                     'class' => Html::classes([
-                        'celerik-recordview-entry',
-                        $entry->getSpan() > 1 ? 'celerik-recordview-span-' . min($entry->getSpan(), $columns) : null,
+                        'caelrik-recordview-entry',
+                        $entry->getSpan() > 1 ? 'caelrik-recordview-span-' . min($entry->getSpan(), $columns) : null,
                     ]),
                 ], Html::tag('dt', [], Html::escape($entry->getLabel())) . Html::tag('dd', [], $value . $help));
             }
             $list = Html::tag('dl', [
-                'class' => 'celerik-recordview-entries celerik-recordview-cols-' . $section['columns'],
+                'class' => 'caelrik-recordview-entries caelrik-recordview-cols-' . $section['columns'],
             ], $items);
 
             if ($section['title'] === null) {
-                $html .= Html::tag('div', ['class' => 'celerik-recordview-section'], $list);
+                $html .= Html::tag('div', ['class' => 'caelrik-recordview-section'], $list);
                 continue;
             }
             $heading = Html::tag(
                 'h' . $this->headingLevel,
-                ['class' => 'celerik-recordview-title', 'id' => $id . '-title'],
+                ['class' => 'caelrik-recordview-title', 'id' => $id . '-title'],
                 Html::escape($section['title']),
             );
             $description = $section['description'] === null
                 ? ''
-                : Html::tag('p', ['class' => 'celerik-recordview-description'], Html::escape($section['description']));
+                : Html::tag('p', ['class' => 'caelrik-recordview-description'], Html::escape($section['description']));
             $html .= Html::tag(
                 'section',
-                ['class' => 'celerik-recordview-section', 'aria-labelledby' => $id . '-title'],
+                ['class' => 'caelrik-recordview-section', 'aria-labelledby' => $id . '-title'],
                 $heading . $description . $list,
             );
         }
 
-        return Html::tag('div', $this->rootAttributes(['celerik-recordview']), $html);
+        return Html::tag('div', $this->rootAttributes(['caelrik-recordview']), $html);
     }
 
     /**

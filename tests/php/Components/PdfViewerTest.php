@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Celerik\Ui\Tests\Components;
+namespace Caelrik\Ui\Tests\Components;
 
-use Celerik\Ui\Components\PdfViewer;
+use Caelrik\Ui\Components\PdfViewer;
 use InvalidArgumentException;
 use LogicException;
 use PHPUnit\Framework\TestCase;
@@ -16,36 +16,36 @@ final class PdfViewerTest extends TestCase
         $html = PdfViewer::make('report')->url('/files/report.pdf?v=2&lang=en')->label('Annual <report>')->render();
 
         self::assertStringStartsWith(
-            '<section id="report" class="celerik-pdf celerik-pdf-md" data-celerik="pdfviewer" data-celerik-options="{'
+            '<section id="report" class="caelrik-pdf caelrik-pdf-md" data-caelrik="pdfviewer" data-caelrik-options="{'
             . '&quot;url&quot;:&quot;/files/report.pdf?v=2&amp;lang=en&quot;,&quot;page&quot;:1,&quot;zoom&quot;:&quot;fit&quot;,'
             . '&quot;labels&quot;:{&quot;of&quot;:&quot;of {total}&quot;,&quot;pageName&quot;:&quot;Page {page} of {total}&quot;,'
             . '&quot;download&quot;:&quot;Download the PDF&quot;,&quot;loading&quot;:&quot;Loading the document…&quot;,'
             . '&quot;error&quot;:&quot;This document could not be opened. Download it instead.&quot;}}" '
-            . 'aria-labelledby="report-title"><div class="celerik-pdf-header">'
-            . '<p id="report-title" class="celerik-pdf-title">Annual &lt;report&gt;</p>'
-            . '<a class="celerik-pdf-download btn btn-sm celerik-action-button btn-outline-secondary" '
+            . 'aria-labelledby="report-title"><div class="caelrik-pdf-header">'
+            . '<p id="report-title" class="caelrik-pdf-title">Annual &lt;report&gt;</p>'
+            . '<a class="caelrik-pdf-download btn btn-sm caelrik-action-button btn-outline-secondary" '
             . 'href="/files/report.pdf?v=2&amp;lang=en" download>Download the PDF</a></div>',
             $html,
         );
         self::assertStringContainsString(
-            '<div class="celerik-pdf-toolbar" role="group" aria-label="Pages and zoom" hidden><div class="celerik-pdf-tools">'
-            . '<button type="button" class="btn btn-sm celerik-action-button btn-outline-secondary celerik-pdf-previous" '
+            '<div class="caelrik-pdf-toolbar" role="group" aria-label="Pages and zoom" hidden><div class="caelrik-pdf-tools">'
+            . '<button type="button" class="btn btn-sm caelrik-action-button btn-outline-secondary caelrik-pdf-previous" '
             . 'aria-label="Previous page"><span aria-hidden="true">‹</span></button>'
-            . '<label for="report-page" class="celerik-pdf-page-label">Page</label>'
-            . '<input type="number" id="report-page" class="form-control form-control-sm celerik-pdf-page-input" min="1" '
-            . 'value="1" inputmode="numeric"><span class="celerik-pdf-total"></span>',
+            . '<label for="report-page" class="caelrik-pdf-page-label">Page</label>'
+            . '<input type="number" id="report-page" class="form-control form-control-sm caelrik-pdf-page-input" min="1" '
+            . 'value="1" inputmode="numeric"><span class="caelrik-pdf-total"></span>',
             $html,
         );
         self::assertStringContainsString(
-            '<select class="form-select form-select-sm celerik-pdf-zoom" aria-label="Zoom">'
+            '<select class="form-select form-select-sm caelrik-pdf-zoom" aria-label="Zoom">'
             . '<option value="fit" selected>Fit width</option><option value="50">50%</option>',
             $html,
         );
         self::assertStringEndsWith(
-            '<div class="celerik-pdf-viewport" role="region" aria-label="Annual &lt;report&gt;, pages" tabindex="0">'
-            . '<p class="celerik-pdf-message">The document is shown here with JavaScript. Download it instead. '
-            . '<a class="celerik-pdf-download" href="/files/report.pdf?v=2&amp;lang=en" download>Download the PDF</a></p></div>'
-            . '<p class="visually-hidden celerik-pdf-status" role="status"></p></section>',
+            '<div class="caelrik-pdf-viewport" role="region" aria-label="Annual &lt;report&gt;, pages" tabindex="0">'
+            . '<p class="caelrik-pdf-message">The document is shown here with JavaScript. Download it instead. '
+            . '<a class="caelrik-pdf-download" href="/files/report.pdf?v=2&amp;lang=en" download>Download the PDF</a></p></div>'
+            . '<p class="visually-hidden caelrik-pdf-status" role="status"></p></section>',
             $html,
         );
         // No inline style: a strict Content Security Policy blocks style attributes.
@@ -57,7 +57,7 @@ final class PdfViewerTest extends TestCase
         $html = PdfViewer::make('doc')->url('https://example.com/a.pdf')->label('Doc')->page(3)->zoom(150)->size('lg')
             ->download(false)->labels(['download' => 'Télécharger le PDF', 'zoom' => 'Agrandissement'])->render();
 
-        self::assertStringContainsString('class="celerik-pdf celerik-pdf-lg"', $html);
+        self::assertStringContainsString('class="caelrik-pdf caelrik-pdf-lg"', $html);
         self::assertStringContainsString('&quot;page&quot;:3,&quot;zoom&quot;:150', $html);
         self::assertStringContainsString('<option value="150" selected>150%</option>', $html);
         self::assertStringContainsString('value="3" inputmode="numeric"', $html);

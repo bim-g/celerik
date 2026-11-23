@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Celerik\Ui\Components;
+namespace Caelrik\Ui\Components;
 
-use Celerik\Ui\Component;
-use Celerik\Ui\Support\Html;
+use Caelrik\Ui\Component;
+use Caelrik\Ui\Support\Html;
 use InvalidArgumentException;
 use Stringable;
 
@@ -219,7 +219,7 @@ final class Modal extends Component
             $header . Html::tag('div', ['class' => 'modal-body'], Html::content($this->body)) . $footer,
         ));
 
-        return Html::tag('div', array_merge($this->rootAttributes(['modal', 'fade', 'celerik-modal']), [
+        return Html::tag('div', array_merge($this->rootAttributes(['modal', 'fade', 'caelrik-modal']), [
             'tabindex' => '-1',
             'aria-labelledby' => $titleId,
             'aria-hidden' => 'true',

@@ -118,7 +118,7 @@ test.describe('admin layout', () => {
     await expect(menu).toBeVisible();
     await expect(menu.getByRole('menuitem', { name: 'Open Photo.jpg' })).toBeFocused();
     await expect(menu.getByRole('menuitem', { name: 'Download' })).toHaveAttribute('href', '/admin/files/8/download');
-    expect(await axeViolations(page, { include: '.celerik-contextmenu-list' })).toEqual([]);
+    expect(await axeViolations(page, { include: '.caelrik-contextmenu-list' })).toEqual([]);
     await page.keyboard.press('Escape');
     await expect(menu).toBeHidden();
     await expect(file).toBeFocused();
@@ -193,7 +193,7 @@ test.describe('admin layout', () => {
     await page.setViewportSize({ width: 1280, height: 900 });
     await open(page);
     const layout = page.locator('#member-tiles');
-    const order = () => layout.locator('.celerik-tile').evaluateAll((tiles) => tiles.map((tile) => tile.dataset.tile));
+    const order = () => layout.locator('.caelrik-tile').evaluateAll((tiles) => tiles.map((tile) => tile.dataset.tile));
     expect(await order()).toEqual(['teams', 'logins', 'tasks']);
 
     // One click shows the tools; their buttons move and resize.
@@ -229,7 +229,7 @@ test.describe('admin layout', () => {
     // The corner grip: dragged down a row and across the layout.
     const tile = page.locator('#member-tiles-tile-logins');
     const box = await tile.boundingBox();
-    const grip = await tile.locator('.celerik-tile-grip').boundingBox();
+    const grip = await tile.locator('.caelrik-tile-grip').boundingBox();
     const whole = await layout.boundingBox();
     await page.mouse.move(grip.x + grip.width / 2, grip.y + grip.height / 2);
     await page.mouse.down();

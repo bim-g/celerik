@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Celerik\Ui\Components;
+namespace Caelrik\Ui\Components;
 
-use Celerik\Ui\Component;
-use Celerik\Ui\Support\Html;
-use Celerik\Ui\Support\Url;
+use Caelrik\Ui\Component;
+use Caelrik\Ui\Support\Html;
+use Caelrik\Ui\Support\Url;
 use InvalidArgumentException;
 use Stringable;
 
@@ -124,7 +124,7 @@ final class Card extends Component
         if ($this->title !== null) {
             $title = Html::escape($this->title);
             if ($this->url !== null) {
-                $title = Html::tag('a', ['class' => 'stretched-link celerik-card-link', 'href' => $this->url], $title);
+                $title = Html::tag('a', ['class' => 'stretched-link caelrik-card-link', 'href' => $this->url], $title);
             }
             $body .= Html::tag('h' . $this->headingLevel, ['class' => 'card-title h5'], $title);
         }
@@ -146,7 +146,7 @@ final class Card extends Component
                 $modals .= $action->renderModal();
             }
             // Above the stretched link, so they can be clicked.
-            $body .= Html::tag('div', ['class' => 'celerik-card-actions'], $buttons);
+            $body .= Html::tag('div', ['class' => 'caelrik-card-actions'], $buttons);
         }
 
         $image = $this->imageUrl === null ? '' : Html::tag('img', [
@@ -163,7 +163,7 @@ final class Card extends Component
 
         return Html::tag(
             'div',
-            $this->rootAttributes(['card', 'celerik-card']),
+            $this->rootAttributes(['card', 'caelrik-card']),
             $image . Html::tag('div', ['class' => 'card-body'], $body) . $footer,
         ) . $modals;
     }

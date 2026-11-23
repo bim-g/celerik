@@ -35,7 +35,7 @@ Add the `skip-changelog` label to leave a pull request out of the release notes.
 
 ## Building the bundle
 
-The bundle in `public/` is built, not committed: run `npm run build` after `npm install`, and again after changing `resources/`. The examples, the browser tests and the documentation site use it. Path-repository installs (`composer require celerik/ui:@dev` in an example app) need it too, before publishing the assets.
+The bundle in `public/` is built, not committed: run `npm run build` after `npm install`, and again after changing `resources/`. The examples, the browser tests and the documentation site use it. Path-repository installs (`composer require caelrik/ui:@dev` in an example app) need it too, before publishing the assets.
 
 ## Dependencies
 
@@ -49,13 +49,13 @@ Run the **Release** workflow (Actions > Release > Run workflow) with the version
 
 The entries under `## [Unreleased]` in CHANGELOG.md become the version's section, `## [0.2.0] - 2026-12-01`, with an empty `## [Unreleased]` above it and the compare links updated; the workflow commits that to `main` (`chore(release): 0.2.0`) once the checks pass. To write the section yourself, e.g. to reword it, merge it before running the workflow: a section already there for the version is used as it is. The workflow stops if there is neither, so a release always has notes.
 
-`main`'s ruleset must have **GitHub Actions** in its bypass list (Settings > Rules > Rulesets), so the workflow can push the changelog commit. The workflow runs every check on `main`, builds the bundle, commits it on a release commit that only the tag `v0.2.0` points to (Packagist installs tags), creates the GitHub release with the changelog section followed by the pull requests grouped by label, attaches the source maps, and, with an `NPM_TOKEN` secret, publishes `@celerikui/ui` to npm. Never push a version tag by hand: it would have no bundle.
+`main`'s ruleset must have **GitHub Actions** in its bypass list (Settings > Rules > Rulesets), so the workflow can push the changelog commit. The workflow runs every check on `main`, builds the bundle, commits it on a release commit that only the tag `v0.2.0` points to (Packagist installs tags), creates the GitHub release with the changelog section followed by the pull requests grouped by label, attaches the source maps, and, with an `NPM_TOKEN` secret, publishes `@caelrik/ui` to npm. Never push a version tag by hand: it would have no bundle.
 
 ## Adding a New Component
 
 - Check [Components.md](Components.md) for the chosen library, and check its license (core: MIT, Apache 2.0, BSD only).
 - **PHP**
-  - Add a class in `src/Components/` extending `Celerik\Ui\Component`.
+  - Add a class in `src/Components/` extending `Caelrik\Ui\Component`.
   - Register it in `ComponentRegistry::withDefaults()`.
 - **JS**
   - Add `resources/js/<name>.js` with an initializer, and register it in `resources/js/index.js`.

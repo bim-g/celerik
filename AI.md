@@ -14,12 +14,12 @@ Guidance for AI agents (and humans) scaffolding code in this repository.
 
 | Topic | Decision |
 |---|---|
-| Package / namespace | `celerik/ui`, `Celerik\Ui\` |
+| Package / namespace | `caelrik/ui`, `Caelrik\Ui\` |
 | Versions | PHP ≥ 8.2, Bootstrap 5.3, Laravel 11+, Symfony 7 |
 | jQuery | Peer dependency (DataTables, Parsley.js need it); external in the Vite build |
 | Grid protocol | The endpoint accepts DataTables parameters (or the simple format) and returns `{data, meta}`; the JS wrapper converts |
 | Phase 1 Form scope | Validation (Parsley) + input masks (Inputmask); Upload and WYSIWYG in Phase 2 |
-| JS init | `data-celerik` + `data-celerik-options`, no inline scripts (CSP-safe) |
+| JS init | `data-caelrik` + `data-caelrik-options`, no inline scripts (CSP-safe) |
 | Assets | Prebuilt ES module in `public/`: a small entry plus one lazy chunk per component library, published by the framework adapters |
 
 ## Scaffolding Templates
@@ -71,8 +71,8 @@ Map database columns to grid columns like this:
   - One `UploadRules` per field, shared by the field and its handler. Directories outside the web root.
 - **Editor**: always `EditorHtml::sanitize()` the submitted HTML before storing it.
 - **Modal with a form**: put the form in `body()`, submit it with a footer button (`['type' => 'submit', 'form' => '<form id>']`), and call `open($errors !== [])` so server errors reopen it.
-- **Notifications**: Post/Redirect/Get with flash messages, then `Notification::make()->fromFlash(...)` in the layout. From JavaScript: `Celerik.notify(type, message)`.
-- **Themes**: Bootstrap is the only look. Brand colors, radius and font go in a custom theme (`Theme::toCss()`, the ThemeBuilder or `celerik-theme`), loaded with `Assets::tags($url, customTheme: '/css/acme.css')` (or the Blade/Twig equivalents); `Contrast::failures($theme)` checks WCAG contrast. Do not pass `theme: 'material'|'tailwind'`: those looks were removed in 0.2.0.
+- **Notifications**: Post/Redirect/Get with flash messages, then `Notification::make()->fromFlash(...)` in the layout. From JavaScript: `Caelrik.notify(type, message)`.
+- **Themes**: Bootstrap is the only look. Brand colors, radius and font go in a custom theme (`Theme::toCss()`, the ThemeBuilder or `caelrik-theme`), loaded with `Assets::tags($url, customTheme: '/css/acme.css')` (or the Blade/Twig equivalents); `Contrast::failures($theme)` checks WCAG contrast. Do not pass `theme: 'material'|'tailwind'`: those looks were removed in 0.2.0.
 - **File manager**: one route accepting GET and POST that calls `FileManagerConnector::run(FileManagerConfig::local($rootOutsideWebRoot, $rules), authorized: <real check>)`. Never pass `true` unconditionally. Serve elFinder's assets (`vendor/studio-42/elfinder/{css,img,js,sounds}`) at `FileManager::assetsUrl()`.
 
 ### Integration snippets

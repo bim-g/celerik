@@ -68,8 +68,8 @@ Grid::make('orders')
 A column with a filter gets a labelled field in a filter bar above the table, with a **Clear filters** button. The rows update as the user types or picks a value.
 
 ```php
-use Celerik\Ui\Components\Grid\Column;
-use Celerik\Ui\Components\Grid\Filter;
+use Caelrik\Ui\Components\Grid\Column;
+use Caelrik\Ui\Components\Grid\Filter;
 
 Grid::make('orders')
     ->column('customer', 'Customer', static fn (Column $c) => $c->filter(Filter::text()))
@@ -159,7 +159,7 @@ try {
 - **From the keyboard**: each editable cell has an edit button, named after its column and its row ("Edit Role of Ada Lovelace"). It opens a field named the same way. **Enter** saves, **Escape** cancels, and leaving the field saves. Focus then goes back to the button. A double click on the cell opens the field too.
 - **Checked twice**: the browser checks the value with the editor's rules before sending it, and `cellEdit()` checks it again. A refused value keeps the field open, with the message as its description (`aria-describedby`). A refusal from your endpoint is shown the same way: `errors[field]`, or `message`.
 - **The request** is a form-encoded `POST` with `field`, `value`, `_method` (`PATCH` by default) and the CSRF field, plus the CSRF header. PHP reads it in `$_POST`, and Laravel and Symfony read `_method`. `{id}` in the URL takes the row's value, so add a column for it (it can be `hidden()`).
-- **The answer**: `{"value": ...}` sets the cell to the value as saved, e.g. rounded. A `message` is shown in a toast; without one, "Role of Ada Lovelace saved." is announced. The cell fires `celerik:edit` with `{field, value, ok, status}`.
+- **The answer**: `{"value": ...}` sets the cell to the value as saved, e.g. rounded. A `message` is shown in a toast; without one, "Role of Ada Lovelace saved." is announced. The cell fires `caelrik:edit` with `{field, value, ok, status}`.
 - **Totals** of a client-side grid follow the change. A server-side grid's totals come with its next page of rows.
 - **Without JavaScript**, cells show their values and no edit button.
 
@@ -203,7 +203,7 @@ Grid::make('contacts')
 `actions()` adds a last column with a button for each row: [actions](./actions) that open a page or send a request.
 
 ```php
-use Celerik\Ui\Components\Action;
+use Caelrik\Ui\Components\Action;
 
 Grid::make('members')
     ->url('/members/data')

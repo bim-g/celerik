@@ -9,7 +9,7 @@ An ordered list of events: an order's history, a project's milestones, an activi
 ## Usage
 
 ```php
-use Celerik\Ui\Components\Timeline;
+use Caelrik\Ui\Components\Timeline;
 
 Timeline::make('order')
     ->label('Order history')

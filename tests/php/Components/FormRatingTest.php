@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Celerik\Ui\Tests\Components;
+namespace Caelrik\Ui\Tests\Components;
 
-use Celerik\Ui\Components\Form;
-use Celerik\Ui\Components\Form\Field;
+use Caelrik\Ui\Components\Form;
+use Caelrik\Ui\Components\Form\Field;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 
@@ -16,17 +16,17 @@ final class FormRatingTest extends TestCase
         $html = Form::make('f')->submit(null)->add(Field::rating('score')->required()->value(4))->render();
 
         self::assertStringContainsString(
-            '<fieldset id="f-score-group" class="celerik-rating"><legend class="form-label fs-6">Score <span class="celerik-required" aria-hidden="true">*</span></legend>'
-            . '<div class="celerik-rating-stars">'
-            . '<input type="radio" id="f-score" name="score" value="1" required class="visually-hidden celerik-rating-input">'
-            . '<label for="f-score" class="celerik-rating-star"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">',
+            '<fieldset id="f-score-group" class="caelrik-rating"><legend class="form-label fs-6">Score <span class="caelrik-required" aria-hidden="true">*</span></legend>'
+            . '<div class="caelrik-rating-stars">'
+            . '<input type="radio" id="f-score" name="score" value="1" required class="visually-hidden caelrik-rating-input">'
+            . '<label for="f-score" class="caelrik-rating-star"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">',
             $html,
         );
         self::assertStringContainsString('<span class="visually-hidden">1 of 5</span></label>', $html);
         self::assertStringContainsString('<input type="radio" id="f-score-4" name="score" value="4" checked required', $html);
-        self::assertSame(5, substr_count($html, 'class="celerik-rating-star"'));
+        self::assertSame(5, substr_count($html, 'class="caelrik-rating-star"'));
         // Required: no "No rating" choice.
-        self::assertStringNotContainsString('celerik-rating-clear', $html);
+        self::assertStringNotContainsString('caelrik-rating-clear', $html);
     }
 
     public function testAnOptionalRatingCanBeCleared(): void
@@ -34,7 +34,7 @@ final class FormRatingTest extends TestCase
         $html = Form::make('f')->submit(null)->add(Field::rating('score'))->render();
 
         self::assertStringContainsString(
-            '<div class="celerik-rating-clear"><input type="radio" id="f-score-none" name="score" value="" checked class="visually-hidden celerik-rating-input">'
+            '<div class="caelrik-rating-clear"><input type="radio" id="f-score-none" name="score" value="" checked class="visually-hidden caelrik-rating-input">'
             . '<label for="f-score-none">No rating</label></div></fieldset>',
             $html,
         );
@@ -50,12 +50,12 @@ final class FormRatingTest extends TestCase
             ->errors(['score' => 'Too low.'])
             ->render();
 
-        self::assertSame(10, substr_count($html, 'class="celerik-rating-star"'));
+        self::assertSame(10, substr_count($html, 'class="caelrik-rating-star"'));
         self::assertStringContainsString('<span class="visually-hidden">7 sur 10</span>', $html);
         self::assertStringContainsString('<label for="f-score-none">Aucune note</label>', $html);
-        self::assertStringContainsString('id="f-score-7" name="score" value="7" checked aria-invalid="true" class="visually-hidden celerik-rating-input is-invalid"', $html);
-        self::assertStringContainsString('<fieldset id="f-score-group" class="celerik-rating" aria-describedby="f-score-help f-score-error">', $html);
-        self::assertStringContainsString('<div id="f-score-error" class="invalid-feedback d-block celerik-server-error">Too low.</div>', $html);
+        self::assertStringContainsString('id="f-score-7" name="score" value="7" checked aria-invalid="true" class="visually-hidden caelrik-rating-input is-invalid"', $html);
+        self::assertStringContainsString('<fieldset id="f-score-group" class="caelrik-rating" aria-describedby="f-score-help f-score-error">', $html);
+        self::assertStringContainsString('<div id="f-score-error" class="invalid-feedback d-block caelrik-server-error">Too low.</div>', $html);
         // The error summary links to the first star.
         self::assertStringContainsString('<a href="#f-score" class="alert-link">Too low.</a>', Form::make('f')->submit(null)
             ->add(Field::rating('score'))->errorSummary()->errors(['score' => 'Too low.'])->render());

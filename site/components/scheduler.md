@@ -29,16 +29,16 @@ With `updateUrl()`, users drag and resize events, or press Enter (or Space, or c
 Replace the built-in prompt, dialog or confirmation with your own UI by cancelling the event:
 
 ```js
-calendar.addEventListener('celerik:scheduler:edit', (event) => {
+calendar.addEventListener('caelrik:scheduler:edit', (event) => {
   event.preventDefault();
   openMyDialog(event.detail.event); // {id, title, start, end, allDay}
 });
-calendar.addEventListener('celerik:scheduler:error', (event) => {
-  Celerik.notify('error', `Could not ${event.detail.action} the event.`);
+calendar.addEventListener('caelrik:scheduler:error', (event) => {
+  Caelrik.notify('error', `Could not ${event.detail.action} the event.`);
 });
 ```
 
-Events: `celerik:scheduler:select` (cancelable), `celerik:scheduler:edit` (cancelable), `celerik:scheduler:delete` (cancelable) and `celerik:scheduler:error`.
+Events: `caelrik:scheduler:select` (cancelable), `caelrik:scheduler:edit` (cancelable), `caelrik:scheduler:delete` (cancelable) and `caelrik:scheduler:error`.
 
 ### Labels
 

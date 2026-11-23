@@ -1,13 +1,13 @@
-// Celerik theme variables. Override with:
-//   @use 'celerik/resources/scss/themes/bootstrap' with ($celerik-chart-min-height: 20rem);
+// Caelrik theme variables. Override with:
+//   @use 'caelrik/resources/scss/themes/bootstrap' with ($caelrik-chart-min-height: 20rem);
 // Colors come from Bootstrap's CSS custom properties, so Bootstrap themes apply automatically.
 
-$celerik-required-color: var(--bs-danger) !default;
-$celerik-chart-min-height: 16rem !default;
-$celerik-chart-caption-color: var(--bs-secondary-color) !default;
-$celerik-grid-header-bg: var(--bs-tertiary-bg) !default;
-$celerik-grid-header-font-weight: 600 !default;
-$celerik-focus-ring: 0 0 0 0.25rem rgba(var(--bs-primary-rgb), 0.25) !default;
-$celerik-scheduler-today-bg: rgba(var(--bs-primary-rgb), 0.08) !default;
-$celerik-scheduler-title-font-size: 1.25rem !default;
-$celerik-editor-min-height: 10rem !default;
+$caelrik-required-color: var(--bs-danger) !default;
+$caelrik-chart-min-height: 16rem !default;
+$caelrik-chart-caption-color: var(--bs-secondary-color) !default;
+$caelrik-grid-header-bg: var(--bs-tertiary-bg) !default;
+$caelrik-grid-header-font-weight: 600 !default;
+$caelrik-focus-ring: 0 0 0 0.25rem rgba(var(--bs-primary-rgb), 0.25) !default;
+$caelrik-scheduler-today-bg: rgba(var(--bs-primary-rgb), 0.08) !default;
+$caelrik-scheduler-title-font-size: 1.25rem !default;
+$caelrik-editor-min-height: 10rem !default;

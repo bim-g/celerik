@@ -7,16 +7,16 @@ describe('core', () => {
       calls.push(options);
       return { id: element.id };
     });
-    document.body.innerHTML = `<div id="a" data-celerik="probe" data-celerik-options='{"size":3}'></div>`;
+    document.body.innerHTML = `<div id="a" data-caelrik="probe" data-caelrik-options='{"size":3}'></div>`;
 
     const ready = jest.fn();
-    document.addEventListener('celerik:ready', ready);
+    document.addEventListener('caelrik:ready', ready);
     await init();
     await init();
-    document.removeEventListener('celerik:ready', ready);
+    document.removeEventListener('caelrik:ready', ready);
 
     expect(calls).toEqual([{ size: 3 }]);
-    expect(document.getElementById('a').celerik).toEqual({ id: 'a' });
+    expect(document.getElementById('a').caelrik).toEqual({ id: 'a' });
     expect(ready).toHaveBeenCalledTimes(1);
   });
 
@@ -24,10 +24,10 @@ describe('core', () => {
     let finish;
     const initializer = jest.fn(() => new Promise((resolve) => { finish = resolve; }));
     register('lazy', initializer);
-    document.body.innerHTML = '<div id="l" data-celerik="lazy"></div>';
+    document.body.innerHTML = '<div id="l" data-caelrik="lazy"></div>';
     const element = document.getElementById('l');
     const ready = jest.fn();
-    element.addEventListener('celerik:ready', ready);
+    element.addEventListener('caelrik:ready', ready);
 
     const first = init();
     const second = init();
@@ -37,7 +37,7 @@ describe('core', () => {
     finish({ loaded: true });
     await Promise.all([first, second]);
 
-    expect(element.celerik).toEqual({ loaded: true });
+    expect(element.caelrik).toEqual({ loaded: true });
     expect(ready).toHaveBeenCalledWith(expect.objectContaining({ detail: { instance: { loaded: true } } }));
   });
 
@@ -51,20 +51,20 @@ describe('core', () => {
       }
       return 'ok';
     });
-    document.body.innerHTML = '<div id="f" data-celerik="flaky"></div>';
+    document.body.innerHTML = '<div id="f" data-caelrik="flaky"></div>';
 
     await init();
     expect(error).toHaveBeenCalledWith(expect.stringContaining('"flaky" #f'), expect.any(Error));
-    expect(document.getElementById('f').celerik).toBeUndefined();
+    expect(document.getElementById('f').caelrik).toBeUndefined();
 
     await init();
-    expect(document.getElementById('f').celerik).toBe('ok');
+    expect(document.getElementById('f').caelrik).toBe('ok');
     error.mockRestore();
   });
 
   test('warns about unknown components instead of throwing', () => {
     const warn = jest.spyOn(console, 'warn').mockImplementation(() => {});
-    document.body.innerHTML = '<div data-celerik="unknown"></div>';
+    document.body.innerHTML = '<div data-caelrik="unknown"></div>';
 
     expect(() => init()).not.toThrow();
     expect(warn).toHaveBeenCalledWith(expect.stringContaining('"unknown"'));
@@ -73,7 +73,7 @@ describe('core', () => {
 
   test('tolerates invalid JSON options', () => {
     const error = jest.spyOn(console, 'error').mockImplementation(() => {});
-    document.body.innerHTML = `<div id="x" data-celerik-options="{oops"></div>`;
+    document.body.innerHTML = `<div id="x" data-caelrik-options="{oops"></div>`;
 
     expect(readOptions(document.getElementById('x'))).toEqual({});
     error.mockRestore();

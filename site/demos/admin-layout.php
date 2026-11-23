@@ -1,11 +1,11 @@
 <?php
 
-use Celerik\Ui\Components\Action;
-use Celerik\Ui\Components\AdminLayout;
-use Celerik\Ui\Components\Breadcrumb;
-use Celerik\Ui\Components\Navigation;
-use Celerik\Ui\Components\UserMenu;
-use Celerik\Ui\Support\Html;
+use Caelrik\Ui\Components\Action;
+use Caelrik\Ui\Components\AdminLayout;
+use Caelrik\Ui\Components\Breadcrumb;
+use Caelrik\Ui\Components\Navigation;
+use Caelrik\Ui\Components\UserMenu;
+use Caelrik\Ui\Support\Html;
 
 // Links in the demo go nowhere; Sign out is answered in the browser.
 return AdminLayout::make('app')

@@ -1,7 +1,7 @@
 <?php
 
-use Celerik\Ui\Components\Action;
-use Celerik\Ui\Components\ListView;
+use Caelrik\Ui\Components\Action;
+use Caelrik\Ui\Components\ListView;
 
 // The demo answers requests in the browser: nothing is saved.
 return ListView::make('reading')

@@ -1,7 +1,7 @@
 <?php
 
-use Celerik\Ui\Components\RecordView;
-use Celerik\Ui\Components\RecordView\Entry;
+use Caelrik\Ui\Components\RecordView;
+use Caelrik\Ui\Components\RecordView\Entry;
 
 $member = [
     'name' => 'Ada Lovelace',

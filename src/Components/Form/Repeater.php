@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Celerik\Ui\Components\Form;
+namespace Caelrik\Ui\Components\Form;
 
-use Celerik\Ui\Support\Html;
+use Caelrik\Ui\Support\Html;
 use Closure;
 use InvalidArgumentException;
 use LogicException;
@@ -279,17 +279,17 @@ final class Repeater
         $add = Html::tag('button', [
             'type' => 'button',
             'class' => 'btn btn-sm btn-outline-primary',
-            'data-celerik-repeater-add' => true,
+            'data-caelrik-repeater-add' => true,
             'disabled' => $this->max !== null && $count >= $this->max,
         ], Html::escape($this->labels['add']));
 
         $fieldset = Html::tag('fieldset', ['aria-describedby' => Html::classes([$helpId, $errorId])], $legend
-            . Html::tag('ol', ['class' => 'celerik-repeater-items'], $items)
+            . Html::tag('ol', ['class' => 'caelrik-repeater-items'], $items)
             . $add . $template);
 
         $feedback = $errorId === null ? '' : Html::tag(
             'div',
-            ['id' => $errorId, 'class' => 'invalid-feedback d-block celerik-server-error'],
+            ['id' => $errorId, 'class' => 'invalid-feedback d-block caelrik-server-error'],
             Html::escape($error),
         );
         $help = $helpId === null
@@ -298,10 +298,10 @@ final class Repeater
 
         return Html::tag('div', [
             'id' => $id,
-            'class' => 'mb-3 celerik-repeater',
+            'class' => 'mb-3 caelrik-repeater',
             // An error summary link to the repeater ("add at least one line") focuses it.
             'tabindex' => '-1',
-            'data-celerik-repeater' => json_encode([
+            'data-caelrik-repeater' => json_encode([
                 'min' => $this->min,
                 'max' => $this->max,
                 'item' => $this->labels['item'],
@@ -366,7 +366,7 @@ final class Repeater
                 $buttons .= Html::tag('button', [
                     'type' => 'button',
                     'class' => 'btn btn-sm btn-outline-secondary',
-                    'data-celerik-repeater-move' => $direction,
+                    'data-caelrik-repeater-move' => $direction,
                     'disabled' => $direction === 'up' ? $position <= 1 : $position >= $count,
                 ], $icon . Html::tag('span', ['class' => 'visually-hidden'], Html::escape($this->labels[$direction])));
             }
@@ -374,13 +374,13 @@ final class Repeater
         $buttons .= Html::tag('button', [
             'type' => 'button',
             'class' => 'btn btn-sm btn-outline-danger',
-            'data-celerik-repeater-remove' => true,
+            'data-caelrik-repeater-remove' => true,
             'disabled' => $count <= $this->min,
         ], Html::escape($this->labels['remove']));
 
         $legend = Html::tag(
             'legend',
-            ['class' => 'celerik-repeater-label'],
+            ['class' => 'caelrik-repeater-label'],
             Html::escape(sprintf($this->labels['item'], $position)),
         );
         $fields = Grid::render(
@@ -391,10 +391,10 @@ final class Repeater
         );
 
         return Html::tag('li', [
-            'class' => 'card celerik-repeater-item',
-            'data-celerik-key' => $key,
+            'class' => 'card caelrik-repeater-item',
+            'data-caelrik-key' => $key,
         ], Html::tag('fieldset', ['class' => 'card-body'], $legend
-            . Html::tag('div', ['class' => 'celerik-repeater-actions'], $buttons)
+            . Html::tag('div', ['class' => 'caelrik-repeater-actions'], $buttons)
             . $fields));
     }
 }

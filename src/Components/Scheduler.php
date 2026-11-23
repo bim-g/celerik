@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Celerik\Ui\Components;
+namespace Caelrik\Ui\Components;
 
-use Celerik\Ui\Component;
-use Celerik\Ui\Data\DateRange;
-use Celerik\Ui\Data\Event;
-use Celerik\Ui\Data\EventResult;
-use Celerik\Ui\Data\EventSourceInterface;
-use Celerik\Ui\Support\Dates;
-use Celerik\Ui\Support\Html;
+use Caelrik\Ui\Component;
+use Caelrik\Ui\Data\DateRange;
+use Caelrik\Ui\Data\Event;
+use Caelrik\Ui\Data\EventResult;
+use Caelrik\Ui\Data\EventSourceInterface;
+use Caelrik\Ui\Support\Dates;
+use Caelrik\Ui\Support\Html;
 use DateTimeInterface;
 use DateTimeZone;
 use InvalidArgumentException;
@@ -343,7 +343,7 @@ final class Scheduler extends Component
 
     public function render(): string
     {
-        $attributes = array_merge($this->rootAttributes(['celerik-scheduler']), [
+        $attributes = array_merge($this->rootAttributes(['caelrik-scheduler']), [
             'role' => 'region',
             'aria-label' => $this->title,
         ]);
@@ -361,7 +361,7 @@ final class Scheduler extends Component
         }
 
         if ($this->events === []) {
-            return Html::tag('p', ['class' => 'celerik-scheduler__fallback'], 'No events.');
+            return Html::tag('p', ['class' => 'caelrik-scheduler__fallback'], 'No events.');
         }
 
         $items = '';
@@ -378,7 +378,7 @@ final class Scheduler extends Component
             );
         }
 
-        return Html::tag('ul', ['class' => 'celerik-scheduler__fallback'], $items);
+        return Html::tag('ul', ['class' => 'caelrik-scheduler__fallback'], $items);
     }
 
     private static function assertView(string $view): string

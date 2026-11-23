@@ -17,47 +17,47 @@
 
 declare(strict_types=1);
 
-use Celerik\Ui\Assets;
-use Celerik\Ui\Components\Accordion;
-use Celerik\Ui\Components\Action;
-use Celerik\Ui\Components\AdminLayout;
-use Celerik\Ui\Components\Breadcrumb;
-use Celerik\Ui\Components\Card;
-use Celerik\Ui\Components\Chart;
-use Celerik\Ui\Components\ContextMenu;
-use Celerik\Ui\Components\FileManager;
-use Celerik\Ui\Components\Form;
-use Celerik\Ui\Components\Form\Field;
-use Celerik\Ui\Components\Form\Repeater;
-use Celerik\Ui\Components\Form\Section;
-use Celerik\Ui\Components\Grid;
-use Celerik\Ui\Components\Grid\Column;
-use Celerik\Ui\Components\Grid\Editor;
-use Celerik\Ui\Components\Grid\Filter;
-use Celerik\Ui\Components\ListView;
-use Celerik\Ui\Components\MenuButton;
-use Celerik\Ui\Components\Modal;
-use Celerik\Ui\Components\Navigation;
-use Celerik\Ui\Components\Notification;
-use Celerik\Ui\Components\Scheduler;
-use Celerik\Ui\Components\SplitButton;
-use Celerik\Ui\Components\Splitter;
-use Celerik\Ui\Components\Tabs;
-use Celerik\Ui\Components\TaskBoard;
-use Celerik\Ui\Components\TreeList;
-use Celerik\Ui\Components\TreeView;
-use Celerik\Ui\Components\UserMenu;
-use Celerik\Ui\Components\ThemeBuilder;
-use Celerik\Ui\Components\TileLayout;
-use Celerik\Ui\Components\Toolbar;
-use Celerik\Ui\Data\ArrayDataSource;
-use Celerik\Ui\Data\InvalidCardMove;
-use Celerik\Ui\Data\InvalidCellEdit;
-use Celerik\Ui\FileManager\FileManagerConfig;
-use Celerik\Ui\FileManager\FileManagerConnector;
-use Celerik\Ui\Support\Html;
-use Celerik\Ui\Theme\Theme;
-use Celerik\Ui\Upload\UploadRules;
+use Caelrik\Ui\Assets;
+use Caelrik\Ui\Components\Accordion;
+use Caelrik\Ui\Components\Action;
+use Caelrik\Ui\Components\AdminLayout;
+use Caelrik\Ui\Components\Breadcrumb;
+use Caelrik\Ui\Components\Card;
+use Caelrik\Ui\Components\Chart;
+use Caelrik\Ui\Components\ContextMenu;
+use Caelrik\Ui\Components\FileManager;
+use Caelrik\Ui\Components\Form;
+use Caelrik\Ui\Components\Form\Field;
+use Caelrik\Ui\Components\Form\Repeater;
+use Caelrik\Ui\Components\Form\Section;
+use Caelrik\Ui\Components\Grid;
+use Caelrik\Ui\Components\Grid\Column;
+use Caelrik\Ui\Components\Grid\Editor;
+use Caelrik\Ui\Components\Grid\Filter;
+use Caelrik\Ui\Components\ListView;
+use Caelrik\Ui\Components\MenuButton;
+use Caelrik\Ui\Components\Modal;
+use Caelrik\Ui\Components\Navigation;
+use Caelrik\Ui\Components\Notification;
+use Caelrik\Ui\Components\Scheduler;
+use Caelrik\Ui\Components\SplitButton;
+use Caelrik\Ui\Components\Splitter;
+use Caelrik\Ui\Components\Tabs;
+use Caelrik\Ui\Components\TaskBoard;
+use Caelrik\Ui\Components\TreeList;
+use Caelrik\Ui\Components\TreeView;
+use Caelrik\Ui\Components\UserMenu;
+use Caelrik\Ui\Components\ThemeBuilder;
+use Caelrik\Ui\Components\TileLayout;
+use Caelrik\Ui\Components\Toolbar;
+use Caelrik\Ui\Data\ArrayDataSource;
+use Caelrik\Ui\Data\InvalidCardMove;
+use Caelrik\Ui\Data\InvalidCellEdit;
+use Caelrik\Ui\FileManager\FileManagerConfig;
+use Caelrik\Ui\FileManager\FileManagerConnector;
+use Caelrik\Ui\Support\Html;
+use Caelrik\Ui\Theme\Theme;
+use Caelrik\Ui\Upload\UploadRules;
 
 $root = dirname(__DIR__, 2);
 require $root . '/vendor/autoload.php';
@@ -91,7 +91,7 @@ foreach ($static as $prefix => $directory) {
     exit;
 }
 
-$filesRoot = sys_get_temp_dir() . '/celerik-browser-tests/files';
+$filesRoot = sys_get_temp_dir() . '/caelrik-browser-tests/files';
 if (!is_dir($filesRoot)) {
     mkdir($filesRoot . '/Reports', 0700, true);
     file_put_contents($filesRoot . '/welcome.txt', "Test file.\n");
@@ -352,7 +352,7 @@ $customTheme = isset($_GET['custom']) ? '/custom-theme.css' : null;
 
 // ThemeBuilder endpoints. Each saved theme goes to a temporary file named after it, which
 // the tests read back with /theme-saved?name=… (tests run in parallel).
-$savedTheme = static fn (string $name): string => sys_get_temp_dir() . '/celerik-browser-tests/saved-' . md5($name) . '.json';
+$savedTheme = static fn (string $name): string => sys_get_temp_dir() . '/caelrik-browser-tests/saved-' . md5($name) . '.json';
 if ($path === '/theme-save' && ($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
     $json = str_contains($_SERVER['CONTENT_TYPE'] ?? '', 'application/json');
     $token = $_SERVER['HTTP_X_CSRF_TOKEN'] ?? $_POST['_token'] ?? '';
@@ -411,7 +411,7 @@ if ($path === '/media') {
 if ($path === '/media/tone.wav' || $path === '/media/tone.en.vtt') {
     require_once __DIR__ . '/sample-media.php';
     $wav = $path === '/media/tone.wav';
-    $body = $wav ? celerik_sample_wav() : celerik_sample_vtt();
+    $body = $wav ? caelrik_sample_wav() : caelrik_sample_vtt();
     header('Content-Type: ' . ($wav ? 'audio/wav' : 'text/vtt'));
     header('Accept-Ranges: bytes');
     // Browsers ask for ranges of media files; seeking needs them.
@@ -434,7 +434,7 @@ if ($path === '/pdf') {
 if ($path === '/files/report.pdf') {
     require_once __DIR__ . '/sample-pdf.php';
     header('Content-Type: application/pdf');
-    echo celerik_sample_report();
+    echo caelrik_sample_report();
     exit;
 }
 
@@ -794,7 +794,7 @@ $notification = Notification::make('flash')
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" href="data:,">
-    <title>Celerik browser tests (<?= $theme ?>, <?= $mode ?>)</title>
+    <title>Caelrik browser tests (<?= $theme ?>, <?= $mode ?>)</title>
     <link rel="stylesheet" href="/vendor/bootstrap/css/bootstrap.min.css">
     <script src="/vendor/jquery/jquery.min.js" defer></script>
     <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js" defer></script>
@@ -802,7 +802,7 @@ $notification = Notification::make('flash')
 </head>
 <body>
 <main class="container py-4">
-    <h1>Celerik components</h1>
+    <h1>Caelrik components</h1>
     <?php foreach ($components as $component) : ?>
         <section class="my-4"><?= $component->render() ?></section>
     <?php endforeach ?>

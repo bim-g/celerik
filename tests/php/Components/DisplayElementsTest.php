@@ -2,17 +2,17 @@
 
 declare(strict_types=1);
 
-namespace Celerik\Ui\Tests\Components;
+namespace Caelrik\Ui\Tests\Components;
 
-use Celerik\Ui\Components\Avatar;
-use Celerik\Ui\Components\Badge;
-use Celerik\Ui\Components\Chip;
-use Celerik\Ui\Components\Loader;
-use Celerik\Ui\Components\Popover;
-use Celerik\Ui\Components\Progress;
-use Celerik\Ui\Components\Skeleton;
-use Celerik\Ui\Components\Tooltip;
-use Celerik\Ui\Support\Html;
+use Caelrik\Ui\Components\Avatar;
+use Caelrik\Ui\Components\Badge;
+use Caelrik\Ui\Components\Chip;
+use Caelrik\Ui\Components\Loader;
+use Caelrik\Ui\Components\Popover;
+use Caelrik\Ui\Components\Progress;
+use Caelrik\Ui\Components\Skeleton;
+use Caelrik\Ui\Components\Tooltip;
+use Caelrik\Ui\Support\Html;
 use InvalidArgumentException;
 use LogicException;
 use PHPUnit\Framework\Attributes\DataProvider;
@@ -33,22 +33,22 @@ final class DisplayElementsTest extends TestCase
     {
         $initials = Avatar::make()->person('Ada  Byron Lovelace')->status('busy')->render();
         self::assertMatchesRegularExpression(
-            '#^<span class="celerik-avatar celerik-avatar-md text-bg-\w+" role="img" aria-label="Ada  Byron Lovelace, busy">'
-            . '<span class="celerik-avatar-initials" aria-hidden="true">AL</span>'
-            . '<span class="celerik-avatar-status celerik-avatar-status-busy" aria-hidden="true"></span></span>$#',
+            '#^<span class="caelrik-avatar caelrik-avatar-md text-bg-\w+" role="img" aria-label="Ada  Byron Lovelace, busy">'
+            . '<span class="caelrik-avatar-initials" aria-hidden="true">AL</span>'
+            . '<span class="caelrik-avatar-status caelrik-avatar-status-busy" aria-hidden="true"></span></span>$#',
             $initials,
         );
         // The same name always gets the same color.
         self::assertSame($initials, Avatar::make()->person('Ada  Byron Lovelace')->status('busy')->render());
 
         self::assertSame(
-            '<span class="celerik-avatar celerik-avatar-xl celerik-avatar-square" role="img" aria-label="Acme">'
-            . '<img src="/logo.png" alt="" class="celerik-avatar-image" loading="lazy"></span>',
+            '<span class="caelrik-avatar caelrik-avatar-xl caelrik-avatar-square" role="img" aria-label="Acme">'
+            . '<img src="/logo.png" alt="" class="caelrik-avatar-image" loading="lazy"></span>',
             Avatar::make()->person('Acme')->image('/logo.png')->size('xl')->square()->render(),
         );
         self::assertStringContainsString('>P</span>', Avatar::make()->person('plato')->image('javascript:x')->render());
         self::assertStringContainsString(
-            'aria-hidden="true"><span class="celerik-avatar-initials"',
+            'aria-hidden="true"><span class="caelrik-avatar-initials"',
             Avatar::make()->person('Ada')->decorative()->render(),
         );
         self::assertStringNotContainsString('role="img"', Avatar::make()->person('Ada')->decorative()->render());
@@ -62,28 +62,28 @@ final class DisplayElementsTest extends TestCase
     public function testChipsArePlainRemovableOrCheckboxes(): void
     {
         self::assertSame(
-            '<span class="celerik-chip"><span class="celerik-chip-label">PHP</span></span>',
+            '<span class="caelrik-chip"><span class="caelrik-chip-label">PHP</span></span>',
             Chip::make()->label('PHP')->render(),
         );
 
         $removable = Chip::make('c1')->label('Go <lang>')->removable('skills[]', 'go')->render();
-        self::assertStringContainsString('data-celerik="chip"', $removable);
+        self::assertStringContainsString('data-caelrik="chip"', $removable);
         self::assertStringContainsString('<input type="hidden" name="skills[]" value="go">', $removable);
         self::assertStringContainsString(
-            '<button type="button" class="celerik-chip-remove" aria-label="Remove Go &lt;lang&gt;"><span aria-hidden="true">×</span></button>',
+            '<button type="button" class="caelrik-chip-remove" aria-label="Remove Go &lt;lang&gt;"><span aria-hidden="true">×</span></button>',
             $removable,
         );
         self::assertStringNotContainsString('<input', Chip::make()->label('A')->removable()->render());
 
         self::assertSame(
-            '<span class="celerik-chip-check"><input type="checkbox" class="btn-check" id="remote" name="remote" value="1" '
-            . 'autocomplete="off"><label class="celerik-chip" for="remote"><span class="celerik-chip-label">Remote</span>'
+            '<span class="caelrik-chip-check"><input type="checkbox" class="btn-check" id="remote" name="remote" value="1" '
+            . 'autocomplete="off"><label class="caelrik-chip" for="remote"><span class="caelrik-chip-label">Remote</span>'
             . '</label></span>',
             Chip::make('remote')->label('Remote')->checkbox('remote', '1')->render(),
         );
         self::assertStringContainsString(' checked ', Chip::make('r')->label('R')->checkbox('r', '1', true)->render());
         self::assertStringContainsString(
-            '<span class="celerik-avatar celerik-avatar-sm',
+            '<span class="caelrik-avatar caelrik-avatar-sm',
             Chip::make()->label('Ada')->avatar(Avatar::make()->person('Ada'))->render(),
         );
     }
@@ -93,14 +93,14 @@ final class DisplayElementsTest extends TestCase
         $html = Tooltip::make('tip')->text('Saves a draft')
             ->trigger(Html::raw('<button type="button">Save</button>'))->placement('bottom')->render();
         self::assertStringContainsString(
-            '<span id="tip" class="celerik-tooltip-wrap" data-celerik="tooltip" '
-            . 'data-celerik-options="{&quot;placement&quot;:&quot;bottom&quot;}"><button type="button">Save</button>'
-            . '<span class="celerik-tooltip" id="tip-tip" role="tooltip" hidden>Saves a draft</span></span>',
+            '<span id="tip" class="caelrik-tooltip-wrap" data-caelrik="tooltip" '
+            . 'data-caelrik-options="{&quot;placement&quot;:&quot;bottom&quot;}"><button type="button">Save</button>'
+            . '<span class="caelrik-tooltip" id="tip-tip" role="tooltip" hidden>Saves a draft</span></span>',
             $html,
         );
         // Plain text becomes focusable, so keyboards reach the tooltip.
         self::assertStringContainsString(
-            '<span class="celerik-tooltip-text" tabindex="0">API &lt;key&gt;</span>',
+            '<span class="caelrik-tooltip-text" tabindex="0">API &lt;key&gt;</span>',
             Tooltip::make()->text('A secret')->trigger('API <key>')->render(),
         );
     }
@@ -110,15 +110,15 @@ final class DisplayElementsTest extends TestCase
         $html = Popover::make('help')->button('?', 'About pricing')->variant('link')->align('end')
             ->title('Pricing')->content('Taxes <included>.')->render();
         self::assertStringContainsString(
-            '<details id="help" class="celerik-popover celerik-popover-end" data-celerik="popover" data-celerik-options="{}">'
-            . '<summary class="btn btn-sm celerik-action-button btn-link" aria-label="About pricing">?</summary>'
-            . '<div class="celerik-popover-panel" role="group" aria-labelledby="help-title">'
-            . '<p class="celerik-popover-title" id="help-title">Pricing</p>'
-            . '<div class="celerik-popover-body">Taxes &lt;included&gt;.</div></div></details>',
+            '<details id="help" class="caelrik-popover caelrik-popover-end" data-caelrik="popover" data-caelrik-options="{}">'
+            . '<summary class="btn btn-sm caelrik-action-button btn-link" aria-label="About pricing">?</summary>'
+            . '<div class="caelrik-popover-panel" role="group" aria-labelledby="help-title">'
+            . '<p class="caelrik-popover-title" id="help-title">Pricing</p>'
+            . '<div class="caelrik-popover-body">Taxes &lt;included&gt;.</div></div></details>',
             $html,
         );
         self::assertStringContainsString(
-            '<div class="celerik-popover-panel"><div',
+            '<div class="caelrik-popover-panel"><div',
             Popover::make('p')->button('More')->content('x')->render(),
         );
     }
@@ -126,16 +126,16 @@ final class DisplayElementsTest extends TestCase
     public function testAProgressBarIsANativeProgress(): void
     {
         self::assertSame(
-            '<div class="celerik-progress celerik-progress-success celerik-progress-lg" id="up">'
-            . '<div class="celerik-progress-text"><span class="celerik-progress-label" id="up-label">Upload</span>'
-            . '<span class="celerik-progress-value" aria-hidden="true">25%</span></div>'
-            . '<progress class="celerik-progress-bar" id="up-bar" max="8" value="2" aria-labelledby="up-label">25%</progress>'
+            '<div class="caelrik-progress caelrik-progress-success caelrik-progress-lg" id="up">'
+            . '<div class="caelrik-progress-text"><span class="caelrik-progress-label" id="up-label">Upload</span>'
+            . '<span class="caelrik-progress-value" aria-hidden="true">25%</span></div>'
+            . '<progress class="caelrik-progress-bar" id="up-bar" max="8" value="2" aria-labelledby="up-label">25%</progress>'
             . '</div>',
             Progress::make('up')->label('Upload')->value(2)->max(8)->showValue()->color('success')->size('lg')->render(),
         );
         $indeterminate = Progress::make('s')->label('Syncing', visible: false)->render();
         self::assertStringContainsString(
-            '<progress class="celerik-progress-bar" id="s-bar" max="100" aria-label="Syncing"></progress>',
+            '<progress class="caelrik-progress-bar" id="s-bar" max="100" aria-label="Syncing"></progress>',
             $indeterminate,
         );
         self::assertStringNotContainsString('style=', $indeterminate);
@@ -146,7 +146,7 @@ final class DisplayElementsTest extends TestCase
     {
         $html = Progress::make('p')->label('Profile')->value(3)->max(4)->circle()->showValue()->render();
         self::assertStringContainsString(
-            '<div class="celerik-progress-dial" role="progressbar" aria-valuemin="0" aria-valuemax="4" aria-valuenow="3" '
+            '<div class="caelrik-progress-dial" role="progressbar" aria-valuemin="0" aria-valuemax="4" aria-valuenow="3" '
             . 'aria-valuetext="75%" aria-labelledby="p-label">',
             $html,
         );
@@ -161,16 +161,16 @@ final class DisplayElementsTest extends TestCase
     public function testLoaderAndSkeletonAreNamedStatuses(): void
     {
         self::assertSame(
-            '<div class="celerik-loader" role="status"><span class="spinner-grow spinner-grow-sm text-success" '
-            . 'aria-hidden="true"></span><span class="celerik-loader-label">Loading orders</span></div>',
+            '<div class="caelrik-loader" role="status"><span class="spinner-grow spinner-grow-sm text-success" '
+            . 'aria-hidden="true"></span><span class="caelrik-loader-label">Loading orders</span></div>',
             Loader::make()->label('Loading orders')->showLabel()->grow()->size('sm')->color('success')->render(),
         );
         self::assertStringContainsString('<span class="visually-hidden">Loading…</span>', Loader::make()->render());
 
         $skeleton = Skeleton::make()->label('Loading profile')->image()->avatar()->heading()->lines(2)->render();
         self::assertStringStartsWith(
-            '<div class="celerik-skeleton placeholder-glow" role="status"><span class="visually-hidden">Loading profile</span>'
-            . '<span class="celerik-skeleton-shapes" aria-hidden="true"><span class="placeholder celerik-skeleton-image"></span>',
+            '<div class="caelrik-skeleton placeholder-glow" role="status"><span class="visually-hidden">Loading profile</span>'
+            . '<span class="caelrik-skeleton-shapes" aria-hidden="true"><span class="placeholder caelrik-skeleton-image"></span>',
             $skeleton,
         );
         self::assertStringContainsString('<span class="placeholder col-12"></span><span class="placeholder col-5"></span>', $skeleton);

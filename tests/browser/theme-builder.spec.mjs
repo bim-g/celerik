@@ -5,7 +5,7 @@ import { axeViolations, MODES, openComponents, THEMES } from './helpers.mjs';
 const open = (page, options = {}) => openComponents(page, { path: '/theme-builder', ...options });
 const style = (page, selector, property) => page.locator(selector).first()
   .evaluate((element, name) => getComputedStyle(element)[name], property);
-const canvas = '#builder .celerik-theme-builder__canvas';
+const canvas = '#builder .caelrik-theme-builder__canvas';
 
 test('opens with no console errors', async ({ page }) => {
   expect(await open(page)).toEqual([]);
@@ -37,12 +37,12 @@ test('only the Bootstrap look: no base select, no preset picker, no add-on style
   await expect(page.getByLabel('Base look')).toHaveCount(0);
   await expect(page.getByLabel('Start from a preset')).toHaveCount(0);
   expect(await page.evaluate(() => [...document.querySelectorAll('link[rel=stylesheet]')]
-    .filter((link) => /celerik-(material|tailwind)\.css/.test(link.href)).length)).toBe(0);
+    .filter((link) => /caelrik-(material|tailwind)\.css/.test(link.href)).length)).toBe(0);
 });
 
 test('the contrast report updates live and announces only its summary', async ({ page }) => {
   await open(page);
-  const summary = page.locator('#builder .celerik-theme-builder__summary');
+  const summary = page.locator('#builder .caelrik-theme-builder__summary');
   await expect(summary).toHaveText('Every pair meets its minimum.');
   await expect(summary).toHaveAttribute('role', 'status');
 
@@ -59,7 +59,7 @@ test('undo and reset', async ({ page }) => {
   await primary.press('Tab');
   await expect(primary).toHaveValue('#4f46e5');
 
-  const history = page.locator('#builder .celerik-theme-builder__history');
+  const history = page.locator('#builder .caelrik-theme-builder__history');
   await history.getByRole('button', { name: 'Undo' }).click();
   await expect(page.getByRole('textbox', { name: 'Primary', exact: true }).first()).toHaveValue('#0d6efd');
 
@@ -101,7 +101,7 @@ test.describe('export, import and save', () => {
   test('importing a theme file fills the builder; a bad file is reported', async ({ page }) => {
     await open(page);
     const input = page.locator('#builder-import');
-    const message = page.locator('#builder .celerik-theme-builder__message');
+    const message = page.locator('#builder .caelrik-theme-builder__message');
 
     await input.setInputFiles({
       name: 'teal.json',
@@ -122,7 +122,7 @@ test.describe('export, import and save', () => {
     await open(page);
     await page.getByRole('button', { name: 'Copy PHP' }).click();
 
-    await expect(page.locator('#builder .celerik-theme-builder__message')).toHaveText('Copied.');
+    await expect(page.locator('#builder .caelrik-theme-builder__message')).toHaveText('Copied.');
     // The Windows clipboard turns line feeds into CRLF.
     const snippet = (await page.evaluate(() => navigator.clipboard.readText())).replaceAll('\r\n', '\n');
     expect(snippet).toContain("$theme = Theme::fromJson(<<<'JSON'\n{\n    \"name\": \"Bootstrap\",");
@@ -133,7 +133,7 @@ test.describe('export, import and save', () => {
     await page.getByRole('textbox', { name: 'Theme name' }).fill('Saved with JS');
     await page.getByRole('button', { name: 'Save theme' }).click();
 
-    await expect(page.locator('#builder .celerik-theme-builder__message')).toHaveText('Theme saved.');
+    await expect(page.locator('#builder .caelrik-theme-builder__message')).toHaveText('Theme saved.');
     const saved = await (await request.get('/theme-saved', { params: { name: 'Saved with JS' } })).json();
     expect(saved).toMatchObject({ name: 'Saved with JS', light: { primary: '#0d6efd' } });
   });
@@ -144,9 +144,9 @@ test.describe('without JavaScript', () => {
 
   test('the builder is a form that saves the theme, with a contrast report from PHP', async ({ page, request }) => {
     await page.goto('/theme-builder');
-    await expect(page.locator('#builder .celerik-theme-builder__summary')).toHaveText('Every pair meets its minimum.');
+    await expect(page.locator('#builder .caelrik-theme-builder__summary')).toHaveText('Every pair meets its minimum.');
     for (const part of ['__history', '__export', '__modes']) {
-      await expect(page.locator(`#builder .celerik-theme-builder${part}`)).toBeHidden();
+      await expect(page.locator(`#builder .caelrik-theme-builder${part}`)).toBeHidden();
     }
 
     await page.getByRole('textbox', { name: 'Theme name' }).fill('Saved without JS');

@@ -32,7 +32,7 @@ Chart::make('signups')->type('bar')->title('Sign-ups')->url('/stats/signups');
 | `patterns($enabled = true)` | A point shape and line dash per series; on by default for line, radar and scatter. |
 | `options([...])` | Raw Chart.js options. |
 
-Time scales are not included: they need a date adapter Celerik does not ship. Use category labels instead.
+Time scales are not included: they need a date adapter Caelrik does not ship. Use category labels instead.
 
 ## Accessibility
 

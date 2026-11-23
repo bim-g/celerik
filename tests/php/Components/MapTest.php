@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Celerik\Ui\Tests\Components;
+namespace Caelrik\Ui\Tests\Components;
 
-use Celerik\Ui\Components\Map;
+use Caelrik\Ui\Components\Map;
 use InvalidArgumentException;
 use LogicException;
 use PHPUnit\Framework\Attributes\DataProvider;
@@ -19,19 +19,19 @@ final class MapTest extends TestCase
             ->marker(-2.5083, 28.8608, 'Bukavu', url: 'javascript:alert(1)', color: 'success')
             ->render();
 
-        self::assertStringStartsWith('<div id="offices" class="celerik-map" data-celerik="map" data-celerik-options="', $html);
+        self::assertStringStartsWith('<div id="offices" class="caelrik-map" data-caelrik="map" data-caelrik-options="', $html);
         self::assertStringContainsString(
-            '<div class="celerik-map-canvas celerik-map-md" id="offices-canvas" aria-describedby="offices-keys">'
-            . '<p class="celerik-map-noscript">The map needs JavaScript. Its places are listed below.</p></div>'
+            '<div class="caelrik-map-canvas caelrik-map-md" id="offices-canvas" aria-describedby="offices-keys">'
+            . '<p class="caelrik-map-noscript">The map needs JavaScript. Its places are listed below.</p></div>'
             . '<p class="visually-hidden" id="offices-keys">Arrow keys move the map, plus and minus zoom in and out.</p>',
             $html,
         );
         self::assertStringContainsString(
-            '<ul class="celerik-map-places" aria-label="Our &lt;offices&gt;: Places on the map">'
-            . '<li class="celerik-map-place celerik-map-place-primary"><p class="celerik-map-place-name">Goma &lt;HQ&gt;</p>'
-            . '<p class="celerik-map-place-description">Avenue du Lac 12</p><div class="celerik-map-place-actions">'
-            . '<a href="/offices/goma" class="celerik-map-place-link">More about Goma &lt;HQ&gt;</a>'
-            . '<button type="button" class="btn btn-sm celerik-action-button btn-outline-secondary celerik-map-show" '
+            '<ul class="caelrik-map-places" aria-label="Our &lt;offices&gt;: Places on the map">'
+            . '<li class="caelrik-map-place caelrik-map-place-primary"><p class="caelrik-map-place-name">Goma &lt;HQ&gt;</p>'
+            . '<p class="caelrik-map-place-description">Avenue du Lac 12</p><div class="caelrik-map-place-actions">'
+            . '<a href="/offices/goma" class="caelrik-map-place-link">More about Goma &lt;HQ&gt;</a>'
+            . '<button type="button" class="btn btn-sm caelrik-action-button btn-outline-secondary caelrik-map-show" '
             . 'data-marker="0" aria-label="Show on map: Goma &lt;HQ&gt;">Show on map</button></div></li>',
             $html,
         );
@@ -73,13 +73,13 @@ final class MapTest extends TestCase
             ],
         ], $map->toArray());
         $html = $map->render();
-        self::assertStringContainsString('celerik-map-canvas celerik-map-lg', $html);
+        self::assertStringContainsString('caelrik-map-canvas caelrik-map-lg', $html);
         self::assertStringContainsString('aria-label="Voir: Shop">Voir</button>', $html);
 
         // Without the list, and with a center only.
-        self::assertStringNotContainsString('celerik-map-places', Map::make()->label('A')->center(0, 0)->render());
+        self::assertStringNotContainsString('caelrik-map-places', Map::make()->label('A')->center(0, 0)->render());
         self::assertStringNotContainsString(
-            'celerik-map-places',
+            'caelrik-map-places',
             Map::make()->label('A')->marker(1, 2, 'B')->places(false)->render(),
         );
     }

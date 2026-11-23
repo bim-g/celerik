@@ -6,8 +6,8 @@ export const THEMES = ['bootstrap'];
 export const MODES = ['light', 'dark'];
 export const WCAG_TAGS = ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa'];
 
-// Opens the test page and waits until every [data-celerik] component has fired
-// celerik:ready. Console errors are collected and returned.
+// Opens the test page and waits until every [data-caelrik] component has fired
+// caelrik:ready. Console errors are collected and returned.
 export async function openComponents(page, {
   path = '/', theme = 'bootstrap', mode = 'light', custom = false,
 } = {}) {
@@ -20,12 +20,12 @@ export async function openComponents(page, {
   });
 
   await page.addInitScript(() => {
-    window.celerikReady = new Set();
-    document.addEventListener('celerik:ready', (event) => window.celerikReady.add(event.target));
+    window.caelrikReady = new Set();
+    document.addEventListener('caelrik:ready', (event) => window.caelrikReady.add(event.target));
   });
   await page.goto(`${path}?theme=${theme}&mode=${mode}${custom ? '&custom=1' : ''}`);
   await page.waitForFunction(
-    () => window.celerikReady.size === document.querySelectorAll('[data-celerik]').length,
+    () => window.caelrikReady.size === document.querySelectorAll('[data-caelrik]').length,
     null,
     { timeout: 30_000 },
   );

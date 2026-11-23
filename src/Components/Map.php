@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Celerik\Ui\Components;
+namespace Caelrik\Ui\Components;
 
-use Celerik\Ui\Component;
-use Celerik\Ui\Support\Html;
-use Celerik\Ui\Support\Url;
+use Caelrik\Ui\Component;
+use Caelrik\Ui\Support\Html;
+use Caelrik\Ui\Support\Url;
 use InvalidArgumentException;
 use LogicException;
 
@@ -225,15 +225,15 @@ final class Map extends Component
         }
         $keysId = $this->id . '-keys';
         $canvas = Html::tag('div', [
-            'class' => 'celerik-map-canvas celerik-map-' . $this->size,
+            'class' => 'caelrik-map-canvas caelrik-map-' . $this->size,
             'id' => $this->id . '-canvas',
             'aria-describedby' => $keysId,
-        ], Html::tag('p', ['class' => 'celerik-map-noscript'], Html::escape($this->labels['noscript'])))
+        ], Html::tag('p', ['class' => 'caelrik-map-noscript'], Html::escape($this->labels['noscript'])))
             . Html::tag('p', ['class' => 'visually-hidden', 'id' => $keysId], Html::escape($this->labels['keys']));
 
         return Html::tag(
             'div',
-            $this->rootAttributes(['celerik-map']),
+            $this->rootAttributes(['caelrik-map']),
             $canvas . ($this->places && $this->markers !== [] ? $this->placeList() : ''),
         );
     }
@@ -242,11 +242,11 @@ final class Map extends Component
     {
         $items = '';
         foreach ($this->markers as $index => $marker) {
-            $body = Html::tag('p', ['class' => 'celerik-map-place-name'], Html::escape($marker['name']));
+            $body = Html::tag('p', ['class' => 'caelrik-map-place-name'], Html::escape($marker['name']));
             if ($marker['description'] !== null && $marker['description'] !== '') {
                 $body .= Html::tag(
                     'p',
-                    ['class' => 'celerik-map-place-description'],
+                    ['class' => 'caelrik-map-place-description'],
                     Html::escape($marker['description']),
                 );
             }
@@ -254,23 +254,23 @@ final class Map extends Component
             if ($marker['url'] !== null) {
                 $actions .= Html::tag('a', [
                     'href' => $marker['url'],
-                    'class' => 'celerik-map-place-link',
+                    'class' => 'caelrik-map-place-link',
                 ], Html::escape(strtr($this->labels['more'], ['{name}' => $marker['name']])));
             }
             $actions .= Html::tag('button', [
                 'type' => 'button',
-                'class' => 'btn btn-sm celerik-action-button btn-outline-secondary celerik-map-show',
+                'class' => 'btn btn-sm caelrik-action-button btn-outline-secondary caelrik-map-show',
                 'data-marker' => (string) $index,
                 // The visible text first (WCAG 2.5.3), then the place.
                 'aria-label' => $this->labels['show'] . ': ' . $marker['name'],
             ], Html::escape($this->labels['show']));
             $items .= Html::tag('li', [
-                'class' => 'celerik-map-place celerik-map-place-' . $marker['color'],
-            ], $body . Html::tag('div', ['class' => 'celerik-map-place-actions'], $actions));
+                'class' => 'caelrik-map-place caelrik-map-place-' . $marker['color'],
+            ], $body . Html::tag('div', ['class' => 'caelrik-map-place-actions'], $actions));
         }
 
         return Html::tag('ul', [
-            'class' => 'celerik-map-places',
+            'class' => 'caelrik-map-places',
             'aria-label' => $this->label . ': ' . $this->labels['places'],
         ], $items);
     }

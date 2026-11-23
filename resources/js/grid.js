@@ -43,13 +43,13 @@ export function initGrid(element, options) {
 // first filter, or the table.
 function enableReset(grid, element, bar, filters) {
   element.addEventListener('click', (event) => {
-    if (!event.target.closest('[data-celerik-grid-reset]')) {
+    if (!event.target.closest('[data-caelrik-grid-reset]')) {
       return;
     }
     const search = grid.table().container().querySelector('.dt-search input');
     filters?.clear();
     grid.search('').draw();
-    const target = search ?? bar?.querySelector('[data-celerik-filter]');
+    const target = search ?? bar?.querySelector('[data-caelrik-filter]');
     if (target) {
       target.focus();
     } else {
@@ -65,10 +65,10 @@ function enableReset(grid, element, bar, filters) {
 function enableSelection(grid, element, { form, labels }, serverSide) {
   const selected = new Set();
   const bulk = form ? document.getElementById(form) : null;
-  const status = bulk?.querySelector('[data-celerik-selected]');
-  const buttons = bulk ? [...bulk.querySelectorAll('button[data-celerik-action]')] : [];
-  const all = element.querySelector('[data-celerik-select-all]');
-  const boxes = () => [...element.tBodies[0].querySelectorAll('input[data-celerik-select]')];
+  const status = bulk?.querySelector('[data-caelrik-selected]');
+  const buttons = bulk ? [...bulk.querySelectorAll('button[data-caelrik-action]')] : [];
+  const all = element.querySelector('[data-caelrik-select-all]');
+  const boxes = () => [...element.tBodies[0].querySelectorAll('input[data-caelrik-select]')];
 
   const update = () => {
     const page = boxes();
@@ -97,7 +97,7 @@ function enableSelection(grid, element, { form, labels }, serverSide) {
   };
 
   element.addEventListener('change', (event) => {
-    if (event.target.matches('input[data-celerik-select]')) {
+    if (event.target.matches('input[data-caelrik-select]')) {
       toggle(event.target, event.target.checked);
     } else if (event.target === all) {
       boxes().forEach((box) => toggle(box, all.checked));
@@ -105,7 +105,7 @@ function enableSelection(grid, element, { form, labels }, serverSide) {
       return;
     }
     update();
-    element.dispatchEvent(new CustomEvent('celerik:selection', { bubbles: true, detail: { keys: [...selected] } }));
+    element.dispatchEvent(new CustomEvent('caelrik:selection', { bubbles: true, detail: { keys: [...selected] } }));
   });
   grid.on('draw', () => {
     boxes().forEach((box) => {
@@ -115,8 +115,8 @@ function enableSelection(grid, element, { form, labels }, serverSide) {
   });
 
   // A row's own action that deleted it takes it out of the selection.
-  element.addEventListener('celerik:action', (event) => {
-    const box = event.target.closest('tr')?.querySelector('input[data-celerik-select]');
+  element.addEventListener('caelrik:action', (event) => {
+    const box = event.target.closest('tr')?.querySelector('input[data-caelrik-select]');
     if (event.detail?.ok && event.detail.method === 'DELETE' && box) {
       selected.delete(box.value);
       update();
@@ -124,16 +124,16 @@ function enableSelection(grid, element, { form, labels }, serverSide) {
   });
 
   if (bulk) {
-    bulk.celerikSelection = () => [...selected];
+    bulk.caelrikSelection = () => [...selected];
     // After a bulk action: a server-side grid reloads its page; a client-side grid removes
     // the rows a DELETE deleted. The selection is cleared and focus moves to the page's box,
     // as the bar's buttons are disabled again.
-    bulk.addEventListener('celerik:action', (event) => {
+    bulk.addEventListener('caelrik:action', (event) => {
       if (!event.detail?.ok) {
         return;
       }
       if (!serverSide && event.detail.method === 'DELETE') {
-        grid.rows((index, data, node) => selected.has(node?.querySelector('input[data-celerik-select]')?.value)).remove();
+        grid.rows((index, data, node) => selected.has(node?.querySelector('input[data-caelrik-select]')?.value)).remove();
       }
       selected.clear();
       if (serverSide) {
@@ -152,7 +152,7 @@ function enableSelection(grid, element, { form, labels }, serverSide) {
 // removes a deleted row. Focus moves to the same action in the row that takes its place,
 // or to the table when the page is empty, so it is not lost with the row.
 function refreshAfterActions(grid, element, serverSide) {
-  element.addEventListener('celerik:action', (event) => {
+  element.addEventListener('caelrik:action', (event) => {
     const { ok, method, name } = event.detail ?? {};
     const row = event.target.closest('tr');
     if (!ok || !row) {
@@ -166,8 +166,8 @@ function refreshAfterActions(grid, element, serverSide) {
         return;
       }
       const current = [...element.tBodies[0].rows];
-      const target = [...(current[Math.min(position, current.length - 1)]?.querySelectorAll('[data-celerik-action]') ?? [])]
-        .find((form) => form.dataset.celerikAction === name)?.querySelector('button');
+      const target = [...(current[Math.min(position, current.length - 1)]?.querySelectorAll('[data-caelrik-action]') ?? [])]
+        .find((form) => form.dataset.caelrikAction === name)?.querySelector('button');
       if (target) {
         target.focus();
       } else {
@@ -209,7 +209,7 @@ function updateRow(grid, row, values) {
     if (!cell) {
       return;
     }
-    (cell.querySelector('.celerik-grid-value') ?? cell).textContent = text(values[field]);
+    (cell.querySelector('.caelrik-grid-value') ?? cell).textContent = text(values[field]);
     if (cell.dataset.value !== undefined) {
       cell.dataset.value = typeof values[field] === 'boolean' ? (values[field] ? '1' : '0') : text(values[field]);
     }
@@ -233,7 +233,7 @@ function enhanceFilters(grid, bar, columns, current, serverSide) {
     // By name: a selection column may come first.
     const indexes = new Map(columns.map((column) => [column.field, grid.column(`${column.field}:name`).index()]));
     const types = new Map(columns.map((column) => [column.field, column.filter?.type]));
-    grid.search.fixed('celerik-filters', (searchData, rowData, rowIndex) => {
+    grid.search.fixed('caelrik-filters', (searchData, rowData, rowIndex) => {
       if (active.length === 0) {
         return true;
       }
@@ -263,7 +263,7 @@ function enhanceFilters(grid, bar, columns, current, serverSide) {
   // Empties the fields and takes them as applied, for a caller that draws itself.
   const clear = () => {
     clearTimeout(timer);
-    bar.querySelectorAll('[data-celerik-filter]').forEach((control) => {
+    bar.querySelectorAll('[data-caelrik-filter]').forEach((control) => {
       control.value = '';
     });
     active = current();
@@ -275,7 +275,7 @@ function enhanceFilters(grid, bar, columns, current, serverSide) {
     }
   });
   bar.addEventListener('change', (event) => {
-    if (event.target.matches('[data-celerik-filter]')) {
+    if (event.target.matches('[data-caelrik-filter]')) {
       redraw();
     }
   });
@@ -286,8 +286,8 @@ function enhanceFilters(grid, bar, columns, current, serverSide) {
       redraw();
     }
   });
-  bar.querySelector('[data-celerik-filter-clear]')?.addEventListener('click', () => {
-    bar.querySelectorAll('[data-celerik-filter]').forEach((control) => {
+  bar.querySelector('[data-caelrik-filter-clear]')?.addEventListener('click', () => {
+    bar.querySelectorAll('[data-caelrik-filter]').forEach((control) => {
       control.value = '';
     });
     redraw();

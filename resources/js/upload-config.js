@@ -6,7 +6,7 @@ export const MESSAGES = {
   failed: 'Remove the files that could not be uploaded.',
 };
 
-// FilePond options for one file field, from the PHP data-celerik-upload options.
+// FilePond options for one file field, from the PHP data-caelrik-upload options.
 export function buildFilePondConfig(input, options, csrfToken) {
   const headers = csrfToken ? { [CSRF_HEADER]: csrfToken } : {};
   const maxFiles = options.maxFiles ?? 1;

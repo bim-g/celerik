@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Celerik\Ui\Tests\Theme;
+namespace Caelrik\Ui\Tests\Theme;
 
-use Celerik\Ui\Theme\Contrast;
-use Celerik\Ui\Theme\Theme;
+use Caelrik\Ui\Theme\Contrast;
+use Caelrik\Ui\Theme\Theme;
 use InvalidArgumentException;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
@@ -38,12 +38,12 @@ final class ThemeTest extends TestCase
                 self::fail(sprintf('A %s theme was accepted.', $base));
             } catch (InvalidArgumentException $exception) {
                 self::assertStringContainsString(
-                    sprintf('The %s look was removed in Celerik UI 0.2.0', ucfirst($base)),
+                    sprintf('The %s look was removed in Caelrik UI 0.2.0', ucfirst($base)),
                     $exception->getMessage(),
                 );
             }
         }
-        $this->expectExceptionMessage('The Tailwind look was removed in Celerik UI 0.2.0: Celerik UI is Bootstrap only.');
+        $this->expectExceptionMessage('The Tailwind look was removed in Caelrik UI 0.2.0: Caelrik UI is Bootstrap only.');
         Theme::preset('tailwind');
     }
 

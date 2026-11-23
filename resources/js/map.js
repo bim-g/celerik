@@ -36,14 +36,14 @@ const safeUrl = (url) => {
 
 export function popupContent(marker, labels = {}) {
   const content = document.createElement('div');
-  content.className = 'celerik-map-popup';
-  content.append(text('p', 'celerik-map-popup-name', marker.name));
+  content.className = 'caelrik-map-popup';
+  content.append(text('p', 'caelrik-map-popup-name', marker.name));
   if (marker.description) {
-    content.append(text('p', 'celerik-map-popup-description', marker.description));
+    content.append(text('p', 'caelrik-map-popup-description', marker.description));
   }
   const url = safeUrl(marker.url);
   if (url) {
-    const link = text('a', 'celerik-map-popup-link', (labels.more ?? 'More about {name}').replaceAll('{name}', marker.name));
+    const link = text('a', 'caelrik-map-popup-link', (labels.more ?? 'More about {name}').replaceAll('{name}', marker.name));
     link.href = url;
     content.append(link);
   }
@@ -76,14 +76,14 @@ function spaceClicks(container) {
 }
 
 export function initMap(element, options = {}) {
-  const canvas = element.querySelector('.celerik-map-canvas');
+  const canvas = element.querySelector('.caelrik-map-canvas');
   if (!canvas) {
     return null;
   }
   const labels = options.labels ?? {};
   const markers = options.markers ?? [];
   const still = prefersReducedMotion();
-  canvas.querySelector('.celerik-map-noscript')?.remove();
+  canvas.querySelector('.caelrik-map-noscript')?.remove();
 
   const map = L.map(canvas, {
     scrollWheelZoom: Boolean(options.scrollZoom),
@@ -121,8 +121,8 @@ export function initMap(element, options = {}) {
   const layers = markers.map((marker) => {
     const layer = L.marker([marker.lat, marker.lng], {
       icon: L.divIcon({
-        className: `celerik-map-marker celerik-map-marker-${marker.color ?? 'primary'}`,
-        html: '<span class="celerik-map-pin" aria-hidden="true"></span>',
+        className: `caelrik-map-marker caelrik-map-marker-${marker.color ?? 'primary'}`,
+        html: '<span class="caelrik-map-pin" aria-hidden="true"></span>',
         iconSize: [28, 36],
         iconAnchor: [14, 34],
         popupAnchor: [0, -30],
@@ -155,7 +155,7 @@ export function initMap(element, options = {}) {
     layer.getElement()?.focus({ preventScroll: true });
     canvas.scrollIntoView?.({ block: 'nearest', behavior: still ? 'auto' : 'smooth' });
   };
-  element.querySelectorAll('.celerik-map-show').forEach((button) => {
+  element.querySelectorAll('.caelrik-map-show').forEach((button) => {
     button.addEventListener('click', () => show(Number(button.dataset.marker)));
   });
 

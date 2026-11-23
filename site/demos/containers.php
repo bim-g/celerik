@@ -1,10 +1,10 @@
 <?php
 
-use Celerik\Ui\Components\Accordion;
-use Celerik\Ui\Components\Action;
-use Celerik\Ui\Components\Card;
-use Celerik\Ui\Components\Splitter;
-use Celerik\Ui\Support\Html;
+use Caelrik\Ui\Components\Accordion;
+use Caelrik\Ui\Components\Action;
+use Caelrik\Ui\Components\Card;
+use Caelrik\Ui\Components\Splitter;
+use Caelrik\Ui\Support\Html;
 
 return [
     Accordion::make('faq')

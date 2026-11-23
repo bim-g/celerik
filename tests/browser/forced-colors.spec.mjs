@@ -18,14 +18,14 @@ async function invisibleFocus(page, stops) {
       if (!element || element === document.body || !element.closest('main, .notyf')) {
         return {};
       }
-      const component = element.closest('[data-celerik], .dt-container')?.id ?? null;
+      const component = element.closest('[data-caelrik], .dt-container')?.id ?? null;
       // Bootstrap's focus trap can focus the modal itself: its dialog box shows the outline.
       // A searchable select's search box is inside the control, which shows the outline.
       // A rating's radio is visually hidden: its star (label) shows the focus. A one-time
       // code's input is transparent: the box being filled shows it.
       const shown = element.matches('.modal') ? element.querySelector('.modal-content')
-        : element.matches('.celerik-rating-input') ? element.labels[0]
-          : element.matches('.celerik-otp > input') ? element.parentElement.querySelector('.is-active')
+        : element.matches('.caelrik-rating-input') ? element.labels[0]
+          : element.matches('.caelrik-otp > input') ? element.parentElement.querySelector('.is-active')
             : element.closest('.ts-control') ?? element;
       const style = getComputedStyle(shown);
       const visible = style.outlineStyle !== 'none' && parseFloat(style.outlineWidth) > 0;
@@ -67,8 +67,8 @@ test('selected states use system colors or outlines', async ({ page }) => {
   const style = (selector, property) => page.locator(selector).first()
     .evaluate((element, name) => getComputedStyle(element)[name], property);
 
-  expect(await style('.celerik-tabs .nav-link.active', 'borderBottomWidth')).toBe('3px');
-  expect(await style('.celerik-scheduler .fc-day-today', 'outlineStyle')).toBe('solid');
+  expect(await style('.caelrik-tabs .nav-link.active', 'borderBottomWidth')).toBe('3px');
+  expect(await style('.caelrik-scheduler .fc-day-today', 'outlineStyle')).toBe('solid');
   expect(await style('.dt-container .page-item.active .page-link', 'forcedColorAdjust')).toBe('none');
   expect(await style('.notyf__toast', 'borderTopStyle')).toBe('solid');
 });

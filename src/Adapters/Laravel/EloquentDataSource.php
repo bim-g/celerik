@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Celerik\Ui\Adapters\Laravel;
+namespace Caelrik\Ui\Adapters\Laravel;
 
-use Celerik\Ui\Data\Aggregate;
-use Celerik\Ui\Data\DataRequest;
-use Celerik\Ui\Data\DataResult;
-use Celerik\Ui\Data\DataSourceInterface;
-use Celerik\Ui\Support\Arr;
+use Caelrik\Ui\Data\Aggregate;
+use Caelrik\Ui\Data\DataRequest;
+use Caelrik\Ui\Data\DataResult;
+use Caelrik\Ui\Data\DataSourceInterface;
+use Caelrik\Ui\Support\Arr;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
 use Illuminate\Database\Query\Builder as QueryBuilder;
@@ -110,10 +110,10 @@ final class EloquentDataSource implements DataSourceInterface
 
         $base = clone ($query instanceof EloquentBuilder ? $query->toBase() : $query);
         $grammar = $base->getGrammar();
-        $selects = [$grammar->wrap($field) . ' as celerik_group', 'count(*) as celerik_count'];
+        $selects = [$grammar->wrap($field) . ' as caelrik_group', 'count(*) as caelrik_count'];
         $index = 0;
         foreach ($totals as $total => $function) {
-            $selects[] = sprintf('%s(%s) as celerik_total_%d', $function, $grammar->wrap($total), $index++);
+            $selects[] = sprintf('%s(%s) as caelrik_total_%d', $function, $grammar->wrap($total), $index++);
         }
         $present = array_values(array_filter($values, static fn (mixed $value): bool => $value !== null));
         $base->reorder()->select([])->selectRaw(implode(', ', $selects))
@@ -133,10 +133,10 @@ final class EloquentDataSource implements DataSourceInterface
             $sums = [];
             $index = 0;
             foreach ($totals as $total => $function) {
-                $sums[$total] = Aggregate::number($result['celerik_total_' . $index++]);
+                $sums[$total] = Aggregate::number($result['caelrik_total_' . $index++]);
             }
-            $found[Aggregate::groupKey($result['celerik_group'])] = [
-                'count' => (int) $result['celerik_count'],
+            $found[Aggregate::groupKey($result['caelrik_group'])] = [
+                'count' => (int) $result['caelrik_count'],
                 'totals' => $sums,
             ];
         }

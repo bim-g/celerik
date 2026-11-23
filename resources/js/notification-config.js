@@ -30,7 +30,7 @@ export function buildNotyfConfig(options = {}) {
   // Colors come from Bootstrap's CSS variables; text colors are set in SCSS for contrast.
   const type = (name, color, overrides = {}) => ({
     type: name,
-    className: `celerik-toast celerik-toast-${name}`,
+    className: `caelrik-toast caelrik-toast-${name}`,
     background: `var(--bs-${color})`,
     duration,
     dismissible,
@@ -53,7 +53,7 @@ export function buildNotyfConfig(options = {}) {
 
 export function toastFor(type, message) {
   if (!TYPES.includes(type)) {
-    throw new TypeError(`Celerik: unknown notification type "${type}".`);
+    throw new TypeError(`Caelrik: unknown notification type "${type}".`);
   }
   return { type, message: escapeHtml(message) };
 }

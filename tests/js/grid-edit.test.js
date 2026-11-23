@@ -58,11 +58,11 @@ describe('inline editing helpers', () => {
   test('a server-side grid\'s editable cells get the same escaped markup as PHP\'s', () => {
     const column = { field: 'name', title: 'Name', editor: { type: 'text' } };
     const html = editableCellHtml(column, { name: '<b>Ada</b>' }, { labels: LABELS }, 'name');
-    expect(html).toContain('<span class="celerik-grid-value">&lt;b&gt;Ada&lt;/b&gt;</span>');
+    expect(html).toContain('<span class="caelrik-grid-value">&lt;b&gt;Ada&lt;/b&gt;</span>');
     expect(html).toContain('aria-label="Edit Name of &lt;b&gt;Ada&lt;/b&gt;"');
 
     const config = buildGridConfig({ columns: [column], url: '/data', edit: { labels: LABELS }, rowTitle: 'name' });
-    expect(config.columns[0].render('Ada', 'display', { name: 'Ada' })).toContain('data-celerik-edit="name"');
+    expect(config.columns[0].render('Ada', 'display', { name: 'Ada' })).toContain('data-caelrik-edit="name"');
     expect(config.columns[0].render('Ada', 'sort', { name: 'Ada' })).toBe('Ada');
   });
 });
@@ -83,7 +83,7 @@ describe('grid inline editing', () => {
   });
 
   const button = (name) => table.querySelector(`button[aria-label="${name}"]`);
-  const field = () => table.querySelector('.celerik-grid-editor input, .celerik-grid-editor select');
+  const field = () => table.querySelector('.caelrik-grid-editor input, .caelrik-grid-editor select');
   const key = (target, name) => target.dispatchEvent(new KeyboardEvent('keydown', { key: name, bubbles: true }));
 
   test('PHP writes each editable cell with its value and a named edit button', () => {
@@ -121,7 +121,7 @@ describe('grid inline editing', () => {
   test('Enter saves: the request, the new cell, the totals, the focus and the event', async () => {
     fetch.mockResolvedValue(answer(200, { value: 150 }));
     const events = [];
-    table.addEventListener('celerik:edit', (event) => events.push(event.detail));
+    table.addEventListener('caelrik:edit', (event) => events.push(event.detail));
 
     button('Edit Salary of Ada').click();
     field().value = '150';

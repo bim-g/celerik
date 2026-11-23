@@ -10,14 +10,14 @@ describe('admin layout', () => {
 
   test('a skip link first, then the app bar, the sidebar and the main landmark', () => {
     const skip = document.querySelector('main a, body a');
-    expect(skip.classList.contains('celerik-skip-link')).toBe(true);
+    expect(skip.classList.contains('caelrik-skip-link')).toBe(true);
     expect(skip.getAttribute('href')).toBe('#app-main');
     const main = document.getElementById('app-main');
     expect(main.tagName).toBe('MAIN');
     expect(main.querySelector('h1').textContent).toBe('Ada Lovelace');
     expect(document.querySelector('header .navbar-brand').getAttribute('href')).toBe('/');
 
-    const toggle = document.querySelector('.celerik-appbar-toggle');
+    const toggle = document.querySelector('.caelrik-appbar-toggle');
     expect(toggle.getAttribute('aria-label')).toBe('Open navigation');
     expect(toggle.getAttribute('aria-controls')).toBe('app-sidebar');
     const sidebar = document.getElementById('app-sidebar');
@@ -26,7 +26,7 @@ describe('admin layout', () => {
   });
 
   test('the navigation marks the current section and opens its group', () => {
-    const nav = document.querySelector('nav.celerik-nav');
+    const nav = document.querySelector('nav.caelrik-nav');
     expect(nav.getAttribute('aria-label')).toBe('Main');
     // /members/42 is not a link of its own: its section, All members, is current.
     const current = nav.querySelector('[aria-current]');
@@ -37,7 +37,7 @@ describe('admin layout', () => {
   });
 
   test('the breadcrumb ends with the current page, not a link', () => {
-    const crumbs = document.querySelector('nav.celerik-breadcrumb');
+    const crumbs = document.querySelector('nav.caelrik-breadcrumb');
     expect(crumbs.getAttribute('aria-label')).toBe('Breadcrumb');
     const items = crumbs.querySelectorAll('li');
     expect(items).toHaveLength(3);
@@ -46,12 +46,12 @@ describe('admin layout', () => {
   });
 
   test('the user menu: Escape closes it and returns focus; a click or focus elsewhere closes it', () => {
-    const menu = document.querySelector('.celerik-usermenu');
+    const menu = document.querySelector('.caelrik-usermenu');
     const summary = menu.querySelector('summary');
     initUserMenu(menu);
-    expect(summary.querySelector('.celerik-usermenu-initials').textContent).toBe('AL');
-    expect(summary.querySelector('.celerik-usermenu-name').textContent).toBe('Ada Lovelace');
-    expect(summary.querySelector('.celerik-usermenu-initials').getAttribute('aria-hidden')).toBe('true');
+    expect(summary.querySelector('.caelrik-usermenu-initials').textContent).toBe('AL');
+    expect(summary.querySelector('.caelrik-usermenu-name').textContent).toBe('Ada Lovelace');
+    expect(summary.querySelector('.caelrik-usermenu-initials').getAttribute('aria-hidden')).toBe('true');
 
     menu.open = true;
     const profile = menu.querySelector('a[href="/profile"]');
@@ -71,9 +71,9 @@ describe('admin layout', () => {
   });
 
   test('the user menu holds links and actions, and the user\'s detail', () => {
-    const panel = document.querySelector('.celerik-usermenu-panel');
-    expect(panel.querySelector('.celerik-usermenu-detail').textContent).toBe('ada@example.com');
-    expect(panel.querySelector('form.celerik-action').getAttribute('action')).toBe('/logout');
-    expect(panel.querySelector('.celerik-usermenu-divider').getAttribute('aria-hidden')).toBe('true');
+    const panel = document.querySelector('.caelrik-usermenu-panel');
+    expect(panel.querySelector('.caelrik-usermenu-detail').textContent).toBe('ada@example.com');
+    expect(panel.querySelector('form.caelrik-action').getAttribute('action')).toBe('/logout');
+    expect(panel.querySelector('.caelrik-usermenu-divider').getAttribute('aria-hidden')).toBe('true');
   });
 });

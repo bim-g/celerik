@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Celerik\Ui\Tests;
+namespace Caelrik\Ui\Tests;
 
 use FilesystemIterator;
 use PHPUnit\Framework\TestCase;
@@ -22,7 +22,7 @@ final class SiteReferenceTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->output = sys_get_temp_dir() . '/celerik-reference-' . bin2hex(random_bytes(4));
+        $this->output = sys_get_temp_dir() . '/caelrik-reference-' . bin2hex(random_bytes(4));
         $script = dirname(__DIR__, 2) . '/site/tools/reference.php';
         exec(sprintf('%s %s %s 2>&1', escapeshellarg(PHP_BINARY), escapeshellarg($script), escapeshellarg($this->output)), $lines, $code);
         self::assertSame(0, $code, implode("\n", $lines));
@@ -45,7 +45,7 @@ final class SiteReferenceTest extends TestCase
         $files = new RecursiveIteratorIterator(new RecursiveDirectoryIterator(dirname(__DIR__, 2) . '/src', FilesystemIterator::SKIP_DOTS));
         foreach ($files as $file) {
             $relative = substr($file->getPathname(), strlen(dirname(__DIR__, 2) . '/src/'), -4);
-            $class = 'Celerik\\Ui\\' . str_replace(['/', '\\'], '\\', $relative);
+            $class = 'Caelrik\\Ui\\' . str_replace(['/', '\\'], '\\', $relative);
             try {
                 $reflection = new ReflectionClass($class);
             } catch (Throwable) {
@@ -74,7 +74,7 @@ final class SiteReferenceTest extends TestCase
     {
         $components = (string) file_get_contents($this->output . '/components.md');
 
-        self::assertStringStartsWith("# Celerik\\Ui\\Components\n\n::: v-pre\n", $components, 'Twig examples ({{ }}) are not evaluated.');
+        self::assertStringStartsWith("# Caelrik\\Ui\\Components\n\n::: v-pre\n", $components, 'Twig examples ({{ }}) are not evaluated.');
         self::assertStringContainsString('`{"data": $chart->toData()}`', $components, 'Inline code is not escaped.');
         self::assertStringContainsString("dataset(string \$label, array \$data, array \$options = []): self", $components);
         self::assertStringNotContainsString('<script', $components);

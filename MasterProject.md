@@ -63,7 +63,7 @@ You must use the following documentation files as your blueprint:
 - Phase 6: Navigation and layout (admin layout, menus, toolbar, accordion, card, splitter, tile layout).
 - Phase 7: Display and feedback (record view, stat tiles and dashboard widgets, badges, tooltips, progress, timeline).
 - Phase 8: Visualization, media and specialized editors.
-- The goal is Telerik UI's breadth, with Filament's depth for admin screens. Celerik UI stays free and open source (MIT): no premium editions.
+- The goal is Telerik UI's breadth, with Filament's depth for admin screens. Caelrik UI stays free and open source (MIT): no premium editions.
 
 ## Instructions
 

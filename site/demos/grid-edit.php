@@ -1,8 +1,8 @@
 <?php
 
-use Celerik\Ui\Components\Grid;
-use Celerik\Ui\Components\Grid\Column;
-use Celerik\Ui\Components\Grid\Editor;
+use Caelrik\Ui\Components\Grid;
+use Caelrik\Ui\Components\Grid\Column;
+use Caelrik\Ui\Components\Grid\Editor;
 
 // The demo answers edits in the browser: nothing is saved.
 return Grid::make('crew')

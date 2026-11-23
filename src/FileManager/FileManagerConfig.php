@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Celerik\Ui\FileManager;
+namespace Caelrik\Ui\FileManager;
 
-use Celerik\Ui\Upload\UploadedFile;
-use Celerik\Ui\Upload\UploadException;
-use Celerik\Ui\Upload\UploadHandler;
-use Celerik\Ui\Upload\UploadRules;
+use Caelrik\Ui\Upload\UploadedFile;
+use Caelrik\Ui\Upload\UploadException;
+use Caelrik\Ui\Upload\UploadHandler;
+use Caelrik\Ui\Upload\UploadRules;
 use InvalidArgumentException;
 
 /**

@@ -7,10 +7,10 @@
 
 declare(strict_types=1);
 
-use Celerik\Ui\Assets;
-use Celerik\Ui\Components\Carousel;
-use Celerik\Ui\Components\Timeline;
-use Celerik\Ui\Support\Html;
+use Caelrik\Ui\Assets;
+use Caelrik\Ui\Components\Carousel;
+use Caelrik\Ui\Components\Timeline;
+use Caelrik\Ui\Support\Html;
 
 $mode = ($_GET['mode'] ?? '') === 'dark' ? 'dark' : 'light';
 ?>

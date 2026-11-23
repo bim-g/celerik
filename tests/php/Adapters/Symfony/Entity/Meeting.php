@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Celerik\Ui\Tests\Adapters\Symfony\Entity;
+namespace Caelrik\Ui\Tests\Adapters\Symfony\Entity;
 
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;

@@ -85,7 +85,7 @@ describe('menu button', () => {
   test('the split button: a main action and a "More options" menu', () => {
     const more = document.getElementById('save-button');
     expect(more.getAttribute('aria-label')).toBe('More options');
-    expect(document.querySelector('#save form.celerik-action button').textContent).toBe('Save');
+    expect(document.querySelector('#save form.caelrik-action button').textContent).toBe('Save');
     more.focus();
     press('Enter');
     expect(focusedText()).toBe('Preview');

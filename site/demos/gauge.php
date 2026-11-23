@@ -1,8 +1,8 @@
 <?php
 
-use Celerik\Ui\Components\Gauge;
-use Celerik\Ui\Components\Sparkline;
-use Celerik\Ui\Support\Html;
+use Caelrik\Ui\Components\Gauge;
+use Caelrik\Ui\Components\Sparkline;
+use Caelrik\Ui\Support\Html;
 
 $load = static fn (Gauge $gauge): Gauge => $gauge
     ->format('{value}%')

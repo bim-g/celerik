@@ -1,6 +1,6 @@
 <?php
 
-use Celerik\Ui\Components\Scheduler;
+use Caelrik\Ui\Components\Scheduler;
 
 // Read-only here. With createUrl(), updateUrl() and deleteUrl() users can add,
 // move (by mouse or keyboard) and delete events through your endpoints.

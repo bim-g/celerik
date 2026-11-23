@@ -3,7 +3,7 @@ import { axeViolations, MODES, openComponents } from './helpers.mjs';
 
 const open = async (page, options = {}) => {
   const errors = await openComponents(page, { path: '/code', ...options });
-  await page.locator('.celerik-code .cm-content').nth(1).waitFor();
+  await page.locator('.caelrik-code .cm-content').nth(1).waitFor();
   return errors;
 };
 const editor = (page, name) => page.getByRole('textbox', { name, exact: true });
@@ -17,8 +17,8 @@ test.describe('code field', () => {
     await expect(source).toHaveAccessibleDescription(
       'Any PHP 8 code. Tab moves to the next field; Ctrl+] indents and Ctrl+[ outdents.',
     );
-    await expect(source.locator('.celerik-code-keyword', { hasText: 'function' })).toBeVisible();
-    await expect(source.locator('.celerik-code-comment')).toHaveText('// Greets someone.');
+    await expect(source.locator('.caelrik-code-keyword', { hasText: 'function' })).toBeVisible();
+    await expect(source.locator('.caelrik-code-comment')).toHaveText('// Greets someone.');
     // The textarea is out of sight and of the tab order.
     await expect(page.locator('#snippet-source')).toHaveAttribute('tabindex', '-1');
   });
@@ -57,7 +57,7 @@ test.describe('code field', () => {
     await expect(config).toBeFocused();
     await expect(config).toHaveAttribute('aria-invalid', 'true');
     await expect(config).toHaveAttribute('aria-required', 'true');
-    await expect(page.locator('.celerik-code').nth(1)).toHaveClass(/is-invalid/);
+    await expect(page.locator('.caelrik-code').nth(1)).toHaveClass(/is-invalid/);
     await page.keyboard.type('{}');
     await expect(config).not.toHaveAttribute('aria-invalid', 'true');
   });

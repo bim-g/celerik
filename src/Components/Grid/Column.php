@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Celerik\Ui\Components\Grid;
+namespace Caelrik\Ui\Components\Grid;
 
-use Celerik\Ui\Data\Aggregate;
-use Celerik\Ui\Data\DataRequest;
+use Caelrik\Ui\Data\Aggregate;
+use Caelrik\Ui\Data\DataRequest;
 use InvalidArgumentException;
 
 final class Column

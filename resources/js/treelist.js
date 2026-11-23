@@ -63,9 +63,9 @@ export function initTreeList(element, options = {}) {
       row.setAttribute('aria-expanded', String(row.dataset.expanded === 'true' || Boolean(options.expandAll)));
     }
     const first = row.cells[0];
-    if (first && !first.querySelector('.celerik-treelist-toggle, .celerik-treelist-spacer')) {
+    if (first && !first.querySelector('.caelrik-treelist-toggle, .caelrik-treelist-spacer')) {
       const mark = document.createElement('span');
-      mark.className = row.dataset.expanded !== undefined ? 'celerik-treelist-toggle' : 'celerik-treelist-spacer';
+      mark.className = row.dataset.expanded !== undefined ? 'caelrik-treelist-toggle' : 'caelrik-treelist-spacer';
       mark.setAttribute('aria-hidden', 'true');
       first.prepend(mark);
     }
@@ -92,18 +92,18 @@ export function initTreeList(element, options = {}) {
     }
     row.setAttribute('aria-expanded', String(open));
     applyVisibility();
-    element.dispatchEvent(new CustomEvent('celerik:expand', {
+    element.dispatchEvent(new CustomEvent('caelrik:expand', {
       bubbles: true, detail: { id: row.dataset.id ?? null, expanded: open },
     }));
   };
 
   // Expand all and Collapse all, before the table.
   const toolbar = document.createElement('div');
-  toolbar.className = 'celerik-treelist-toolbar d-flex flex-wrap gap-2 mb-2';
+  toolbar.className = 'caelrik-treelist-toolbar d-flex flex-wrap gap-2 mb-2';
   const tool = (text, open) => {
     const button = document.createElement('button');
     button.type = 'button';
-    button.className = 'btn btn-sm btn-outline-secondary celerik-action-button';
+    button.className = 'btn btn-sm btn-outline-secondary caelrik-action-button';
     button.textContent = text;
     button.addEventListener('click', () => {
       rows().filter(expandable).forEach((row) => row.setAttribute('aria-expanded', String(open)));
@@ -198,7 +198,7 @@ export function initTreeList(element, options = {}) {
     if (!row) {
       return;
     }
-    if (event.target.closest('.celerik-treelist-toggle')) {
+    if (event.target.closest('.caelrik-treelist-toggle')) {
       focus(row);
       setExpanded(row, !expanded(row));
       return;
@@ -219,7 +219,7 @@ export function initTreeList(element, options = {}) {
 
   // A deleted row (a DELETE action's success) goes with its descendants; its siblings are
   // numbered again, and focus moves to the row that takes its place.
-  element.addEventListener('celerik:action', (event) => {
+  element.addEventListener('caelrik:action', (event) => {
     const { ok, method } = event.detail ?? {};
     const row = event.target.closest('tr');
     if (!ok || method !== 'DELETE' || !row || !body.contains(row)) {
@@ -240,7 +240,7 @@ export function initTreeList(element, options = {}) {
     if (parent && siblings.length === 0) {
       parent.removeAttribute('aria-expanded');
       delete parent.dataset.expanded;
-      parent.querySelector('.celerik-treelist-toggle')?.classList.replace('celerik-treelist-toggle', 'celerik-treelist-spacer');
+      parent.querySelector('.caelrik-treelist-toggle')?.classList.replace('caelrik-treelist-toggle', 'caelrik-treelist-spacer');
     }
     if (next) {
       focus(next);

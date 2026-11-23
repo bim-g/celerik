@@ -55,7 +55,7 @@ describe('card', () => {
     const link = card.querySelector('.card-title a');
     expect(link.getAttribute('href')).toBe('/reports/revenue');
     expect(link.classList.contains('stretched-link')).toBe(true);
-    expect(card.querySelector('.celerik-card-actions a').getAttribute('href')).toBe('/reports/revenue.csv');
+    expect(card.querySelector('.caelrik-card-actions a').getAttribute('href')).toBe('/reports/revenue.csv');
     expect(card.querySelector('img').getAttribute('alt')).toBe('Revenue by week');
     expect(card.querySelector('.card-footer').textContent).toBe('Updated today');
   });
@@ -69,7 +69,7 @@ describe('splitter', () => {
   beforeEach(() => {
     window.localStorage.clear();
     element = loadFixture('splitter');
-    panes = [...element.querySelectorAll('.celerik-splitter-pane')];
+    panes = [...element.querySelectorAll('.caelrik-splitter-pane')];
     handle = element.querySelector('[role=separator]');
   });
 
@@ -84,7 +84,7 @@ describe('splitter', () => {
 
   test('arrow keys resize within the limits; Home, End and Enter', () => {
     const resizes = [];
-    element.addEventListener('celerik:resize', (event) => resizes.push(event.detail.sizes));
+    element.addEventListener('caelrik:resize', (event) => resizes.push(event.detail.sizes));
     initSplitter(element, readOptions(element));
     handle.focus();
     press('ArrowRight');

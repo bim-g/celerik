@@ -64,7 +64,7 @@ describe('validateTheme() follows Theme::fromArray()', () => {
   test('themes made before 0.2.0 keep working on Bootstrap only', () => {
     expect(validateTheme({ ...preset(), base: 'bootstrap' })).toEqual({ theme: preset() });
     expect(validateTheme({ ...preset(), base: 'tailwind' }).error).toBe(
-      'The Tailwind look was removed in Celerik UI 0.2.0: Celerik UI is Bootstrap only. Use "bootstrap", and a '
+      'The Tailwind look was removed in Caelrik UI 0.2.0: Caelrik UI is Bootstrap only. Use "bootstrap", and a '
       + 'custom theme (Theme::toCss()) for your colors, radius and font.',
     );
   });

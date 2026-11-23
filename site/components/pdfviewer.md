@@ -9,7 +9,7 @@ A PDF document shown in the page with [PDF.js](https://mozilla.github.io/pdf.js/
 ## Usage
 
 ```php
-use Celerik\Ui\Components\PdfViewer;
+use Caelrik\Ui\Components\PdfViewer;
 
 PdfViewer::make('report')
     ->url('/files/report.pdf')
@@ -23,7 +23,7 @@ PdfViewer::make('report')
 - **`download(false)`** hides the download link of the header. The error and no-JavaScript messages keep theirs.
 - **`labels()`** translates every text (`toolbar`, `previous`, `next`, `page`, `of`, `zoomOut`, `zoomIn`, `zoom`, `fit`, `pages`, `pageName`, `download`, `loading`, `error`, `noscript`).
 
-The viewer fires `celerik:pdf-loaded` (with the number of pages) and `celerik:pdf-error`. PDF.js and its worker (1.3 MB) are loaded only by pages that have a viewer. Under a Content Security Policy, allow `worker-src 'self' blob:` (and `blob:` alone when the bundle comes from a CDN, since a worker cannot load from another origin).
+The viewer fires `caelrik:pdf-loaded` (with the number of pages) and `caelrik:pdf-error`. PDF.js and its worker (1.3 MB) are loaded only by pages that have a viewer. Under a Content Security Policy, allow `worker-src 'self' blob:` (and `blob:` alone when the bundle comes from a CDN, since a worker cannot load from another origin).
 
 ## Accessibility
 

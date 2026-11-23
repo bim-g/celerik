@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Celerik\Ui\Tests\Components;
+namespace Caelrik\Ui\Tests\Components;
 
-use Celerik\Ui\Components\Grid;
-use Celerik\Ui\Components\Grid\Column;
-use Celerik\Ui\Components\Grid\Filter;
-use Celerik\Ui\Data\ArrayDataSource;
+use Caelrik\Ui\Components\Grid;
+use Caelrik\Ui\Components\Grid\Column;
+use Caelrik\Ui\Components\Grid\Filter;
+use Caelrik\Ui\Data\ArrayDataSource;
 use InvalidArgumentException;
 use LogicException;
 use PHPUnit\Framework\TestCase;
@@ -24,7 +24,7 @@ final class GridTest extends TestCase
             ->render();
 
         self::assertStringContainsString('<table id="users"', $html);
-        self::assertStringContainsString('data-celerik="grid"', $html);
+        self::assertStringContainsString('data-caelrik="grid"', $html);
         self::assertStringContainsString('<caption class="visually-hidden">Users</caption>', $html);
         self::assertStringContainsString('<th scope="col">E-mail</th>', $html);
         self::assertStringContainsString('<td>&lt;b&gt;Ada&lt;/b&gt;</td>', $html);
@@ -117,14 +117,14 @@ final class GridTest extends TestCase
             ->rows([['name' => 'Ada', 'role' => 'admin', 'active' => true, 'joined' => '2026-01-31', 'city' => 'London']]);
         $html = $grid->render();
 
-        self::assertStringStartsWith('<div class="celerik-grid-filters row g-3 align-items-end mb-3" id="people-filters" role="search" aria-label="Filters" hidden>', $html);
-        self::assertStringContainsString('<label class="form-label" for="people-filter-name">Name</label><input data-celerik-filter="name" type="search"', $html);
+        self::assertStringStartsWith('<div class="caelrik-grid-filters row g-3 align-items-end mb-3" id="people-filters" role="search" aria-label="Filters" hidden>', $html);
+        self::assertStringContainsString('<label class="form-label" for="people-filter-name">Name</label><input data-caelrik-filter="name" type="search"', $html);
         self::assertStringContainsString('<option value="">Any</option><option value="admin">Admin</option><option value="user">&lt;User&gt;</option>', $html);
         self::assertStringContainsString('<option value="">Any</option><option value="1">Yes</option><option value="0">No</option>', $html);
         self::assertStringContainsString('<legend class="form-label fs-6 mb-2">Joined</legend>', $html);
         self::assertStringContainsString('<label class="visually-hidden" for="people-filter-joined-to">To</label>', $html);
-        self::assertStringContainsString('data-celerik-filter-end="from"', $html);
-        self::assertStringContainsString('<button type="button" class="btn btn-outline-secondary" data-celerik-filter-clear>Clear filters</button>', $html);
+        self::assertStringContainsString('data-caelrik-filter-end="from"', $html);
+        self::assertStringContainsString('<button type="button" class="btn btn-outline-secondary" data-caelrik-filter-clear>Clear filters</button>', $html);
 
         // The values a select, yes/no or date filter compares, for client-side filtering.
         self::assertStringContainsString('<td>Ada</td><td data-value="admin">admin</td><td data-value="1">Yes</td><td data-value="2026-01-31">2026-01-31</td><td>London</td>', $html);

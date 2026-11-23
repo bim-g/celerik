@@ -2,7 +2,7 @@ import { initOrgChart } from '../../resources/js/orgchart.js';
 import { readOptions } from '../../resources/js/core.js';
 import { loadFixture } from './helpers.js';
 
-const toggle = (root, id) => root.querySelector(`.celerik-orgchart-toggle[aria-controls="company-team-${id}"]`);
+const toggle = (root, id) => root.querySelector(`.caelrik-orgchart-toggle[aria-controls="company-team-${id}"]`);
 const team = (id) => document.getElementById(`company-team-${id}`);
 
 describe('org chart', () => {
@@ -26,11 +26,11 @@ describe('org chart', () => {
 
   test('a button shows and hides its team, and says so', () => {
     const events = [];
-    root.addEventListener('celerik:toggle', (event) => events.push(event.detail));
+    root.addEventListener('caelrik:toggle', (event) => events.push(event.detail));
     toggle(root, 'ada').click();
     expect(toggle(root, 'ada').getAttribute('aria-expanded')).toBe('true');
     expect(team('ada').hidden).toBe(false);
-    expect(toggle(root, 'ada').closest('.celerik-orgchart-item').classList.contains('is-collapsed')).toBe(false);
+    expect(toggle(root, 'ada').closest('.caelrik-orgchart-item').classList.contains('is-collapsed')).toBe(false);
     toggle(root, 'grace').click();
     expect(team('grace').hidden).toBe(true);
     expect(events).toEqual([
@@ -41,15 +41,15 @@ describe('org chart', () => {
 
   test('expandAll and collapseAll', () => {
     api.expandAll();
-    expect([...root.querySelectorAll('.celerik-orgchart-team')].every((list) => !list.hidden)).toBe(true);
+    expect([...root.querySelectorAll('.caelrik-orgchart-team')].every((list) => !list.hidden)).toBe(true);
     api.collapseAll();
-    expect([...root.querySelectorAll('.celerik-orgchart-toggle')]
+    expect([...root.querySelectorAll('.caelrik-orgchart-toggle')]
       .every((button) => button.getAttribute('aria-expanded') === 'false')).toBe(true);
   });
 
   test('without expandLevels everything stays open', () => {
     root = loadFixture('orgchart');
     initOrgChart(root, {});
-    expect([...root.querySelectorAll('.celerik-orgchart-team')].every((list) => !list.hidden)).toBe(true);
+    expect([...root.querySelectorAll('.caelrik-orgchart-team')].every((list) => !list.hidden)).toBe(true);
   });
 });

@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Celerik\Ui\Components\Form;
+namespace Caelrik\Ui\Components\Form;
 
-use Celerik\Ui\Support\Html;
+use Caelrik\Ui\Support\Html;
 use Closure;
 use LogicException;
 
@@ -74,8 +74,8 @@ final class Wizard
 
             $prefix = sprintf($this->stepOf, $index + 1, $count);
             $content .= Html::tag('div', [
-                'class' => 'celerik-wizard-step',
-                'data-celerik-step' => (string) $index,
+                'class' => 'caelrik-wizard-step',
+                'data-caelrik-step' => (string) $index,
                 'hidden' => $index !== $current,
             ], $item->render($formId, $renderField, $hasError, 2, $prefix));
             $index++;
@@ -85,13 +85,13 @@ final class Wizard
         $buttons = Html::tag('button', [
             'type' => 'button',
             'class' => 'btn btn-outline-secondary',
-            'data-celerik-wizard' => 'previous',
+            'data-caelrik-wizard' => 'previous',
             'hidden' => $current === 0,
         ], Html::escape($this->previous));
         $buttons .= Html::tag('button', [
             'type' => 'button',
             'class' => 'btn btn-primary',
-            'data-celerik-wizard' => 'next',
+            'data-caelrik-wizard' => 'next',
             'hidden' => $current === $last,
         ], Html::escape($this->next));
         if ($submitLabel !== null) {
@@ -102,7 +102,7 @@ final class Wizard
             ], Html::escape($submitLabel));
         }
 
-        return $content . Html::tag('div', ['class' => 'celerik-wizard-nav'], $buttons);
+        return $content . Html::tag('div', ['class' => 'caelrik-wizard-nav'], $buttons);
     }
 
     /**
@@ -114,16 +114,16 @@ final class Wizard
         foreach ($steps as $index => $step) {
             $done = Html::tag(
                 'span',
-                ['class' => 'visually-hidden celerik-wizard-done', 'hidden' => $index >= $current],
+                ['class' => 'visually-hidden caelrik-wizard-done', 'hidden' => $index >= $current],
                 ' (' . Html::escape($this->completed) . ')',
             );
             $items .= Html::tag('li', [
                 'class' => $index < $current ? 'is-complete' : null,
                 'aria-current' => $index === $current ? 'step' : null,
-            ], Html::tag('span', ['class' => 'celerik-wizard-number', 'aria-hidden' => 'true'], (string) ($index + 1))
-                . Html::tag('span', ['class' => 'celerik-wizard-label'], Html::escape($step->getHeading()) . $done));
+            ], Html::tag('span', ['class' => 'caelrik-wizard-number', 'aria-hidden' => 'true'], (string) ($index + 1))
+                . Html::tag('span', ['class' => 'caelrik-wizard-label'], Html::escape($step->getHeading()) . $done));
         }
 
-        return Html::tag('ol', ['class' => 'celerik-wizard-steps', 'aria-label' => $this->progress], $items);
+        return Html::tag('ol', ['class' => 'caelrik-wizard-steps', 'aria-label' => $this->progress], $items);
     }
 }

@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Celerik\Ui\Tests\Components;
+namespace Caelrik\Ui\Tests\Components;
 
-use Celerik\Ui\Components\Grid;
-use Celerik\Ui\Components\Grid\Column;
+use Caelrik\Ui\Components\Grid;
+use Caelrik\Ui\Components\Grid\Column;
 use PHPUnit\Framework\TestCase;
 
 final class GridColumnToggleTest extends TestCase

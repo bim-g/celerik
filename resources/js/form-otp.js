@@ -10,17 +10,17 @@ export function cleanCode(text, length, alphanumeric = false) {
 }
 
 export function initOtp(input) {
-  const length = Number(input.getAttribute('data-celerik-otp'));
+  const length = Number(input.getAttribute('data-caelrik-otp'));
   const alphanumeric = input.getAttribute('inputmode') === 'text';
 
   const wrapper = document.createElement('div');
-  wrapper.className = 'celerik-otp';
-  wrapper.style.setProperty('--celerik-otp-length', String(length));
+  wrapper.className = 'caelrik-otp';
+  wrapper.style.setProperty('--caelrik-otp-length', String(length));
   const slots = document.createElement('div');
-  slots.className = 'celerik-otp-slots';
+  slots.className = 'caelrik-otp-slots';
   slots.setAttribute('aria-hidden', 'true');
   for (let index = 0; index < length; index += 1) {
-    slots.appendChild(document.createElement('span')).className = 'celerik-otp-slot';
+    slots.appendChild(document.createElement('span')).className = 'caelrik-otp-slot';
   }
   input.before(wrapper);
   wrapper.append(slots, input);
@@ -55,8 +55,8 @@ export function initOtp(input) {
 }
 
 export function initOtps(container) {
-  for (const input of container.querySelectorAll('input[data-celerik-otp]')) {
-    if (!input.parentElement.classList.contains('celerik-otp')) {
+  for (const input of container.querySelectorAll('input[data-caelrik-otp]')) {
+    if (!input.parentElement.classList.contains('caelrik-otp')) {
       initOtp(input);
     }
   }

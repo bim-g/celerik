@@ -57,7 +57,7 @@ try {
 
 A refused move puts the card back where it was, and its `message` is read out with "The card could not be moved". Throw `InvalidCardMove` for your own rules too, e.g. a full column or a move the user may not make. Without JavaScript, redirect back to the board.
 
-The board fires `celerik:move` with `{id, column, position, ok}` after each move.
+The board fires `caelrik:move` with `{id, column, position, ok}` after each move.
 
 ## Options
 

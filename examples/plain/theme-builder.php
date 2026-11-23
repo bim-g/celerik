@@ -14,15 +14,15 @@
 
 declare(strict_types=1);
 
-use Celerik\Ui\Assets;
-use Celerik\Ui\Components\ThemeBuilder;
-use Celerik\Ui\Theme\Theme;
+use Caelrik\Ui\Assets;
+use Caelrik\Ui\Components\ThemeBuilder;
+use Caelrik\Ui\Theme\Theme;
 
 /** @var string $path */
-/** @var Celerik\Ui\Components\Grid $grid */
-/** @var Celerik\Ui\Components\Chart $chart */
-/** @var Celerik\Ui\Components\Form $form */
-/** @var Celerik\Ui\Components\Tabs $tabs */
+/** @var Caelrik\Ui\Components\Grid $grid */
+/** @var Caelrik\Ui\Components\Chart $chart */
+/** @var Caelrik\Ui\Components\Form $form */
+/** @var Caelrik\Ui\Components\Tabs $tabs */
 
 $local = in_array($_SERVER['REMOTE_ADDR'] ?? '', ['127.0.0.1', '::1'], true);
 $savedTheme = isset($_SESSION['theme']) ? Theme::fromArray($_SESSION['theme']) : null;
@@ -76,7 +76,7 @@ $builder = ThemeBuilder::make('builder')
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Celerik UI — theme builder</title>
+    <title>Caelrik UI — theme builder</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
     <script src="https://cdn.jsdelivr.net/npm/jquery@4.0.0/dist/jquery.min.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" defer></script>
@@ -84,7 +84,7 @@ $builder = ThemeBuilder::make('builder')
 </head>
 <body>
 <main class="container-fluid py-4">
-    <h1 class="h3 mb-1">Celerik UI — theme builder</h1>
+    <h1 class="h3 mb-1">Caelrik UI — theme builder</h1>
     <p class="mb-4">
         <a href="/">Back to the example</a>
         <?php if ($savedTheme !== null) : ?>

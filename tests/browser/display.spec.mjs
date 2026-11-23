@@ -40,7 +40,7 @@ test.describe('display elements', () => {
 
   test('plain text with a tooltip is reachable from the keyboard', async ({ page }) => {
     await open(page);
-    const term = page.locator('.celerik-tooltip-text');
+    const term = page.locator('.caelrik-tooltip-text');
     await term.focus();
     await expect(term).toHaveAccessibleDescription('A secret that identifies your application');
     await expect(page.locator('#api-tip-tip')).toBeVisible();
@@ -68,7 +68,7 @@ test.describe('display elements', () => {
     await page.keyboard.press('Enter');
     await expect(page.locator('#chip-js')).toHaveCount(0);
     await expect(page.getByRole('button', { name: 'Remove Go' })).toBeFocused();
-    await expect(page.locator('#celerik-chip-status')).toHaveText('JavaScript removed.');
+    await expect(page.locator('#caelrik-chip-status')).toHaveText('JavaScript removed.');
     const values = await page.locator('#skills').evaluate((form) => new FormData(form).getAll('skills[]'));
     expect(values).toEqual(['php', 'go']);
 
@@ -81,7 +81,7 @@ test.describe('display elements', () => {
 
   test('chip buttons are 24 x 24 px targets', async ({ page }) => {
     await open(page);
-    for (const button of await page.locator('.celerik-chip-remove').all()) {
+    for (const button of await page.locator('.caelrik-chip-remove').all()) {
       const box = await button.boundingBox();
       expect(box.width).toBeGreaterThanOrEqual(24);
       expect(box.height).toBeGreaterThanOrEqual(24);

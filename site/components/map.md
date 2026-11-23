@@ -9,7 +9,7 @@ A map with markers, and the same places written as a list under it. With [Leafle
 ## Usage
 
 ```php
-use Celerik\Ui\Components\Map;
+use Caelrik\Ui\Components\Map;
 
 Map::make('offices')
     ->label('Our offices')

@@ -12,10 +12,10 @@
 
 declare(strict_types=1);
 
-use Celerik\Ui\Components\FileManager;
-use Celerik\Ui\FileManager\FileManagerConfig;
-use Celerik\Ui\FileManager\FileManagerConnector;
-use Celerik\Ui\Upload\UploadRules;
+use Caelrik\Ui\Components\FileManager;
+use Caelrik\Ui\FileManager\FileManagerConfig;
+use Caelrik\Ui\FileManager\FileManagerConnector;
+use Caelrik\Ui\Upload\UploadRules;
 
 /** @var string $path */
 
@@ -38,7 +38,7 @@ if (preg_match('~^/elfinder/(css|img|js|sounds)/~', $path) === 1) {
     exit;
 }
 
-$filesRoot = sys_get_temp_dir() . '/celerik-example/files';
+$filesRoot = sys_get_temp_dir() . '/caelrik-example/files';
 if (!is_dir($filesRoot)) {
     mkdir($filesRoot . '/Reports', 0700, true);
     file_put_contents($filesRoot . '/welcome.txt', "Files uploaded here are checked like UploadHandler does.\n");

@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Celerik\Ui\Tests\Components;
+namespace Caelrik\Ui\Tests\Components;
 
-use Celerik\Ui\Components\Action;
-use Celerik\Ui\Components\Grid;
-use Celerik\Ui\Components\Grid\Column;
-use Celerik\Ui\Data\ArrayDataSource;
+use Caelrik\Ui\Components\Action;
+use Caelrik\Ui\Components\Grid;
+use Caelrik\Ui\Components\Grid\Column;
+use Caelrik\Ui\Data\ArrayDataSource;
 use InvalidArgumentException;
 use LogicException;
 use PHPUnit\Framework\TestCase;
@@ -21,7 +21,7 @@ final class ActionTest extends TestCase
             ->render(['id' => 7, 'name' => 'Ada <L>', 'team' => ['slug' => 'a/b c']]);
 
         self::assertSame(
-            '<a href="/users/7/a%2Fb%20c" class="btn celerik-action-button btn-outline-secondary" aria-label="View Ada &lt;L&gt;">View</a>',
+            '<a href="/users/7/a%2Fb%20c" class="btn caelrik-action-button btn-outline-secondary" aria-label="View Ada &lt;L&gt;">View</a>',
             $html,
         );
     }
@@ -44,11 +44,11 @@ final class ActionTest extends TestCase
             ->labels(['cancel' => 'Annuler']);
 
         self::assertSame(
-            '<form method="post" action="/users/" class="celerik-action" data-celerik-action="delete" data-method="DELETE"'
+            '<form method="post" action="/users/" class="caelrik-action" data-caelrik-action="delete" data-method="DELETE"'
             . ' data-confirm="Delete ?" data-confirm-detail="This cannot be undone." data-csrf-header="X-CSRF"'
             . ' data-labels="{&quot;cancel&quot;:&quot;Annuler&quot;,&quot;failed&quot;:&quot;The action failed. Try again.&quot;}">'
             . '<input type="hidden" name="_method" value="DELETE"><input type="hidden" name="csrf" value="t0ken">'
-            . '<button type="submit" class="btn celerik-action-button btn-danger">Delete</button></form>',
+            . '<button type="submit" class="btn caelrik-action-button btn-danger">Delete</button></form>',
             $html,
         );
     }
@@ -60,7 +60,7 @@ final class ActionTest extends TestCase
         self::assertStringNotContainsString('_method', $html);
         self::assertStringNotContainsString('data-confirm', $html);
         self::assertStringContainsString('data-method="POST"', $html);
-        self::assertStringContainsString('class="btn celerik-action-button btn-outline-secondary btn-sm"', $html);
+        self::assertStringContainsString('class="btn caelrik-action-button btn-outline-secondary btn-sm"', $html);
     }
 
     public function testFieldsAndOptionsForJavaScript(): void
@@ -74,7 +74,7 @@ final class ActionTest extends TestCase
             'url' => '/users/{id}',
             'request' => true,
             'method' => 'POST',
-            'className' => 'btn celerik-action-button btn-outline-secondary',
+            'className' => 'btn caelrik-action-button btn-outline-secondary',
             'confirm' => 'Delete {name}?',
             'csrf' => ['token' => 't', 'field' => '_token', 'header' => 'X-CSRF-TOKEN'],
         ], $action->toArray());
@@ -114,10 +114,10 @@ final class ActionTest extends TestCase
             ->rows([['id' => 3, 'name' => 'Grace']]);
         $html = $grid->render();
 
-        self::assertStringContainsString('<th scope="col" class="celerik-grid-actions">Actions rapides</th>', $html);
+        self::assertStringContainsString('<th scope="col" class="caelrik-grid-actions">Actions rapides</th>', $html);
         self::assertStringContainsString(
-            '<td class="celerik-grid-actions"><div class="celerik-grid-action-list"><a href="/people/3/edit"'
-            . ' class="btn celerik-action-button btn-outline-secondary btn-sm" aria-label="Edit Grace">Edit</a>',
+            '<td class="caelrik-grid-actions"><div class="caelrik-grid-action-list"><a href="/people/3/edit"'
+            . ' class="btn caelrik-action-button btn-outline-secondary btn-sm" aria-label="Edit Grace">Edit</a>',
             $html,
         );
         self::assertStringContainsString('aria-label="Remove Grace">Delete</button>', $html);

@@ -1,7 +1,7 @@
 <?php
 
-use Celerik\Ui\Components\Carousel;
-use Celerik\Ui\Support\Html;
+use Caelrik\Ui\Components\Carousel;
+use Caelrik\Ui\Support\Html;
 
 return [
     Carousel::make('news')->label('News')

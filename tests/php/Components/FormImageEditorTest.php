@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Celerik\Ui\Tests\Components;
+namespace Caelrik\Ui\Tests\Components;
 
-use Celerik\Ui\Components\Form;
-use Celerik\Ui\Components\Form\Field;
-use Celerik\Ui\Upload\UploadRules;
+use Caelrik\Ui\Components\Form;
+use Caelrik\Ui\Components\Form\Field;
+use Caelrik\Ui\Upload\UploadRules;
 use InvalidArgumentException;
 use LogicException;
 use PHPUnit\Framework\TestCase;
@@ -23,7 +23,7 @@ final class FormImageEditorTest extends TestCase
         self::assertStringContainsString('enctype="multipart/form-data"', $html);
         self::assertStringContainsString(
             'type="file" accept="image/jpeg,.jpg,.jpeg,image/png,.png,image/gif,.gif,image/webp,.webp" class="form-control" '
-            . 'data-celerik-image-editor="{&quot;ratios&quot;:[&quot;1:1&quot;,&quot;free&quot;],&quot;maxSize&quot;:512,'
+            . 'data-caelrik-image-editor="{&quot;ratios&quot;:[&quot;1:1&quot;,&quot;free&quot;],&quot;maxSize&quot;:512,'
             . '&quot;labels&quot;:{&quot;editor&quot;:&quot;Modifier la photo&quot;,',
             $html,
         );

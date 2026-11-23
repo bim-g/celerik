@@ -3,11 +3,11 @@ import { readOptions } from '../../resources/js/core.js';
 import { loadFixture } from './helpers.js';
 
 const row = (table, name) => [...table.tBodies[0].rows]
-  .find((tr) => tr.querySelector('.celerik-treelist-text').textContent === name);
+  .find((tr) => tr.querySelector('.caelrik-treelist-text').textContent === name);
 const shown = (table) => [...table.tBodies[0].rows].filter((tr) => !tr.hidden)
-  .map((tr) => tr.querySelector('.celerik-treelist-text').textContent);
+  .map((tr) => tr.querySelector('.caelrik-treelist-text').textContent);
 const press = (key) => document.activeElement.dispatchEvent(new KeyboardEvent('keydown', { key, bubbles: true }));
-const focusedName = () => document.activeElement.closest('tr')?.querySelector('.celerik-treelist-text').textContent;
+const focusedName = () => document.activeElement.closest('tr')?.querySelector('.caelrik-treelist-text').textContent;
 
 describe('tree list', () => {
   let table;
@@ -17,9 +17,9 @@ describe('tree list', () => {
   });
 
   test('PHP writes every row in tree order, indented, readable without JavaScript', () => {
-    expect([...table.tBodies[0].rows].map((tr) => tr.querySelector('.celerik-treelist-text').textContent))
+    expect([...table.tBodies[0].rows].map((tr) => tr.querySelector('.caelrik-treelist-text').textContent))
       .toEqual(['Design', 'Sketches <v1>', 'Logo', 'Review', 'Build', 'API', 'Launch']);
-    expect(row(table, 'Logo').cells[0].classList.contains('celerik-treelist-level-3')).toBe(true);
+    expect(row(table, 'Logo').cells[0].classList.contains('caelrik-treelist-level-3')).toBe(true);
     expect(row(table, 'Logo').hidden).toBe(false);
   });
 
@@ -37,7 +37,7 @@ describe('tree list', () => {
     expect(shown(table)).toEqual(['Design', 'Sketches <v1>', 'Review', 'Build', 'Launch']);
     expect(table.querySelectorAll('[tabindex="0"]')).toHaveLength(1);
     expect(design.tabIndex).toBe(0);
-    expect(table.querySelector('.celerik-treelist-actions button').tabIndex).toBe(-1);
+    expect(table.querySelector('.caelrik-treelist-actions button').tabIndex).toBe(-1);
   });
 
   test('rows: arrows move, open and close; Left goes to the parent', () => {
@@ -75,7 +75,7 @@ describe('tree list', () => {
     press('ArrowUp');
     expect(document.activeElement.textContent).toBe('Grace');
     press('End');
-    expect(document.activeElement.classList.contains('celerik-treelist-actions')).toBe(true);
+    expect(document.activeElement.classList.contains('caelrik-treelist-actions')).toBe(true);
     const clicked = jest.fn((event) => event.preventDefault());
     document.activeElement.querySelector('button').addEventListener('click', clicked);
     press('Enter');
@@ -98,7 +98,7 @@ describe('tree list', () => {
 
   test('a chevron click opens a row', () => {
     initTreeList(table, readOptions(table));
-    row(table, 'Build').querySelector('.celerik-treelist-toggle').click();
+    row(table, 'Build').querySelector('.caelrik-treelist-toggle').click();
     expect(shown(table)).toContain('API');
     expect(document.activeElement).toBe(row(table, 'Build'));
   });
@@ -106,7 +106,7 @@ describe('tree list', () => {
   test('a deleted row goes with its descendants; its siblings are numbered again', () => {
     initTreeList(table, readOptions(table));
     const sketches = row(table, 'Sketches <v1>');
-    sketches.querySelector('form').dispatchEvent(new CustomEvent('celerik:action', {
+    sketches.querySelector('form').dispatchEvent(new CustomEvent('caelrik:action', {
       bubbles: true, detail: { ok: true, method: 'DELETE' },
     }));
 
@@ -115,7 +115,7 @@ describe('tree list', () => {
     expect(row(table, 'Review').getAttribute('aria-setsize')).toBe('1');
     expect(focusedName()).toBe('Review');
 
-    row(table, 'Review').querySelector('form').dispatchEvent(new CustomEvent('celerik:action', {
+    row(table, 'Review').querySelector('form').dispatchEvent(new CustomEvent('caelrik:action', {
       bubbles: true, detail: { ok: true, method: 'DELETE' },
     }));
     expect(row(table, 'Design').hasAttribute('aria-expanded')).toBe(false);

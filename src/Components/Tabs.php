@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Celerik\Ui\Components;
+namespace Caelrik\Ui\Components;
 
-use Celerik\Ui\Component;
-use Celerik\Ui\Support\Html;
+use Caelrik\Ui\Component;
+use Caelrik\Ui\Support\Html;
 use InvalidArgumentException;
 use Stringable;
 
@@ -140,7 +140,7 @@ final class Tabs extends Component
                 'id' => $tabId,
                 'data-bs-toggle' => 'tab',
                 'data-bs-target' => '#' . $panelId,
-                'data-celerik-tab' => $id,
+                'data-caelrik-tab' => $id,
                 'role' => 'tab',
                 'aria-controls' => $panelId,
                 'aria-selected' => $isActive ? 'true' : 'false',
@@ -170,7 +170,7 @@ final class Tabs extends Component
 
         return Html::tag(
             'div',
-            $this->rootAttributes(['celerik-tabs']),
+            $this->rootAttributes(['caelrik-tabs']),
             $list . Html::tag('div', ['class' => 'tab-content'], $panels),
         );
     }

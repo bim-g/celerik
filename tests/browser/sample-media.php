@@ -10,7 +10,7 @@
 declare(strict_types=1);
 
 /** A mono 8-bit WAV of $seconds: a quiet 440 Hz tone that fades in and out. */
-function celerik_sample_wav(float $seconds = 6.0, int $rate = 8000): string
+function caelrik_sample_wav(float $seconds = 6.0, int $rate = 8000): string
 {
     $count = (int) round($seconds * $rate);
     $samples = '';
@@ -24,7 +24,7 @@ function celerik_sample_wav(float $seconds = 6.0, int $rate = 8000): string
         . 'data' . pack('V', $count) . $samples;
 }
 
-function celerik_sample_vtt(): string
+function caelrik_sample_vtt(): string
 {
     return "WEBVTT\n\n"
         . "00:00:00.000 --> 00:00:02.000\nA soft tone starts.\n\n"
@@ -34,7 +34,7 @@ function celerik_sample_vtt(): string
 
 if (PHP_SAPI === 'cli' && realpath($_SERVER['SCRIPT_FILENAME'] ?? '') === __FILE__) {
     $folder = rtrim($argv[1] ?? '.', '/');
-    file_put_contents($folder . '/tone.wav', celerik_sample_wav());
-    file_put_contents($folder . '/tone.en.vtt', celerik_sample_vtt());
+    file_put_contents($folder . '/tone.wav', caelrik_sample_wav());
+    file_put_contents($folder . '/tone.en.vtt', caelrik_sample_vtt());
     echo "Wrote $folder/tone.wav and $folder/tone.en.vtt\n";
 }

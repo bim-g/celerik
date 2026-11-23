@@ -1,7 +1,7 @@
 # Structure
 
 ```text
-celerik/
+caelrik/
 ├── README.md                     # Overview, install, quick start
 ├── MasterProject.md              # Original project brief
 ├── Components.md                 # Telerik → open-source mapping, licenses, phases
@@ -11,7 +11,7 @@ celerik/
 ├── LICENSE.md                    # MIT
 ├── THIRD_PARTY_NOTICES.md        # Licenses of bundled libraries
 │
-├── src/                          # PHP, namespace Celerik\Ui\
+├── src/                          # PHP, namespace Caelrik\Ui\
 │   ├── Component.php             # Base class (make, options, render, toArray)
 │   ├── ComponentRegistry.php     # Plugin registry
 │   ├── Assets.php                # <link>/<script> tags for the bundle
@@ -43,7 +43,7 @@ celerik/
 │   │   ├── Theme.php             # Validated theme tokens (presets, fromJson, toCss)
 │   │   ├── Stylesheet.php        # Writes the theme stylesheet
 │   │   ├── Contrast.php  ContrastResult.php   # WCAG checks of theme/contrast.json
-│   │   └── Console.php           # bin/celerik-theme
+│   │   └── Console.php           # bin/caelrik-theme
 │   ├── FileManager/
 │   │   ├── FileManagerConfig.php     # Locked-down elFinder volume
 │   │   └── FileManagerConnector.php  # run($config, authorized: ...)
@@ -53,24 +53,24 @@ celerik/
 │   │   ├── UploadedFile.php  StoredFile.php  UploadException.php
 │   └── Adapters/
 │       ├── Laravel/
-│       │   ├── CelerikServiceProvider.php
+│       │   ├── CaelrikServiceProvider.php
 │       │   ├── EloquentDataSource.php
 │       │   ├── EloquentEventSource.php
 │       │   └── View/
-│       │       ├── CelerikComponent.php    # <x-celerik :component="..." />
-│       │       └── AssetsComponent.php     # <x-celerik-assets />
+│       │       ├── CaelrikComponent.php    # <x-caelrik :component="..." />
+│       │       └── AssetsComponent.php     # <x-caelrik-assets />
 │       └── Symfony/
-│           ├── CelerikUiBundle.php
-│           ├── CelerikTwigExtension.php    # celerik(), celerik_assets()
+│           ├── CaelrikUiBundle.php
+│           ├── CaelrikTwigExtension.php    # caelrik(), caelrik_assets()
 │           ├── DoctrineDataSource.php
 │           └── DoctrineEventSource.php
 │
-├── bin/celerik-theme             # preset / check / build a theme (vendor/bin/celerik-theme)
+├── bin/caelrik-theme             # preset / check / build a theme (vendor/bin/caelrik-theme)
 ├── theme/                        # theme.schema.json, contrast.json, presets/bootstrap.json
 │
 ├── resources/                    # Frontend sources (not shipped in the Composer dist)
 │   ├── js/
-│   │   ├── index.js              # Bundle entry, registers initializers, window.Celerik
+│   │   ├── index.js              # Bundle entry, registers initializers, window.Caelrik
 │   │   ├── core.js               # register / init / deepMerge / prefersReducedMotion
 │   │   ├── grid.js   grid-config.js
 │   │   ├── chart.js  chart-config.js
@@ -79,7 +79,7 @@ celerik/
 │   │   ├── editor.js  editor-config.js      # Quill, loaded only for forms with an editor
 │   │   ├── upload.js  upload-config.js      # FilePond, loaded only for forms with uploads
 │   │   ├── modal.js  tabs.js  bootstrap-global.js   # Bootstrap JS (peer dependency)
-│   │   ├── notification.js  notification-config.js  # Notyf, Celerik.notify()
+│   │   ├── notification.js  notification-config.js  # Notyf, Caelrik.notify()
 │   │   ├── map.js  # Leaflet
 │   │   ├── filemanager.js  filemanager-config.js    # jQuery UI + the app's copy of elFinder
 │   │   ├── themebuilder.js  theme-css.js            # ThemeBuilder; theme stylesheet + contrast in JS
@@ -91,13 +91,13 @@ celerik/
 │           └── (removed in 0.2.0: Bootstrap is the only look)
 │
 ├── public/                       # Build output, shipped with the package
-│   ├── celerik.js                # ES module entry (~3 KB)
-│   ├── celerik.css
+│   ├── caelrik.js                # ES module entry (~3 KB)
+│   ├── caelrik.css
 │   └── chunks/                   # grid, chart, form, scheduler, editor, upload (JS + CSS): loaded on demand
 │                                 # public/ is built (npm run build), not committed: releases add it to their tag
 │
 ├── tests/
-│   ├── php/                      # PHPUnit (Celerik\Ui\Tests\)
+│   ├── php/                      # PHPUnit (Caelrik\Ui\Tests\)
 │   │   ├── Components/  Data/  Support/  Upload/  FileManager/  Theme/
 │   │   └── Adapters/Laravel/  Adapters/Symfony/
 │   ├── js/                       # Jest + axe-core

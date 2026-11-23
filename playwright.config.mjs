@@ -4,7 +4,7 @@ import { defineConfig, devices } from '@playwright/test';
 // PLAYWRIGHT_CHANNEL=msedge or chrome uses an installed browser instead of the downloaded
 // Chromium (npx playwright install chromium). Playwright starts its own browser instance
 // with a temporary profile, so open browser windows are never touched.
-const port = Number(process.env.CELERIK_TEST_PORT ?? 8123);
+const port = Number(process.env.CAELRIK_TEST_PORT ?? 8123);
 
 export default defineConfig({
   testDir: 'tests/browser',

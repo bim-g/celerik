@@ -1,10 +1,10 @@
 <?php
 
-use Celerik\Ui\Components\Form;
-use Celerik\Ui\Components\Form\Field;
-use Celerik\Ui\Components\Grid;
-use Celerik\Ui\Components\ThemeBuilder;
-use Celerik\Ui\Theme\Theme;
+use Caelrik\Ui\Components\Form;
+use Caelrik\Ui\Components\Form\Field;
+use Caelrik\Ui\Components\Grid;
+use Caelrik\Ui\Components\ThemeBuilder;
+use Caelrik\Ui\Theme\Theme;
 
 // Export downloads the theme; nothing is saved here (no saveUrl()).
 return ThemeBuilder::make('builder')

@@ -4,20 +4,20 @@ Every component is a PHP class with a fluent API. It renders accessible Bootstra
 
 | Component | PHP class | Library |
 |---|---|---|
-| [Grid](./grid) | `Celerik\Ui\Components\Grid` | DataTables 3 |
-| [List view](./listview) | `Celerik\Ui\Components\ListView` | – |
-| [Tree view](./treeview) | `Celerik\Ui\Components\TreeView` | – |
-| [Tree list](./treelist) | `Celerik\Ui\Components\TreeList` | – |
-| [Task board](./taskboard) | `Celerik\Ui\Components\TaskBoard` | SortableJS 1 |
-| [Actions](./actions) | `Celerik\Ui\Components\Action` | – |
-| [Chart](./chart) | `Celerik\Ui\Components\Chart` | Chart.js 4 |
-| [Form and fields](./form) | `Celerik\Ui\Components\Form`, `Form\Field` | Parsley.js, Inputmask |
+| [Grid](./grid) | `Caelrik\Ui\Components\Grid` | DataTables 3 |
+| [List view](./listview) | `Caelrik\Ui\Components\ListView` | – |
+| [Tree view](./treeview) | `Caelrik\Ui\Components\TreeView` | – |
+| [Tree list](./treelist) | `Caelrik\Ui\Components\TreeList` | – |
+| [Task board](./taskboard) | `Caelrik\Ui\Components\TaskBoard` | SortableJS 1 |
+| [Actions](./actions) | `Caelrik\Ui\Components\Action` | – |
+| [Chart](./chart) | `Caelrik\Ui\Components\Chart` | Chart.js 4 |
+| [Form and fields](./form) | `Caelrik\Ui\Components\Form`, `Form\Field` | Parsley.js, Inputmask |
 | [Searchable selects and tags](./form#searchable-and-multiple-selects) | `Field::select()->searchable()`, `Field::tags()` | Tom Select 2 |
 | [Form layout and wizard](./form#layout) | `Form\Section`, `Form::columns()`, `Form::wizard()` | – |
 | [Repeater](./form#repeater) | `Form\Repeater` | – |
 | [Rich text editor](./editor) | `Field::editor()` | Quill 2 |
 | [File upload](./upload) | `Field::file()` | FilePond 4 |
-| [Scheduler](./scheduler) | `Celerik\Ui\Components\Scheduler` | FullCalendar 6 |
+| [Scheduler](./scheduler) | `Caelrik\Ui\Components\Scheduler` | FullCalendar 6 |
 | [Admin layout](./admin-layout), navigation, breadcrumb, user menu | `AdminLayout`, `Navigation`, `Breadcrumb`, `UserMenu` | Bootstrap 5 (offcanvas) |
 | [Menus and toolbar](./menus) | `MenuButton`, `SplitButton`, `Toolbar`, `ContextMenu` | – |
 | [Accordion, card, splitter](./containers) | `Accordion`, `Card`, `Splitter` | Bootstrap 5 |
@@ -35,11 +35,11 @@ Every component is a PHP class with a fluent API. It renders accessible Bootstra
 | [PDF viewer](./pdfviewer) | `PdfViewer` | PDF.js 6 |
 | [Media player](./mediaplayer) | `MediaPlayer` | Plyr 3 |
 | [Record view](./recordview) | `RecordView`, `RecordView\Entry` | – |
-| [Modal](./modal) | `Celerik\Ui\Components\Modal` | Bootstrap 5 |
-| [Tabs](./tabs) | `Celerik\Ui\Components\Tabs` | Bootstrap 5 |
-| [Notification](./notification) | `Celerik\Ui\Components\Notification` | Notyf 3 |
-| [File manager](./file-manager) | `Celerik\Ui\Components\FileManager` | elFinder 2.1 |
-| [Theme builder](./theme-builder) | `Celerik\Ui\Components\ThemeBuilder` | – |
+| [Modal](./modal) | `Caelrik\Ui\Components\Modal` | Bootstrap 5 |
+| [Tabs](./tabs) | `Caelrik\Ui\Components\Tabs` | Bootstrap 5 |
+| [Notification](./notification) | `Caelrik\Ui\Components\Notification` | Notyf 3 |
+| [File manager](./file-manager) | `Caelrik\Ui\Components\FileManager` | elFinder 2.1 |
+| [Theme builder](./theme-builder) | `Caelrik\Ui\Components\ThemeBuilder` | – |
 
 ## Grid
 

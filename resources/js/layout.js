@@ -67,10 +67,10 @@ function readSizes(key) {
 
 export function initSplitter(element, options = {}) {
   const vertical = options.orientation === 'vertical';
-  const panes = [...element.children].filter((child) => child.classList.contains('celerik-splitter-pane'));
-  const handles = [...element.children].filter((child) => child.classList.contains('celerik-splitter-handle'));
+  const panes = [...element.children].filter((child) => child.classList.contains('caelrik-splitter-pane'));
+  const handles = [...element.children].filter((child) => child.classList.contains('caelrik-splitter-handle'));
   const limits = panes.map((pane) => ({ min: Number(pane.dataset.min ?? 0), max: Number(pane.dataset.max ?? 100) }));
-  const key = `celerik-splitter:${element.id}`;
+  const key = `caelrik-splitter:${element.id}`;
 
   // The panes' sizes in percent: saved ones, or PHP's, the rest sharing what is left.
   let sizes = options.remember ? readSizes(key) : null;
@@ -99,7 +99,7 @@ export function initSplitter(element, options = {}) {
         // Storage may be off: sizes last until the page is left.
       }
     }
-    element.dispatchEvent(new CustomEvent('celerik:resize', { bubbles: true, detail: { sizes: [...sizes] } }));
+    element.dispatchEvent(new CustomEvent('caelrik:resize', { bubbles: true, detail: { sizes: [...sizes] } }));
   };
 
   // Sets pane i's size; pane i + 1 gives or takes the difference, both within their limits.

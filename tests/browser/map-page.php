@@ -7,8 +7,8 @@
 
 declare(strict_types=1);
 
-use Celerik\Ui\Assets;
-use Celerik\Ui\Components\Map;
+use Caelrik\Ui\Assets;
+use Caelrik\Ui\Components\Map;
 
 $mode = ($_GET['mode'] ?? '') === 'dark' ? 'dark' : 'light';
 $tiles = static fn (Map $map): Map => $map->tiles('/tiles/{z}/{x}/{y}.svg', 'Test tiles', '/tiles/licence');

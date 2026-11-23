@@ -11,14 +11,14 @@ function setup() {
   const options = readOptions(table);
   const grid = initGrid(table, options);
   const bulk = document.getElementById('crew-bulk');
-  const all = table.querySelector('[data-celerik-select-all]');
-  const box = (name) => [...table.querySelectorAll('input[data-celerik-select]')]
+  const all = table.querySelector('[data-caelrik-select-all]');
+  const box = (name) => [...table.querySelectorAll('input[data-caelrik-select]')]
     .find((input) => input.getAttribute('aria-label') === `Select ${name}`);
   const check = (input, checked = true) => {
     input.checked = checked;
     input.dispatchEvent(new Event('change', { bubbles: true }));
   };
-  const status = () => bulk.querySelector('[data-celerik-selected]').textContent;
+  const status = () => bulk.querySelector('[data-caelrik-selected]').textContent;
   const buttons = () => [...bulk.querySelectorAll('button')].map((button) => button.disabled);
   return { table, options, grid, bulk, all, box, check, status, buttons };
 }
@@ -29,7 +29,7 @@ describe('row selection', () => {
     const parsed = document.createElement('div');
     parsed.innerHTML = rowCheckboxHtml(options.selection, { id: 1, name: 'Ada' }, options.rowTitle);
 
-    expect(parsed.innerHTML).toBe(table.querySelector('tbody td.celerik-grid-select').innerHTML);
+    expect(parsed.innerHTML).toBe(table.querySelector('tbody td.caelrik-grid-select').innerHTML);
     grid.destroy();
   });
 
@@ -65,7 +65,7 @@ describe('row selection', () => {
 
     const fetch = jest.fn(async () => ok);
     const confirm = jest.fn(async () => true);
-    const remove = bulk.querySelector('[data-celerik-action="remove"]');
+    const remove = bulk.querySelector('[data-caelrik-action="remove"]');
     await submitAction(bulk, { submitter: remove, fetch, confirm, notify: jest.fn() });
 
     expect(confirm.mock.calls[0][0]).toMatchObject({ question: 'Remove 2 people?', confirmLabel: 'Remove selected', danger: true });
@@ -86,7 +86,7 @@ describe('row selection', () => {
   test('a disabled bulk button sends nothing', async () => {
     const { grid, bulk } = setup();
     const fetch = jest.fn();
-    expect(await submitAction(bulk, { submitter: bulk.querySelector('[data-celerik-action="mail"]'), fetch })).toBeNull();
+    expect(await submitAction(bulk, { submitter: bulk.querySelector('[data-caelrik-action="mail"]'), fetch })).toBeNull();
     expect(fetch).not.toHaveBeenCalled();
     grid.destroy();
   });
@@ -96,8 +96,8 @@ describe('row selection', () => {
       columns: [{ field: 'id' }], selection: { key: 'id', name: 'ids', labels: {} }, export: ['csv'],
     });
 
-    expect(config.columns[0]).toMatchObject({ orderable: false, searchable: false, className: 'celerik-grid-select' });
+    expect(config.columns[0]).toMatchObject({ orderable: false, searchable: false, className: 'caelrik-grid-select' });
     expect(config.order).toEqual([[1, 'asc']]);
-    expect(config.layout.topStart[1].buttons[0].exportOptions.columns).toBe(':not(.celerik-grid-actions):not(.celerik-grid-select)');
+    expect(config.layout.topStart[1].buttons[0].exportOptions.columns).toBe(':not(.caelrik-grid-actions):not(.caelrik-grid-select)');
   });
 });

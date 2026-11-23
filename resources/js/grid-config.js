@@ -2,7 +2,7 @@ import { rowActionsHtml, rowCheckboxHtml } from './action.js';
 import { deepMerge } from './core.js';
 import { editableCellHtml, editValue } from './grid-edit.js';
 
-// Celerik endpoints answer {data, meta}: where DataTables finds the rows, the draw counter and
+// Caelrik endpoints answer {data, meta}: where DataTables finds the rows, the draw counter and
 // the row counts in it. DataTables 3 makes its own requests, without jQuery's dataFilter.
 export const ENDPOINT_FIELDS = {
   data: 'data',
@@ -23,10 +23,10 @@ export function readFilters(bar, columns) {
     if (!type) {
       continue;
     }
-    const controls = [...bar.querySelectorAll('[data-celerik-filter]')]
-      .filter((control) => control.dataset.celerikFilter === column.field);
+    const controls = [...bar.querySelectorAll('[data-caelrik-filter]')]
+      .filter((control) => control.dataset.caelrikFilter === column.field);
     if (type === 'dateRange') {
-      const end = (name) => controls.find((control) => control.dataset.celerikFilterEnd === name)?.value ?? '';
+      const end = (name) => controls.find((control) => control.dataset.caelrikFilterEnd === name)?.value ?? '';
       const [from, to] = [end('from'), end('to')];
       if (from || to) {
         filters.push({ field: column.field, type, from, to });
@@ -96,7 +96,7 @@ export function buildGridConfig(options, { filters = null, columnMenu = null } =
       ...(column.editor && options.edit && options.url ? {
         render: (data, type, row) => (type === 'display' ? editableCellHtml(column, row, options.edit, options.rowTitle) : data),
         createdCell: (td, data) => {
-          td.classList.add('celerik-grid-editable');
+          td.classList.add('caelrik-grid-editable');
           td.dataset.value = editValue(column.editor, data);
         },
       } : {}),
@@ -112,11 +112,11 @@ export function buildGridConfig(options, { filters = null, columnMenu = null } =
   const actions = options.actions ?? [];
   if (actions.length > 0) {
     config.columns.push({
-      data: options.url ? null : 'celerikActions',
+      data: options.url ? null : 'caelrikActions',
       title: options.actionsTitle ?? 'Actions',
       orderable: false,
       searchable: false,
-      className: 'celerik-grid-actions',
+      className: 'caelrik-grid-actions',
       defaultContent: '',
       ...(options.url ? {
         render: (data, type, row) => (type === 'display' ? rowActionsHtml(actions, row, options.rowTitle) : ''),
@@ -128,10 +128,10 @@ export function buildGridConfig(options, { filters = null, columnMenu = null } =
   const selection = options.selection ?? null;
   if (selection) {
     config.columns.unshift({
-      data: options.url ? null : 'celerikSelect',
+      data: options.url ? null : 'caelrikSelect',
       orderable: false,
       searchable: false,
-      className: 'celerik-grid-select',
+      className: 'caelrik-grid-select',
       defaultContent: '',
       ...(options.url ? {
         render: (data, type, row) => (type === 'display' ? rowCheckboxHtml(selection, row, options.rowTitle) : ''),
@@ -171,7 +171,7 @@ export function buildGridConfig(options, { filters = null, columnMenu = null } =
     // Exports leave the actions and selection columns out.
     const buttons = actions.length > 0 || selection
       ? options.export.map((extend) => ({
-        extend, exportOptions: { columns: ':not(.celerik-grid-actions):not(.celerik-grid-select)' },
+        extend, exportOptions: { columns: ':not(.caelrik-grid-actions):not(.caelrik-grid-select)' },
       }))
       : options.export;
     config.layout = { ...config.layout, topStart: ['pageLength', { buttons }] };

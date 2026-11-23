@@ -1,7 +1,7 @@
 <?php
 
-use Celerik\Ui\Components\Form;
-use Celerik\Ui\Components\Form\Field;
+use Caelrik\Ui\Components\Form;
+use Caelrik\Ui\Components\Form\Field;
 
 $countries = [
     'ar' => 'Argentina', 'au' => 'Australia', 'be' => 'Belgium', 'br' => 'Brazil', 'ca' => 'Canada',

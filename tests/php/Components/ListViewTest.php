@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Celerik\Ui\Tests\Components;
+namespace Caelrik\Ui\Tests\Components;
 
-use Celerik\Ui\Components\Action;
-use Celerik\Ui\Components\Form;
-use Celerik\Ui\Components\Form\Field;
-use Celerik\Ui\Components\ListView;
-use Celerik\Ui\Data\ArrayDataSource;
+use Caelrik\Ui\Components\Action;
+use Caelrik\Ui\Components\Form;
+use Caelrik\Ui\Components\Form\Field;
+use Caelrik\Ui\Components\ListView;
+use Caelrik\Ui\Data\ArrayDataSource;
 use InvalidArgumentException;
 use LogicException;
 use PHPUnit\Framework\TestCase;
@@ -42,20 +42,20 @@ final class ListViewTest extends TestCase
     {
         $html = $this->list()->rows(self::ROWS)->render();
 
-        self::assertStringContainsString('data-celerik="listview"', $html);
-        self::assertStringContainsString('<ul class="celerik-listview-items list-unstyled" aria-label="Articles" tabindex="-1">', $html);
+        self::assertStringContainsString('data-caelrik="listview"', $html);
+        self::assertStringContainsString('<ul class="caelrik-listview-items list-unstyled" aria-label="Articles" tabindex="-1">', $html);
         self::assertStringContainsString(
-            '<h3 class="celerik-listview-title"><a href="/articles/1">Ada &lt;b&gt;</a></h3>'
-            . '<p class="celerik-listview-description">An essay.</p>'
-            . '<p class="celerik-listview-meta"><span>Ada</span><span>1843</span></p>',
+            '<h3 class="caelrik-listview-title"><a href="/articles/1">Ada &lt;b&gt;</a></h3>'
+            . '<p class="caelrik-listview-description">An essay.</p>'
+            . '<p class="caelrik-listview-meta"><span>Ada</span><span>1843</span></p>',
             $html,
         );
-        self::assertStringContainsString('<img class="celerik-listview-image" src="/c/1.jpg" alt="An engine" loading="lazy">', $html);
+        self::assertStringContainsString('<img class="caelrik-listview-image" src="/c/1.jpg" alt="An engine" loading="lazy">', $html);
         self::assertStringNotContainsString('javascript', $html);
         self::assertStringNotContainsString('script:', $html);
         self::assertStringContainsString('data-sort="{&quot;year&quot;:1843,&quot;title&quot;:&quot;Ada &lt;b&gt;&quot;}"', $html);
         self::assertStringNotContainsString('s3cret', $html);
-        self::assertStringContainsString('<nav class="celerik-listview-pager" aria-label="Pages of Articles" hidden></nav>', $html);
+        self::assertStringContainsString('<nav class="caelrik-listview-pager" aria-label="Pages of Articles" hidden></nav>', $html);
         self::assertStringContainsString('<label class="form-label" for="articles-search">Search</label>', $html);
         self::assertStringContainsString('<option value="-year">Newest first</option>', $html);
     }
@@ -65,11 +65,11 @@ final class ListViewTest extends TestCase
         $html = ListView::make('people')->title('name')->layout('cards', 4)->headingLevel(2)
             ->rows([['name' => 'Ada']])->render();
 
-        self::assertStringContainsString('celerik-listview celerik-listview-cards', $html);
+        self::assertStringContainsString('caelrik-listview caelrik-listview-cards', $html);
         self::assertStringContainsString('row row-cols-1 row-cols-sm-2 row-cols-lg-4 g-3', $html);
         self::assertStringContainsString('<li class="col">', $html);
-        self::assertStringContainsString('<h2 class="celerik-listview-title">Ada</h2>', $html);
-        self::assertStringNotContainsString('celerik-listview-toolbar', $html);
+        self::assertStringContainsString('<h2 class="caelrik-listview-title">Ada</h2>', $html);
+        self::assertStringNotContainsString('caelrik-listview-toolbar', $html);
     }
 
     public function testAnEmptyListShowsItsEmptyState(): void
@@ -78,8 +78,8 @@ final class ListViewTest extends TestCase
             ->emptyState('No notes yet', 'Write one.', Action::link('new', 'New note', '/notes/new'))
             ->rows([])->render();
 
-        self::assertStringContainsString('<ul class="celerik-listview-items list-unstyled" tabindex="-1" hidden>', $html);
-        self::assertStringContainsString('<div class="celerik-listview-empty"><p class="celerik-listview-empty-title">No notes yet</p>', $html);
+        self::assertStringContainsString('<ul class="caelrik-listview-items list-unstyled" tabindex="-1" hidden>', $html);
+        self::assertStringContainsString('<div class="caelrik-listview-empty"><p class="caelrik-listview-empty-title">No notes yet</p>', $html);
         self::assertStringContainsString('href="/notes/new"', $html);
     }
 

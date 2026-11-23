@@ -9,12 +9,12 @@
 
 declare(strict_types=1);
 
-use Celerik\Ui\Components\Form;
-use Celerik\Ui\Components\Form\Field;
-use Celerik\Ui\Components\Modal;
-use Celerik\Ui\Components\Notification;
-use Celerik\Ui\Components\Tabs;
-use Celerik\Ui\Support\Html;
+use Caelrik\Ui\Components\Form;
+use Caelrik\Ui\Components\Form\Field;
+use Caelrik\Ui\Components\Modal;
+use Caelrik\Ui\Components\Notification;
+use Caelrik\Ui\Components\Tabs;
+use Caelrik\Ui\Support\Html;
 
 /** @var string $path */
 /** @var string|null $message Set by index.php after a successful contact form. */

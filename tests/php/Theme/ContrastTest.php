@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Celerik\Ui\Tests\Theme;
+namespace Caelrik\Ui\Tests\Theme;
 
-use Celerik\Ui\Theme\Contrast;
-use Celerik\Ui\Theme\Theme;
+use Caelrik\Ui\Theme\Contrast;
+use Caelrik\Ui\Theme\Theme;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 

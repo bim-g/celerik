@@ -9,7 +9,7 @@ Slides shown one at a time: pictures, news, tips.
 ## Usage
 
 ```php
-use Celerik\Ui\Components\Carousel;
+use Caelrik\Ui\Components\Carousel;
 
 Carousel::make('news')
     ->label('News')
@@ -25,7 +25,7 @@ Carousel::make('news')
 - **`picker(false)`**: no button per slide.
 - **`labels()`** translates the buttons and slide names (`previous`, `next`, `start`, `stop`, `slides`, `slide`, `show`; `{index}` and `{count}` are replaced).
 
-From JavaScript, the `celerik:change` event gives the slide's `index` (from 0).
+From JavaScript, the `caelrik:change` event gives the slide's `index` (from 0).
 
 ## Accessibility
 

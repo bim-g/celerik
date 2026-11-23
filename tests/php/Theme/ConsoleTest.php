@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Celerik\Ui\Tests\Theme;
+namespace Caelrik\Ui\Tests\Theme;
 
-use Celerik\Ui\Theme\Console;
-use Celerik\Ui\Theme\Theme;
+use Caelrik\Ui\Theme\Console;
+use Caelrik\Ui\Theme\Theme;
 use PHPUnit\Framework\TestCase;
 
 final class ConsoleTest extends TestCase
@@ -14,7 +14,7 @@ final class ConsoleTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->dir = sys_get_temp_dir() . '/celerik-console-' . bin2hex(random_bytes(4));
+        $this->dir = sys_get_temp_dir() . '/caelrik-console-' . bin2hex(random_bytes(4));
         mkdir($this->dir);
     }
 
@@ -118,7 +118,7 @@ final class ConsoleTest extends TestCase
         // A removed look says why.
         [$code, , $err] = $this->console(['preset', 'material']);
         self::assertSame(Console::INVALID, $code);
-        self::assertStringContainsString('The Material look was removed in Celerik UI 0.2.0', $err);
+        self::assertStringContainsString('The Material look was removed in Caelrik UI 0.2.0', $err);
         self::assertSame(Console::INVALID, $this->console(['deploy'])[0]);
         self::assertSame(Console::INVALID, $this->console(['check', $bad, '--force'])[0]);
         self::assertSame(
@@ -138,7 +138,7 @@ final class ConsoleTest extends TestCase
 
     public function testTheBinaryRunsAndReturnsTheExitCode(): void
     {
-        $bin = dirname(__DIR__, 3) . '/bin/celerik-theme';
+        $bin = dirname(__DIR__, 3) . '/bin/caelrik-theme';
         $file = $this->themeFile(Theme::preset('bootstrap')->color('light', 'danger', '#dd3545'));
         $command = sprintf('%s %s check %s --quiet', escapeshellarg(PHP_BINARY), escapeshellarg($bin), escapeshellarg($file));
 

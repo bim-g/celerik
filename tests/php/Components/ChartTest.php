@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Celerik\Ui\Tests\Components;
+namespace Caelrik\Ui\Tests\Components;
 
-use Celerik\Ui\Components\Chart;
+use Caelrik\Ui\Components\Chart;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 

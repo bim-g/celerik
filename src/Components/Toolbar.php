@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Celerik\Ui\Components;
+namespace Caelrik\Ui\Components;
 
-use Celerik\Ui\Component;
-use Celerik\Ui\Support\Html;
+use Caelrik\Ui\Component;
+use Caelrik\Ui\Support\Html;
 use LogicException;
 use Stringable;
 
@@ -74,11 +74,11 @@ final class Toolbar extends Component
         $html = '';
         foreach ($this->items as $item) {
             $html .= $item === null
-                ? Html::tag('span', ['class' => 'celerik-toolbar-separator', 'aria-hidden' => 'true'], '')
-                : Html::tag('div', ['class' => 'celerik-toolbar-item'], Html::content($item));
+                ? Html::tag('span', ['class' => 'caelrik-toolbar-separator', 'aria-hidden' => 'true'], '')
+                : Html::tag('div', ['class' => 'caelrik-toolbar-item'], Html::content($item));
         }
 
-        return Html::tag('div', array_merge($this->rootAttributes(['celerik-toolbar']), [
+        return Html::tag('div', array_merge($this->rootAttributes(['caelrik-toolbar']), [
             'role' => 'toolbar',
             'aria-label' => $this->label,
         ]), $html);

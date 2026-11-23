@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Celerik\Ui\Data;
+namespace Caelrik\Ui\Data;
 
-use Celerik\Ui\Support\Dates;
+use Caelrik\Ui\Support\Dates;
 use DateTimeImmutable;
 use DateTimeZone;
 use InvalidArgumentException;

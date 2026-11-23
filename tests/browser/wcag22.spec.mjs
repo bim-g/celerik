@@ -52,11 +52,11 @@ test('the File Manager tree arrow has a 24 x 24 px hit area', async ({ page }) =
 // the check does not depend on the layout of the browser running it.
 test('an element focused behind a toast is scrolled into the clear', async ({ page }) => {
   await openComponents(page);
-  const toast = page.locator('.celerik-toast-error'); // errors stay until dismissed
+  const toast = page.locator('.caelrik-toast-error'); // errors stay until dismissed
   const next = page.locator('#users_wrapper').getByRole('link', { name: 'Next' });
   await expect(toast).toBeVisible();
   // A stable stack: the success toast would expire and move the error toast up.
-  await page.locator('.celerik-toast-success').getByRole('button', { name: /Dismiss/i }).click();
+  await page.locator('.caelrik-toast-success').getByRole('button', { name: /Dismiss/i }).click();
   await expect(page.locator('.notyf__toast')).toHaveCount(1);
   await settled(page); // the remaining toast slides up
 

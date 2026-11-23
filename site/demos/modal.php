@@ -1,8 +1,8 @@
 <?php
 
-use Celerik\Ui\Components\Form;
-use Celerik\Ui\Components\Form\Field;
-use Celerik\Ui\Components\Modal;
+use Caelrik\Ui\Components\Form;
+use Caelrik\Ui\Components\Form\Field;
+use Caelrik\Ui\Components\Modal;
 
 $modal = Modal::make('contact')
     ->title('Contact us')

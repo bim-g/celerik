@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Celerik\Ui\Components;
+namespace Caelrik\Ui\Components;
 
-use Celerik\Ui\Component;
-use Celerik\Ui\Support\Html;
-use Celerik\Ui\Support\QrMatrix;
-use Celerik\Ui\Support\Url;
+use Caelrik\Ui\Component;
+use Caelrik\Ui\Support\Html;
+use Caelrik\Ui\Support\QrMatrix;
+use Caelrik\Ui\Support\Url;
 use InvalidArgumentException;
 use LengthException;
 use LogicException;
@@ -138,19 +138,19 @@ final class QrCode extends Component
 
         $caption = '';
         if (trim($this->label) !== '') {
-            $caption .= Html::tag('span', ['class' => 'celerik-qrcode-label'], Html::escape($this->label));
+            $caption .= Html::tag('span', ['class' => 'caelrik-qrcode-label'], Html::escape($this->label));
         }
         if ($this->showValue) {
             $url = preg_match('~^https?://~i', $this->value) === 1 ? Url::safe($this->value) : null;
             $caption .= $url === null
-                ? Html::tag('span', ['class' => 'celerik-qrcode-value'], Html::escape($this->value))
-                : Html::tag('a', ['class' => 'celerik-qrcode-value', 'href' => $url], Html::escape($this->value));
+                ? Html::tag('span', ['class' => 'caelrik-qrcode-value'], Html::escape($this->value))
+                : Html::tag('a', ['class' => 'caelrik-qrcode-value', 'href' => $url], Html::escape($this->value));
         }
 
         return Html::tag(
             'figure',
-            $this->rootAttributes(['celerik-qrcode']),
-            $this->svg($matrix) . Html::tag('figcaption', ['class' => 'celerik-qrcode-caption'], $caption),
+            $this->rootAttributes(['caelrik-qrcode']),
+            $this->svg($matrix) . Html::tag('figcaption', ['class' => 'caelrik-qrcode-caption'], $caption),
         );
     }
 
@@ -175,7 +175,7 @@ final class QrCode extends Component
         $name = strtr($this->labels['image'], ['{label}' => trim($this->label) !== '' ? $this->label : $this->value]);
 
         return Html::tag('svg', [
-            'class' => 'celerik-qrcode-image',
+            'class' => 'caelrik-qrcode-image',
             'role' => 'img',
             'aria-label' => $name,
             'viewBox' => '0 0 ' . $side . ' ' . $side,
@@ -183,7 +183,7 @@ final class QrCode extends Component
             'height' => $this->size,
             'shape-rendering' => 'crispEdges',
             'focusable' => 'false',
-        ], Html::tag('rect', ['class' => 'celerik-qrcode-light', 'width' => $side, 'height' => $side], '')
-            . Html::tag('path', ['class' => 'celerik-qrcode-dark', 'd' => $path], ''));
+        ], Html::tag('rect', ['class' => 'caelrik-qrcode-light', 'width' => $side, 'height' => $side], '')
+            . Html::tag('path', ['class' => 'caelrik-qrcode-dark', 'd' => $path], ''));
     }
 }

@@ -36,8 +36,8 @@ function convert(value, allDay) {
 // {action: 'delete'} or null (cancelled). `validate(values)` returns an error message or null.
 export function openEventDialog({ heading, values, labels, withTitle = false, canSave = true, canDelete = false, validate }) {
   counter += 1;
-  const id = `celerik-event-dialog-${counter}`;
-  const dialog = create('dialog', { class: 'celerik-scheduler-dialog', 'aria-labelledby': `${id}-heading` });
+  const id = `caelrik-event-dialog-${counter}`;
+  const dialog = create('dialog', { class: 'caelrik-scheduler-dialog', 'aria-labelledby': `${id}-heading` });
   const form = create('form', { method: 'dialog', novalidate: true });
   form.append(create('h2', { id: `${id}-heading`, class: 'h5 mb-3' }, heading));
 

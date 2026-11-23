@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Celerik\Ui\Components;
+namespace Caelrik\Ui\Components;
 
-use Celerik\Ui\Component;
-use Celerik\Ui\Support\Arr;
-use Celerik\Ui\Support\Html;
-use Celerik\Ui\Support\Url;
+use Caelrik\Ui\Component;
+use Caelrik\Ui\Support\Arr;
+use Caelrik\Ui\Support\Html;
+use Caelrik\Ui\Support\Url;
 use InvalidArgumentException;
 use JsonSerializable;
 
@@ -231,10 +231,10 @@ final class TreeView extends Component implements JsonSerializable
     {
         return Html::tag(
             'div',
-            $this->rootAttributes(['celerik-tree']),
+            $this->rootAttributes(['caelrik-tree']),
             Html::tag(
                 'ul',
-                ['class' => 'celerik-tree-root', 'aria-label' => $this->label],
+                ['class' => 'caelrik-tree-root', 'aria-label' => $this->label],
                 $this->renderNodes($this->nodes),
             ),
         );
@@ -267,34 +267,34 @@ final class TreeView extends Component implements JsonSerializable
         if ($this->mode !== null && $id !== null) {
             $control = Html::tag('input', [
                 'type' => $this->mode === 'single' ? 'radio' : 'checkbox',
-                'class' => 'form-check-input celerik-tree-input',
+                'class' => 'form-check-input caelrik-tree-input',
                 'name' => $this->mode === 'single' ? $this->inputName : $this->inputName . '[]',
                 'value' => Arr::toText($id),
                 'checked' => (bool) ($node['checked'] ?? false),
                 'disabled' => $disabled,
             ]);
             $text = Html::tag('span', [], $label);
-            $content = Html::tag('label', ['class' => 'celerik-tree-label'], $control . $text);
+            $content = Html::tag('label', ['class' => 'caelrik-tree-label'], $control . $text);
         } elseif (isset($node['href'])) {
-            $content = Html::tag('a', ['class' => 'celerik-tree-label', 'href' => (string) $node['href']], $label);
+            $content = Html::tag('a', ['class' => 'caelrik-tree-label', 'href' => (string) $node['href']], $label);
         } else {
-            $content = Html::tag('span', ['class' => 'celerik-tree-label'], $label);
+            $content = Html::tag('span', ['class' => 'caelrik-tree-label'], $label);
         }
 
         $children = $node['children'] ?? [];
         $group = $children === []
             ? ''
-            : Html::tag('ul', ['class' => 'celerik-tree-group'], $this->renderNodes($children));
+            : Html::tag('ul', ['class' => 'caelrik-tree-group'], $this->renderNodes($children));
         $expanded = $this->expandAll || (bool) ($node['expanded'] ?? false);
         $lazy = (bool) ($node['hasChildren'] ?? false) && $children === [];
 
         return Html::tag('li', [
-            'class' => 'celerik-tree-node',
+            'class' => 'caelrik-tree-node',
             'data-id' => $id === null ? null : Arr::toText($id),
             'data-expanded' => $children !== [] || $lazy ? ($expanded ? 'true' : 'false') : null,
             'data-has-children' => $lazy ?: null,
             'data-disabled' => $disabled ?: null,
-        ], Html::tag('div', ['class' => 'celerik-tree-row'], $content) . $group);
+        ], Html::tag('div', ['class' => 'caelrik-tree-row'], $content) . $group);
     }
 
     /**

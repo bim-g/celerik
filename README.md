@@ -1,4 +1,6 @@
-# Celerik UI
+# Caelrik UI
+
+> **Formerly Celerik UI.** From 0.7.0 the project is Caelrik UI: `caelrik/ui` on Packagist, `@caelrik/ui` on npm, the `Caelrik\Ui` namespace and the `caelrik-` prefix. The [changelog](CHANGELOG.md) lists every name to change.
 
 [![CI](https://github.com/kivudesign/celerik/actions/workflows/ci.yml/badge.svg)](https://github.com/kivudesign/celerik/actions/workflows/ci.yml)
 [![Documentation](https://img.shields.io/badge/docs-kivudesign.github.io%2Fcelerik-0a58ca)](https://kivudesign.github.io/celerik/)
@@ -14,8 +16,8 @@ Components are written in PHP and render accessible, escaped HTML. A small JS bu
 ## Quick look
 
 ```php
-use Celerik\Ui\Components\Grid;
-use Celerik\Ui\Adapters\Laravel\EloquentDataSource;
+use Caelrik\Ui\Components\Grid;
+use Caelrik\Ui\Adapters\Laravel\EloquentDataSource;
 
 $grid = Grid::make('users')
     ->caption('Registered users')
@@ -29,25 +31,25 @@ return response()->json($grid->respond(new EloquentDataSource(User::query()), $r
 ```
 
 ```blade
-<x-celerik-assets />
-<x-celerik :component="$grid" />
+<x-caelrik-assets />
+<x-caelrik :component="$grid" />
 ```
 
 ## Installation
 
 ```bash
-composer require celerik/ui
+composer require caelrik/ui
 ```
 
-Load Bootstrap 5.3 (CSS, and `bootstrap.bundle.js` for Modal and Tabs) and jQuery 3.7 or 4, then the Celerik bundle:
+Load Bootstrap 5.3 (CSS, and `bootstrap.bundle.js` for Modal and Tabs) and jQuery 3.7 or 4, then the Caelrik bundle:
 
 | Setup | Publish assets | Assets tag | Render |
 |---|---|---|---|
-| Laravel | `php artisan vendor:publish --tag=celerik-assets` | `<x-celerik-assets />` | `<x-celerik :component="$grid" />` |
-| Symfony | add `CelerikUiBundle` to `config/bundles.php`, then `php bin/console assets:install` | `{{ celerik_assets() }}` | `{{ celerik(grid) }}` |
+| Laravel | `php artisan vendor:publish --tag=caelrik-assets` | `<x-caelrik-assets />` | `<x-caelrik :component="$grid" />` |
+| Symfony | add `CaelrikUiBundle` to `config/bundles.php`, then `php bin/console assets:install` | `{{ caelrik_assets() }}` | `{{ caelrik(grid) }}` |
 | Plain PHP | serve the package's `public/` folder | `<?= Assets::tags('/assets') ?>` | `<?= $grid ?>` |
 
-Releases include the built bundle (`public/`), so no Node.js is needed to install. To skip publishing the assets, load them from the jsDelivr CDN instead: `Assets::tags(Assets::cdnUrl())` (or `<x-celerik-assets :base-url="Celerik\Ui\Assets::cdnUrl()" />`). Projects with a JavaScript bundler can also install the bundle from npm: `npm install @celerikui/ui`, then `import '@celerikui/ui'` and `import '@celerikui/ui/celerik.css'`.
+Releases include the built bundle (`public/`), so no Node.js is needed to install. To skip publishing the assets, load them from the jsDelivr CDN instead: `Assets::tags(Assets::cdnUrl())` (or `<x-caelrik-assets :base-url="Caelrik\Ui\Assets::cdnUrl()" />`). Projects with a JavaScript bundler can also install the bundle from npm: `npm install @caelrik/ui`, then `import '@caelrik/ui'` and `import '@caelrik/ui/caelrik.css'`.
 
 ## Components
 
@@ -81,7 +83,7 @@ Releases include the built bundle (`public/`), so no Node.js is needed to instal
 | Rich text editor | `Field::editor()` + `Support\EditorHtml` | Quill 2 | Toolbar presets, accessible labelling, server-side sanitizing (`symfony/html-sanitizer`) |
 | Modal | `Components\Modal` | Bootstrap 5 | Labelled dialog, footer buttons that submit a form inside, opens on load after server errors |
 | Tabs | `Components\Tabs` | Bootstrap 5 | WAI-ARIA tabs with arrow keys, tabs/pills/underline styles, selected tab kept in the URL hash |
-| Notification | `Components\Notification` | Notyf 3 | Toasts from flash messages (`fromFlash()`) or `Celerik.notify()`; messages are always text; errors stay until dismissed |
+| Notification | `Components\Notification` | Notyf 3 | Toasts from flash messages (`fromFlash()`) or `Caelrik.notify()`; messages are always text; errors stay until dismissed |
 | Scheduler | `Components\Scheduler` | FullCalendar 6 (MIT plugins) | Month, week, day and list views; create, move, resize and delete through your endpoints (also from the keyboard), rolled back if the server refuses |
 | Theme builder | `Components\ThemeBuilder` + `Theme\Theme` | – | Edit theme tokens with a live preview of your components and a contrast report; export CSS or JSON; see [THEMING.md](THEMING.md) |
 | File manager | `Components\FileManager` + `FileManager\FileManagerConnector` | elFinder 2.1 | Locked-down local volume, mandatory authorization, content-checked uploads, elFinder CSRF plus the framework's; see [SECURITY.md](SECURITY.md#file-manager) |
@@ -92,15 +94,15 @@ The full Telerik → open-source mapping is in [Components.md](Components.md).
 
 ## Themes
 
-Celerik UI is **Bootstrap 5.3**, in light and dark mode (`<html data-bs-theme="dark">`): load `celerik.css` after Bootstrap with `<x-celerik-assets />`, `{{ celerik_assets() }}` or `Assets::tags($url)`. Every component is checked for WCAG 2.2 AA contrast in both modes, automatically and in a browser with axe-core. (The Material and Tailwind looks of 0.1.x were removed in 0.2.0; see [THEMING.md](THEMING.md).)
+Caelrik UI is **Bootstrap 5.3**, in light and dark mode (`<html data-bs-theme="dark">`): load `caelrik.css` after Bootstrap with `<x-caelrik-assets />`, `{{ caelrik_assets() }}` or `Assets::tags($url)`. Every component is checked for WCAG 2.2 AA contrast in both modes, automatically and in a browser with axe-core. (The Material and Tailwind looks of 0.1.x were removed in 0.2.0; see [THEMING.md](THEMING.md).)
 
 To make your own, start from a look and change its design tokens (ten colors per mode, radius, font, shadow):
 
 - the **ThemeBuilder** component edits them with a live preview of your components and a WCAG contrast report, and exports the stylesheet or the theme JSON;
 - `Theme::preset('bootstrap')->color('light', 'primary', '#0b5394')->toCss()` does the same in PHP;
-- `vendor/bin/celerik-theme build theme.json public/css/acme.css` builds it in CI, and refuses a theme that fails a contrast check.
+- `vendor/bin/caelrik-theme build theme.json public/css/acme.css` builds it in CI, and refuses a theme that fails a contrast check.
 
-Load the result with `customTheme` (`<x-celerik-assets custom-theme="/css/acme.css" />`). See [THEMING.md](THEMING.md); for changes tokens cannot make, override the CSS custom properties or the SCSS variables.
+Load the result with `customTheme` (`<x-caelrik-assets custom-theme="/css/acme.css" />`). See [THEMING.md](THEMING.md); for changes tokens cannot make, override the CSS custom properties or the SCSS variables.
 
 ## Examples
 
@@ -126,7 +128,7 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) and [TESTING.md](TESTING.md).
 
 ## Content Security Policy
 
-Components emit no inline scripts, so a strict policy works. Pass a nonce to the assets tag (`<x-celerik-assets nonce="..." />`, `celerik_assets(null, nonce)` or `Assets::tags($url, $nonce)`). It is also printed as `<meta name="csp-nonce">`, which FullCalendar uses for the styles it injects.
+Components emit no inline scripts, so a strict policy works. Pass a nonce to the assets tag (`<x-caelrik-assets nonce="..." />`, `caelrik_assets(null, nonce)` or `Assets::tags($url, $nonce)`). It is also printed as `<meta name="csp-nonce">`, which FullCalendar uses for the styles it injects.
 
 Tested policy:
 
@@ -153,7 +155,7 @@ Components target WCAG 2.2 AA in light and dark mode, and respect reduced motion
 | [CONTRIBUTING.md](CONTRIBUTING.md) | How to contribute, project rules, adding a component |
 | [TESTING.md](TESTING.md) | Test suites and how to run them |
 | [ACCESSIBILITY.md](ACCESSIBILITY.md) | Conformance target, per-component status, manual test plan |
-| [THEMING.md](THEMING.md) | Theme tokens, ThemeBuilder, `Theme` in PHP, the `celerik-theme` command |
+| [THEMING.md](THEMING.md) | Theme tokens, ThemeBuilder, `Theme` in PHP, the `caelrik-theme` command |
 | [SECURITY.md](SECURITY.md) | Reporting vulnerabilities |
 | [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) | Licenses of bundled libraries |
 | [AI.md](AI.md) | Notes for AI-assisted development |
@@ -163,6 +165,6 @@ Components target WCAG 2.2 AA in light and dark mode, and respect reduced motion
 
 - Core: [MIT](LICENSE.md).
 - Bundled libraries keep their own licenses: see [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
-- Celerik UI is, and will stay, free and open source: there are no paid or premium editions.
+- Caelrik UI is, and will stay, free and open source: there are no paid or premium editions.
 
-Telerik is a trademark of Progress Software Corporation. Celerik UI is an independent project, not affiliated with or endorsed by Progress.
+Telerik is a trademark of Progress Software Corporation. Caelrik UI is an independent project, not affiliated with or endorsed by Progress.

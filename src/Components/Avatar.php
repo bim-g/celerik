@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Celerik\Ui\Components;
+namespace Caelrik\Ui\Components;
 
-use Celerik\Ui\Component;
-use Celerik\Ui\Support\Html;
-use Celerik\Ui\Support\Url;
+use Caelrik\Ui\Component;
+use Caelrik\Ui\Support\Html;
+use Caelrik\Ui\Support\Url;
 use InvalidArgumentException;
 use LogicException;
 
@@ -138,17 +138,17 @@ final class Avatar extends Component
             ? Html::tag('img', [
                 'src' => $this->image,
                 'alt' => '',
-                'class' => 'celerik-avatar-image',
+                'class' => 'caelrik-avatar-image',
                 'loading' => 'lazy',
             ])
             : Html::tag(
                 'span',
-                ['class' => 'celerik-avatar-initials', 'aria-hidden' => 'true'],
+                ['class' => 'caelrik-avatar-initials', 'aria-hidden' => 'true'],
                 Html::escape(self::initials($this->person)),
             );
         if ($this->status !== null) {
             $inner .= Html::tag('span', [
-                'class' => 'celerik-avatar-status celerik-avatar-status-' . $this->status,
+                'class' => 'caelrik-avatar-status caelrik-avatar-status-' . $this->status,
                 'aria-hidden' => 'true',
             ], '');
         }
@@ -158,10 +158,10 @@ final class Avatar extends Component
 
         return Html::tag('span', array_merge($this->attributes, [
             'class' => Html::classes([
-                'celerik-avatar',
-                'celerik-avatar-' . $this->size,
+                'caelrik-avatar',
+                'caelrik-avatar-' . $this->size,
                 $this->image === null ? 'text-bg-' . $color : null,
-                $this->square ? 'celerik-avatar-square' : null,
+                $this->square ? 'caelrik-avatar-square' : null,
                 ...$this->classes,
             ]),
             'role' => $this->decorative ? null : 'img',

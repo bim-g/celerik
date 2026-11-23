@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Celerik\Ui\Upload;
+namespace Caelrik\Ui\Upload;
 
 /**
  * A file received over HTTP, before validation.

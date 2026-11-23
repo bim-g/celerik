@@ -5,7 +5,7 @@ import { openComponents } from './helpers.mjs';
 test('line chart series have distinct point shapes and dashes', async ({ page }) => {
   await openComponents(page);
   const chart = await page.evaluate(() => {
-    const instance = document.querySelector('#revenue').celerik;
+    const instance = document.querySelector('#revenue').caelrik;
     return {
       styles: instance.data.datasets.map((dataset) => dataset.pointStyle),
       dashes: instance.data.datasets.map((dataset) => JSON.stringify(dataset.borderDash)),

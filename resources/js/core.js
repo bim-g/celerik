@@ -1,26 +1,26 @@
 // Component registry and auto-initialisation.
 //
-// PHP renders `data-celerik="<name>"` plus JSON in `data-celerik-options`; init() finds
+// PHP renders `data-caelrik="<name>"` plus JSON in `data-caelrik-options`; init() finds
 // those elements and hands them to the initializer registered under that name.
 
 const initializers = new Map();
 
 export function register(name, initializer) {
   if (typeof initializer !== 'function') {
-    throw new TypeError(`Celerik: initializer for "${name}" must be a function.`);
+    throw new TypeError(`Caelrik: initializer for "${name}" must be a function.`);
   }
   initializers.set(name, initializer);
 }
 
 export function readOptions(element) {
-  const raw = element.getAttribute('data-celerik-options');
+  const raw = element.getAttribute('data-caelrik-options');
   if (!raw) {
     return {};
   }
   try {
     return JSON.parse(raw);
   } catch (error) {
-    console.error(`Celerik: invalid options on #${element.id}`, error);
+    console.error(`Caelrik: invalid options on #${element.id}`, error);
     return {};
   }
 }
@@ -33,20 +33,20 @@ const started = new WeakSet();
 // Initializers may be async; the returned promise settles when all of them have.
 export function init(root = document) {
   const elements = [];
-  if (root instanceof Element && root.matches('[data-celerik]')) {
+  if (root instanceof Element && root.matches('[data-caelrik]')) {
     elements.push(root);
   }
-  elements.push(...root.querySelectorAll('[data-celerik]'));
+  elements.push(...root.querySelectorAll('[data-caelrik]'));
 
   const pending = [];
   for (const element of elements) {
     if (started.has(element)) {
       continue;
     }
-    const name = element.getAttribute('data-celerik');
+    const name = element.getAttribute('data-caelrik');
     const initializer = initializers.get(name);
     if (!initializer) {
-      console.warn(`Celerik: no initializer registered for "${name}".`);
+      console.warn(`Caelrik: no initializer registered for "${name}".`);
       continue;
     }
     started.add(element);
@@ -58,15 +58,15 @@ export function init(root = document) {
 
 async function start(element, name, initializer) {
   try {
-    element.celerik = (await initializer(element, readOptions(element))) ?? true;
+    element.caelrik = (await initializer(element, readOptions(element))) ?? true;
   } catch (error) {
     started.delete(element);
-    console.error(`Celerik: failed to initialise "${name}" #${element.id}`, error);
+    console.error(`Caelrik: failed to initialise "${name}" #${element.id}`, error);
     return;
   }
-  element.dispatchEvent(new CustomEvent('celerik:ready', {
+  element.dispatchEvent(new CustomEvent('caelrik:ready', {
     bubbles: true,
-    detail: { instance: element.celerik },
+    detail: { instance: element.caelrik },
   }));
 }
 

@@ -43,7 +43,7 @@ A row whose parent is not among the rows is a root. Rows in a cycle (a row that 
 - `selectable('folder')`: one node can be selected, a radio button named `folder` that posts its id.
 - `checkable('folders')`: nodes can be checked, checkboxes named `folders[]` that post the checked ids. Checking a parent checks its children; a parent with some of its children checked is mixed (`aria-checked="mixed"`), and does not post its own id.
 
-The tree fires `celerik:change` with `{value}`: the selected id, or the list of checked ids.
+The tree fires `caelrik:change` with `{value}`: the selected id, or the list of checked ids.
 
 ## Children loaded on demand
 

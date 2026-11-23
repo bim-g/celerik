@@ -2,7 +2,9 @@ import { defineConfig, devices } from '@playwright/test';
 
 // Checks of the built documentation site: npm run docs:build, then npm run test:site.
 // PLAYWRIGHT_CHANNEL=msedge or chrome uses an installed browser (see playwright.config.mjs).
-const port = Number(process.env.CELERIK_SITE_PORT ?? 4174);
+const port = Number(process.env.CAELRIK_SITE_PORT ?? 4174);
+// The site's path follows the repository's name on GitHub Pages (as DOCS_BASE in site/.vitepress/config.mjs).
+const base = process.env.DOCS_BASE ?? '/celerik/';
 
 export default defineConfig({
   testDir: 'tests/site',
@@ -15,7 +17,7 @@ export default defineConfig({
   reporter: process.env.CI ? [['github'], ['list']] : 'list',
   timeout: 120_000,
   use: {
-    baseURL: `http://localhost:${port}/celerik/`,
+    baseURL: `http://localhost:${port}${base}`,
     trace: 'retain-on-failure',
     screenshot: 'only-on-failure',
   },
@@ -27,7 +29,7 @@ export default defineConfig({
   ],
   webServer: {
     command: `npx vitepress preview site --port ${port}`,
-    url: `http://localhost:${port}/celerik/`,
+    url: `http://localhost:${port}${base}`,
     reuseExistingServer: !process.env.CI,
   },
 });

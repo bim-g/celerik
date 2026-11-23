@@ -66,19 +66,19 @@ describe('PDF viewer', () => {
     mockFailing = false;
     mockRendered.length = 0;
     element = loadFixture('pdfviewer');
-    Object.defineProperty(element.querySelector('.celerik-pdf-viewport'), 'clientWidth', { value: 627, configurable: true });
+    Object.defineProperty(element.querySelector('.caelrik-pdf-viewport'), 'clientWidth', { value: 627, configurable: true });
     viewer = await initPdfViewer(element, readOptions(element));
     await flush();
   });
 
   afterEach(() => viewer.destroy());
 
-  const pages = () => [...element.querySelectorAll('.celerik-pdf-page')];
+  const pages = () => [...element.querySelectorAll('.caelrik-pdf-page')];
 
   test('shows the toolbar and a named group per page, sized to the width', () => {
-    expect(element.querySelector('.celerik-pdf-toolbar').hidden).toBe(false);
-    expect(element.querySelector('.celerik-pdf-total').textContent).toBe('of 3');
-    expect(element.querySelector('.celerik-pdf-page-input').max).toBe('3');
+    expect(element.querySelector('.caelrik-pdf-toolbar').hidden).toBe(false);
+    expect(element.querySelector('.caelrik-pdf-total').textContent).toBe('of 3');
+    expect(element.querySelector('.caelrik-pdf-page-input').max).toBe('3');
     expect(pages().map((page) => page.getAttribute('aria-label'))).toEqual(['Page 1 of 3', 'Page 2 of 3', 'Page 3 of 3']);
     // 627 px wide, less 16 px on each side: 595 px, a scale of 1.
     expect(pages()[0].style.width).toBe('595px');
@@ -89,16 +89,16 @@ describe('PDF viewer', () => {
   });
 
   test('previous, next and the page number, announced', () => {
-    const next = element.querySelector('.celerik-pdf-next');
-    const previous = element.querySelector('.celerik-pdf-previous');
-    const status = element.querySelector('.celerik-pdf-status');
+    const next = element.querySelector('.caelrik-pdf-next');
+    const previous = element.querySelector('.caelrik-pdf-previous');
+    const status = element.querySelector('.caelrik-pdf-status');
     expect(previous.disabled).toBe(true);
     next.click();
     expect(viewer.page).toBe(2);
-    expect(element.querySelector('.celerik-pdf-page-input').value).toBe('2');
+    expect(element.querySelector('.caelrik-pdf-page-input').value).toBe('2');
     expect(status.textContent).toBe('Page 2 of 3');
 
-    const input = element.querySelector('.celerik-pdf-page-input');
+    const input = element.querySelector('.caelrik-pdf-page-input');
     input.value = '9';
     input.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true }));
     expect(viewer.page).toBe(3);
@@ -107,15 +107,15 @@ describe('PDF viewer', () => {
   });
 
   test('zoom by steps and by the select', async () => {
-    element.querySelector('.celerik-pdf-zoom-in').click();
+    element.querySelector('.caelrik-pdf-zoom-in').click();
     expect(pages()[0].style.width).toBe('743px');
-    expect(element.querySelector('.celerik-pdf-zoom').value).toBe('125');
+    expect(element.querySelector('.caelrik-pdf-zoom').value).toBe('125');
 
-    const select = element.querySelector('.celerik-pdf-zoom');
+    const select = element.querySelector('.caelrik-pdf-zoom');
     select.value = '50';
     select.dispatchEvent(new Event('change'));
     expect(pages()[0].style.width).toBe('297px');
-    expect(element.querySelector('.celerik-pdf-zoom-out').disabled).toBe(true);
+    expect(element.querySelector('.caelrik-pdf-zoom-out').disabled).toBe(true);
 
     select.value = 'fit';
     select.dispatchEvent(new Event('change'));
@@ -126,12 +126,12 @@ describe('PDF viewer', () => {
     mockFailing = true;
     const other = loadFixture('pdfviewer');
     const events = [];
-    other.addEventListener('celerik:pdf-error', (event) => events.push(event.detail.error.message));
+    other.addEventListener('caelrik:pdf-error', (event) => events.push(event.detail.error.message));
     await initPdfViewer(other, readOptions(other));
-    const message = other.querySelector('.celerik-pdf-viewport .celerik-pdf-message');
+    const message = other.querySelector('.caelrik-pdf-viewport .caelrik-pdf-message');
     expect(message.textContent).toBe('This document could not be opened. Download it instead. Download the PDF');
     expect(message.querySelector('a').getAttribute('href')).toBe('/files/report.pdf');
-    expect(other.querySelector('.celerik-pdf-toolbar').hidden).toBe(true);
+    expect(other.querySelector('.caelrik-pdf-toolbar').hidden).toBe(true);
     expect(events).toEqual(['Missing PDF']);
   });
 

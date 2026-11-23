@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Celerik\Ui\Components;
+namespace Caelrik\Ui\Components;
 
-use Celerik\Ui\Component;
-use Celerik\Ui\Support\Html;
+use Caelrik\Ui\Component;
+use Caelrik\Ui\Support\Html;
 use InvalidArgumentException;
 use LogicException;
 
@@ -100,6 +100,6 @@ final class ContextMenu extends Component
             throw new LogicException(sprintf('Context menu "%s" needs for() and items.', $this->id));
         }
 
-        return Html::tag('div', array_merge($this->rootAttributes(['celerik-contextmenu']), ['hidden' => true]), '');
+        return Html::tag('div', array_merge($this->rootAttributes(['caelrik-contextmenu']), ['hidden' => true]), '');
     }
 }

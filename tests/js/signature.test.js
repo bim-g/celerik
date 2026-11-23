@@ -43,11 +43,11 @@ describe('signature fields (Field::signature())', () => {
     const fieldset = form.querySelector(`#contract-${name}-group`);
     return {
       fieldset,
-      pad: fieldset.querySelector('.celerik-signature-pad'),
+      pad: fieldset.querySelector('.caelrik-signature-pad'),
       canvas: fieldset.querySelector('canvas'),
-      typed: fieldset.querySelector('.celerik-signature-typed'),
-      value: fieldset.querySelector('.celerik-signature-value'),
-      clear: fieldset.querySelector('.celerik-signature-clear'),
+      typed: fieldset.querySelector('.caelrik-signature-typed'),
+      value: fieldset.querySelector('.caelrik-signature-value'),
+      clear: fieldset.querySelector('.caelrik-signature-clear'),
     };
   };
 
@@ -135,7 +135,7 @@ describe('without a canvas', () => {
     const typed = form.querySelector('#contract-signature');
     expect(typed.name).toBe('signature');
     expect(typed.required).toBe(true);
-    expect(form.querySelector('#contract-signature-group .celerik-signature-pad').hidden).toBe(true);
+    expect(form.querySelector('#contract-signature-group .caelrik-signature-pad').hidden).toBe(true);
     parsley.destroy();
   });
 });

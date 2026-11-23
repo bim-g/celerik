@@ -14,7 +14,7 @@ test.describe('diagram', () => {
     await expect(summary).toHaveText('Steps as text');
     await summary.focus();
     await page.keyboard.press('Enter');
-    const steps = page.locator('#signup .celerik-diagram-steps > li');
+    const steps = page.locator('#signup .caelrik-diagram-steps > li');
     await expect(steps).toHaveCount(5);
     await expect(steps.nth(2)).toContainText('Yes: Send a confirmation e-mail · No: Fill in the sign-up form');
 
@@ -26,7 +26,7 @@ test.describe('diagram', () => {
   test('every step fits its text, and steps do not overlap', async ({ page }) => {
     await open(page);
     for (const id of ['signup', 'order']) {
-      const boxes = await page.locator(`#${id} .celerik-diagram-node`).evaluateAll((nodes) => nodes.map((node) => {
+      const boxes = await page.locator(`#${id} .caelrik-diagram-node`).evaluateAll((nodes) => nodes.map((node) => {
         const shape = node.firstElementChild.getBoundingClientRect();
         const text = node.querySelector('text').getBoundingClientRect();
         return {

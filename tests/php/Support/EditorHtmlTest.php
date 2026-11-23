@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Celerik\Ui\Tests\Support;
+namespace Caelrik\Ui\Tests\Support;
 
-use Celerik\Ui\Support\EditorHtml;
+use Caelrik\Ui\Support\EditorHtml;
 use PHPUnit\Framework\TestCase;
 
 final class EditorHtmlTest extends TestCase

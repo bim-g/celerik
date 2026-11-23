@@ -22,7 +22,7 @@ Notification::make('flash')->fromFlash($request->getSession()->getFlashBag()->al
 
 ```js
 const response = await fetch('/profile', { method: 'POST', body });
-Celerik.notify(response.ok ? 'success' : 'error', response.ok ? 'Saved.' : 'Could not save.');
+Caelrik.notify(response.ok ? 'success' : 'error', response.ok ? 'Saved.' : 'Could not save.');
 ```
 
 ## Options

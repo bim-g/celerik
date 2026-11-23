@@ -71,7 +71,7 @@ describe('upload integration (FilePond)', () => {
     form.dispatchEvent(new Event('submit', { bubbles: true, cancelable: true }));
 
     expect(submitted).not.toHaveBeenCalled();
-    const error = form.querySelector('.celerik-upload-error');
+    const error = form.querySelector('.caelrik-upload-error');
     expect(error.textContent).toBe(MESSAGES.required);
     expect(error.getAttribute('role')).toBe('alert');
     expect(error.closest('.mb-3').querySelector('label').textContent).toContain('Cover image');

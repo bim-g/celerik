@@ -41,7 +41,7 @@ function previewSheet(id) {
     if (nonce) {
       style.nonce = nonce;
     }
-    style.dataset.celerikThemePreview = id;
+    style.dataset.caelrikThemePreview = id;
     document.head.append(style);
     return (css) => {
       style.textContent = css;
@@ -54,7 +54,7 @@ export function initThemeBuilder(element, options) {
   const pairs = options.pairs ?? [];
   const initial = validateTheme(options.theme).theme;
   if (!initial) {
-    throw new TypeError(`Celerik: invalid theme for #${element.id}.`);
+    throw new TypeError(`Caelrik: invalid theme for #${element.id}.`);
   }
 
   let theme = clone(initial);
@@ -63,19 +63,19 @@ export function initThemeBuilder(element, options) {
   const listeners = new Set();
 
   const find = (selector) => element.querySelector(selector);
-  const canvas = find('.celerik-theme-builder__canvas');
+  const canvas = find('.caelrik-theme-builder__canvas');
   const field = (name) => find(`[name="theme[${name}]"]`);
   const nameInput = field('name');
   const radiusInput = field('radius');
   const radiusOutput = find(`#${element.id}-radius-value`);
   const fontInput = field('fontFamily');
   const shadowSelect = field('shadow');
-  const undoButton = find('[data-celerik-action="undo"]');
-  const summary = find('.celerik-theme-builder__summary');
-  const list = find('.celerik-theme-builder__report ul');
+  const undoButton = find('[data-caelrik-action="undo"]');
+  const summary = find('.caelrik-theme-builder__summary');
+  const list = find('.caelrik-theme-builder__report ul');
 
   const applyPreview = previewSheet(element.id);
-  const scope = `#${element.id} .celerik-theme-builder__canvas`;
+  const scope = `#${element.id} .caelrik-theme-builder__canvas`;
 
   function markInvalid(input, message) {
     input.setAttribute('aria-invalid', 'true');
@@ -108,8 +108,8 @@ export function initThemeBuilder(element, options) {
     const results = contrastReport(theme, pairs);
     list.replaceChildren(...results.map((result) => {
       const item = document.createElement('li');
-      item.className = `celerik-theme-builder__pair ${result.passes ? 'is-pass' : 'is-fail'}`;
-      item.dataset.celerikPair = `${result.mode}.${result.foreground}.${result.background}`;
+      item.className = `caelrik-theme-builder__pair ${result.passes ? 'is-pass' : 'is-fail'}`;
+      item.dataset.caelrikPair = `${result.mode}.${result.foreground}.${result.background}`;
       const badge = item.appendChild(document.createElement('span'));
       badge.className = `badge ${result.passes ? 'text-bg-success' : 'text-bg-danger'}`;
       badge.textContent = result.passes ? labels.pass : labels.fail;
@@ -146,7 +146,7 @@ export function initThemeBuilder(element, options) {
     shadowSelect.value = theme.shadow ?? '';
     for (const mode of MODES) {
       for (const token of TOKENS) {
-        for (const input of element.querySelectorAll(`[data-celerik-token="${mode}.${token}"]`)) {
+        for (const input of element.querySelectorAll(`[data-caelrik-token="${mode}.${token}"]`)) {
           input.value = theme[mode][token];
         }
       }
@@ -187,15 +187,15 @@ export function initThemeBuilder(element, options) {
   }
 
   // Colors: the hex field and the picker edit the same token.
-  for (const input of element.querySelectorAll('[data-celerik-token]')) {
-    const [mode, token] = input.dataset.celerikToken.split('.');
+  for (const input of element.querySelectorAll('[data-caelrik-token]')) {
+    const [mode, token] = input.dataset.caelrikToken.split('.');
     input.addEventListener('input', () => {
       const value = input.value.trim();
       if (!isColor(value)) {
         return; // a half-typed color: checked on "change"
       }
       theme[mode][token] = value.toLowerCase();
-      for (const other of element.querySelectorAll(`[data-celerik-token="${mode}.${token}"]`)) {
+      for (const other of element.querySelectorAll(`[data-caelrik-token="${mode}.${token}"]`)) {
         if (other !== input) {
           other.value = theme[mode][token];
         }
@@ -268,7 +268,7 @@ export function initThemeBuilder(element, options) {
   });
 
   // Controls that need JavaScript start hidden in the markup.
-  find('.celerik-theme-builder__history').hidden = false;
+  find('.caelrik-theme-builder__history').hidden = false;
   undoButton.addEventListener('click', () => {
     if (history.length === 0) {
       return;
@@ -281,9 +281,9 @@ export function initThemeBuilder(element, options) {
       nameInput.focus(); // the disabled Undo button would drop focus
     }
   });
-  find('[data-celerik-action="reset"]').addEventListener('click', () => setTheme(clone(initial)));
+  find('[data-caelrik-action="reset"]').addEventListener('click', () => setTheme(clone(initial)));
 
-  find('.celerik-theme-builder__modes').hidden = false;
+  find('.caelrik-theme-builder__modes').hidden = false;
   for (const radio of element.querySelectorAll(`input[name="${element.id}-preview-mode"]`)) {
     radio.addEventListener('change', () => {
       if (radio.checked) {
@@ -322,7 +322,7 @@ export function themeJson(theme) {
 
 // PHP that rebuilds the theme: paste it into a config file or a seeder.
 export function phpSnippet(theme) {
-  return `use Celerik\\Ui\\Theme\\Theme;\n\n$theme = Theme::fromJson(<<<'JSON'\n${themeJson(theme)}JSON);\n`;
+  return `use Caelrik\\Ui\\Theme\\Theme;\n\n$theme = Theme::fromJson(<<<'JSON'\n${themeJson(theme)}JSON);\n`;
 }
 
 function download(name, type, text) {
@@ -340,14 +340,14 @@ function download(name, type, text) {
 // Download, copy, import and save.
 function initExport(element, options, api) {
   const labels = options.labels ?? {};
-  const message = element.querySelector('.celerik-theme-builder__message');
+  const message = element.querySelector('.caelrik-theme-builder__message');
   const say = (text, isError = false) => {
     message.textContent = text;
     message.classList.toggle('text-danger-emphasis', isError);
   };
-  const action = (name) => element.querySelector(`[data-celerik-action="${name}"]`);
+  const action = (name) => element.querySelector(`[data-caelrik-action="${name}"]`);
 
-  element.querySelector('.celerik-theme-builder__export').hidden = false;
+  element.querySelector('.caelrik-theme-builder__export').hidden = false;
 
   action('download-css').addEventListener('click', () => {
     download(fileName(api.getTheme().name, 'css'), 'text/css', api.toCss());

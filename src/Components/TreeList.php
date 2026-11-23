@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Celerik\Ui\Components;
+namespace Caelrik\Ui\Components;
 
-use Celerik\Ui\Component;
-use Celerik\Ui\Components\Grid\Column;
-use Celerik\Ui\Support\Arr;
-use Celerik\Ui\Support\Html;
+use Caelrik\Ui\Component;
+use Caelrik\Ui\Components\Grid\Column;
+use Caelrik\Ui\Support\Arr;
+use Caelrik\Ui\Support\Html;
 use InvalidArgumentException;
 use LogicException;
 
@@ -249,7 +249,7 @@ final class TreeList extends Component
             $headers .= Html::tag('th', $header, Html::escape($column->getTitle()));
         }
         if ($this->actions !== []) {
-            $header = ['scope' => 'col', 'class' => 'celerik-treelist-actions'];
+            $header = ['scope' => 'col', 'class' => 'caelrik-treelist-actions'];
             $headers .= Html::tag('th', $header, Html::escape($this->labels['actions']));
         }
 
@@ -264,8 +264,8 @@ final class TreeList extends Component
                 if ($index === 0) {
                     $level = min($entry['level'], self::MAX_INDENT);
                     $cells .= Html::tag('td', [
-                        'class' => Html::classes(['celerik-treelist-tree', 'celerik-treelist-level-' . $level, $class]),
-                    ], Html::tag('span', ['class' => 'celerik-treelist-text'], $text));
+                        'class' => Html::classes(['caelrik-treelist-tree', 'caelrik-treelist-level-' . $level, $class]),
+                    ], Html::tag('span', ['class' => 'caelrik-treelist-text'], $text));
                     continue;
                 }
                 $cells .= Html::tag('td', ['class' => $class], $text);
@@ -277,9 +277,9 @@ final class TreeList extends Component
                     $name = $action->hasAriaLabel() ? null : trim($action->getLabel() . ' ' . $title);
                     $buttons .= $action->render($row, small: true, ariaLabel: $name, modal: false);
                 }
-                $cells .= Html::tag('td', ['class' => 'celerik-treelist-actions'], Html::tag(
+                $cells .= Html::tag('td', ['class' => 'caelrik-treelist-actions'], Html::tag(
                     'div',
-                    ['class' => 'celerik-grid-action-list'],
+                    ['class' => 'caelrik-grid-action-list'],
                     $buttons,
                 ));
             }
@@ -301,7 +301,7 @@ final class TreeList extends Component
 
         return Html::tag(
             'table',
-            $this->rootAttributes(['table', 'table-hover', 'w-100', 'celerik-treelist']),
+            $this->rootAttributes(['table', 'table-hover', 'w-100', 'caelrik-treelist']),
             $caption . Html::tag('thead', [], Html::tag('tr', [], $headers)) . Html::tag('tbody', [], $body),
         ) . $modals;
     }

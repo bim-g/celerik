@@ -12,21 +12,21 @@ function firstField(row) {
 }
 
 export function initRepeaters(form, parsley, enhance) {
-  for (const root of form.querySelectorAll('[data-celerik-repeater]')) {
+  for (const root of form.querySelectorAll('[data-caelrik-repeater]')) {
     initRepeater(root, parsley, enhance);
   }
 }
 
 function initRepeater(root, parsley, enhance) {
-  const config = JSON.parse(root.getAttribute('data-celerik-repeater'));
-  const list = root.querySelector('.celerik-repeater-items');
+  const config = JSON.parse(root.getAttribute('data-caelrik-repeater'));
+  const list = root.querySelector('.caelrik-repeater-items');
   const template = root.querySelector('template');
-  const add = root.querySelector('[data-celerik-repeater-add]');
+  const add = root.querySelector('[data-caelrik-repeater-add]');
   const rows = () => [...list.children];
 
   // Server keys may be any names: new rows count on from the largest number.
   let next = rows().reduce((max, row) => {
-    const key = row.getAttribute('data-celerik-key');
+    const key = row.getAttribute('data-caelrik-key');
     return /^\d+$/.test(key) ? Math.max(max, Number(key) + 1) : max;
   }, 0);
 
@@ -34,18 +34,18 @@ function initRepeater(root, parsley, enhance) {
   const update = () => {
     const all = rows();
     all.forEach((row, index) => {
-      row.querySelector('.celerik-repeater-label').textContent = config.item.replace('%d', String(index + 1));
-      const up = row.querySelector('[data-celerik-repeater-move="up"]');
-      const down = row.querySelector('[data-celerik-repeater-move="down"]');
+      row.querySelector('.caelrik-repeater-label').textContent = config.item.replace('%d', String(index + 1));
+      const up = row.querySelector('[data-caelrik-repeater-move="up"]');
+      const down = row.querySelector('[data-caelrik-repeater-move="down"]');
       if (up) {
         up.disabled = index === 0;
         down.disabled = index === all.length - 1;
       }
-      row.querySelector('[data-celerik-repeater-remove]').disabled = all.length <= config.min;
+      row.querySelector('[data-caelrik-repeater-remove]').disabled = all.length <= config.min;
     });
     add.disabled = config.max !== null && all.length >= config.max;
     // A repeater error ("at least one line") is stale once the rows change.
-    root.querySelector(':scope > .celerik-server-error')?.remove();
+    root.querySelector(':scope > .caelrik-server-error')?.remove();
     parsley.refresh();
   };
 
@@ -60,12 +60,12 @@ function initRepeater(root, parsley, enhance) {
 
   list.addEventListener('click', (event) => {
     const button = event.target.closest('button');
-    const row = button?.closest('.celerik-repeater-item');
+    const row = button?.closest('.caelrik-repeater-item');
     if (!row || button.disabled) {
       return;
     }
 
-    if (button.matches('[data-celerik-repeater-remove]')) {
+    if (button.matches('[data-caelrik-repeater-remove]')) {
       // Focus goes to the row that takes its place, the one before it, or Add.
       const neighbour = row.nextElementSibling ?? row.previousElementSibling;
       for (const select of row.querySelectorAll('select')) {
@@ -77,7 +77,7 @@ function initRepeater(root, parsley, enhance) {
       return;
     }
 
-    const direction = button.getAttribute('data-celerik-repeater-move');
+    const direction = button.getAttribute('data-caelrik-repeater-move');
     if (direction === 'up' && row.previousElementSibling) {
       list.insertBefore(row, row.previousElementSibling);
     } else if (direction === 'down' && row.nextElementSibling) {
@@ -85,7 +85,7 @@ function initRepeater(root, parsley, enhance) {
     }
     update();
     // Keep focus on the button, or on the other one at the top or the bottom.
-    const other = row.querySelector(`[data-celerik-repeater-move="${direction === 'up' ? 'down' : 'up'}"]`);
+    const other = row.querySelector(`[data-caelrik-repeater-move="${direction === 'up' ? 'down' : 'up'}"]`);
     (button.disabled ? other : button).focus();
   });
 }

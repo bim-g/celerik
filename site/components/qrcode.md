@@ -9,7 +9,7 @@ QR codes and barcodes drawn by PHP as SVG, with their value written under them a
 ## QR code
 
 ```php
-use Celerik\Ui\Components\QrCode;
+use Caelrik\Ui\Components\QrCode;
 
 QrCode::make('site')->value('https://example.com')->label('Our website');
 ```
@@ -21,12 +21,12 @@ QrCode::make('site')->value('https://example.com')->label('Our website');
 - **`hideValue()`**: keeps the value out of the caption (a password, a long token). The code then needs a label.
 - **`labels()`** translates the name of the image (`image`: `QR code: {label}`).
 
-The text is encoded in the smallest version that holds it (1 to 40: up to 2,331 bytes at level M), as digits, letters or bytes, whichever is shortest, with the mask of the lowest penalty. `Celerik\Ui\Support\QrMatrix::encode()` returns the modules, for another drawing (a PDF, an image).
+The text is encoded in the smallest version that holds it (1 to 40: up to 2,331 bytes at level M), as digits, letters or bytes, whichever is shortest, with the mask of the lowest penalty. `Caelrik\Ui\Support\QrMatrix::encode()` returns the modules, for another drawing (a PDF, an image).
 
 ## Barcode
 
 ```php
-use Celerik\Ui\Components\Barcode;
+use Caelrik\Ui\Components\Barcode;
 
 Barcode::make('order')->value('ORDER-2026-000042')->label('Order number');
 Barcode::make('isbn')->type('ean13')->value('978020137962')->label('ISBN');

@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Celerik\Ui\Tests\Data;
+namespace Caelrik\Ui\Tests\Data;
 
-use Celerik\Ui\Data\ArrayEventSource;
-use Celerik\Ui\Data\DateRange;
-use Celerik\Ui\Data\Event;
-use Celerik\Ui\Support\Dates;
+use Caelrik\Ui\Data\ArrayEventSource;
+use Caelrik\Ui\Data\DateRange;
+use Caelrik\Ui\Data\Event;
+use Caelrik\Ui\Support\Dates;
 use DateTimeImmutable;
 use InvalidArgumentException;
 use PHPUnit\Framework\Attributes\DataProvider;

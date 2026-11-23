@@ -37,7 +37,7 @@ for (const mode of ['light', 'dark']) {
         await page.goto(path);
         await expect(page.locator('.VPContent')).toBeVisible();
         // Demos are checked on their own pages below, in both modes.
-        expect(await axeViolations(page, (axe) => axe.exclude('.celerik-demo iframe'))).toEqual([]);
+        expect(await axeViolations(page, (axe) => axe.exclude('.caelrik-demo iframe'))).toEqual([]);
       });
     }
   });
@@ -53,15 +53,15 @@ for (const name of demos) {
       // cell in view, so the result does not depend on the day the tests run.
       await page.clock.setFixedTime(new Date('2026-11-11T10:00:00Z'));
       await page.addInitScript(() => {
-        window.celerikReady = 0;
-        document.addEventListener('celerik:ready', () => {
-          window.celerikReady += 1;
+        window.caelrikReady = 0;
+        document.addEventListener('caelrik:ready', () => {
+          window.caelrikReady += 1;
         });
       });
 
       await localTiles(page);
       await page.goto(`demos/${name}.html?mode=${mode}`);
-      await page.waitForFunction(() => window.celerikReady === document.querySelectorAll('[data-celerik]').length, null, { timeout: 30_000 });
+      await page.waitForFunction(() => window.caelrikReady === document.querySelectorAll('[data-caelrik]').length, null, { timeout: 30_000 });
       await settled(page);
 
       expect(errors).toEqual([]);
@@ -138,7 +138,7 @@ test.describe('keyboard', () => {
   test('a demo follows the site in light mode, without a look picker', async ({ page }) => {
     await page.goto('components/tabs');
     await expect(page.getByLabel('Look')).toHaveCount(0);
-    await expect(page.locator('.celerik-demo iframe')).toHaveAttribute('src', /tabs\.html\?mode=(light|dark)$/);
-    await expect(page.locator('.celerik-demo iframe')).toHaveAttribute('title', 'Demo: Tabs');
+    await expect(page.locator('.caelrik-demo iframe')).toHaveAttribute('src', /tabs\.html\?mode=(light|dark)$/);
+    await expect(page.locator('.caelrik-demo iframe')).toHaveAttribute('title', 'Demo: Tabs');
   });
 });

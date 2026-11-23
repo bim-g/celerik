@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Celerik\Ui\Data;
+namespace Caelrik\Ui\Data;
 
 use JsonSerializable;
 
 /**
- * Events for one date range, in the standard Celerik envelope:
+ * Events for one date range, in the standard Caelrik envelope:
  *
  *     {"data": [{"id", "title", "start", "end", "allDay"...}], "meta": {"start", "end", "count"}}
  */

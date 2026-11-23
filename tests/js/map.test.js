@@ -11,8 +11,8 @@ describe('map popups and attribution', () => {
       { more: 'Plus sur {name}' },
     );
     expect(popup.querySelector('img')).toBeNull();
-    expect(popup.querySelector('.celerik-map-popup-name').textContent).toBe('Goma <b>HQ</b>');
-    expect(popup.querySelector('.celerik-map-popup-description').textContent).toBe('<img src=x onerror=alert(1)>');
+    expect(popup.querySelector('.caelrik-map-popup-name').textContent).toBe('Goma <b>HQ</b>');
+    expect(popup.querySelector('.caelrik-map-popup-description').textContent).toBe('<img src=x onerror=alert(1)>');
     const link = popup.querySelector('a');
     expect(link.getAttribute('href')).toBe('/offices/goma');
     expect(link.textContent).toBe('Plus sur Goma <b>HQ</b>');
@@ -43,20 +43,20 @@ describe('map', () => {
   afterEach(() => api?.destroy());
 
   test('the canvas becomes a named region with its markers as named buttons', () => {
-    const canvas = root.querySelector('.celerik-map-canvas');
-    expect(canvas.querySelector('.celerik-map-noscript')).toBeNull();
+    const canvas = root.querySelector('.caelrik-map-canvas');
+    expect(canvas.querySelector('.caelrik-map-noscript')).toBeNull();
     expect(canvas.getAttribute('role')).toBe('region');
     expect(canvas.getAttribute('aria-roledescription')).toBe('map');
     expect(canvas.getAttribute('aria-label')).toBe('Our offices');
     const markers = [...canvas.querySelectorAll('.leaflet-marker-icon')];
     expect(markers.map((marker) => marker.getAttribute('aria-label'))).toEqual(['Goma <HQ>', 'Bukavu']);
     expect(markers.every((marker) => marker.getAttribute('role') === 'button' && marker.tabIndex === 0)).toBe(true);
-    expect(markers[1].classList.contains('celerik-map-marker-success')).toBe(true);
+    expect(markers[1].classList.contains('caelrik-map-marker-success')).toBe(true);
     expect(canvas.querySelector('.leaflet-control-zoom-in').getAttribute('aria-label')).toBe('Zoom in (test)');
   });
 
   test('"Show on map" opens the place\'s popup and moves focus to its marker', () => {
-    root.querySelector('.celerik-map-show[data-marker="1"]').click();
+    root.querySelector('.caelrik-map-show[data-marker="1"]').click();
     const popup = root.querySelector('.leaflet-popup');
     expect(popup.textContent).toContain('Bukavu');
     expect(document.activeElement).toBe(api.markers[1].getElement());
@@ -64,7 +64,7 @@ describe('map', () => {
   });
 
   test('Escape closes the open popup, focus staying on its marker', () => {
-    root.querySelector('.celerik-map-show[data-marker="0"]').click();
+    root.querySelector('.caelrik-map-show[data-marker="0"]').click();
     const marker = api.markers[0].getElement();
     marker.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }));
     expect(root.querySelector('.leaflet-popup')).toBeNull();

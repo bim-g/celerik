@@ -20,5 +20,5 @@ Thumbs.db
 .idea/
 .vscode/
 /doc
-# The integration and testing guides: their own repository (kivudesign/celerik-doc).
+# The integration and testing guides: their own repository (kivudesign/caelrik-doc).
 /documentation/

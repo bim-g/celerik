@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Celerik\Ui\Components\Grid;
+namespace Caelrik\Ui\Components\Grid;
 
-use Celerik\Ui\Data\InvalidCellEdit;
+use Caelrik\Ui\Data\InvalidCellEdit;
 use InvalidArgumentException;
 
 /**

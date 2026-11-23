@@ -1,7 +1,7 @@
 <?php
 
-use Celerik\Ui\Components\Diagram;
-use Celerik\Ui\Support\Html;
+use Caelrik\Ui\Components\Diagram;
+use Caelrik\Ui\Support\Html;
 
 return [
     Html::raw('<div class="row g-4"><div class="col-md-6">'),

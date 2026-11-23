@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Celerik\Ui\Theme;
+namespace Caelrik\Ui\Theme;
 
 /**
  * Writes a theme's stylesheet: custom properties for the light and dark palettes and the
- * shape tokens, loaded after celerik.css.
+ * shape tokens, loaded after caelrik.css.
  *
  * The output is deterministic: resources/js/theme-css.js produces the same text in the
  * ThemeBuilder, and the tests compare both. Every value comes from a validated Theme, so
@@ -14,7 +14,7 @@ namespace Celerik\Ui\Theme;
  */
 final class Stylesheet
 {
-    /** Container shadows: --celerik-surface-shadow. */
+    /** Container shadows: --caelrik-surface-shadow. */
     public const SHADOWS = [
         'none' => 'none',
         'subtle' => '0 1px 2px rgba(0, 0, 0, 0.08)',
@@ -23,70 +23,70 @@ final class Stylesheet
     ];
 
     // Bootstrap compiles these components with its default blue: bind them to the theme.
-    // The calendar follows --bs-primary and --celerik-on-primary through celerik.css.
+    // The calendar follows --bs-primary and --caelrik-on-primary through caelrik.css.
     private const BOOTSTRAP_BINDINGS = <<<'CSS'
         .btn-primary {
-          --bs-btn-color: var(--celerik-on-primary);
-          --bs-btn-bg: var(--celerik-primary);
-          --bs-btn-border-color: var(--celerik-primary);
-          --bs-btn-hover-color: var(--celerik-on-primary);
-          --bs-btn-hover-bg: var(--celerik-primary-hover);
-          --bs-btn-hover-border-color: var(--celerik-primary-hover);
-          --bs-btn-active-color: var(--celerik-on-primary);
-          --bs-btn-active-bg: var(--celerik-primary-hover);
-          --bs-btn-active-border-color: var(--celerik-primary-hover);
-          --bs-btn-disabled-color: var(--celerik-on-primary);
-          --bs-btn-disabled-bg: var(--celerik-primary);
-          --bs-btn-disabled-border-color: var(--celerik-primary);
+          --bs-btn-color: var(--caelrik-on-primary);
+          --bs-btn-bg: var(--caelrik-primary);
+          --bs-btn-border-color: var(--caelrik-primary);
+          --bs-btn-hover-color: var(--caelrik-on-primary);
+          --bs-btn-hover-bg: var(--caelrik-primary-hover);
+          --bs-btn-hover-border-color: var(--caelrik-primary-hover);
+          --bs-btn-active-color: var(--caelrik-on-primary);
+          --bs-btn-active-bg: var(--caelrik-primary-hover);
+          --bs-btn-active-border-color: var(--caelrik-primary-hover);
+          --bs-btn-disabled-color: var(--caelrik-on-primary);
+          --bs-btn-disabled-bg: var(--caelrik-primary);
+          --bs-btn-disabled-border-color: var(--caelrik-primary);
           --bs-btn-focus-shadow-rgb: var(--bs-primary-rgb);
         }
 
         .btn-outline-primary {
-          --bs-btn-color: var(--celerik-primary);
-          --bs-btn-border-color: var(--celerik-primary);
-          --bs-btn-hover-color: var(--celerik-on-primary);
-          --bs-btn-hover-bg: var(--celerik-primary);
-          --bs-btn-hover-border-color: var(--celerik-primary);
-          --bs-btn-active-color: var(--celerik-on-primary);
-          --bs-btn-active-bg: var(--celerik-primary-hover);
-          --bs-btn-active-border-color: var(--celerik-primary-hover);
+          --bs-btn-color: var(--caelrik-primary);
+          --bs-btn-border-color: var(--caelrik-primary);
+          --bs-btn-hover-color: var(--caelrik-on-primary);
+          --bs-btn-hover-bg: var(--caelrik-primary);
+          --bs-btn-hover-border-color: var(--caelrik-primary);
+          --bs-btn-active-color: var(--caelrik-on-primary);
+          --bs-btn-active-bg: var(--caelrik-primary-hover);
+          --bs-btn-active-border-color: var(--caelrik-primary-hover);
           --bs-btn-focus-shadow-rgb: var(--bs-primary-rgb);
         }
 
         .form-control,
         .form-select,
         .form-check-input {
-          border-color: var(--celerik-input-border);
+          border-color: var(--caelrik-input-border);
         }
 
         .form-control:focus,
         .form-select:focus,
         .form-check-input:focus {
-          border-color: var(--celerik-primary);
+          border-color: var(--caelrik-primary);
           box-shadow: 0 0 0 0.25rem rgba(var(--bs-primary-rgb), 0.25);
         }
 
         .form-check-input:checked {
-          background-color: var(--celerik-primary);
-          border-color: var(--celerik-primary);
+          background-color: var(--caelrik-primary);
+          border-color: var(--caelrik-primary);
         }
 
         .nav-pills {
-          --bs-nav-pills-link-active-bg: var(--celerik-primary);
-          --bs-nav-pills-link-active-color: var(--celerik-on-primary);
+          --bs-nav-pills-link-active-bg: var(--caelrik-primary);
+          --bs-nav-pills-link-active-color: var(--caelrik-on-primary);
         }
 
         .pagination {
-          --bs-pagination-active-bg: var(--celerik-primary);
-          --bs-pagination-active-border-color: var(--celerik-primary);
-          --bs-pagination-active-color: var(--celerik-on-primary);
+          --bs-pagination-active-bg: var(--caelrik-primary);
+          --bs-pagination-active-border-color: var(--caelrik-primary);
+          --bs-pagination-active-color: var(--caelrik-on-primary);
           --bs-pagination-focus-box-shadow: 0 0 0 0.25rem rgba(var(--bs-primary-rgb), 0.25);
         }
         CSS;
 
     public static function render(Theme $theme): string
     {
-        $css = sprintf("/* Celerik UI theme \"%s\". Load it after celerik.css. */\n", $theme->getName());
+        $css = sprintf("/* Caelrik UI theme \"%s\". Load it after caelrik.css. */\n", $theme->getName());
 
         $css .= self::block(":root,\n[data-bs-theme=light]", self::palette($theme, 'light'));
         $css .= "\n" . self::block('[data-bs-theme=dark]', self::palette($theme, 'dark'));
@@ -95,13 +95,13 @@ final class Stylesheet
         if ($theme->getRadius() !== null) {
             $radius = self::number($theme->getRadius()) . 'rem';
             $shape['--bs-border-radius'] = $radius;
-            $shape['--celerik-radius'] = $radius;
+            $shape['--caelrik-radius'] = $radius;
         }
         if ($theme->getFontFamily() !== null) {
             $shape['--bs-body-font-family'] = $theme->getFontFamily();
         }
         if ($theme->getShadow() !== null) {
-            $shape['--celerik-surface-shadow'] = self::SHADOWS[$theme->getShadow()];
+            $shape['--caelrik-surface-shadow'] = self::SHADOWS[$theme->getShadow()];
         }
         if ($shape !== []) {
             $css .= "\n" . self::block(':root', $shape);
@@ -136,10 +136,10 @@ final class Stylesheet
             '--bs-form-invalid-color' => $color['danger'],
             '--bs-form-invalid-border-color' => $color['danger'],
             '--bs-danger-text-emphasis' => $color['danger'],
-            '--celerik-primary' => $color['primary'],
-            '--celerik-on-primary' => $color['onPrimary'],
-            '--celerik-primary-hover' => $color['primaryHover'],
-            '--celerik-input-border' => $color['inputBorder'],
+            '--caelrik-primary' => $color['primary'],
+            '--caelrik-on-primary' => $color['onPrimary'],
+            '--caelrik-primary-hover' => $color['primaryHover'],
+            '--caelrik-input-border' => $color['inputBorder'],
         ];
     }
 

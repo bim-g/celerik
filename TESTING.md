@@ -46,7 +46,7 @@
 
 In light and dark mode, the tests check:
 
-- every component fires `celerik:ready`, with no console errors;
+- every component fires `caelrik:ready`, with no console errors;
 - axe-core finds no violations of the WCAG 2.1 A/AA rules, color contrast included;
 - the same with the modal open.
 

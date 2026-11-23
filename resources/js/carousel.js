@@ -6,7 +6,7 @@
 //   they rotate. It pauses while the pointer or focus is in the carousel, stops for good once
 //   the user picks a slide or presses Stop, and does not start for reduced motion (WCAG 2.2.2).
 // - A horizontal swipe on a touch screen or with a pen shows the next or previous slide.
-// - Each change fires celerik:change with { index } (0-based).
+// - Each change fires caelrik:change with { index } (0-based).
 
 const SWIPE = 40;
 
@@ -19,19 +19,19 @@ const disable = (button, disabled) => {
 };
 
 export function initCarousel(element, options = {}) {
-  const region = element.querySelector(':scope > .celerik-carousel-slides');
-  const slides = [...(region?.querySelectorAll(':scope > .celerik-carousel-slide') ?? [])];
+  const region = element.querySelector(':scope > .caelrik-carousel-slides');
+  const slides = [...(region?.querySelectorAll(':scope > .caelrik-carousel-slide') ?? [])];
   if (slides.length === 0) {
     return null;
   }
   const labels = { start: 'Start automatic slide show', stop: 'Stop automatic slide show', ...options.labels };
   const loop = options.loop !== false;
   const delay = Math.max(0, Number(options.autoplay) || 0) * 1000;
-  const controls = element.querySelector(':scope > .celerik-carousel-controls');
-  const previousButton = controls?.querySelector('.celerik-carousel-previous');
-  const nextButton = controls?.querySelector('.celerik-carousel-next');
-  const rotateButton = controls?.querySelector('.celerik-carousel-rotate');
-  const dots = [...(controls?.querySelectorAll('.celerik-carousel-dot') ?? [])];
+  const controls = element.querySelector(':scope > .caelrik-carousel-controls');
+  const previousButton = controls?.querySelector('.caelrik-carousel-previous');
+  const nextButton = controls?.querySelector('.caelrik-carousel-next');
+  const rotateButton = controls?.querySelector('.caelrik-carousel-rotate');
+  const dots = [...(controls?.querySelectorAll('.caelrik-carousel-dot') ?? [])];
 
   let index = Math.max(0, slides.findIndex((slide) => slide.classList.contains('is-active')));
   let playing = false;
@@ -55,7 +55,7 @@ export function initCarousel(element, options = {}) {
     }
     index = next;
     update();
-    element.dispatchEvent(new CustomEvent('celerik:change', { bubbles: true, detail: { index } }));
+    element.dispatchEvent(new CustomEvent('caelrik:change', { bubbles: true, detail: { index } }));
     return index;
   };
 

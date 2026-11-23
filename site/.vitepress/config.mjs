@@ -21,7 +21,7 @@ const ROOT_PAGES = {
 };
 
 function repositoryLinks(md) {
-  md.core.ruler.push('celerik-repository-links', (state) => {
+  md.core.ruler.push('caelrik-repository-links', (state) => {
     for (const block of state.tokens) {
       for (const token of block.children ?? []) {
         const href = token.type === 'link_open' ? token.attrGet('href') : null;
@@ -60,7 +60,7 @@ function includedLastUpdated(pageData) {
 // Documentation site: npm run docs:dev, npm run docs:build (output: site/.vitepress/dist).
 // DOCS_BASE is the path the site is served from: /celerik/ on GitHub Pages.
 export default defineConfig({
-  title: 'Celerik UI',
+  title: 'Caelrik UI',
   description: 'Accessible, Bootstrap-based PHP UI components for plain PHP, Laravel and Symfony.',
   lang: 'en',
   base: process.env.DOCS_BASE ?? '/celerik/',
@@ -186,7 +186,7 @@ export default defineConfig({
     socialLinks: [{ icon: 'github', link: 'https://github.com/kivudesign/celerik' }],
     footer: {
       message: 'Released under the MIT License.',
-      copyright: 'Celerik UI contributors',
+      copyright: 'Caelrik UI contributors',
     },
   },
 });

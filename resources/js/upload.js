@@ -21,14 +21,14 @@ function normalize(item) {
 }
 
 function showProblem(group, message) {
-  let feedback = group.querySelector('.celerik-upload-error');
+  let feedback = group.querySelector('.caelrik-upload-error');
   if (!message) {
     feedback?.remove();
     return;
   }
   if (!feedback) {
     feedback = document.createElement('div');
-    feedback.className = 'invalid-feedback d-block celerik-upload-error';
+    feedback.className = 'invalid-feedback d-block caelrik-upload-error';
     feedback.setAttribute('role', 'alert');
     group.append(feedback);
   }
@@ -64,8 +64,8 @@ export async function initUploads(form, csrfToken) {
   const fields = [];
   const ready = [];
 
-  for (const input of form.querySelectorAll('input[type="file"][data-celerik-upload]')) {
-    const options = JSON.parse(input.getAttribute('data-celerik-upload'));
+  for (const input of form.querySelectorAll('input[type="file"][data-caelrik-upload]')) {
+    const options = JSON.parse(input.getAttribute('data-caelrik-upload'));
     if (!FilePond.supported()) {
       keepNativeInput(input, options);
       continue;

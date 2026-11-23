@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Celerik\Ui\Tests\Components;
+namespace Caelrik\Ui\Tests\Components;
 
-use Celerik\Ui\Components\Form;
-use Celerik\Ui\Components\Form\Field;
-use Celerik\Ui\Data\ArrayDataSource;
-use Celerik\Ui\Upload\UploadRules;
+use Caelrik\Ui\Components\Form;
+use Caelrik\Ui\Components\Form\Field;
+use Caelrik\Ui\Data\ArrayDataSource;
+use Caelrik\Ui\Upload\UploadRules;
 use InvalidArgumentException;
 use LogicException;
 use PHPUnit\Framework\TestCase;
@@ -21,7 +21,7 @@ final class FormTest extends TestCase
         self::assertStringContainsString('<input type="hidden" name="_token" value="tok&quot;en">', $html);
         self::assertStringContainsString('<input type="hidden" name="_method" value="PUT">', $html);
         self::assertStringContainsString('action="/profile" method="POST" novalidate', $html);
-        self::assertStringContainsString('data-celerik="form"', $html);
+        self::assertStringContainsString('data-caelrik="form"', $html);
     }
 
     public function testGetFormsDoNotLeakCsrfToken(): void
@@ -40,12 +40,12 @@ final class FormTest extends TestCase
             Field::tel('phone')->mask('(999) 999-9999'),
         )->render();
 
-        self::assertStringContainsString('<label for="signup-email" class="form-label">Email <span class="celerik-required" aria-hidden="true">*</span></label>', $html);
+        self::assertStringContainsString('<label for="signup-email" class="form-label">Email <span class="caelrik-required" aria-hidden="true">*</span></label>', $html);
         self::assertStringContainsString('maxlength="120" id="signup-email" name="email" required aria-describedby="signup-email-help" type="email"', $html);
         self::assertStringContainsString('<div id="signup-email-help" class="form-text">We never share it.</div>', $html);
         self::assertStringContainsString('minlength="8"', $html);
         self::assertStringContainsString('data-parsley-equalto="#signup-password"', $html);
-        self::assertStringContainsString('data-celerik-mask="(999) 999-9999"', $html);
+        self::assertStringContainsString('data-caelrik-mask="(999) 999-9999"', $html);
     }
 
     public function testShowsServerErrorsAndOldInputButNeverOldPasswords(): void
@@ -57,7 +57,7 @@ final class FormTest extends TestCase
             ->render();
 
         self::assertStringContainsString('aria-describedby="f-name-error" aria-invalid="true" type="text" value="&lt;Ada&gt;" class="form-control is-invalid"', $html);
-        self::assertStringContainsString('<div id="f-name-error" class="invalid-feedback celerik-server-error">Name is taken.</div>', $html);
+        self::assertStringContainsString('<div id="f-name-error" class="invalid-feedback caelrik-server-error">Name is taken.</div>', $html);
         self::assertStringContainsString('id="f-address-city" name="address[city]"', $html);
         self::assertStringContainsString('value="Paris"', $html);
         self::assertStringContainsString('City is required.', $html);
@@ -84,7 +84,7 @@ final class FormTest extends TestCase
             Field::radio('plan', ['free' => 'Free', 'team' => 'Team <b>'])->required()->help('Billed monthly.'),
         )->values(['plan' => 'team'])->render();
 
-        self::assertStringContainsString('<fieldset id="f-plan-group" aria-describedby="f-plan-help"><legend class="form-label fs-6">Plan <span class="celerik-required" aria-hidden="true">*</span></legend>', $html);
+        self::assertStringContainsString('<fieldset id="f-plan-group" aria-describedby="f-plan-help"><legend class="form-label fs-6">Plan <span class="caelrik-required" aria-hidden="true">*</span></legend>', $html);
         self::assertStringContainsString('<div class="form-check"><input type="radio" id="f-plan" name="plan" value="free" required class="form-check-input"><label for="f-plan" class="form-check-label">Free</label></div>', $html);
         self::assertStringContainsString('<input type="radio" id="f-plan-1" name="plan" value="team" checked required class="form-check-input"><label for="f-plan-1" class="form-check-label">Team &lt;b&gt;</label>', $html);
         self::assertStringContainsString('</fieldset><div id="f-plan-help" class="form-text">Billed monthly.</div>', $html);
@@ -111,7 +111,7 @@ final class FormTest extends TestCase
 
         self::assertStringContainsString('aria-describedby="f-plan-error"', $html);
         self::assertSame(2, substr_count($html, 'aria-invalid="true" class="form-check-input is-invalid"'));
-        self::assertStringContainsString('</fieldset><div id="f-plan-error" class="invalid-feedback d-block celerik-server-error">Choose a plan.</div>', $html);
+        self::assertStringContainsString('</fieldset><div id="f-plan-error" class="invalid-feedback d-block caelrik-server-error">Choose a plan.</div>', $html);
         // The summary links to the first radio button.
         self::assertStringContainsString('<a href="#f-plan" class="alert-link">Choose a plan.</a>', $html);
     }
@@ -130,9 +130,9 @@ final class FormTest extends TestCase
             Field::range('zoom')->min(1)->max(4),
         )->render();
 
-        self::assertStringContainsString('<div class="mb-3"><label for="f-volume" class="form-label">Volume: <output for="f-volume" class="celerik-range-value" aria-hidden="true">4</output></label><input min="0" max="10" step="2" id="f-volume" name="volume" type="range" value="4" class="form-range"></div>', $html);
+        self::assertStringContainsString('<div class="mb-3"><label for="f-volume" class="form-label">Volume: <output for="f-volume" class="caelrik-range-value" aria-hidden="true">4</output></label><input min="0" max="10" step="2" id="f-volume" name="volume" type="range" value="4" class="form-range"></div>', $html);
         // Without a value, browsers start halfway.
-        self::assertStringContainsString('<output for="f-zoom" class="celerik-range-value" aria-hidden="true">2.5</output>', $html);
+        self::assertStringContainsString('<output for="f-zoom" class="caelrik-range-value" aria-hidden="true">2.5</output>', $html);
     }
 
     public function testColorUsesBootstrapsColorControl(): void
@@ -150,7 +150,7 @@ final class FormTest extends TestCase
         )->values(['languages' => ['fr']])->render();
 
         // Searchable: Tom Select options, the placeholder in the options (not on the select), no floating label.
-        self::assertStringContainsString('<div class="mb-3"><label for="f-country" class="form-label">Country</label><select id="f-country" name="country" data-celerik-select="{&quot;placeholder&quot;:&quot;Choose&quot;}" class="form-select"><option value="">Choose</option>', $html);
+        self::assertStringContainsString('<div class="mb-3"><label for="f-country" class="form-label">Country</label><select id="f-country" name="country" data-caelrik-select="{&quot;placeholder&quot;:&quot;Choose&quot;}" class="form-select"><option value="">Choose</option>', $html);
         // Multiple: name[], array value, no empty option.
         self::assertStringContainsString('<select id="f-languages" name="languages[]" placeholder="None" multiple class="form-select"><option value="en">English</option><option value="fr" selected>French</option></select>', $html);
     }
@@ -161,7 +161,7 @@ final class FormTest extends TestCase
             Field::select('author', [7 => 'Grace Hopper'])->remote('/people?team=2')->value(7),
         )->render();
 
-        self::assertStringContainsString('data-celerik-select="{&quot;url&quot;:&quot;/people?team=2&quot;}"', $html);
+        self::assertStringContainsString('data-caelrik-select="{&quot;url&quot;:&quot;/people?team=2&quot;}"', $html);
         self::assertStringContainsString('<option value="7" selected>Grace Hopper</option>', $html);
     }
 
@@ -224,7 +224,7 @@ final class FormTest extends TestCase
             Field::dateRange('stay')->labels('Arrival', 'Departure')->min('2026-01-01')->required()->help('Up to 30 nights.'),
         )->values(['stay' => ['start' => '2026-03-01', 'end' => '2026-03-04']])->render();
 
-        self::assertStringContainsString('<fieldset id="f-stay-group" aria-describedby="f-stay-help"><legend class="form-label fs-6">Stay <span class="celerik-required" aria-hidden="true">*</span></legend><div class="row g-2">', $html);
+        self::assertStringContainsString('<fieldset id="f-stay-group" aria-describedby="f-stay-help"><legend class="form-label fs-6">Stay <span class="caelrik-required" aria-hidden="true">*</span></legend><div class="row g-2">', $html);
         self::assertStringContainsString('<div class="col-sm-6"><label for="f-stay" class="form-label">Arrival</label><input min="2026-01-01" type="date" id="f-stay" name="stay[start]" value="2026-03-01" required class="form-control"></div>', $html);
         self::assertStringContainsString('<label for="f-stay-end" class="form-label">Departure</label><input min="2026-01-01" type="date" id="f-stay-end" name="stay[end]" value="2026-03-04" required data-parsley-after="#f-stay" class="form-control">', $html);
     }
@@ -236,7 +236,7 @@ final class FormTest extends TestCase
         )->errors(['shift.end' => 'The end must be after the start.'])->render();
 
         self::assertStringContainsString('type="time" id="f-shift" name="shift[start]" aria-invalid="true" class="form-control is-invalid"', $html);
-        self::assertStringContainsString('</fieldset><div id="f-shift-error" class="invalid-feedback d-block celerik-server-error">The end must be after the start.</div>', $html);
+        self::assertStringContainsString('</fieldset><div id="f-shift-error" class="invalid-feedback d-block caelrik-server-error">The end must be after the start.</div>', $html);
         self::assertStringContainsString('<a href="#f-shift" class="alert-link">The end must be after the start.</a>', $html);
     }
 
@@ -302,7 +302,7 @@ final class FormTest extends TestCase
             $html,
         );
         self::assertStringContainsString('<div id="f-cv-help" class="form-text">PDF. Up to 2 MB.</div>', $html);
-        self::assertStringNotContainsString('data-celerik-upload', $html);
+        self::assertStringNotContainsString('data-caelrik-upload', $html);
     }
 
     public function testAsyncFileFieldPassesUploadOptionsAndAppendsBracketsForMultipleFiles(): void
@@ -317,7 +317,7 @@ final class FormTest extends TestCase
         self::assertStringContainsString('data-parsley-excluded="true"', $html);
         self::assertStringNotContainsString(' required ', $html, 'FilePond enforces required itself.');
         self::assertStringContainsString(
-            'data-celerik-upload="{&quot;url&quot;:&quot;/uploads&quot;,&quot;required&quot;:true,&quot;maxFiles&quot;:3,&quot;maxSize&quot;:5242880,'
+            'data-caelrik-upload="{&quot;url&quot;:&quot;/uploads&quot;,&quot;required&quot;:true,&quot;maxFiles&quot;:3,&quot;maxSize&quot;:5242880,'
             . '&quot;types&quot;:[&quot;image/jpeg&quot;,&quot;image/png&quot;,&quot;image/gif&quot;,&quot;image/webp&quot;]}"',
             $html,
         );
@@ -331,8 +331,8 @@ final class FormTest extends TestCase
         )->render();
 
         self::assertStringContainsString('<label for="f-body" id="f-body-label" class="form-label">Article', $html);
-        self::assertStringContainsString('class="form-control celerik-editor-source" rows="8"', $html);
-        self::assertStringContainsString('data-celerik-editor="{&quot;toolbar&quot;:&quot;basic&quot;,&quot;placeholder&quot;:&quot;Write…&quot;}"', $html);
+        self::assertStringContainsString('class="form-control caelrik-editor-source" rows="8"', $html);
+        self::assertStringContainsString('data-caelrik-editor="{&quot;toolbar&quot;:&quot;basic&quot;,&quot;placeholder&quot;:&quot;Write…&quot;}"', $html);
         self::assertStringContainsString('&lt;p&gt;Hi&lt;/p&gt;&lt;script&gt;x&lt;/script&gt;</textarea>', $html);
         self::assertStringNotContainsString('enctype', $html);
     }
@@ -356,7 +356,7 @@ final class FormTest extends TestCase
         self::assertStringContainsString(
             '<div class="form-floating mb-3"><input id="f-email" name="email" required placeholder="Email" '
             . 'aria-describedby="f-email-help" type="email" class="form-control">'
-            . '<label for="f-email">Email <span class="celerik-required" aria-hidden="true">*</span></label>'
+            . '<label for="f-email">Email <span class="caelrik-required" aria-hidden="true">*</span></label>'
             . '<div id="f-email-help" class="form-text">Never shared.</div></div>',
             $html,
         );
@@ -374,24 +374,24 @@ final class FormTest extends TestCase
         $html = $form->render();
 
         self::assertStringContainsString(
-            '<div id="signup-error-summary" class="alert alert-danger celerik-error-summary" tabindex="-1" '
+            '<div id="signup-error-summary" class="alert alert-danger caelrik-error-summary" tabindex="-1" '
             . 'aria-labelledby="signup-error-summary-title"><h2 id="signup-error-summary-title" class="h6">'
             . 'Fix &lt;these&gt; problems</h2><ul class="mb-0"><li><a href="#signup-email" class="alert-link">This e-mail is taken.</a></li>'
             . '<li><a href="#signup-address-city" class="alert-link">Enter a &lt;city&gt;.</a></li></ul></div>',
             $html,
         );
-        self::assertLessThan(strpos($html, 'id="signup-name"'), strpos($html, 'celerik-error-summary'), 'The summary comes first.');
+        self::assertLessThan(strpos($html, 'id="signup-name"'), strpos($html, 'caelrik-error-summary'), 'The summary comes first.');
         self::assertTrue($form->toArray()['errorSummary']);
     }
 
     public function testErrorSummaryIsHiddenWithoutErrorsAndOffByDefault(): void
     {
         $html = Form::make('f')->errorSummary()->add(Field::text('name'))->render();
-        self::assertStringContainsString('class="alert alert-danger celerik-error-summary" tabindex="-1" aria-labelledby="f-error-summary-title" hidden>', $html);
+        self::assertStringContainsString('class="alert alert-danger caelrik-error-summary" tabindex="-1" aria-labelledby="f-error-summary-title" hidden>', $html);
         self::assertStringContainsString('There is a problem', $html);
 
         $plain = Form::make('f')->add(Field::text('name'))->errors(['name' => 'Required.']);
-        self::assertStringNotContainsString('celerik-error-summary', $plain->render());
+        self::assertStringNotContainsString('caelrik-error-summary', $plain->render());
         self::assertArrayNotHasKey('errorSummary', $plain->toArray());
         self::assertArrayNotHasKey('errorSummary', Form::make('f')->errorSummary()->errorSummary(false)->toArray());
     }

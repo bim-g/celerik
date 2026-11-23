@@ -29,31 +29,31 @@ export function arrowPath(from, to) {
 }
 
 export function initGantt(element) {
-  const canvas = element.querySelector('.celerik-gantt-canvas');
-  const scroll = element.querySelector('.celerik-gantt-scroll');
+  const canvas = element.querySelector('.caelrik-gantt-canvas');
+  const scroll = element.querySelector('.caelrik-gantt-scroll');
   if (!canvas || !scroll) {
     return null;
   }
-  const overlay = svgElement('svg', { class: 'celerik-gantt-arrows', 'aria-hidden': 'true', focusable: 'false' });
+  const overlay = svgElement('svg', { class: 'caelrik-gantt-arrows', 'aria-hidden': 'true', focusable: 'false' });
   const markerId = `${element.id}-arrow`;
   const defs = svgElement('defs');
   const marker = svgElement('marker', {
     id: markerId, viewBox: '0 0 8 8', refX: 7, refY: 4, markerWidth: 8, markerHeight: 8, orient: 'auto-start-reverse',
   });
-  marker.append(svgElement('path', { d: 'M0 0L8 4L0 8z', class: 'celerik-gantt-arrowhead' }));
+  marker.append(svgElement('path', { d: 'M0 0L8 4L0 8z', class: 'caelrik-gantt-arrowhead' }));
   defs.append(marker);
   overlay.append(defs);
   canvas.append(overlay);
 
   const draw = () => {
-    const shapes = new Map([...canvas.querySelectorAll('.celerik-gantt-row [data-task]')]
+    const shapes = new Map([...canvas.querySelectorAll('.caelrik-gantt-row [data-task]')]
       .map((shape) => [shape.dataset.task, shape]));
     const shapeOf = (id) => shapes.get(id);
     const box = canvas.getBoundingClientRect();
     overlay.setAttribute('width', String(Math.round(box.width)));
     overlay.setAttribute('height', String(Math.round(box.height)));
     overlay.setAttribute('viewBox', `0 0 ${Math.round(box.width)} ${Math.round(box.height)}`);
-    overlay.querySelectorAll('.celerik-gantt-link').forEach((path) => path.remove());
+    overlay.querySelectorAll('.caelrik-gantt-link').forEach((path) => path.remove());
     const relative = (rect) => ({
       left: rect.left - box.left,
       right: rect.right - box.left,
@@ -66,7 +66,7 @@ export function initGantt(element) {
         const source = shapeOf(id);
         if (source && target) {
           overlay.append(svgElement('path', {
-            class: 'celerik-gantt-link',
+            class: 'caelrik-gantt-link',
             d: arrowPath(relative(source.getBoundingClientRect()), relative(target.getBoundingClientRect())),
             'marker-end': `url(#${markerId})`,
             'data-from': id,
@@ -78,12 +78,12 @@ export function initGantt(element) {
   };
 
   // Today's line out of view on the right: scroll it to a little after the task names.
-  const today = canvas.querySelector('.celerik-gantt-scale .celerik-gantt-today');
+  const today = canvas.querySelector('.caelrik-gantt-scale .caelrik-gantt-today');
   if (today) {
     const view = scroll.getBoundingClientRect();
     const line = today.getBoundingClientRect().left;
     if (line > view.left + scroll.clientWidth - GAP) {
-      const names = canvas.querySelector('tbody .celerik-gantt-name')?.getBoundingClientRect().width ?? 0;
+      const names = canvas.querySelector('tbody .caelrik-gantt-name')?.getBoundingClientRect().width ?? 0;
       scroll.scrollLeft += line - view.left - names - 48;
     }
   }

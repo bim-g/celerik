@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Celerik\Ui\Components;
+namespace Caelrik\Ui\Components;
 
-use Celerik\Ui\Component;
-use Celerik\Ui\Support\Html;
+use Caelrik\Ui\Component;
+use Caelrik\Ui\Support\Html;
 use InvalidArgumentException;
 use LogicException;
 
@@ -127,10 +127,10 @@ final class Progress extends Component
             ? $this->labelTag($id)
             : '';
         $shown = $this->showValue && $percent !== null
-            ? Html::tag('span', ['class' => 'celerik-progress-value', 'aria-hidden' => 'true'], $percent . '%')
+            ? Html::tag('span', ['class' => 'caelrik-progress-value', 'aria-hidden' => 'true'], $percent . '%')
             : '';
         $bar = Html::tag('progress', [
-            'class' => 'celerik-progress-bar',
+            'class' => 'caelrik-progress-bar',
             'id' => $id . '-bar',
             'max' => self::number($this->max),
             'value' => $value === null ? null : self::number($value),
@@ -140,13 +140,13 @@ final class Progress extends Component
 
         return Html::tag('div', array_merge($this->attributes, [
             'class' => Html::classes([
-                'celerik-progress',
-                'celerik-progress-' . $this->color,
-                'celerik-progress-' . $this->size,
+                'caelrik-progress',
+                'caelrik-progress-' . $this->color,
+                'caelrik-progress-' . $this->size,
                 ...$this->classes,
             ]),
             'id' => $id,
-        ]), ($label . $shown === '' ? '' : Html::tag('div', ['class' => 'celerik-progress-text'], $label . $shown))
+        ]), ($label . $shown === '' ? '' : Html::tag('div', ['class' => 'caelrik-progress-text'], $label . $shown))
             . $bar);
     }
 
@@ -163,14 +163,14 @@ final class Progress extends Component
         $svg = Html::tag(
             'svg',
             ['viewBox' => '0 0 36 36', 'aria-hidden' => 'true', 'focusable' => 'false'],
-            $circle('celerik-progress-track')
-                . $circle('celerik-progress-arc', [
+            $circle('caelrik-progress-track')
+                . $circle('caelrik-progress-arc', [
                     'stroke-dasharray' => ($percent ?? 25) . ' 100',
                     'transform' => 'rotate(-90 18 18)',
                 ]),
         );
         $shown = $this->showValue && $percent !== null
-            ? Html::tag('span', ['class' => 'celerik-progress-value', 'aria-hidden' => 'true'], $percent . '%')
+            ? Html::tag('span', ['class' => 'caelrik-progress-value', 'aria-hidden' => 'true'], $percent . '%')
             : '';
         $label = $this->showLabel
             ? $this->labelTag($id)
@@ -178,15 +178,15 @@ final class Progress extends Component
 
         return Html::tag('div', array_merge($this->attributes, [
             'class' => Html::classes([
-                'celerik-progress-circle',
-                'celerik-progress-' . $this->color,
-                'celerik-progress-' . $this->size,
+                'caelrik-progress-circle',
+                'caelrik-progress-' . $this->color,
+                'caelrik-progress-' . $this->size,
                 $value === null ? 'is-indeterminate' : null,
                 ...$this->classes,
             ]),
             'id' => $id,
         ]), Html::tag('div', [
-            'class' => 'celerik-progress-dial',
+            'class' => 'caelrik-progress-dial',
             'role' => 'progressbar',
             'aria-valuemin' => $value === null ? null : '0',
             'aria-valuemax' => $value === null ? null : self::number($this->max),
@@ -201,7 +201,7 @@ final class Progress extends Component
     {
         return Html::tag(
             'span',
-            ['class' => 'celerik-progress-label', 'id' => $id . '-label'],
+            ['class' => 'caelrik-progress-label', 'id' => $id . '-label'],
             Html::escape($this->label),
         );
     }

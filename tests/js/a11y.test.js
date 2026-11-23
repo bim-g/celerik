@@ -38,8 +38,8 @@ describe('accessibility (axe-core, WCAG 2.1 AA)', () => {
     const table = loadFixture('grid-edit');
     expect(await violations()).toEqual([]);
     const grid = initGrid(table, readOptions(table));
-    table.querySelector('[data-celerik-edit="name"]').click();
-    const field = table.querySelector('.celerik-grid-editor input');
+    table.querySelector('[data-caelrik-edit="name"]').click();
+    const field = table.querySelector('.caelrik-grid-editor input');
     field.value = '';
     field.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true }));
     expect(field.getAttribute('aria-invalid')).toBe('true');
@@ -57,7 +57,7 @@ describe('accessibility (axe-core, WCAG 2.1 AA)', () => {
     await initForm(form, readOptions(form));
     const modal = document.getElementById('person-form-modal');
     const shown = new Promise((resolve) => { modal.addEventListener('shown.bs.modal', resolve, { once: true }); });
-    openActionForm(table.querySelector('form[data-celerik-form-modal]'), { fetch: jest.fn() });
+    openActionForm(table.querySelector('form[data-caelrik-form-modal]'), { fetch: jest.fn() });
     await shown;
     showErrors(form, { name: ['This name is taken.'], other: ['Try later.'] });
     expect(await violations()).toEqual([]);
@@ -101,7 +101,7 @@ describe('accessibility (axe-core, WCAG 2.1 AA)', () => {
     expect(await violations()).toEqual([]);
     const { initTaskBoard } = await import('../../resources/js/taskboard.js');
     initTaskBoard(element, readOptions(element), { fetch: jest.fn() });
-    const card = element.querySelector('.celerik-board-card');
+    const card = element.querySelector('.caelrik-board-card');
     card.focus();
     card.dispatchEvent(new KeyboardEvent('keydown', { key: ' ', bubbles: true }));
     expect(await violations()).toEqual([]);
@@ -110,7 +110,7 @@ describe('accessibility (axe-core, WCAG 2.1 AA)', () => {
   test('admin layout: app bar, navigation, breadcrumb and an open user menu', async () => {
     loadFixture('admin-layout');
     expect(await violations()).toEqual([]);
-    document.querySelector('.celerik-usermenu').open = true;
+    document.querySelector('.caelrik-usermenu').open = true;
     expect(await violations()).toEqual([]);
   });
 
@@ -156,10 +156,10 @@ describe('accessibility (axe-core, WCAG 2.1 AA)', () => {
     const { initUserMenu } = await import('../../resources/js/usermenu.js');
     const chips = loadFixture('chips').parentElement;
     expect(await violations()).toEqual([]);
-    for (const chip of chips.querySelectorAll('[data-celerik="chip"]')) {
+    for (const chip of chips.querySelectorAll('[data-caelrik="chip"]')) {
       initChip(chip, readOptions(chip));
     }
-    chips.querySelector('.celerik-chip-remove').click();
+    chips.querySelector('.caelrik-chip-remove').click();
     expect(await violations()).toEqual([]);
 
     const tooltip = loadFixture('tooltip');
@@ -248,7 +248,7 @@ describe('accessibility (axe-core, WCAG 2.1 AA)', () => {
     const layout = loadFixture('tilelayout');
     expect(await violations()).toEqual([]);
     initTileLayout(layout, readOptions(layout));
-    layout.querySelector('.celerik-tile-handle').click();
+    layout.querySelector('.caelrik-tile-handle').click();
     expect(await violations()).toEqual([]);
   });
 
@@ -264,7 +264,7 @@ describe('accessibility (axe-core, WCAG 2.1 AA)', () => {
     const parsley = await initForm(form, readOptions(form));
     expect(await violations()).toEqual([]);
 
-    form.querySelector('textarea[name="body"]').celerikEditor.setText('', 'user');
+    form.querySelector('textarea[name="body"]').caelrikEditor.setText('', 'user');
     parsley.validate();
     form.dispatchEvent(new Event('submit', { bubbles: true, cancelable: true }));
     expect(await violations()).toEqual([]);
@@ -280,7 +280,7 @@ describe('accessibility (axe-core, WCAG 2.1 AA)', () => {
 
   test('theme builder markup from PHP, with a failing contrast pair', async () => {
     const element = loadFixture('themebuilder');
-    expect(element.querySelectorAll('.celerik-theme-builder__pair.is-fail')).toHaveLength(1);
+    expect(element.querySelectorAll('.caelrik-theme-builder__pair.is-fail')).toHaveLength(1);
     expect(await violations()).toEqual([]);
   });
 
@@ -324,11 +324,11 @@ describe('accessibility (axe-core, WCAG 2.1 AA)', () => {
     expect(await violations()).toEqual([]);
 
     const parsley = await initForm(form, readOptions(form));
-    form.querySelector('[data-celerik-wizard="next"]').click();
+    form.querySelector('[data-caelrik-wizard="next"]').click();
     expect(await violations()).toEqual([]);
     form.querySelector('[name="name"]').value = 'Ada';
     form.querySelector('[name="email"]').value = 'ada@example.com';
-    form.querySelector('[data-celerik-wizard="next"]').click();
+    form.querySelector('[data-caelrik-wizard="next"]').click();
     expect(await violations()).toEqual([]);
     parsley.destroy();
   });
@@ -338,7 +338,7 @@ describe('accessibility (axe-core, WCAG 2.1 AA)', () => {
     expect(await violations()).toEqual([]);
 
     const parsley = await initForm(form, readOptions(form));
-    form.querySelector('[data-celerik-repeater-add]').click();
+    form.querySelector('[data-caelrik-repeater-add]').click();
     await new Promise((resolve) => setTimeout(resolve));
     parsley.validate();
     expect(await violations()).toEqual([]);
@@ -372,7 +372,7 @@ describe('accessibility (axe-core, WCAG 2.1 AA)', () => {
     expect(await violations()).toEqual([]);
 
     const parsley = await initForm(form, readOptions(form));
-    form.querySelector('[data-celerik-key-value-add]').click();
+    form.querySelector('[data-caelrik-key-value-add]').click();
     parsley.validate();
     expect(await violations()).toEqual([]);
     parsley.destroy();

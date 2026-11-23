@@ -91,7 +91,7 @@ export function initNotification(element, options) {
   return shared.notyf;
 }
 
-// Celerik.notify(type, message): for AJAX responses and other client-side events.
+// Caelrik.notify(type, message): for AJAX responses and other client-side events.
 export function notify(type, message) {
   shared ??= create({});
   return shared.open(toastFor(type, message));

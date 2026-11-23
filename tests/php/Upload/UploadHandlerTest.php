@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Celerik\Ui\Tests\Upload;
+namespace Caelrik\Ui\Tests\Upload;
 
-use Celerik\Ui\Upload\UploadedFile;
-use Celerik\Ui\Upload\UploadException;
-use Celerik\Ui\Upload\UploadHandler;
-use Celerik\Ui\Upload\UploadRules;
+use Caelrik\Ui\Upload\UploadedFile;
+use Caelrik\Ui\Upload\UploadException;
+use Caelrik\Ui\Upload\UploadHandler;
+use Caelrik\Ui\Upload\UploadRules;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
@@ -21,7 +21,7 @@ final class UploadHandlerTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->root = sys_get_temp_dir() . '/celerik-upload-test-' . bin2hex(random_bytes(4));
+        $this->root = sys_get_temp_dir() . '/caelrik-upload-test-' . bin2hex(random_bytes(4));
         mkdir($this->root . '/incoming', 0700, true);
         $this->handler = new UploadHandler(
             UploadRules::types('image/png', 'image/gif', 'application/pdf')->maxSize('1K'),

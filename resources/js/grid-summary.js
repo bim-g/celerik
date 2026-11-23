@@ -83,10 +83,10 @@ export function writeTotal(cell, column, value, labels) {
     return;
   }
   const label = document.createElement('span');
-  label.className = 'celerik-grid-total-label';
+  label.className = 'caelrik-grid-total-label';
   label.textContent = labels[column.total.function] ?? column.total.function;
   const number = document.createElement('span');
-  number.className = 'celerik-grid-total-value';
+  number.className = 'caelrik-grid-total-value';
   number.textContent = text;
   cell.append(label, ' ', number);
 }
@@ -160,17 +160,17 @@ export function connectSummary(grid, element, options) {
     const span = first === -1 ? visible.length : Math.max(first, 1);
 
     const row = document.createElement('tr');
-    row.className = 'celerik-grid-group';
+    row.className = 'caelrik-grid-group';
     const th = document.createElement('th');
     th.scope = 'rowgroup';
     th.colSpan = span;
     const label = document.createElement('span');
-    label.className = 'celerik-grid-group-name';
+    label.className = 'caelrik-grid-group-name';
     label.textContent = name === '' ? labels.noGroup : name;
     th.append(label);
     if (group) {
       const count = document.createElement('span');
-      count.className = 'celerik-grid-group-count';
+      count.className = 'caelrik-grid-group-count';
       const template = group.count === 1 ? labels.groupRow : labels.groupRows;
       count.textContent = template.replaceAll('{count}', formatTotal(group.count, 'count', 0, labels));
       th.append(' ', count);
@@ -179,7 +179,7 @@ export function connectSummary(grid, element, options) {
     // A total in the first column has no cell of its own: it follows the group's name.
     if (first === 0 && group) {
       const extra = document.createElement('span');
-      extra.className = 'celerik-grid-total';
+      extra.className = 'caelrik-grid-total';
       const column = byIndex.get(visible[0]);
       writeTotal(extra, column, group.totals[column.field] ?? null, labels);
       th.append(' ', extra);
@@ -188,7 +188,7 @@ export function connectSummary(grid, element, options) {
       const cell = document.createElement('td');
       const total = byIndex.get(column);
       if (total) {
-        cell.className = 'celerik-grid-total';
+        cell.className = 'caelrik-grid-total';
         if (group) {
           writeTotal(cell, total, group.totals[total.field] ?? null, labels);
         }
@@ -199,7 +199,7 @@ export function connectSummary(grid, element, options) {
   };
 
   const paintGroups = () => {
-    element.tBodies[0]?.querySelectorAll('tr.celerik-grid-group').forEach((row) => row.remove());
+    element.tBodies[0]?.querySelectorAll('tr.caelrik-grid-group').forEach((row) => row.remove());
     const rows = grid.rows({ page: 'current' }).indexes().toArray();
     if (groupIndex === null || groupIndex === undefined || rows.length === 0) {
       return;
@@ -225,7 +225,7 @@ export function connectSummary(grid, element, options) {
   grid.on('column-visibility', paintGroups);
   // A cell changed in place (grid-edit.js): a client-side grid totals again. A server-side
   // grid's totals come with its next page of rows.
-  element.addEventListener('celerik:edit', (event) => {
+  element.addEventListener('caelrik:edit', (event) => {
     if (event.detail?.ok && !serverSide) {
       updateFooter();
       paintGroups();

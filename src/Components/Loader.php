@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Celerik\Ui\Components;
+namespace Caelrik\Ui\Components;
 
-use Celerik\Ui\Component;
-use Celerik\Ui\Support\Html;
+use Caelrik\Ui\Component;
+use Caelrik\Ui\Support\Html;
 use InvalidArgumentException;
 
 /**
@@ -89,12 +89,12 @@ final class Loader extends Component
         ], '');
         $label = Html::tag(
             'span',
-            ['class' => $this->showLabel ? 'celerik-loader-label' : 'visually-hidden'],
+            ['class' => $this->showLabel ? 'caelrik-loader-label' : 'visually-hidden'],
             Html::escape($this->label),
         );
 
         return Html::tag('div', array_merge($this->attributes, [
-            'class' => Html::classes(['celerik-loader', ...$this->classes]),
+            'class' => Html::classes(['caelrik-loader', ...$this->classes]),
             'role' => 'status',
         ]), $spinner . $label);
     }

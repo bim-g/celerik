@@ -1,4 +1,4 @@
-// Runs in the <head> of every demo page (site/demos/build.php), right after celerik.css and
+// Runs in the <head> of every demo page (site/demos/build.php), right after caelrik.css and
 // before the page renders: ?mode=dark sets Bootstrap's dark mode.
 (function () {
   var params = new URLSearchParams(window.location.search);

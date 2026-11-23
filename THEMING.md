@@ -1,14 +1,14 @@
 # Theming
 
-Celerik UI is built on **Bootstrap 5.3**, and Bootstrap is its only look. A Celerik theme changes that look with **design tokens**:
+Caelrik UI is built on **Bootstrap 5.3**, and Bootstrap is its only look. A Caelrik theme changes that look with **design tokens**:
 - ten colors for light mode and ten for dark mode;
 - a corner radius;
 - a font;
 - a container shadow.
 
-From the tokens Celerik writes a small stylesheet, loaded after `celerik.css`. Everything else (spacing, the shape of buttons and dialogs, table style) is Bootstrap's.
+From the tokens Caelrik writes a small stylesheet, loaded after `caelrik.css`. Everything else (spacing, the shape of buttons and dialogs, table style) is Bootstrap's.
 
-The default design is **flat**, for every component, including the libraries Celerik wraps (calendar, file manager, uploads, charts):
+The default design is **flat**, for every component, including the libraries Caelrik wraps (calendar, file manager, uploads, charts):
 - solid colors, and 1px borders instead of drop shadows;
 - no bevels or gradients;
 - one corner radius;
@@ -22,10 +22,10 @@ There are three ways to make one, and they all produce the same file:
 |---|---|---|
 | [ThemeBuilder](#themebuilder) | Designing a theme with a live preview of real components and a contrast report | `theme.json`, `theme.css`, a PHP snippet |
 | [`Theme` in PHP](#theme-in-php) | Themes in code or configuration, per tenant or per user | `Theme::toCss()` |
-| [`celerik-theme` command](#command-line) | Keeping `theme.json` in git and building the CSS in CI | `theme.css` |
+| [`caelrik-theme` command](#command-line) | Keeping `theme.json` in git and building the CSS in CI | `theme.css` |
 
-> **Upgrading from 0.1.x:** the Material and Tailwind looks (`celerik-material.css`, `celerik-tailwind.css`) were removed in 0.2.0 to keep Celerik simple to maintain.
-> - Remove `theme: 'material'` or `theme: 'tailwind'` from `Assets::tags()`, `<x-celerik-assets>` or `celerik_assets()`.
+> **Upgrading from 0.1.x:** the Material and Tailwind looks (`caelrik-material.css`, `caelrik-tailwind.css`) were removed in 0.2.0 to keep Caelrik simple to maintain.
+> - Remove `theme: 'material'` or `theme: 'tailwind'` from `Assets::tags()`, `<x-caelrik-assets>` or `caelrik_assets()`.
 > - In a saved `theme.json`, remove `"base"`, or set it to `"bootstrap"`.
 >
 > Your colors, radius, font and shadow keep working on Bootstrap.
@@ -57,24 +57,24 @@ The contrast pairs are listed once, in [`theme/contrast.json`](theme/contrast.js
 ## Loading a theme
 
 ```php
-Assets::tags('/vendor/celerik', customTheme: '/css/acme.css');
+Assets::tags('/vendor/caelrik', customTheme: '/css/acme.css');
 ```
 
 ```blade
-<x-celerik-assets custom-theme="/css/acme.css" />
+<x-caelrik-assets custom-theme="/css/acme.css" />
 ```
 
 ```twig
-{{ celerik_assets(customTheme: '/css/acme.css') }}
+{{ caelrik_assets(customTheme: '/css/acme.css') }}
 ```
 
-The custom stylesheet is loaded last, after `celerik.css`.
+The custom stylesheet is loaded last, after `caelrik.css`.
 
 ## ThemeBuilder
 
 ```php
-use Celerik\Ui\Components\ThemeBuilder;
-use Celerik\Ui\Theme\Theme;
+use Caelrik\Ui\Components\ThemeBuilder;
+use Caelrik\Ui\Theme\Theme;
 
 echo ThemeBuilder::make('builder')
     ->theme(Theme::fromJson(file_get_contents('theme.json')))   // default: the Bootstrap preset
@@ -111,8 +111,8 @@ The ThemeBuilder is a development tool: put it behind authorization or a local-o
 ## Theme in PHP
 
 ```php
-use Celerik\Ui\Theme\Contrast;
-use Celerik\Ui\Theme\Theme;
+use Caelrik\Ui\Theme\Contrast;
+use Caelrik\Ui\Theme\Theme;
 
 $theme = Theme::preset('bootstrap')
     ->name('Acme')
@@ -136,9 +136,9 @@ Every value is validated against a strict format (hex colors, plain font names, 
 ## Command line
 
 ```bash
-vendor/bin/celerik-theme preset bootstrap > theme.json    # start from Bootstrap's values
-vendor/bin/celerik-theme check theme.json                 # contrast report, exit 1 on a failure
-vendor/bin/celerik-theme build theme.json public/css/acme.css
+vendor/bin/caelrik-theme preset bootstrap > theme.json    # start from Bootstrap's values
+vendor/bin/caelrik-theme check theme.json                 # contrast report, exit 1 on a failure
+vendor/bin/caelrik-theme build theme.json public/css/acme.css
 ```
 
 `build` refuses a theme that fails a contrast pair unless you pass `--allow-contrast-failures`. Exit codes:
@@ -150,8 +150,8 @@ vendor/bin/celerik-theme build theme.json public/css/acme.css
 
 A theme changes the colors, the corner radius, the font and the container shadows, in light and dark mode. For anything else:
 
-- **CSS custom properties.** Override `--bs-*` and `--celerik-*` properties in your own stylesheet, loaded after the theme. No build step.
-- **SCSS.** The variables in `resources/scss/_variables.scss` are `!default`. For changes custom properties cannot make, such as Bootstrap's breakpoints or spacing scale, compile your own entry file; `resources/scss/celerik.scss` is the starting point.
+- **CSS custom properties.** Override `--bs-*` and `--caelrik-*` properties in your own stylesheet, loaded after the theme. No build step.
+- **SCSS.** The variables in `resources/scss/_variables.scss` are `!default`. For changes custom properties cannot make, such as Bootstrap's breakpoints or spacing scale, compile your own entry file; `resources/scss/caelrik.scss` is the starting point.
 
 ## Tests
 

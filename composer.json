@@ -1,5 +1,5 @@
 {
-    "name": "celerik/ui",
+    "name": "caelrik/ui",
     "description": "Open-source, Bootstrap-based UI component suite for PHP, with optional Laravel and Symfony adapters.",
     "homepage": "https://kivudesign.github.io/celerik/",
     "support": {
@@ -42,19 +42,19 @@
     },
     "autoload": {
         "psr-4": {
-            "Celerik\\Ui\\": "src/"
+            "Caelrik\\Ui\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Celerik\\Ui\\Tests\\": "tests/php/"
+            "Caelrik\\Ui\\Tests\\": "tests/php/"
         }
     },
-    "bin": ["bin/celerik-theme"],
+    "bin": ["bin/caelrik-theme"],
     "extra": {
         "laravel": {
             "providers": [
-                "Celerik\\Ui\\Adapters\\Laravel\\CelerikServiceProvider"
+                "Caelrik\\Ui\\Adapters\\Laravel\\CaelrikServiceProvider"
             ]
         }
     },

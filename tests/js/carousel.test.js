@@ -3,10 +3,10 @@ import { initCarousel } from '../../resources/js/carousel.js';
 import { readOptions } from '../../resources/js/core.js';
 import { loadFixture } from './helpers.js';
 
-const active = (root) => [...root.querySelectorAll('.celerik-carousel-slide')]
+const active = (root) => [...root.querySelectorAll('.caelrik-carousel-slide')]
   .findIndex((slide) => slide.classList.contains('is-active'));
-const button = (root, name) => root.querySelector(`.celerik-carousel-${name}`);
-const dots = (root) => [...root.querySelectorAll('.celerik-carousel-dot')];
+const button = (root, name) => root.querySelector(`.caelrik-carousel-${name}`);
+const dots = (root) => [...root.querySelectorAll('.caelrik-carousel-dot')];
 
 describe('carousel', () => {
   let root;
@@ -19,9 +19,9 @@ describe('carousel', () => {
 
   test('Next and Previous move through the slides and loop, and say which one is current', () => {
     const changes = [];
-    root.addEventListener('celerik:change', (event) => changes.push(event.detail.index));
+    root.addEventListener('caelrik:change', (event) => changes.push(event.detail.index));
     expect(active(root)).toBe(0);
-    expect(root.querySelector('.celerik-carousel-slides').getAttribute('aria-live')).toBe('polite');
+    expect(root.querySelector('.caelrik-carousel-slides').getAttribute('aria-live')).toBe('polite');
 
     button(root, 'next').click();
     expect(active(root)).toBe(1);
@@ -43,13 +43,13 @@ describe('carousel', () => {
     expect(dots(root)[2].getAttribute('aria-current')).toBe('true');
     // The same slide again changes nothing.
     const changes = [];
-    root.addEventListener('celerik:change', (event) => changes.push(event.detail.index));
+    root.addEventListener('caelrik:change', (event) => changes.push(event.detail.index));
     dots(root)[2].click();
     expect(changes).toEqual([]);
   });
 
   test('a horizontal swipe on a touch screen moves; a mouse drag does not', () => {
-    const region = root.querySelector('.celerik-carousel-slides');
+    const region = root.querySelector('.caelrik-carousel-slides');
     const swipe = (pointerType, from, to) => {
       region.dispatchEvent(Object.assign(new Event('pointerdown'), { pointerType, clientX: from }));
       region.dispatchEvent(Object.assign(new Event('pointerup'), { pointerType, clientX: to }));
@@ -68,7 +68,7 @@ describe('carousel', () => {
 describe('carousel with automatic rotation', () => {
   let root;
   let carousel;
-  const region = () => root.querySelector('.celerik-carousel-slides');
+  const region = () => root.querySelector('.caelrik-carousel-slides');
 
   beforeEach(() => {
     jest.useFakeTimers();

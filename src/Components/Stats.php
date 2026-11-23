@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Celerik\Ui\Components;
+namespace Caelrik\Ui\Components;
 
-use Celerik\Ui\Component;
-use Celerik\Ui\Support\Html;
+use Caelrik\Ui\Component;
+use Caelrik\Ui\Support\Html;
 use InvalidArgumentException;
 use LogicException;
 
@@ -71,7 +71,7 @@ final class Stats extends Component
         foreach ($this->stats as $stat) {
             $items .= Html::tag('li', [], $stat->render());
         }
-        $attributes = $this->rootAttributes(['celerik-stats', 'celerik-stats-cols-' . $this->columns]);
+        $attributes = $this->rootAttributes(['caelrik-stats', 'caelrik-stats-cols-' . $this->columns]);
         $attributes['aria-label'] = $this->label;
 
         return Html::tag('ul', $attributes, $items);

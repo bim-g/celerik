@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Celerik\Ui\Components;
+namespace Caelrik\Ui\Components;
 
-use Celerik\Ui\Component;
-use Celerik\Ui\Support\Html;
+use Caelrik\Ui\Component;
+use Caelrik\Ui\Support\Html;
 use InvalidArgumentException;
 use LogicException;
 use Stringable;
@@ -74,13 +74,13 @@ final class Tooltip extends Component
         // Plain text is made focusable, so keyboard users reach its tooltip too.
         $trigger = $this->trigger instanceof Stringable
             ? (string) $this->trigger
-            : Html::tag('span', ['class' => 'celerik-tooltip-text', 'tabindex' => '0'], Html::escape($this->trigger));
+            : Html::tag('span', ['class' => 'caelrik-tooltip-text', 'tabindex' => '0'], Html::escape($this->trigger));
 
         return Html::tag(
             'span',
-            $this->rootAttributes(['celerik-tooltip-wrap']),
+            $this->rootAttributes(['caelrik-tooltip-wrap']),
             $trigger . Html::tag('span', [
-                'class' => 'celerik-tooltip',
+                'class' => 'caelrik-tooltip',
                 'id' => $this->id . '-tip',
                 'role' => 'tooltip',
                 'hidden' => true,

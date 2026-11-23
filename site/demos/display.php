@@ -1,14 +1,14 @@
 <?php
 
-use Celerik\Ui\Components\Avatar;
-use Celerik\Ui\Components\Badge;
-use Celerik\Ui\Components\Chip;
-use Celerik\Ui\Components\Loader;
-use Celerik\Ui\Components\Popover;
-use Celerik\Ui\Components\Progress;
-use Celerik\Ui\Components\Skeleton;
-use Celerik\Ui\Components\Tooltip;
-use Celerik\Ui\Support\Html;
+use Caelrik\Ui\Components\Avatar;
+use Caelrik\Ui\Components\Badge;
+use Caelrik\Ui\Components\Chip;
+use Caelrik\Ui\Components\Loader;
+use Caelrik\Ui\Components\Popover;
+use Caelrik\Ui\Components\Progress;
+use Caelrik\Ui\Components\Skeleton;
+use Caelrik\Ui\Components\Tooltip;
+use Caelrik\Ui\Support\Html;
 
 // A row of small elements.
 $row = static fn (string ...$parts) => Html::raw(

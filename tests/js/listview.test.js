@@ -5,9 +5,9 @@ import { readOptions } from '../../resources/js/core.js';
 import { loadFixture } from './helpers.js';
 
 const flush = () => new Promise((resolve) => { setTimeout(resolve, 0); });
-const titles = (element) => [...element.querySelectorAll('.celerik-listview-items .celerik-listview-title')]
+const titles = (element) => [...element.querySelectorAll('.caelrik-listview-items .caelrik-listview-title')]
   .map((node) => node.textContent);
-const pages = (element) => [...element.querySelectorAll('.celerik-listview-pager button')].map((node) => node.textContent);
+const pages = (element) => [...element.querySelectorAll('.caelrik-listview-pager button')].map((node) => node.textContent);
 
 describe('listview helpers', () => {
   test('pageWindow offers the first, the last and the current page with its neighbours', () => {
@@ -44,8 +44,8 @@ describe('listview helpers', () => {
     const html = itemHtml(options, {
       id: 'x/1', title: '<i>T</i>', summary: 'S', author: null,
     });
-    expect(html).toContain('<h2 class="celerik-listview-title"><a href="/a/x%2F1">&lt;i&gt;T&lt;/i&gt;</a></h2>');
-    expect(html).not.toContain('celerik-listview-meta');
+    expect(html).toContain('<h2 class="caelrik-listview-title"><a href="/a/x%2F1">&lt;i&gt;T&lt;/i&gt;</a></h2>');
+    expect(html).not.toContain('caelrik-listview-meta');
     expect(html).toContain('aria-label="Delete &lt;i&gt;T&lt;/i&gt;"');
   });
 });
@@ -59,7 +59,7 @@ describe('a client-side list', () => {
   });
 
   test('shows the toolbar, the first page in the first order, the status and the pager', () => {
-    expect(element.querySelector('.celerik-listview-toolbar').hidden).toBe(false);
+    expect(element.querySelector('.caelrik-listview-toolbar').hidden).toBe(false);
     expect(titles(element)).toEqual(['Structured Programming', 'On Computing Machinery', 'Go To Statement']);
     expect(element.querySelector('[role=status]').textContent).toBe('1–3 of 7');
     const nav = element.querySelector('nav');
@@ -76,7 +76,7 @@ describe('a client-side list', () => {
 
     expect(titles(element)).toEqual(['Notes on the Engine']);
     expect(element.querySelector('[role=status]').textContent).toBe('7–7 of 7');
-    expect(document.activeElement).toBe(element.querySelector('.celerik-listview-items'));
+    expect(document.activeElement).toBe(element.querySelector('.caelrik-listview-items'));
     expect([...element.querySelectorAll('nav button')].pop().disabled).toBe(true);
   });
 
@@ -102,8 +102,8 @@ describe('a client-side list', () => {
     search.value = 'zzz';
     search.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter' }));
     await flush();
-    const empty = element.querySelector('.celerik-listview-empty');
-    expect(element.querySelector('.celerik-listview-items').hidden).toBe(true);
+    const empty = element.querySelector('.caelrik-listview-empty');
+    expect(element.querySelector('.caelrik-listview-items').hidden).toBe(true);
     expect(empty.hidden).toBe(false);
     expect(empty.textContent).toContain('No items match your search');
     expect(element.querySelector('[role=status]').textContent).toBe('');
@@ -117,23 +117,23 @@ describe('a client-side list', () => {
   });
 
   test('a deleted item leaves the list, and focus goes to the list', async () => {
-    const form = element.querySelector('form.celerik-action');
+    const form = element.querySelector('form.caelrik-action');
     form.querySelector('button').focus();
-    form.dispatchEvent(new CustomEvent('celerik:action', { bubbles: true, detail: { ok: true, method: 'DELETE' } }));
+    form.dispatchEvent(new CustomEvent('caelrik:action', { bubbles: true, detail: { ok: true, method: 'DELETE' } }));
     await flush();
 
     expect(titles(element)).toEqual(['On Computing Machinery', 'Go To Statement', 'The Art of Programming']);
     expect(element.querySelector('[role=status]').textContent).toBe('1–3 of 6');
-    expect(document.activeElement).toBe(element.querySelector('.celerik-listview-items'));
+    expect(document.activeElement).toBe(element.querySelector('.caelrik-listview-items'));
   });
 });
 
 test('a list without items shows its empty state', () => {
   const element = loadFixture('listview-empty');
-  expect(element.querySelector('.celerik-listview-items').hidden).toBe(true);
-  expect(element.querySelector('.celerik-listview-empty').hidden).toBe(false);
+  expect(element.querySelector('.caelrik-listview-items').hidden).toBe(true);
+  expect(element.querySelector('.caelrik-listview-empty').hidden).toBe(false);
   initListView(element, readOptions(element));
-  expect(element.querySelector('.celerik-listview-empty').textContent).toContain('No notes yet');
+  expect(element.querySelector('.caelrik-listview-empty').textContent).toContain('No notes yet');
   expect(element.querySelector('nav').hidden).toBe(true);
 });
 
@@ -147,10 +147,10 @@ describe('a server-side list', () => {
   };
 
   function mount() {
-    document.body.innerHTML = '<div id="l"><ul class="celerik-listview-items" tabindex="-1"></ul>'
-      + '<div class="celerik-listview-empty" hidden><p>No items to show</p></div>'
-      + '<div class="celerik-listview-footer"><p role="status" data-celerik-listview-status></p>'
-      + '<nav class="celerik-listview-pager" hidden></nav></div></div>';
+    document.body.innerHTML = '<div id="l"><ul class="caelrik-listview-items" tabindex="-1"></ul>'
+      + '<div class="caelrik-listview-empty" hidden><p>No items to show</p></div>'
+      + '<div class="caelrik-listview-footer"><p role="status" data-caelrik-listview-status></p>'
+      + '<nav class="caelrik-listview-pager" hidden></nav></div></div>';
     return document.getElementById('l');
   }
 

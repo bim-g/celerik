@@ -9,8 +9,8 @@ test.describe('dashboard', () => {
     expect(errors).toEqual([]);
     const kpis = page.getByRole('list', { name: 'This month' });
     await expect(kpis.getByRole('listitem')).toHaveCount(4);
-    await expect(page.locator('#kpi-churn .celerik-stat-change')).toHaveText('Down 0.4 pts');
-    await expect(page.locator('#kpi-churn .celerik-stat-trend')).toHaveClass(/celerik-stat-trend-good/);
+    await expect(page.locator('#kpi-churn .caelrik-stat-change')).toHaveText('Down 0.4 pts');
+    await expect(page.locator('#kpi-churn .caelrik-stat-trend')).toHaveClass(/caelrik-stat-trend-good/);
     await expect(page.getByRole('img', { name: /^Revenue, last 7 values: from 8 to 16/ })).toBeVisible();
     // The label's link covers the tile.
     const link = page.getByRole('link', { name: 'Revenue' });

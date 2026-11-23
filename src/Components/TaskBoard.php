@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Celerik\Ui\Components;
+namespace Caelrik\Ui\Components;
 
-use Celerik\Ui\Component;
-use Celerik\Ui\Data\CardMove;
-use Celerik\Ui\Data\DataRequest;
-use Celerik\Ui\Data\InvalidCardMove;
-use Celerik\Ui\Support\Arr;
-use Celerik\Ui\Support\Html;
+use Caelrik\Ui\Component;
+use Caelrik\Ui\Data\CardMove;
+use Caelrik\Ui\Data\DataRequest;
+use Caelrik\Ui\Data\InvalidCardMove;
+use Caelrik\Ui\Support\Arr;
+use Caelrik\Ui\Support\Html;
 use InvalidArgumentException;
 use LogicException;
 
@@ -288,26 +288,26 @@ final class TaskBoard extends Component
             }
             $count = count($byColumn[$key]);
             $heading = Html::tag('h' . $this->headingLevel, [
-                'class' => 'celerik-board-column-title',
+                'class' => 'caelrik-board-column-title',
                 'id' => $headingId,
             ], Html::tag('span', [], Html::escape($column['label'])) . ' '
                 . $this->renderCount($count, $column['limit']));
             $html .= Html::tag('section', [
-                'class' => 'celerik-board-column',
+                'class' => 'caelrik-board-column',
                 'aria-labelledby' => $headingId,
                 'data-column' => $key,
             ], $heading . Html::tag('ul', [
-                'class' => 'celerik-board-cards list-unstyled',
+                'class' => 'caelrik-board-cards list-unstyled',
                 'data-column' => $key,
                 'aria-labelledby' => $headingId,
             ], $cards));
         }
 
-        return Html::tag('div', array_merge($this->rootAttributes(['celerik-board']), [
+        return Html::tag('div', array_merge($this->rootAttributes(['caelrik-board']), [
             'role' => 'region',
             'aria-label' => $this->label,
         ]), Html::tag('p', ['class' => 'visually-hidden', 'id' => $help], Html::escape($this->labels['help']))
-            . Html::tag('div', ['class' => 'celerik-board-columns'], $html));
+            . Html::tag('div', ['class' => 'caelrik-board-columns'], $html));
     }
 
     /**
@@ -325,7 +325,7 @@ final class TaskBoard extends Component
         };
         $short = $limit === null ? (string) $count : $count . '/' . $limit;
 
-        return Html::tag('span', ['class' => 'celerik-board-count', 'data-celerik-board-count' => true], Html::tag(
+        return Html::tag('span', ['class' => 'caelrik-board-count', 'data-caelrik-board-count' => true], Html::tag(
             'span',
             ['class' => 'badge rounded-pill text-bg-secondary', 'aria-hidden' => 'true'],
             Html::escape($short),
@@ -346,10 +346,10 @@ final class TaskBoard extends Component
         if ($this->linkTemplate !== null) {
             $heading = Html::tag('a', ['href' => self::fill($this->linkTemplate, $card)], $heading);
         }
-        $body = Html::tag('h' . ($this->headingLevel + 1), ['class' => 'celerik-board-card-title'], $heading);
+        $body = Html::tag('h' . ($this->headingLevel + 1), ['class' => 'caelrik-board-card-title'], $heading);
         if ($text($this->descriptionField) !== '') {
             $description = Html::escape($text($this->descriptionField));
-            $body .= Html::tag('p', ['class' => 'celerik-board-card-description'], $description);
+            $body .= Html::tag('p', ['class' => 'caelrik-board-card-description'], $description);
         }
         $meta = '';
         foreach ($this->metaFields as $field) {
@@ -358,11 +358,11 @@ final class TaskBoard extends Component
             }
         }
         if ($meta !== '') {
-            $body .= Html::tag('p', ['class' => 'celerik-board-card-meta'], $meta);
+            $body .= Html::tag('p', ['class' => 'caelrik-board-card-meta'], $meta);
         }
 
         return Html::tag('li', [
-            'class' => 'celerik-board-card',
+            'class' => 'caelrik-board-card',
             'data-id' => $text($this->idField),
             'tabindex' => '0',
             'aria-describedby' => $this->moveUrl === null ? null : $help,
@@ -394,7 +394,7 @@ final class TaskBoard extends Component
         $id = $this->id . '-move-' . $index;
 
         return Html::tag('form', [
-            'class' => 'celerik-board-move',
+            'class' => 'caelrik-board-move',
             'method' => 'post',
             'action' => self::fill($this->moveUrl, $card),
         ], $fields
@@ -407,7 +407,7 @@ final class TaskBoard extends Component
                 'class' => 'form-select form-select-sm',
             ], $options) . Html::tag(
                 'button',
-                ['type' => 'submit', 'class' => 'btn btn-outline-secondary celerik-action-button'],
+                ['type' => 'submit', 'class' => 'btn btn-outline-secondary caelrik-action-button'],
                 Html::escape($this->labels['move']),
             )));
     }

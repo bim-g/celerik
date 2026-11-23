@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Celerik\Ui\Components;
+namespace Caelrik\Ui\Components;
 
-use Celerik\Ui\Component;
-use Celerik\Ui\Data\DataRequest;
-use Celerik\Ui\Data\DataResult;
-use Celerik\Ui\Data\DataSourceInterface;
-use Celerik\Ui\Support\Arr;
-use Celerik\Ui\Support\Html;
-use Celerik\Ui\Support\Url;
+use Caelrik\Ui\Component;
+use Caelrik\Ui\Data\DataRequest;
+use Caelrik\Ui\Data\DataResult;
+use Caelrik\Ui\Data\DataSourceInterface;
+use Caelrik\Ui\Support\Arr;
+use Caelrik\Ui\Support\Html;
+use Caelrik\Ui\Support\Url;
 use InvalidArgumentException;
 use LogicException;
 
@@ -358,7 +358,7 @@ final class ListView extends Component
 
         $list = Html::tag('ul', [
             'class' => Html::classes([
-                'celerik-listview-items',
+                'caelrik-listview-items',
                 'list-unstyled',
                 $this->layout === 'cards' ? $this->cardClasses() : null,
             ]),
@@ -371,15 +371,15 @@ final class ListView extends Component
 
         return Html::tag(
             'div',
-            $this->rootAttributes(['celerik-listview', 'celerik-listview-' . $this->layout]),
+            $this->rootAttributes(['caelrik-listview', 'caelrik-listview-' . $this->layout]),
             $this->renderToolbar()
             . $list
-            . Html::tag('div', ['class' => 'celerik-listview-empty', 'hidden' => !$empty], $this->renderEmpty())
-            . Html::tag('div', ['class' => 'celerik-listview-footer'], Html::tag(
+            . Html::tag('div', ['class' => 'caelrik-listview-empty', 'hidden' => !$empty], $this->renderEmpty())
+            . Html::tag('div', ['class' => 'caelrik-listview-footer'], Html::tag(
                 'p',
-                ['class' => 'celerik-listview-status', 'role' => 'status', 'data-celerik-listview-status' => true],
+                ['class' => 'caelrik-listview-status', 'role' => 'status', 'data-caelrik-listview-status' => true],
                 '',
-            ) . Html::tag('nav', ['class' => 'celerik-listview-pager', 'aria-label' => $pages, 'hidden' => true], '')),
+            ) . Html::tag('nav', ['class' => 'caelrik-listview-pager', 'aria-label' => $pages, 'hidden' => true], '')),
         ) . $this->renderActionModals();
     }
 
@@ -397,12 +397,12 @@ final class ListView extends Component
         if ($this->linkTemplate !== null) {
             $heading = Html::tag('a', ['href' => self::fill($this->linkTemplate, $row)], $heading);
         }
-        $body = Html::tag('h' . $this->headingLevel, ['class' => 'celerik-listview-title'], $heading);
+        $body = Html::tag('h' . $this->headingLevel, ['class' => 'caelrik-listview-title'], $heading);
 
         if ($this->descriptionField !== null && $text($this->descriptionField) !== '') {
             $body .= Html::tag(
                 'p',
-                ['class' => 'celerik-listview-description'],
+                ['class' => 'caelrik-listview-description'],
                 Html::escape($text($this->descriptionField)),
             );
         }
@@ -413,14 +413,14 @@ final class ListView extends Component
             }
         }
         if ($meta !== '') {
-            $body .= Html::tag('p', ['class' => 'celerik-listview-meta'], $meta);
+            $body .= Html::tag('p', ['class' => 'caelrik-listview-meta'], $meta);
         }
 
         $image = '';
         $src = $this->imageField === null ? null : Url::safe($text($this->imageField));
         if ($src !== null) {
             $image = Html::tag('img', [
-                'class' => 'celerik-listview-image',
+                'class' => 'caelrik-listview-image',
                 'src' => $src,
                 'alt' => $text($this->imageAltField),
                 'loading' => 'lazy',
@@ -433,7 +433,7 @@ final class ListView extends Component
             $actions .= $action->render($row, small: true, ariaLabel: $name, modal: false);
         }
         if ($actions !== '') {
-            $actions = Html::tag('div', ['class' => 'celerik-listview-actions'], $actions);
+            $actions = Html::tag('div', ['class' => 'caelrik-listview-actions'], $actions);
         }
 
         $sort = [];
@@ -445,8 +445,8 @@ final class ListView extends Component
 
         $item = Html::tag(
             'div',
-            ['class' => 'celerik-listview-item'],
-            $image . Html::tag('div', ['class' => 'celerik-listview-body'], $body) . $actions,
+            ['class' => 'caelrik-listview-item'],
+            $image . Html::tag('div', ['class' => 'caelrik-listview-body'], $body) . $actions,
         );
 
         return Html::tag('li', [
@@ -463,7 +463,7 @@ final class ListView extends Component
         $controls = '';
         if ($this->searchable) {
             $id = $this->id . '-search';
-            $controls .= Html::tag('div', ['class' => 'celerik-listview-search'], Html::tag(
+            $controls .= Html::tag('div', ['class' => 'caelrik-listview-search'], Html::tag(
                 'label',
                 ['class' => 'form-label', 'for' => $id],
                 Html::escape($this->labels['search']),
@@ -472,7 +472,7 @@ final class ListView extends Component
                 'id' => $id,
                 'class' => 'form-control',
                 'autocomplete' => 'off',
-                'data-celerik-listview-search' => true,
+                'data-caelrik-listview-search' => true,
             ]));
         }
         if ($this->sorts !== []) {
@@ -481,19 +481,19 @@ final class ListView extends Component
             foreach ($this->sorts as $sort => $label) {
                 $options .= Html::tag('option', ['value' => $sort], Html::escape($label));
             }
-            $controls .= Html::tag('div', ['class' => 'celerik-listview-sort'], Html::tag(
+            $controls .= Html::tag('div', ['class' => 'caelrik-listview-sort'], Html::tag(
                 'label',
                 ['class' => 'form-label', 'for' => $id],
                 Html::escape($this->labels['sort']),
             ) . Html::tag('select', [
                 'id' => $id,
                 'class' => 'form-select',
-                'data-celerik-listview-sort' => true,
+                'data-caelrik-listview-sort' => true,
             ], $options));
         }
 
         return $controls === '' ? '' : Html::tag('div', [
-            'class' => 'celerik-listview-toolbar d-flex flex-wrap align-items-end gap-3 mb-3',
+            'class' => 'caelrik-listview-toolbar d-flex flex-wrap align-items-end gap-3 mb-3',
             'hidden' => true,
         ], $controls);
     }
@@ -502,16 +502,16 @@ final class ListView extends Component
     {
         $html = Html::tag(
             'p',
-            ['class' => 'celerik-listview-empty-title'],
+            ['class' => 'caelrik-listview-empty-title'],
             Html::escape($this->emptyTitle ?? $this->labels['empty']),
         );
         if ($this->emptyDescription !== null) {
             $description = Html::escape($this->emptyDescription);
-            $html .= Html::tag('p', ['class' => 'celerik-listview-empty-description'], $description);
+            $html .= Html::tag('p', ['class' => 'caelrik-listview-empty-description'], $description);
         }
         if ($this->emptyAction !== null) {
             $action = $this->emptyAction->render(small: true);
-            $html .= Html::tag('div', ['class' => 'celerik-listview-empty-action'], $action);
+            $html .= Html::tag('div', ['class' => 'caelrik-listview-empty-action'], $action);
         }
 
         return $html;

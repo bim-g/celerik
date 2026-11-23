@@ -1,6 +1,6 @@
 <?php
 
-use Celerik\Ui\Components\Gantt;
+use Caelrik\Ui\Components\Gantt;
 
 return [
     Gantt::make('launch')->label('Product launch')->today('2026-11-20')

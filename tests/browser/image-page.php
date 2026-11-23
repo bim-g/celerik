@@ -7,9 +7,9 @@
 
 declare(strict_types=1);
 
-use Celerik\Ui\Assets;
-use Celerik\Ui\Components\Form;
-use Celerik\Ui\Components\Form\Field;
+use Caelrik\Ui\Assets;
+use Caelrik\Ui\Components\Form;
+use Caelrik\Ui\Components\Form\Field;
 
 if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
     header('Content-Type: application/json');

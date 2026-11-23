@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Celerik\Ui\Components;
+namespace Caelrik\Ui\Components;
 
-use Celerik\Ui\Component;
-use Celerik\Ui\Support\Html;
+use Caelrik\Ui\Component;
+use Caelrik\Ui\Support\Html;
 use InvalidArgumentException;
 
 /**
@@ -198,7 +198,7 @@ final class Notification extends Component
 
         return Html::tag(
             'div',
-            $this->rootAttributes(['celerik-notification']),
+            $this->rootAttributes(['caelrik-notification']),
             $alerts === '' ? '' : Html::tag('noscript', [], $alerts),
         );
     }

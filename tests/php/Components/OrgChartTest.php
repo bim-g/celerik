@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Celerik\Ui\Tests\Components;
+namespace Caelrik\Ui\Tests\Components;
 
-use Celerik\Ui\Components\OrgChart;
+use Caelrik\Ui\Components\OrgChart;
 use InvalidArgumentException;
 use LogicException;
 use PHPUnit\Framework\Attributes\DataProvider;
@@ -20,22 +20,22 @@ final class OrgChartTest extends TestCase
             ->render();
 
         self::assertStringStartsWith(
-            '<div id="team" class="celerik-orgchart" data-celerik="orgchart" data-celerik-options="{}">'
-            . '<p id="team-label" class="celerik-orgchart-label">Engineering &lt;R&amp;D&gt;</p>'
-            . '<div class="celerik-orgchart-scroll" role="region" aria-labelledby="team-label" tabindex="0">'
-            . '<ul class="celerik-orgchart-tree" aria-labelledby="team-label"><li class="celerik-orgchart-item" data-level="1">'
-            . '<div class="celerik-orgchart-node"><span class="celerik-avatar celerik-avatar-md text-bg-',
+            '<div id="team" class="caelrik-orgchart" data-caelrik="orgchart" data-caelrik-options="{}">'
+            . '<p id="team-label" class="caelrik-orgchart-label">Engineering &lt;R&amp;D&gt;</p>'
+            . '<div class="caelrik-orgchart-scroll" role="region" aria-labelledby="team-label" tabindex="0">'
+            . '<ul class="caelrik-orgchart-tree" aria-labelledby="team-label"><li class="caelrik-orgchart-item" data-level="1">'
+            . '<div class="caelrik-orgchart-node"><span class="caelrik-avatar caelrik-avatar-md text-bg-',
             $html,
         );
         self::assertStringContainsString(
-            '<div class="celerik-orgchart-text"><p class="celerik-orgchart-name"><a href="/people/ada">Ada Lovelace</a></p>'
-            . '<p class="celerik-orgchart-title">CTO</p></div></div>'
-            . '<ul class="celerik-orgchart-team" id="team-team-ada"><li class="celerik-orgchart-item" data-level="2">',
+            '<div class="caelrik-orgchart-text"><p class="caelrik-orgchart-name"><a href="/people/ada">Ada Lovelace</a></p>'
+            . '<p class="caelrik-orgchart-title">CTO</p></div></div>'
+            . '<ul class="caelrik-orgchart-team" id="team-team-ada"><li class="caelrik-orgchart-item" data-level="2">',
             $html,
         );
         // The picture is decorative: the name is written next to it.
         self::assertStringContainsString('aria-hidden="true"><img src="/alan.jpg" alt=""', $html);
-        self::assertStringContainsString('<p class="celerik-orgchart-name">Alan &lt;Turing&gt;</p></div></div></li></ul>', $html);
+        self::assertStringContainsString('<p class="caelrik-orgchart-name">Alan &lt;Turing&gt;</p></div></div></li></ul>', $html);
         // Not collapsible: no buttons.
         self::assertStringNotContainsString('<button', $html);
         self::assertStringNotContainsString('style=', $html);
@@ -55,23 +55,23 @@ final class OrgChartTest extends TestCase
         self::assertSame(['expandLevels' => 2], $chart->toArray());
         $html = $chart->render();
 
-        self::assertStringContainsString('class="celerik-orgchart is-collapsible"', $html);
+        self::assertStringContainsString('class="caelrik-orgchart is-collapsible"', $html);
         // Everyone under Grace counts: 4 people.
         self::assertStringContainsString(
-            '<button type="button" class="celerik-orgchart-toggle" aria-expanded="true" aria-controls="co-team-1" '
-            . 'aria-label="Équipe de Grace : 4"><span class="celerik-orgchart-count">4</span>'
-            . '<span class="celerik-orgchart-chevron" aria-hidden="true"></span></button>',
+            '<button type="button" class="caelrik-orgchart-toggle" aria-expanded="true" aria-controls="co-team-1" '
+            . 'aria-label="Équipe de Grace : 4"><span class="caelrik-orgchart-count">4</span>'
+            . '<span class="caelrik-orgchart-chevron" aria-hidden="true"></span></button>',
             $html,
         );
         self::assertStringContainsString('aria-label="Équipe de Ada : une personne"', $html);
         // An empty title writes nothing; people without a team have no button.
-        self::assertStringContainsString('<p class="celerik-orgchart-name">Ada</p></div><button', $html);
+        self::assertStringContainsString('<p class="caelrik-orgchart-name">Ada</p></div><button', $html);
         self::assertSame(3, substr_count($html, '<button'));
         self::assertStringContainsString('id="co-team-4"', $html);
         // An id that cannot be part of an HTML id is hashed.
         $hashed = OrgChart::make('h')->label('H')->node('a b', 'A')->node('c', 'C', parent: 'a b')->render();
-        self::assertMatchesRegularExpression('/<ul class="celerik-orgchart-team" id="h-team-h[0-9a-f]{10}">/', $hashed);
-        self::assertSame(1, preg_match('/<li class="celerik-orgchart-item" data-level="3">/', $html));
+        self::assertMatchesRegularExpression('/<ul class="caelrik-orgchart-team" id="h-team-h[0-9a-f]{10}">/', $hashed);
+        self::assertSame(1, preg_match('/<li class="caelrik-orgchart-item" data-level="3">/', $html));
     }
 
     public function testBrokenHierarchies(): void

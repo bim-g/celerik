@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace Celerik\Ui\Tests\Components;
+namespace Caelrik\Ui\Tests\Components;
 
-use Celerik\Ui\Components\Action;
-use Celerik\Ui\Components\ContextMenu;
-use Celerik\Ui\Components\Form;
-use Celerik\Ui\Components\MenuButton;
-use Celerik\Ui\Components\Navigation;
-use Celerik\Ui\Components\SplitButton;
-use Celerik\Ui\Components\Toolbar;
-use Celerik\Ui\Support\Html;
+use Caelrik\Ui\Components\Action;
+use Caelrik\Ui\Components\ContextMenu;
+use Caelrik\Ui\Components\Form;
+use Caelrik\Ui\Components\MenuButton;
+use Caelrik\Ui\Components\Navigation;
+use Caelrik\Ui\Components\SplitButton;
+use Caelrik\Ui\Components\Toolbar;
+use Caelrik\Ui\Support\Html;
 use InvalidArgumentException;
 use LogicException;
 use PHPUnit\Framework\TestCase;
@@ -27,17 +27,17 @@ final class MenusTest extends TestCase
             ->action(Action::request('email', 'E-mail me', '/members/email')->csrf('t0k3n'))
             ->render();
 
-        self::assertStringContainsString('<div id="export" class="celerik-menubutton celerik-menu-end" data-celerik="menubutton"', $html);
+        self::assertStringContainsString('<div id="export" class="caelrik-menubutton caelrik-menu-end" data-caelrik="menubutton"', $html);
         self::assertStringContainsString(
-            '<button type="button" class="btn btn-primary btn-sm celerik-action-button celerik-menu-toggle dropdown-toggle" '
+            '<button type="button" class="btn btn-primary btn-sm caelrik-action-button caelrik-menu-toggle dropdown-toggle" '
             . 'id="export-button" '
             . 'aria-controls="export-menu">Export &lt;all&gt;</button>',
             $html,
         );
-        self::assertStringContainsString('<ul class="celerik-menu-list list-unstyled" id="export-menu">', $html);
-        self::assertStringContainsString('<li><a class="celerik-menu-item" href="/members.csv">CSV</a></li>', $html);
-        self::assertStringContainsString('<span class="celerik-menu-item" data-disabled>PDF</span>', $html);
-        self::assertStringContainsString('<li class="celerik-menu-divider"></li>', $html);
+        self::assertStringContainsString('<ul class="caelrik-menu-list list-unstyled" id="export-menu">', $html);
+        self::assertStringContainsString('<li><a class="caelrik-menu-item" href="/members.csv">CSV</a></li>', $html);
+        self::assertStringContainsString('<span class="caelrik-menu-item" data-disabled>PDF</span>', $html);
+        self::assertStringContainsString('<li class="caelrik-menu-divider"></li>', $html);
         self::assertStringContainsString('action="/members/email"', $html);
         // Roles come with JavaScript: without it, this is a list, not a menu that cannot be used.
         self::assertStringNotContainsString('role="menu', $html);
@@ -62,7 +62,7 @@ final class MenusTest extends TestCase
             ->link('Preview', '/posts/1/preview')
             ->render();
 
-        self::assertStringContainsString('class="celerik-splitbutton btn-group" data-celerik="splitbutton"', $html);
+        self::assertStringContainsString('class="caelrik-splitbutton btn-group" data-caelrik="splitbutton"', $html);
         self::assertStringContainsString('action="/posts/1"', $html);
         self::assertStringContainsString('dropdown-toggle-split" id="save-button" aria-controls="save-menu" aria-label="Plus d&apos;options"', $html);
     }
@@ -74,10 +74,10 @@ final class MenusTest extends TestCase
             ->separator()
             ->render();
 
-        self::assertStringContainsString('class="celerik-toolbar" data-celerik="toolbar" data-celerik-options="{}" role="toolbar" aria-label="Members"', $html);
-        self::assertStringContainsString('<div class="celerik-toolbar-item"><button type="button" class="btn">Raw</button></div>', $html);
-        self::assertStringContainsString('<div class="celerik-toolbar-item">Text &lt;b&gt;</div>', $html);
-        self::assertStringContainsString('<span class="celerik-toolbar-separator" aria-hidden="true"></span>', $html);
+        self::assertStringContainsString('class="caelrik-toolbar" data-caelrik="toolbar" data-caelrik-options="{}" role="toolbar" aria-label="Members"', $html);
+        self::assertStringContainsString('<div class="caelrik-toolbar-item"><button type="button" class="btn">Raw</button></div>', $html);
+        self::assertStringContainsString('<div class="caelrik-toolbar-item">Text &lt;b&gt;</div>', $html);
+        self::assertStringContainsString('<span class="caelrik-toolbar-separator" aria-hidden="true"></span>', $html);
     }
 
     public function testContextMenuSendsItsItemsToTheBrowser(): void
@@ -87,7 +87,7 @@ final class MenusTest extends TestCase
             ->divider()
             ->action(Action::request('delete', 'Delete', '/files/{id}')->method('DELETE'));
 
-        self::assertStringStartsWith('<div id="files-menu" class="celerik-contextmenu" data-celerik="contextmenu"', $menu->render());
+        self::assertStringStartsWith('<div id="files-menu" class="caelrik-contextmenu" data-caelrik="contextmenu"', $menu->render());
         self::assertStringContainsString(' hidden></div>', $menu->render());
         $options = $menu->toArray();
         self::assertSame('#files [data-id]', $options['target']);
@@ -102,8 +102,8 @@ final class MenusTest extends TestCase
             ->current('/grid');
 
         $html = $nav->render();
-        self::assertStringContainsString('class="celerik-nav celerik-nav-horizontal"', $html);
-        self::assertStringContainsString('<details class="celerik-nav-group"><summary', $html);
+        self::assertStringContainsString('class="caelrik-nav caelrik-nav-horizontal"', $html);
+        self::assertStringContainsString('<details class="caelrik-nav-group"><summary', $html);
         self::assertStringContainsString('aria-current="page"', $html);
         self::assertSame(['horizontal' => true], $nav->toArray());
     }

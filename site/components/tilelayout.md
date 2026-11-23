@@ -40,10 +40,10 @@ TileLayout::make('dashboard')
 
 ## Saving the layout
 
-`remember()` keeps it in the browser (localStorage), per layout id. To keep it on the server, listen to `celerik:change`, fired after each change:
+`remember()` keeps it in the browser (localStorage), per layout id. To keep it on the server, listen to `caelrik:change`, fired after each change:
 
 ```js
-document.getElementById('dashboard').addEventListener('celerik:change', (event) => {
+document.getElementById('dashboard').addEventListener('caelrik:change', (event) => {
   // event.detail.tiles: [{ key: 'revenue', cols: 2, rows: 1 }, ...], in order
   fetch('/dashboard/layout', { method: 'PUT', body: JSON.stringify(event.detail.tiles) });
 });

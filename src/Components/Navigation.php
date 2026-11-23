@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Celerik\Ui\Components;
+namespace Caelrik\Ui\Components;
 
-use Celerik\Ui\Component;
-use Celerik\Ui\Support\Html;
+use Caelrik\Ui\Component;
+use Caelrik\Ui\Support\Html;
 use LogicException;
 
 /**
@@ -111,7 +111,7 @@ final class Navigation extends Component
         return Html::tag(
             'nav',
             array_merge(
-                $this->rootAttributes($this->horizontal ? ['celerik-nav', 'celerik-nav-horizontal'] : ['celerik-nav']),
+                $this->rootAttributes($this->horizontal ? ['caelrik-nav', 'caelrik-nav-horizontal'] : ['caelrik-nav']),
                 ['aria-label' => $this->label],
             ),
             $this->renderList($exact, $section),
@@ -174,11 +174,11 @@ final class Navigation extends Component
                 };
                 $badge = $entry['badge'] === null ? '' : ' ' . Html::tag(
                     'span',
-                    ['class' => 'badge rounded-pill text-bg-secondary celerik-nav-badge'],
+                    ['class' => 'badge rounded-pill text-bg-secondary caelrik-nav-badge'],
                     Html::escape($entry['badge']),
                 );
                 $items .= Html::tag('li', [], Html::tag('a', [
-                    'class' => Html::classes(['celerik-nav-link', $current !== null ? 'active' : null]),
+                    'class' => Html::classes(['caelrik-nav-link', $current !== null ? 'active' : null]),
                     'href' => $entry['url'],
                     'aria-current' => $current,
                 ], Html::tag('span', [], Html::escape($entry['label'])) . $badge));
@@ -189,13 +189,13 @@ final class Navigation extends Component
             $open = !$this->horizontal && in_array($exact ?? $section, $group->urls(), true);
             $items .= Html::tag('li', [], Html::tag(
                 'details',
-                ['class' => 'celerik-nav-group', 'open' => $open],
-                Html::tag('summary', ['class' => 'celerik-nav-link'], Html::escape($entry['label']))
+                ['class' => 'caelrik-nav-group', 'open' => $open],
+                Html::tag('summary', ['class' => 'caelrik-nav-link'], Html::escape($entry['label']))
                 . $group->renderList($exact, $section),
             ));
         }
 
-        return Html::tag('ul', ['class' => 'celerik-nav-list list-unstyled'], $items);
+        return Html::tag('ul', ['class' => 'caelrik-nav-list list-unstyled'], $items);
     }
 
     private static function path(string $url): string

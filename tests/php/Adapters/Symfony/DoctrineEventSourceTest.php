@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Celerik\Ui\Tests\Adapters\Symfony;
+namespace Caelrik\Ui\Tests\Adapters\Symfony;
 
-use Celerik\Ui\Adapters\Symfony\DoctrineEventSource;
-use Celerik\Ui\Components\Scheduler;
-use Celerik\Ui\Data\DateRange;
-use Celerik\Ui\Data\Event;
-use Celerik\Ui\Tests\Adapters\Symfony\Entity\Meeting;
+use Caelrik\Ui\Adapters\Symfony\DoctrineEventSource;
+use Caelrik\Ui\Components\Scheduler;
+use Caelrik\Ui\Data\DateRange;
+use Caelrik\Ui\Data\Event;
+use Caelrik\Ui\Tests\Adapters\Symfony\Entity\Meeting;
 use DateTimeImmutable;
 use Doctrine\DBAL\DriverManager;
 use Doctrine\ORM\EntityManager;

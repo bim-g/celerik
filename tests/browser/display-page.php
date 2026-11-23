@@ -7,16 +7,16 @@
 
 declare(strict_types=1);
 
-use Celerik\Ui\Assets;
-use Celerik\Ui\Components\Avatar;
-use Celerik\Ui\Components\Badge;
-use Celerik\Ui\Components\Chip;
-use Celerik\Ui\Components\Loader;
-use Celerik\Ui\Components\Popover;
-use Celerik\Ui\Components\Progress;
-use Celerik\Ui\Components\Skeleton;
-use Celerik\Ui\Components\Tooltip;
-use Celerik\Ui\Support\Html;
+use Caelrik\Ui\Assets;
+use Caelrik\Ui\Components\Avatar;
+use Caelrik\Ui\Components\Badge;
+use Caelrik\Ui\Components\Chip;
+use Caelrik\Ui\Components\Loader;
+use Caelrik\Ui\Components\Popover;
+use Caelrik\Ui\Components\Progress;
+use Caelrik\Ui\Components\Skeleton;
+use Caelrik\Ui\Components\Tooltip;
+use Caelrik\Ui\Support\Html;
 
 $mode = ($_GET['mode'] ?? '') === 'dark' ? 'dark' : 'light';
 ?>
@@ -36,7 +36,7 @@ $mode = ($_GET['mode'] ?? '') === 'dark' ? 'dark' : 'light';
 <main class="container py-0">
     <p class="mb-5">
         <?= Tooltip::make('edge-tip')->text('Shown below: there is no room above')
-            ->trigger(Html::raw('<button type="button" class="btn btn-sm celerik-action-button btn-outline-secondary">At the edge</button>')) ?>
+            ->trigger(Html::raw('<button type="button" class="btn btn-sm caelrik-action-button btn-outline-secondary">At the edge</button>')) ?>
     </p>
     <h1>Display elements</h1>
     <p>

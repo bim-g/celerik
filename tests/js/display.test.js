@@ -7,13 +7,13 @@ import { loadFixture } from './helpers.js';
 describe('removable chips', () => {
   let root;
   const chip = (id) => document.getElementById(id);
-  const removeButton = (id) => chip(id).querySelector('.celerik-chip-remove');
+  const removeButton = (id) => chip(id).querySelector('.caelrik-chip-remove');
 
   beforeEach(() => {
     jest.useFakeTimers();
     // loadFixture returns the first chip; the chips share a container.
     root = loadFixture('chips').parentElement;
-    for (const element of root.querySelectorAll('[data-celerik="chip"]')) {
+    for (const element of root.querySelectorAll('[data-caelrik="chip"]')) {
       initChip(element, readOptions(element));
     }
   });
@@ -24,7 +24,7 @@ describe('removable chips', () => {
 
   test('Remove takes the chip and its field away, moves focus to the next chip and says so', () => {
     const removed = [];
-    root.addEventListener('celerik:remove', (event) => removed.push(event.detail));
+    root.addEventListener('caelrik:remove', (event) => removed.push(event.detail));
     removeButton('chip-js').focus();
     removeButton('chip-js').click();
 
@@ -33,15 +33,15 @@ describe('removable chips', () => {
     expect(document.activeElement).toBe(removeButton('chip-go'));
     expect(removed).toEqual([{ label: 'JavaScript', value: 'js' }]);
     jest.advanceTimersByTime(60);
-    expect(document.getElementById('celerik-chip-status').textContent).toBe('JavaScript removed.');
+    expect(document.getElementById('caelrik-chip-status').textContent).toBe('JavaScript removed.');
 
     // The last chip gives focus to the one before it.
     removeButton('chip-go').click();
     expect(document.activeElement).toBe(removeButton('chip-php'));
   });
 
-  test('a cancelled celerik:remove keeps the chip', () => {
-    root.addEventListener('celerik:remove', (event) => event.preventDefault());
+  test('a cancelled caelrik:remove keeps the chip', () => {
+    root.addEventListener('caelrik:remove', (event) => event.preventDefault());
     removeButton('chip-php').click();
     expect(chip('chip-php')).not.toBeNull();
   });

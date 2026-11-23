@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Celerik\Ui\Support;
+namespace Caelrik\Ui\Support;
 
 use LogicException;
 use Symfony\Component\HtmlSanitizer\HtmlSanitizer;
@@ -12,12 +12,12 @@ use Symfony\Component\HtmlSanitizer\HtmlSanitizerConfig;
  * Server-side cleaning of rich text editor output (Field::editor()).
  *
  * The browser can send any HTML, whatever the editor allows, so sanitize before storing
- * or displaying it. The default configuration allows exactly what the Celerik toolbars
+ * or displaying it. The default configuration allows exactly what the Caelrik toolbars
  * produce. Requires symfony/html-sanitizer (`composer require symfony/html-sanitizer`).
  */
 final class EditorHtml
 {
-    /** Elements produced by the Celerik toolbars (besides links). */
+    /** Elements produced by the Caelrik toolbars (besides links). */
     private const ELEMENTS = [
         'p', 'br', 'strong', 'em', 'u', 's', 'h2', 'h3', 'h4', 'ul', 'ol', 'li', 'blockquote', 'pre', 'code',
     ];

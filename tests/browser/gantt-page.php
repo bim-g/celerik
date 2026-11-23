@@ -7,8 +7,8 @@
 
 declare(strict_types=1);
 
-use Celerik\Ui\Assets;
-use Celerik\Ui\Components\Gantt;
+use Caelrik\Ui\Assets;
+use Caelrik\Ui\Components\Gantt;
 
 $mode = ($_GET['mode'] ?? '') === 'dark' ? 'dark' : 'light';
 ?>

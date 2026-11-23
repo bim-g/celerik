@@ -1,7 +1,7 @@
 <?php
 
-use Celerik\Ui\Components\Form;
-use Celerik\Ui\Components\Form\Field;
+use Caelrik\Ui\Components\Form;
+use Caelrik\Ui\Components\Form\Field;
 
 return Form::make('article')
     ->action('/articles')

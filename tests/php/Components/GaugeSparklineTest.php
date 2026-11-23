@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Celerik\Ui\Tests\Components;
+namespace Caelrik\Ui\Tests\Components;
 
-use Celerik\Ui\Components\Gauge;
-use Celerik\Ui\Components\Sparkline;
+use Caelrik\Ui\Components\Gauge;
+use Caelrik\Ui\Components\Sparkline;
 use InvalidArgumentException;
 use LogicException;
 use PHPUnit\Framework\Attributes\DataProvider;
@@ -16,10 +16,10 @@ final class GaugeSparklineTest extends TestCase
     public function testALineSparklineIsAnImageNamedByItsRange(): void
     {
         self::assertSame(
-            '<svg id="revenue" class="celerik-sparkline celerik-sparkline-md celerik-sparkline-primary" viewBox="0 0 100 25" '
+            '<svg id="revenue" class="caelrik-sparkline caelrik-sparkline-md caelrik-sparkline-primary" viewBox="0 0 100 25" '
             . 'role="img" '
             . 'aria-label="Revenue &lt;EUR&gt;, last 3 values: from 1,200 to 900.5, lowest 900.5, highest 1,500." '
-            . 'focusable="false"><polyline class="celerik-sparkline-line" points="0,12.51 50,2 100,23" fill="none">'
+            . 'focusable="false"><polyline class="caelrik-sparkline-line" points="0,12.51 50,2 100,23" fill="none">'
             . '</polyline></svg>',
             Sparkline::make('revenue')->label('Revenue <EUR>')->values([1200, 1500, 900.5])->render(),
         );
@@ -29,15 +29,15 @@ final class GaugeSparklineTest extends TestCase
     {
         $area = Sparkline::make()->label('A')->values([1, 2])->type('area')->markLast()->size('lg')->color('success')
             ->addClass('ms-2')->render();
-        self::assertStringContainsString('class="celerik-sparkline celerik-sparkline-lg celerik-sparkline-success ms-2"', $area);
-        self::assertStringContainsString('<polygon class="celerik-sparkline-area" points="0,25 0,23 100,2 100,25">', $area);
-        self::assertStringContainsString('<circle class="celerik-sparkline-dot" cx="100" cy="2" r="2.5">', $area);
+        self::assertStringContainsString('class="caelrik-sparkline caelrik-sparkline-lg caelrik-sparkline-success ms-2"', $area);
+        self::assertStringContainsString('<polygon class="caelrik-sparkline-area" points="0,25 0,23 100,2 100,25">', $area);
+        self::assertStringContainsString('<circle class="caelrik-sparkline-dot" cx="100" cy="2" r="2.5">', $area);
 
         // Bars grow from zero: up for positive values, down (and outlined) for negative ones.
         $bars = Sparkline::make()->label('Profit')->values([3, -2, 0, 5])->type('bar')->render();
-        self::assertStringContainsString('<rect class="celerik-sparkline-bar" x="3.75" y="7.14" width="17.5" height="10.71">', $bars);
+        self::assertStringContainsString('<rect class="caelrik-sparkline-bar" x="3.75" y="7.14" width="17.5" height="10.71">', $bars);
         self::assertStringContainsString(
-            '<rect class="celerik-sparkline-bar is-negative" x="28.75" y="17.86" width="17.5" height="7.14">',
+            '<rect class="caelrik-sparkline-bar is-negative" x="28.75" y="17.86" width="17.5" height="7.14">',
             $bars,
         );
         self::assertStringContainsString('height="1"', $bars);
@@ -61,22 +61,22 @@ final class GaugeSparklineTest extends TestCase
             ->target(90)->render();
 
         self::assertStringStartsWith(
-            '<div id="cpu" class="celerik-gauge celerik-gauge-arc celerik-gauge-md">'
-            . '<p class="celerik-gauge-label" id="cpu-label">CPU &lt;load&gt;</p><div class="celerik-gauge-body">'
-            . '<div class="celerik-gauge-meter" role="meter" aria-labelledby="cpu-label" aria-valuemin="0" '
+            '<div id="cpu" class="caelrik-gauge caelrik-gauge-arc caelrik-gauge-md">'
+            . '<p class="caelrik-gauge-label" id="cpu-label">CPU &lt;load&gt;</p><div class="caelrik-gauge-body">'
+            . '<div class="caelrik-gauge-meter" role="meter" aria-labelledby="cpu-label" aria-valuemin="0" '
             . 'aria-valuemax="100" aria-valuenow="72" aria-valuetext="72%, High, target 90%">'
-            . '<svg class="celerik-gauge-svg" viewBox="0 0 100 52" aria-hidden="true" focusable="false">'
-            . '<path class="celerik-gauge-track" d="M12 50A38 38 0 0 1 88 50"></path>'
-            . '<path class="celerik-gauge-range celerik-gauge-success" d="M3 50A47 47 0 0 1 64.52 5.3"></path>',
+            . '<svg class="caelrik-gauge-svg" viewBox="0 0 100 52" aria-hidden="true" focusable="false">'
+            . '<path class="caelrik-gauge-track" d="M12 50A38 38 0 0 1 88 50"></path>'
+            . '<path class="caelrik-gauge-range caelrik-gauge-success" d="M3 50A47 47 0 0 1 64.52 5.3"></path>',
             $html,
         );
         // The value takes its band's color, and the band's name is written.
-        self::assertStringContainsString('<path class="celerik-gauge-fill celerik-gauge-warning" d="M12 50A38 38 0 0 1 74.22 20.72">', $html);
-        self::assertStringContainsString('<line class="celerik-gauge-target"', $html);
+        self::assertStringContainsString('<path class="caelrik-gauge-fill caelrik-gauge-warning" d="M12 50A38 38 0 0 1 74.22 20.72">', $html);
+        self::assertStringContainsString('<line class="caelrik-gauge-target"', $html);
         self::assertStringContainsString(
-            '<p class="celerik-gauge-reading" aria-hidden="true"><span class="celerik-gauge-value">72%</span> '
-            . '<span class="celerik-gauge-band">High</span></p></div>'
-            . '<p class="celerik-gauge-scale" aria-hidden="true"><span>0%</span><span>100%</span></p></div>',
+            '<p class="caelrik-gauge-reading" aria-hidden="true"><span class="caelrik-gauge-value">72%</span> '
+            . '<span class="caelrik-gauge-band">High</span></p></div>'
+            . '<p class="caelrik-gauge-scale" aria-hidden="true"><span>0%</span><span>100%</span></p></div>',
             $html,
         );
         self::assertStringNotContainsString('style=', $html);
@@ -89,19 +89,19 @@ final class GaugeSparklineTest extends TestCase
             ->render();
 
         self::assertStringStartsWith(
-            '<div id="quota" class="celerik-gauge celerik-gauge-linear celerik-gauge-md"><div class="celerik-gauge-head">'
-            . '<p class="celerik-gauge-label" id="quota-label">Storage</p>'
-            . '<p class="celerik-gauge-reading" aria-hidden="true"><span class="celerik-gauge-value">2,500.0 GB</span></p></div>',
+            '<div id="quota" class="caelrik-gauge caelrik-gauge-linear caelrik-gauge-md"><div class="caelrik-gauge-head">'
+            . '<p class="caelrik-gauge-label" id="quota-label">Storage</p>'
+            . '<p class="caelrik-gauge-reading" aria-hidden="true"><span class="caelrik-gauge-value">2,500.0 GB</span></p></div>',
             $html,
         );
         // Above the maximum: the meter stays in its range, the text says the real value.
         self::assertStringContainsString('aria-valuenow="2000" aria-valuetext="2,500.0 GB, objectif 1,500.0 GB"', $html);
-        self::assertStringContainsString('<rect class="celerik-gauge-fill celerik-gauge-info" x="0" y="4" width="100" height="6">', $html);
-        self::assertStringContainsString('<line class="celerik-gauge-target" x1="75" y1="0" x2="75" y2="12"', $html);
-        self::assertStringNotContainsString('celerik-gauge-scale', $html);
+        self::assertStringContainsString('<rect class="caelrik-gauge-fill caelrik-gauge-info" x="0" y="4" width="100" height="6">', $html);
+        self::assertStringContainsString('<line class="caelrik-gauge-target" x1="75" y1="0" x2="75" y2="12"', $html);
+        self::assertStringNotContainsString('caelrik-gauge-scale', $html);
 
         // At the minimum there is no value arc.
-        self::assertStringNotContainsString('celerik-gauge-fill', Gauge::make()->label('Empty')->value(-5)->render());
+        self::assertStringNotContainsString('caelrik-gauge-fill', Gauge::make()->label('Empty')->value(-5)->render());
     }
 
     public function testRequiredParts(): void

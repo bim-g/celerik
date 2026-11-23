@@ -6,7 +6,7 @@ import { loadFixture } from './helpers.js';
 function setup() {
   const table = loadFixture('grid-columns');
   const grid = initGrid(table, readOptions(table));
-  const menu = document.querySelector('.celerik-grid-columns');
+  const menu = document.querySelector('.caelrik-grid-columns');
   const button = menu.querySelector('button');
   const panel = menu.querySelector('fieldset');
   const box = (label) => [...panel.querySelectorAll('input')].find((input) => input.labels[0].textContent === label);

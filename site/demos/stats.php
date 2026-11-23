@@ -1,10 +1,10 @@
 <?php
 
-use Celerik\Ui\Components\Chart;
-use Celerik\Ui\Components\Grid;
-use Celerik\Ui\Components\Stat;
-use Celerik\Ui\Components\Stats;
-use Celerik\Ui\Components\TileLayout;
+use Caelrik\Ui\Components\Chart;
+use Caelrik\Ui\Components\Grid;
+use Caelrik\Ui\Components\Stat;
+use Caelrik\Ui\Components\Stats;
+use Caelrik\Ui\Components\TileLayout;
 
 return [
     Stats::make('kpis')->label('This month')->columns(4)->add(

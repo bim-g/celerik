@@ -26,8 +26,8 @@ function unlabelDayCell({ el }) {
 // do not land at the top of the page.
 function eventFocuser(element) {
   let pending = null;
-  const find = (id) => [...element.querySelectorAll('[data-celerik-event-id]')]
-    .find((el) => el.dataset.celerikEventId === id);
+  const find = (id) => [...element.querySelectorAll('[data-caelrik-event-id]')]
+    .find((el) => el.dataset.caelrikEventId === id);
 
   return {
     focus(id) {
@@ -80,7 +80,7 @@ export function initScheduler(element, options) {
       dayCellDidMount?.(info);
     },
     eventDidMount(info) {
-      info.el.dataset.celerikEventId = info.event.id;
+      info.el.dataset.caelrikEventId = info.event.id;
       focuser.mounted(info.el, info.event.id);
       eventDidMount?.(info);
     },

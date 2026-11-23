@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Celerik\Ui\Tests\Components;
+namespace Caelrik\Ui\Tests\Components;
 
-use Celerik\Ui\Components\Action;
-use Celerik\Ui\Components\Grid\Column;
-use Celerik\Ui\Components\TreeList;
+use Caelrik\Ui\Components\Action;
+use Caelrik\Ui\Components\Grid\Column;
+use Caelrik\Ui\Components\TreeList;
 use InvalidArgumentException;
 use LogicException;
 use PHPUnit\Framework\TestCase;
@@ -36,16 +36,16 @@ final class TreeListTest extends TestCase
     {
         $html = $this->list()->expanded(1)->rows(self::ROWS)->render();
 
-        preg_match_all('/<span class="celerik-treelist-text">([^<]*)<\/span>/', $html, $names);
+        preg_match_all('/<span class="caelrik-treelist-text">([^<]*)<\/span>/', $html, $names);
         self::assertSame(['Design &lt;b&gt;', 'Sketches', 'Logo', 'Review', 'Orphan'], $names[1]);
         self::assertStringContainsString(
             '<tr data-id="1" data-level="1" data-size="2" data-position="1" data-expanded="true">'
-            . '<td class="celerik-treelist-tree celerik-treelist-level-1"><span class="celerik-treelist-text">Design &lt;b&gt;</span></td>'
+            . '<td class="caelrik-treelist-tree caelrik-treelist-level-1"><span class="caelrik-treelist-text">Design &lt;b&gt;</span></td>'
             . '<td class="text-end">12</td></tr>',
             $html,
         );
         self::assertStringContainsString('data-id="2" data-parent="1" data-level="2" data-size="2" data-position="1" data-expanded="false"', $html);
-        self::assertStringContainsString('<td class="celerik-treelist-tree celerik-treelist-level-3">', $html);
+        self::assertStringContainsString('<td class="caelrik-treelist-tree caelrik-treelist-level-3">', $html);
         self::assertStringContainsString('<th scope="col" class="text-end">Hours</th>', $html);
         self::assertStringNotContainsString('Secret', $html);
         // Rows in a cycle have no top-level row: left out rather than looping.
@@ -72,7 +72,7 @@ final class TreeListTest extends TestCase
         }
         $html = TreeList::make('deep')->column('name')->rows($rows)->render();
 
-        self::assertStringContainsString('celerik-treelist-level-12"><span class="celerik-treelist-text">Level 15', $html);
+        self::assertStringContainsString('caelrik-treelist-level-12"><span class="caelrik-treelist-text">Level 15', $html);
         self::assertStringContainsString('data-level="15"', $html);
     }
 
@@ -83,7 +83,7 @@ final class TreeListTest extends TestCase
             ->rows([['id' => 1, 'name' => 'Design']])
             ->render();
 
-        self::assertStringContainsString('<th scope="col" class="celerik-treelist-actions">Actions</th>', $html);
+        self::assertStringContainsString('<th scope="col" class="caelrik-treelist-actions">Actions</th>', $html);
         self::assertStringContainsString('action="/tasks/1"', $html);
         self::assertStringContainsString('aria-label="Delete Design"', $html);
     }

@@ -1,6 +1,6 @@
 import 'datatables.net-bs5/css/dataTables.bootstrap5.css';
 import 'datatables.net-buttons-bs5/css/buttons.bootstrap5.css';
-import '../scss/celerik.scss';
+import '../scss/caelrik.scss';
 
 import { autoInit, init, register } from './core.js';
 
@@ -50,24 +50,24 @@ register('notification', async (element, options) => (await import('./notificati
 register('filemanager', async (element, options) => (await import('./filemanager.js')).initFileManager(element, options));
 register('themebuilder', async (element, options) => (await import('./themebuilder.js')).initThemeBuilder(element, options));
 
-// Shows a toast from JavaScript, e.g. after an AJAX request: Celerik.notify('success', 'Saved.').
+// Shows a toast from JavaScript, e.g. after an AJAX request: Caelrik.notify('success', 'Saved.').
 // The message is always treated as text.
 async function notify(type, message) {
   return (await import('./notification.js')).notify(type, message);
 }
 
 // What needs JavaScript is shown once it runs (e.g. actions that open a form).
-document.documentElement.classList.add('celerik-js');
+document.documentElement.classList.add('caelrik-js');
 
 // Request actions (Action::request()) anywhere on the page, including rows a grid draws
 // later: one listener asks for confirmation and sends the request, or opens the action's
 // form (Action::form()).
 document.addEventListener('submit', (event) => {
   const form = event.target;
-  if (form instanceof HTMLFormElement && form.matches('form.celerik-action')) {
+  if (form instanceof HTMLFormElement && form.matches('form.caelrik-action')) {
     event.preventDefault();
     const { submitter } = event;
-    if (form.dataset.celerikFormModal) {
+    if (form.dataset.caelrikFormModal) {
       import('./action-form.js').then(({ openActionForm }) => openActionForm(form));
       return;
     }
@@ -75,9 +75,9 @@ document.addEventListener('submit', (event) => {
   }
 });
 
-const Celerik = { register, init, notify };
-window.Celerik = Celerik;
+const Caelrik = { register, init, notify };
+window.Caelrik = Caelrik;
 
 autoInit();
 
-export default Celerik;
+export default Caelrik;

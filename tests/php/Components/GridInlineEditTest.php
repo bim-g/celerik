@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Celerik\Ui\Tests\Components;
+namespace Caelrik\Ui\Tests\Components;
 
-use Celerik\Ui\Components\Grid;
-use Celerik\Ui\Components\Grid\Column;
-use Celerik\Ui\Components\Grid\Editor;
-use Celerik\Ui\Data\InvalidCellEdit;
+use Caelrik\Ui\Components\Grid;
+use Caelrik\Ui\Components\Grid\Column;
+use Caelrik\Ui\Components\Grid\Editor;
+use Caelrik\Ui\Data\InvalidCellEdit;
 use InvalidArgumentException;
 use LogicException;
 use PHPUnit\Framework\TestCase;
@@ -49,13 +49,13 @@ final class GridInlineEditTest extends TestCase
         ]])->render();
 
         self::assertStringContainsString(
-            '<td class="celerik-grid-editable" data-value="Ada &lt;b&gt;"><span class="celerik-grid-value">Ada &lt;b&gt;'
-            . '</span><button type="button" class="btn btn-link btn-sm celerik-grid-edit" aria-label="Edit Name of Ada'
-            . ' &lt;b&gt;" data-celerik-edit="name"><svg',
+            '<td class="caelrik-grid-editable" data-value="Ada &lt;b&gt;"><span class="caelrik-grid-value">Ada &lt;b&gt;'
+            . '</span><button type="button" class="btn btn-link btn-sm caelrik-grid-edit" aria-label="Edit Name of Ada'
+            . ' &lt;b&gt;" data-caelrik-edit="name"><svg',
             $html,
         );
-        self::assertStringContainsString('data-value="1"><span class="celerik-grid-value">Engineer</span>', $html);
-        self::assertStringContainsString('data-value="0"><span class="celerik-grid-value">No</span>', $html);
+        self::assertStringContainsString('data-value="1"><span class="caelrik-grid-value">Engineer</span>', $html);
+        self::assertStringContainsString('data-value="0"><span class="caelrik-grid-value">No</span>', $html);
         self::assertStringContainsString('data-value="2024-03-12">', $html);
         self::assertStringContainsString('<td>ada@example.com</td>', $html);
     }

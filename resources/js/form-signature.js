@@ -53,19 +53,19 @@ export function drawName(context, name, width, height) {
 }
 
 export function initSignature(fieldset) {
-  if (fieldset.celerikSignature) {
-    return fieldset.celerikSignature;
+  if (fieldset.caelrikSignature) {
+    return fieldset.caelrikSignature;
   }
-  const canvas = fieldset.querySelector('.celerik-signature-canvas');
+  const canvas = fieldset.querySelector('.caelrik-signature-canvas');
   const context = canvas.getContext('2d');
   // No canvas (a very old browser): the name input keeps working on its own.
   if (!context) {
     return null;
   }
-  const labels = JSON.parse(fieldset.getAttribute('data-celerik-signature') || '{}');
-  const pad = fieldset.querySelector('.celerik-signature-pad');
-  const typed = fieldset.querySelector('.celerik-signature-typed');
-  const value = fieldset.querySelector('.celerik-signature-value');
+  const labels = JSON.parse(fieldset.getAttribute('data-caelrik-signature') || '{}');
+  const pad = fieldset.querySelector('.caelrik-signature-pad');
+  const typed = fieldset.querySelector('.caelrik-signature-typed');
+  const value = fieldset.querySelector('.caelrik-signature-value');
   const initial = value.value;
 
   // The image is submitted under the field's name. A required field is checked by the
@@ -187,7 +187,7 @@ export function initSignature(fieldset) {
     redraw();
     update();
   };
-  fieldset.querySelector('.celerik-signature-clear').addEventListener('click', clear);
+  fieldset.querySelector('.caelrik-signature-clear').addEventListener('click', clear);
 
   // A reset brings back the name or the image the page came with, after the reset event.
   typed.form?.addEventListener('reset', () => setTimeout(() => {
@@ -214,18 +214,18 @@ export function initSignature(fieldset) {
     isSigned: signed,
     toDataURL: () => value.value,
   };
-  fieldset.celerikSignature = api;
+  fieldset.caelrikSignature = api;
   return api;
 }
 
 export function initSignatures(container) {
-  for (const fieldset of container.querySelectorAll('fieldset[data-celerik-signature]')) {
+  for (const fieldset of container.querySelectorAll('fieldset[data-caelrik-signature]')) {
     initSignature(fieldset);
   }
 }
 
 // The "signature" validator: a drawing or a name.
 export function signatureGiven(input) {
-  const fieldset = input.closest('fieldset[data-celerik-signature]');
-  return Boolean(fieldset?.querySelector('.celerik-signature-value')?.value);
+  const fieldset = input.closest('fieldset[data-caelrik-signature]');
+  return Boolean(fieldset?.querySelector('.caelrik-signature-value')?.value);
 }

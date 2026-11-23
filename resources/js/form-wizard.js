@@ -8,14 +8,14 @@
 const NOT_TEXT = ['submit', 'button', 'reset', 'checkbox', 'radio', 'file', 'range', 'color'];
 
 export function initWizard(form, parsley, { onInvalid, onValid, summary }) {
-  const steps = [...form.querySelectorAll('[data-celerik-step]')];
+  const steps = [...form.querySelectorAll('[data-caelrik-step]')];
   if (steps.length === 0) {
     return null;
   }
-  const indicators = [...form.querySelectorAll('.celerik-wizard-steps > li')];
-  const previous = form.querySelector('[data-celerik-wizard="previous"]');
-  const next = form.querySelector('[data-celerik-wizard="next"]');
-  const submit = form.querySelector('.celerik-wizard-nav [type="submit"]');
+  const indicators = [...form.querySelectorAll('.caelrik-wizard-steps > li')];
+  const previous = form.querySelector('[data-caelrik-wizard="previous"]');
+  const next = form.querySelector('[data-caelrik-wizard="next"]');
+  const submit = form.querySelector('.caelrik-wizard-nav [type="submit"]');
   const last = steps.length - 1;
   let current = Math.max(0, steps.findIndex((step) => !step.hidden));
 
@@ -26,7 +26,7 @@ export function initWizard(form, parsley, { onInvalid, onValid, summary }) {
     });
     indicators.forEach((item, i) => {
       item.classList.toggle('is-complete', i < index);
-      const done = item.querySelector('.celerik-wizard-done');
+      const done = item.querySelector('.caelrik-wizard-done');
       if (done) {
         done.hidden = i >= index;
       }

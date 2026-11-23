@@ -17,7 +17,7 @@ describe('grid config', () => {
     expect(config.serverSide).toBeUndefined();
   });
 
-  test('enables server-side mode and reads the Celerik envelope', () => {
+  test('enables server-side mode and reads the Caelrik envelope', () => {
     const config = buildGridConfig({ columns: [], url: '/users/data' });
 
     expect(config.serverSide).toBe(true);
@@ -65,10 +65,10 @@ describe('grid filters', () => {
 
   test('readFilters keeps the filled filters, typed by their column', () => {
     document.body.innerHTML = `<div id="bar">
-      <input data-celerik-filter="name" value="  ada ">
-      <select data-celerik-filter="role"><option value="" selected>Any</option></select>
-      <input data-celerik-filter="joined" data-celerik-filter-end="from" value="">
-      <input data-celerik-filter="joined" data-celerik-filter-end="to" value="2026-01-31">
+      <input data-caelrik-filter="name" value="  ada ">
+      <select data-caelrik-filter="role"><option value="" selected>Any</option></select>
+      <input data-caelrik-filter="joined" data-caelrik-filter-end="from" value="">
+      <input data-caelrik-filter="joined" data-caelrik-filter-end="to" value="2026-01-31">
     </div>`;
 
     expect(readFilters(document.getElementById('bar'), columns)).toEqual([
@@ -144,7 +144,7 @@ describe('grid filters', () => {
     jest.advanceTimersByTime(300);
     expect(names()).toEqual(['Linus Torvalds']);
 
-    bar.querySelector('[data-celerik-filter-clear]').click();
+    bar.querySelector('[data-caelrik-filter-clear]').click();
     expect(name.value).toBe('');
     expect(names()).toHaveLength(4);
 
@@ -159,8 +159,8 @@ describe('grid empty states', () => {
     const grid = initGrid(table, readOptions(table));
     const cell = table.querySelector('tbody td');
 
-    expect(cell.querySelector('.celerik-grid-empty-title').textContent).toBe('No invitations yet');
-    expect(cell.querySelector('.celerik-grid-empty-description').textContent).toBe('Invite your team to get started.');
+    expect(cell.querySelector('.caelrik-grid-empty-title').textContent).toBe('No invitations yet');
+    expect(cell.querySelector('.caelrik-grid-empty-description').textContent).toBe('Invite your team to get started.');
     expect(cell.querySelector('a').getAttribute('href')).toBe('/invite');
     grid.destroy();
   });
@@ -175,8 +175,8 @@ describe('grid empty states', () => {
     name.value = 'nobody';
     name.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true }));
 
-    expect(table.querySelector('.celerik-grid-empty-title').textContent).toBe('No rows match your search or filters');
-    table.querySelector('[data-celerik-grid-reset]').click();
+    expect(table.querySelector('.caelrik-grid-empty-title').textContent).toBe('No rows match your search or filters');
+    table.querySelector('[data-caelrik-grid-reset]').click();
 
     expect([name.value, role.value]).toEqual(['', '']);
     expect(table.querySelectorAll('tbody tr')).toHaveLength(4);

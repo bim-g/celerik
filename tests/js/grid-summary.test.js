@@ -8,7 +8,7 @@ import { loadFixture } from './helpers.js';
 
 const text = (node) => node.textContent.replace(/\s+/g, ' ').trim();
 const footer = (table) => [...table.tFoot.rows[0].cells].map(text);
-const headings = (table) => [...table.tBodies[0].querySelectorAll('tr.celerik-grid-group')]
+const headings = (table) => [...table.tBodies[0].querySelectorAll('tr.caelrik-grid-group')]
   .map((row) => [...row.cells].map(text));
 
 describe('totals', () => {
@@ -76,7 +76,7 @@ describe('grid totals and groups', () => {
       ['Design 2 rows', 'Total 2,800', 'Average 3.00'],
       ['Sales 2 rows', 'Total 2,000.50', 'Average 4.00'],
     ]);
-    const heading = table.querySelector('tr.celerik-grid-group th');
+    const heading = table.querySelector('tr.caelrik-grid-group th');
     expect(heading.getAttribute('scope')).toBe('rowgroup');
     expect(heading.colSpan).toBe(2);
 
@@ -96,7 +96,7 @@ describe('grid totals and groups', () => {
     grid = initGrid(table, readOptions(table));
     grid.page.len(10).order([2, 'desc']).draw();
 
-    expect([...table.tBodies[0].querySelectorAll('tr:not(.celerik-grid-group)')].map((row) => row.cells[1].textContent))
+    expect([...table.tBodies[0].querySelectorAll('tr:not(.caelrik-grid-group)')].map((row) => row.cells[1].textContent))
       .toEqual(['Laptop', 'Fonts', 'Flights', 'Hotel', 'Headsets']);
   });
 
@@ -104,7 +104,7 @@ describe('grid totals and groups', () => {
     grid = initGrid(table, readOptions(table));
     grid.column(1).visible(false);
 
-    const heading = table.querySelector('tr.celerik-grid-group');
+    const heading = table.querySelector('tr.caelrik-grid-group');
     expect(heading.cells[0].colSpan).toBe(1);
     expect(heading.cells).toHaveLength(3);
   });

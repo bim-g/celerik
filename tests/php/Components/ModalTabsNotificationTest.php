@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Celerik\Ui\Tests\Components;
+namespace Caelrik\Ui\Tests\Components;
 
-use Celerik\Ui\Components\Form;
-use Celerik\Ui\Components\Form\Field;
-use Celerik\Ui\Components\Modal;
-use Celerik\Ui\Components\Notification;
-use Celerik\Ui\Components\Tabs;
-use Celerik\Ui\Support\Html;
+use Caelrik\Ui\Components\Form;
+use Caelrik\Ui\Components\Form\Field;
+use Caelrik\Ui\Components\Modal;
+use Caelrik\Ui\Components\Notification;
+use Caelrik\Ui\Components\Tabs;
+use Caelrik\Ui\Support\Html;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 
@@ -35,7 +35,7 @@ final class ModalTabsNotificationTest extends TestCase
         $html = $modal->render();
 
         self::assertStringContainsString(
-            '<div id="contact-modal" class="modal fade celerik-modal" data-celerik="modal" data-celerik-options="{}" tabindex="-1" '
+            '<div id="contact-modal" class="modal fade caelrik-modal" data-caelrik="modal" data-caelrik-options="{}" tabindex="-1" '
             . 'aria-labelledby="contact-modal-title" aria-hidden="true" data-bs-backdrop="static">',
             $html,
         );
@@ -73,7 +73,7 @@ final class ModalTabsNotificationTest extends TestCase
         self::assertStringContainsString('<ul class="nav nav-pills mb-3" role="tablist" aria-label="Account settings">', $html);
         self::assertStringContainsString(
             '<button type="button" class="nav-link" id="account-profile-tab" data-bs-toggle="tab" data-bs-target="#account-profile" '
-            . 'data-celerik-tab="profile" role="tab" aria-controls="account-profile" aria-selected="false" tabindex="-1">Profile</button>',
+            . 'data-caelrik-tab="profile" role="tab" aria-controls="account-profile" aria-selected="false" tabindex="-1">Profile</button>',
             $html,
         );
         self::assertStringContainsString('class="nav-link active" id="account-security-tab"', $html);
@@ -84,7 +84,7 @@ final class ModalTabsNotificationTest extends TestCase
         );
         self::assertStringContainsString('<div class="tab-pane fade show active" id="account-security"', $html);
         self::assertStringContainsString('<p>Password</p>', $html);
-        self::assertStringContainsString('data-celerik-options="{&quot;rememberInHash&quot;:true}"', $html);
+        self::assertStringContainsString('data-caelrik-options="{&quot;rememberInHash&quot;:true}"', $html);
     }
 
     /**

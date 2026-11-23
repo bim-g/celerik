@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Celerik\Ui\Tests\Components;
+namespace Caelrik\Ui\Tests\Components;
 
-use Celerik\Ui\Components\QrCode;
-use Celerik\Ui\Support\QrMatrix;
+use Caelrik\Ui\Components\QrCode;
+use Caelrik\Ui\Support\QrMatrix;
 use InvalidArgumentException;
 use LogicException;
 use PHPUnit\Framework\TestCase;
@@ -17,17 +17,17 @@ final class QrCodeTest extends TestCase
         $html = QrCode::make('site')->value('https://example.com/?a=1&b=2')->label('Our <website>')->render();
 
         self::assertStringStartsWith(
-            '<figure id="site" class="celerik-qrcode" data-celerik="qrcode" data-celerik-options="{}">'
-            . '<svg class="celerik-qrcode-image" role="img" aria-label="QR code: Our &lt;website&gt;" viewBox="0 0 37 37" '
+            '<figure id="site" class="caelrik-qrcode" data-caelrik="qrcode" data-caelrik-options="{}">'
+            . '<svg class="caelrik-qrcode-image" role="img" aria-label="QR code: Our &lt;website&gt;" viewBox="0 0 37 37" '
             . 'width="160" height="160" shape-rendering="crispEdges" focusable="false">'
-            . '<rect class="celerik-qrcode-light" width="37" height="37"></rect>'
+            . '<rect class="caelrik-qrcode-light" width="37" height="37"></rect>'
             // The top row of the top-left finder, inside the quiet zone of four modules.
-            . '<path class="celerik-qrcode-dark" d="M4 4h7v1h-7z',
+            . '<path class="caelrik-qrcode-dark" d="M4 4h7v1h-7z',
             $html,
         );
         self::assertStringEndsWith(
-            '</svg><figcaption class="celerik-qrcode-caption"><span class="celerik-qrcode-label">Our &lt;website&gt;</span>'
-            . '<a class="celerik-qrcode-value" href="https://example.com/?a=1&amp;b=2">https://example.com/?a=1&amp;b=2</a>'
+            '</svg><figcaption class="caelrik-qrcode-caption"><span class="caelrik-qrcode-label">Our &lt;website&gt;</span>'
+            . '<a class="caelrik-qrcode-value" href="https://example.com/?a=1&amp;b=2">https://example.com/?a=1&amp;b=2</a>'
             . '</figcaption></figure>',
             $html,
         );
@@ -40,10 +40,10 @@ final class QrCodeTest extends TestCase
         self::assertStringContainsString('aria-label="QR code: tel:+243999999999"', $html);
         // Only web addresses become links.
         self::assertStringContainsString(
-            '<figcaption class="celerik-qrcode-caption"><span class="celerik-qrcode-value">tel:+243999999999</span>',
+            '<figcaption class="caelrik-qrcode-caption"><span class="caelrik-qrcode-value">tel:+243999999999</span>',
             $html,
         );
-        self::assertStringNotContainsString('celerik-qrcode-label', $html);
+        self::assertStringNotContainsString('caelrik-qrcode-label', $html);
     }
 
     public function testAScriptIsNeverALink(): void
@@ -51,7 +51,7 @@ final class QrCodeTest extends TestCase
         $html = QrCode::make('x')->value('javascript:alert(1)//https://a')->render();
 
         self::assertStringNotContainsString('href', $html);
-        self::assertStringContainsString('<span class="celerik-qrcode-value">javascript:alert(1)//https://a</span>', $html);
+        self::assertStringContainsString('<span class="caelrik-qrcode-value">javascript:alert(1)//https://a</span>', $html);
     }
 
     public function testAHiddenValue(): void
@@ -61,7 +61,7 @@ final class QrCodeTest extends TestCase
 
         self::assertStringContainsString('aria-label="QR code: Office Wi-Fi"', $html);
         self::assertStringNotContainsString('secret', $html);
-        self::assertStringNotContainsString('celerik-qrcode-value', $html);
+        self::assertStringNotContainsString('caelrik-qrcode-value', $html);
     }
 
     public function testLevelSizeAndLabels(): void
@@ -80,10 +80,10 @@ final class QrCodeTest extends TestCase
 
     public function testTheModulesAreDrawnAsRuns(): void
     {
-        $html = QrCode::make('a')->value('celerik')->render();
+        $html = QrCode::make('a')->value('caelrik')->render();
         preg_match('/ d="([^"]+)"/', $html, $path);
         preg_match_all('/h(\d+)v1/', $path[1], $runs);
-        $matrix = QrMatrix::encode('celerik');
+        $matrix = QrMatrix::encode('caelrik');
 
         self::assertSame(
             array_sum(array_map(static fn (array $row): int => count(array_filter($row)), $matrix)),

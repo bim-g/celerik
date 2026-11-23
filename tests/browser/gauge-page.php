@@ -6,9 +6,9 @@
 
 declare(strict_types=1);
 
-use Celerik\Ui\Assets;
-use Celerik\Ui\Components\Gauge;
-use Celerik\Ui\Components\Sparkline;
+use Caelrik\Ui\Assets;
+use Caelrik\Ui\Components\Gauge;
+use Caelrik\Ui\Components\Sparkline;
 
 $mode = ($_GET['mode'] ?? '') === 'dark' ? 'dark' : 'light';
 $bands = static fn (Gauge $gauge): Gauge => $gauge

@@ -1,6 +1,6 @@
 <?php
 
-use Celerik\Ui\Components\Map;
+use Caelrik\Ui\Components\Map;
 
 return [
     Map::make('offices')->label('Our offices around Lake Kivu')

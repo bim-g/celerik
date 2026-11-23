@@ -22,7 +22,7 @@ export function toggleableColumns(columns) {
 }
 
 export function storageKey(tableId) {
-  return `celerik:grid:${tableId}:columns`;
+  return `caelrik:grid:${tableId}:columns`;
 }
 
 export function readSaved(tableId, storage = window.localStorage) {
@@ -45,20 +45,20 @@ function save(tableId, state, storage) {
 // Builds the menu, before DataTables places it in its layout.
 export function createColumnMenu(tableId, columns, labels) {
   const panelId = `${tableId}-columns`;
-  const wrapper = create('div', { class: 'celerik-grid-columns' });
+  const wrapper = create('div', { class: 'caelrik-grid-columns' });
   const button = create('button', {
     type: 'button',
-    class: 'btn btn-sm btn-outline-secondary celerik-action-button',
+    class: 'btn btn-sm btn-outline-secondary caelrik-action-button',
     'aria-expanded': 'false',
     'aria-controls': panelId,
   }, labels.columns);
-  const panel = create('fieldset', { id: panelId, class: 'celerik-grid-columns-panel', hidden: true });
+  const panel = create('fieldset', { id: panelId, class: 'caelrik-grid-columns-panel', hidden: true });
   panel.append(create('legend', { class: 'visually-hidden' }, labels.showColumns));
   for (const column of toggleableColumns(columns)) {
     const id = `${tableId}-column-${column.field.replaceAll('.', '-')}`;
     const check = create('div', { class: 'form-check' });
     check.append(
-      create('input', { type: 'checkbox', class: 'form-check-input', id, 'data-celerik-column': column.field }),
+      create('input', { type: 'checkbox', class: 'form-check-input', id, 'data-caelrik-column': column.field }),
       create('label', { class: 'form-check-label', for: id }, column.title ?? column.field),
     );
     panel.append(check);
@@ -71,7 +71,7 @@ export function createColumnMenu(tableId, columns, labels) {
 export function connectColumnMenu(menu, grid, { tableId, columns, remember, storage = window.localStorage }) {
   const button = menu.querySelector('button');
   const panel = menu.querySelector('fieldset');
-  const boxes = [...panel.querySelectorAll('input[data-celerik-column]')];
+  const boxes = [...panel.querySelectorAll('input[data-caelrik-column]')];
   const column = (field) => grid.column(`${field}:name`);
   // Columns always shown (toggleable(false), not hidden()) mean the last box may be cleared.
   const pinned = (columns ?? []).some((entry) => entry.toggleable === false && entry.visible !== false);
@@ -79,7 +79,7 @@ export function connectColumnMenu(menu, grid, { tableId, columns, remember, stor
   if (remember) {
     const saved = readSaved(tableId, storage);
     for (const box of boxes) {
-      const field = box.dataset.celerikColumn;
+      const field = box.dataset.caelrikColumn;
       if (typeof saved[field] === 'boolean') {
         column(field).visible(saved[field], false);
       }
@@ -89,7 +89,7 @@ export function connectColumnMenu(menu, grid, { tableId, columns, remember, stor
 
   const sync = () => {
     for (const box of boxes) {
-      box.checked = column(box.dataset.celerikColumn).visible();
+      box.checked = column(box.dataset.caelrikColumn).visible();
     }
     // Keep at least one column to read: the last shown one cannot be hidden.
     const shown = boxes.filter((box) => box.checked);
@@ -99,14 +99,14 @@ export function connectColumnMenu(menu, grid, { tableId, columns, remember, stor
   };
 
   panel.addEventListener('change', (event) => {
-    const box = event.target.closest('input[data-celerik-column]');
+    const box = event.target.closest('input[data-caelrik-column]');
     if (!box) {
       return;
     }
-    column(box.dataset.celerikColumn).visible(box.checked);
+    column(box.dataset.caelrikColumn).visible(box.checked);
     grid.columns.adjust();
     if (remember) {
-      save(tableId, Object.fromEntries(boxes.map((entry) => [entry.dataset.celerikColumn, entry.checked])), storage);
+      save(tableId, Object.fromEntries(boxes.map((entry) => [entry.dataset.caelrikColumn, entry.checked])), storage);
     }
     sync();
   });
