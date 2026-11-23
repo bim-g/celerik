@@ -24,6 +24,7 @@ Celerik UI is MIT licensed (see [LICENSE.md](LICENSE.md)). The built bundle in `
 | [Plyr](https://plyr.io) (its script, stylesheet and icons) | 3.8 | MIT | `chunks/mediaplayer-*.js`, `chunks/mediaplayer-*.css`, `chunks/plyr-*.svg` |
 | [marked](https://marked.js.org) | 18.x | MIT | `chunks/form-markdown-*.js` |
 | [DOMPurify](https://github.com/cure53/DOMPurify) | 3.x | Apache-2.0 (or MPL-2.0) | `chunks/form-markdown-*.js` |
+| [CodeMirror](https://codemirror.net) (`codemirror`, `@codemirror/*`: view, state, language, commands, search, autocomplete, lint and the javascript, php, html, css, json, sql, python, markdown and xml languages) and [Lezer](https://lezer.codemirror.net) (`@lezer/*`), with `style-mod`, `w3c-keyname` and `crelt` | 6.x | MIT | `chunks/form-code-*.js` and the language chunks |
 | [jQuery UI](https://jqueryui.com) (for elFinder) | 1.14 | MIT | `chunks/filemanager-*.js`, `chunks/filemanager-*.css`, `chunks/ui-icons_*.png` |
 
 ## Peer dependencies (not bundled, loaded by the application)

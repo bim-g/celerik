@@ -54,6 +54,17 @@ final class Field
         'empty' => 'Nothing to preview.',
     ];
 
+    /** The languages of a code() field. */
+    public const CODE_LANGUAGES = [
+        'text', 'javascript', 'typescript', 'jsx', 'php', 'html', 'css', 'json', 'sql', 'python', 'markdown', 'xml',
+    ];
+
+    /** The texts of a code() field (codeLabels()): its keys, said under the editor. */
+    public const CODE_LABELS = [
+        'keys' => 'Tab moves to the next field; Ctrl+] indents and Ctrl+[ outdents.',
+        'tabKeys' => 'Tab indents; press Escape, then Tab, to leave the editor.',
+    ];
+
     /** The largest signature image signatureImage() accepts, in bytes. */
     public const SIGNATURE_MAX_BYTES = 512000;
 
@@ -102,6 +113,12 @@ final class Field
 
     /** @var array<string, string> */
     private array $markdownLabels = self::MARKDOWN_LABELS;
+
+    private string $codeLanguage = 'text';
+    private bool $tabIndents = false;
+
+    /** @var array<string, string> */
+    private array $codeLabels = self::CODE_LABELS;
 
     /** @var array{url: string, value: string, label: string, limit: int}|null */
     private ?array $remote = null;
@@ -562,6 +579,69 @@ final class Field
     }
 
     /**
+     * Code (CodeMirror 6, loaded only by forms that use it): line numbers, syntax colors,
+     * brackets, search (Ctrl+F) and Undo, in the theme's light or dark colors. Tab moves to the
+     * next field (no keyboard trap) unless tabIndents(); the keys are said under the editor. It
+     * submits the text of the textarea, which it keeps up to date; without JavaScript it is a
+     * plain textarea.
+     */
+    public static function code(string $name, ?string $label = null): self
+    {
+        return new self('code', $name, $label ?? self::humanize($name));
+    }
+
+    /**
+     * The language of a code() field, for its colors and indentation: text (default),
+     * javascript, typescript, jsx, php, html, css, json, sql, python, markdown or xml. Only its
+     * grammar is loaded.
+     */
+    public function language(string $language): self
+    {
+        $this->assertType('code', 'language');
+        if (!in_array($language, self::CODE_LANGUAGES, true)) {
+            throw new InvalidArgumentException(sprintf(
+                'Unknown code language "%s". Use %s.',
+                $language,
+                implode(', ', self::CODE_LANGUAGES),
+            ));
+        }
+        $this->codeLanguage = $language;
+
+        return $this;
+    }
+
+    /**
+     * Tab indents in a code() field, as in a code editor; Escape then Tab leaves it, which the
+     * text under the editor says.
+     */
+    public function tabIndents(bool $indents = true): self
+    {
+        $this->assertType('code', 'tabIndents');
+        $this->tabIndents = $indents;
+
+        return $this;
+    }
+
+    /**
+     * Texts of a code() field, for translation: keys (said under the editor) and tabKeys
+     * (instead, with tabIndents()).
+     *
+     * @param array<string, string> $labels
+     */
+    public function codeLabels(array $labels): self
+    {
+        $this->assertType('code', 'codeLabels');
+        foreach ($labels as $key => $text) {
+            if (!array_key_exists($key, self::CODE_LABELS)) {
+                throw new InvalidArgumentException(sprintf('Unknown code label "%s".', $key));
+            }
+            $this->codeLabels[$key] = $text;
+        }
+
+        return $this;
+    }
+
+    /**
      * A signature: drawn with a mouse, a finger or a pen on a pad, or typed (the way for
      * keyboards and screen readers, shown as handwriting on the pad). It submits a PNG image
      * as a data URL (`data:image/png;base64,...`), which signatureImage() checks and decodes;
@@ -1011,6 +1091,23 @@ final class Field
                 ],
                 Html::escape(Arr::toText($value)),
             ),
+            'code' => Html::tag(
+                'textarea',
+                $attributes + [
+                    'class' => $this->controlClass('form-control font-monospace celerik-code-source', $error),
+                    'rows' => 10,
+                    'spellcheck' => 'false',
+                    'autocapitalize' => 'off',
+                    'autocomplete' => 'off',
+                    'wrap' => 'off',
+                    'data-celerik-code' => self::json([
+                        'language' => $this->codeLanguage,
+                        'tabIndents' => $this->tabIndents,
+                        'keys' => $this->tabIndents ? $this->codeLabels['tabKeys'] : $this->codeLabels['keys'],
+                    ]),
+                ],
+                Html::escape(Arr::toText($value)),
+            ),
             'checkbox', 'switch' => Html::tag('input', $attributes + [
                 'type' => 'checkbox',
                 'role' => $this->type === 'switch' ? 'switch' : null,
@@ -1061,7 +1158,7 @@ final class Field
             [
                 'for' => $id,
                 // The editor's content area and FilePond's input are labelled by id (aria-labelledby).
-                'id' => in_array($this->type, ['editor', 'file'], true) ? $id . '-label' : null,
+                'id' => in_array($this->type, ['editor', 'file', 'code'], true) ? $id . '-label' : null,
                 'class' => match (true) {
                     $this->type === 'checkbox', $this->type === 'switch' => 'form-check-label',
                     $floating => null,
@@ -1103,7 +1200,7 @@ final class Field
             $this->type,
             [
                 'checkbox', 'switch', 'radio', 'checkboxes', 'period', 'rating', 'otp', 'keyvalue',
-                'signature', 'markdown', 'range', 'color', 'file', 'editor', 'hidden',
+                'signature', 'markdown', 'code', 'range', 'color', 'file', 'editor', 'hidden',
             ],
             true,
         );

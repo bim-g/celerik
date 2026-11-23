@@ -744,6 +744,16 @@ $fixtures = [
         )
         ->submit('Publish'),
 
+    'form-code' => Form::make('snippet')
+        ->action('/snippets')
+        ->csrf('test-token')
+        ->add(
+            Field::code('source', 'Source')->language('javascript')->value("// Hi
+const a = 1;")->help('JavaScript.'),
+            Field::code('config', 'Configuration')->language('json')->required()->tabIndents(),
+        )
+        ->submit('Save'),
+
     'form-key-value' => Form::make('webhook')
         ->action('/webhook')
         ->csrf('test-token')
