@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Celerik\Ui\Data;
+namespace Caelrik\Ui\Data;
 
 /**
  * A checked move of a task board's card (TaskBoard::cardMove()): the column it goes to, and

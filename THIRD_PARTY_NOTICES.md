@@ -1,11 +1,11 @@
 # Third-Party Notices
 
-Celerik UI is MIT licensed (see [LICENSE.md](LICENSE.md)). The built bundle in `public/` (included in every release, and in the `@celerikui/ui` npm package) includes the following libraries, each under its own license:
+Caelrik UI is MIT licensed (see [LICENSE.md](LICENSE.md)). The built bundle in `public/` (included in every release, and in the `@caelrik/ui` npm package) includes the following libraries, each under its own license:
 
 | Library | Version | License | Bundled in |
 |---|---|---|---|
-| [DataTables](https://datatables.net) (`datatables.net`, `datatables.net-bs5`) | 3.x | MIT | `chunks/grid-*.js`, `celerik.css` |
-| [DataTables Buttons](https://datatables.net/extensions/buttons/) (`datatables.net-buttons`, `-bs5`) | 4.x | MIT | `chunks/grid-*.js`, `celerik.css` |
+| [DataTables](https://datatables.net) (`datatables.net`, `datatables.net-bs5`) | 3.x | MIT | `chunks/grid-*.js`, `caelrik.css` |
+| [DataTables Buttons](https://datatables.net/extensions/buttons/) (`datatables.net-buttons`, `-bs5`) | 4.x | MIT | `chunks/grid-*.js`, `caelrik.css` |
 | [Chart.js](https://www.chartjs.org) | 4.x | MIT | `chunks/chart-*.js` |
 | [Parsley.js](https://parsleyjs.org) | 2.9 | MIT | `chunks/form-*.js` |
 | [Inputmask](https://github.com/RobinHerbots/Inputmask) | 5.x | MIT | `chunks/form-*.js` |
@@ -20,7 +20,7 @@ Celerik UI is MIT licensed (see [LICENSE.md](LICENSE.md)). The built bundle in `
 | [SortableJS](https://sortablejs.github.io/Sortable/) | 1.15 | MIT | `chunks/taskboard-*.js` |
 | [Notyf](https://carlosroso.com/notyf/) | 3.x | MIT | `chunks/notification-*.js`, `chunks/notification-*.css` |
 | [Leaflet](https://leafletjs.com) | 1.9 | BSD-2-Clause | `chunks/map-*.js`, `chunks/map-*.css` (its images inlined) |
-| [PDF.js](https://mozilla.github.io/pdf.js/) (`pdfjs-dist`: the library, its worker and the rules of its text layer) | 6.x | Apache-2.0 | `chunks/pdfviewer-*.js`, `chunks/pdf.worker.min-*.js`, `celerik.css` |
+| [PDF.js](https://mozilla.github.io/pdf.js/) (`pdfjs-dist`: the library, its worker and the rules of its text layer) | 6.x | Apache-2.0 | `chunks/pdfviewer-*.js`, `chunks/pdf.worker.min-*.js`, `caelrik.css` |
 | [Plyr](https://plyr.io) (its script, stylesheet and icons) | 3.8 | MIT | `chunks/mediaplayer-*.js`, `chunks/mediaplayer-*.css`, `chunks/plyr-*.svg` |
 | [marked](https://marked.js.org) | 18.x | MIT | `chunks/form-markdown-*.js` |
 | [DOMPurify](https://github.com/cure53/DOMPurify) | 3.x | Apache-2.0 (or MPL-2.0) | `chunks/form-markdown-*.js` |

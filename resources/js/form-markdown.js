@@ -145,18 +145,18 @@ function rove(items, event, activate) {
 }
 
 export function initMarkdown(textarea) {
-  if (textarea.closest('.celerik-markdown')) return;
-  const labels = JSON.parse(textarea.getAttribute('data-celerik-markdown') || '{}');
+  if (textarea.closest('.caelrik-markdown')) return;
+  const labels = JSON.parse(textarea.getAttribute('data-caelrik-markdown') || '{}');
   const id = textarea.id;
   const label = textarea.labels?.[0];
 
   const wrapper = document.createElement('div');
-  wrapper.className = 'celerik-markdown';
+  wrapper.className = 'caelrik-markdown';
   const bar = document.createElement('div');
-  bar.className = 'celerik-markdown-bar';
+  bar.className = 'caelrik-markdown-bar';
 
   const tablist = document.createElement('div');
-  tablist.className = 'celerik-markdown-tabs';
+  tablist.className = 'caelrik-markdown-tabs';
   tablist.setAttribute('role', 'tablist');
   if (label) tablist.setAttribute('aria-label', label.textContent.replace(/\s*\*$/, '').trim());
   const writePanel = document.createElement('div');
@@ -165,7 +165,7 @@ export function initMarkdown(textarea) {
     const tab = document.createElement('button');
     tab.type = 'button';
     tab.id = `${id}-${name}`;
-    tab.className = 'celerik-markdown-tab';
+    tab.className = 'caelrik-markdown-tab';
     tab.setAttribute('role', 'tab');
     tab.setAttribute('aria-selected', index === 0 ? 'true' : 'false');
     tab.setAttribute('aria-controls', `${id}-${name}-panel`);
@@ -179,14 +179,14 @@ export function initMarkdown(textarea) {
   });
 
   const toolbar = document.createElement('div');
-  toolbar.className = 'celerik-markdown-toolbar';
+  toolbar.className = 'caelrik-markdown-toolbar';
   toolbar.setAttribute('role', 'toolbar');
   toolbar.setAttribute('aria-label', labels.toolbar);
   toolbar.setAttribute('aria-controls', id);
   const buttons = ACTIONS.map((action, index) => {
     const button = document.createElement('button');
     button.type = 'button';
-    button.className = 'btn btn-sm celerik-markdown-action';
+    button.className = 'btn btn-sm caelrik-markdown-action';
     button.dataset.action = action;
     button.setAttribute('aria-label', labels[action]);
     const shortcut = Object.keys(SHORTCUTS).find((key) => SHORTCUTS[key] === action);
@@ -202,8 +202,8 @@ export function initMarkdown(textarea) {
   });
   toolbar.addEventListener('keydown', (event) => rove(buttons, event));
 
-  writePanel.className = 'celerik-markdown-write';
-  previewPanel.className = 'celerik-markdown-preview';
+  writePanel.className = 'caelrik-markdown-write';
+  previewPanel.className = 'caelrik-markdown-preview';
   previewPanel.setAttribute('tabindex', '0');
   previewPanel.hidden = true;
 
@@ -226,7 +226,7 @@ export function initMarkdown(textarea) {
         previewPanel.innerHTML = html;
       } else {
         const empty = document.createElement('p');
-        empty.className = 'celerik-markdown-empty';
+        empty.className = 'caelrik-markdown-empty';
         empty.textContent = labels.empty;
         previewPanel.replaceChildren(empty);
       }
@@ -251,7 +251,7 @@ export function initMarkdown(textarea) {
 }
 
 export function initMarkdowns(container) {
-  for (const textarea of container.querySelectorAll('textarea[data-celerik-markdown]')) {
+  for (const textarea of container.querySelectorAll('textarea[data-caelrik-markdown]')) {
     initMarkdown(textarea);
   }
 }

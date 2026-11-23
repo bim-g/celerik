@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Celerik\Ui\Components;
+namespace Caelrik\Ui\Components;
 
-use Celerik\Ui\Component;
-use Celerik\Ui\Support\Html;
+use Caelrik\Ui\Component;
+use Caelrik\Ui\Support\Html;
 use InvalidArgumentException;
 use LogicException;
 use Stringable;
@@ -102,23 +102,23 @@ final class Popover extends Component
             ? ''
             : Html::tag(
                 'p',
-                ['class' => 'celerik-popover-title', 'id' => $this->id . '-title'],
+                ['class' => 'caelrik-popover-title', 'id' => $this->id . '-title'],
                 Html::escape($this->title),
             );
         $summary = Html::tag('summary', [
-            // celerik-action-button: outline variants keep an AA contrast in dark mode.
-            'class' => 'btn btn-sm celerik-action-button btn-' . $this->variant,
+            // caelrik-action-button: outline variants keep an AA contrast in dark mode.
+            'class' => 'btn btn-sm caelrik-action-button btn-' . $this->variant,
             'aria-label' => $this->buttonLabel,
         ], Html::escape($this->button));
         $panel = Html::tag('div', [
-            'class' => 'celerik-popover-panel',
+            'class' => 'caelrik-popover-panel',
             'role' => $this->title === null ? null : 'group',
             'aria-labelledby' => $this->title === null ? null : $this->id . '-title',
-        ], $title . Html::tag('div', ['class' => 'celerik-popover-body'], Html::content($this->content)));
+        ], $title . Html::tag('div', ['class' => 'caelrik-popover-body'], Html::content($this->content)));
 
         return Html::tag(
             'details',
-            $this->rootAttributes(['celerik-popover', 'celerik-popover-' . $this->align]),
+            $this->rootAttributes(['caelrik-popover', 'caelrik-popover-' . $this->align]),
             $summary . $panel,
         );
     }

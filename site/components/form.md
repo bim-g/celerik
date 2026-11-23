@@ -306,7 +306,7 @@ Without JavaScript the rows shown can be edited, but Add and Remove need JavaScr
 | `Field::color($name)` | A color picker. | A hex color, e.g. `#0d6efd`. |
 | `Field::rating($name)` | Stars: radio buttons named "1 of 5" to "5 of 5", in a `<fieldset>`. `stars(10)` for 3 to 10 stars. Not required, it has a "No rating" choice to clear it. | The number of stars, or an empty string for no rating. |
 
-`ratingLabels(star: '%d sur %d', clear: 'Aucune note')` translates a rating's texts. Check a rating on the server like any number: `'experience' => ['nullable', 'integer', 'between:1,5']` (Laravel). The stars use `--celerik-rating-color`: amber, or yellow in dark mode.
+`ratingLabels(star: '%d sur %d', clear: 'Aucune note')` translates a rating's texts. Check a rating on the server like any number: `'experience' => ['nullable', 'integer', 'between:1,5']` (Laravel). The stars use `--caelrik-rating-color`: amber, or yellow in dark mode.
 
 `inline()` puts the choices of a radio or checkbox group on one line. `step()` also works on number, date and time fields.
 

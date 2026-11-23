@@ -22,7 +22,7 @@ describe('theme builder (fixture: bootstrap preset, purple primary, light error 
   });
 
   afterEach(() => {
-    document.querySelectorAll('style[data-celerik-theme-preview]').forEach((style) => style.remove());
+    document.querySelectorAll('style[data-caelrik-theme-preview]').forEach((style) => style.remove());
   });
 
   const $ = (selector) => element.querySelector(selector);
@@ -34,18 +34,18 @@ describe('theme builder (fixture: bootstrap preset, purple primary, light error 
       input.dispatchEvent(new Event('change', { bubbles: true }));
     }
   };
-  const previewCss = () => document.querySelector('style[data-celerik-theme-preview="builder"]').textContent;
-  const failures = () => [...element.querySelectorAll('.celerik-theme-builder__pair.is-fail')].map((li) => li.dataset.celerikPair);
+  const previewCss = () => document.querySelector('style[data-caelrik-theme-preview="builder"]').textContent;
+  const failures = () => [...element.querySelectorAll('.caelrik-theme-builder__pair.is-fail')].map((li) => li.dataset.caelrikPair);
 
   test('reveals the JavaScript controls and previews the theme in the preview area only', () => {
     for (const part of ['__history', '__export', '__modes']) {
-      expect($(`.celerik-theme-builder${part}`).hidden).toBe(false);
+      expect($(`.caelrik-theme-builder${part}`).hidden).toBe(false);
     }
-    expect(previewCss()).toContain('#builder .celerik-theme-builder__canvas,\n#builder .celerik-theme-builder__canvas[data-bs-theme=light] {');
+    expect(previewCss()).toContain('#builder .caelrik-theme-builder__canvas,\n#builder .caelrik-theme-builder__canvas[data-bs-theme=light] {');
     expect(previewCss()).toContain('  --bs-primary: #6750a4;');
     expect(previewCss()).not.toMatch(/(^|\n):root/);
     expect(failures()).toEqual(['light.danger.bodyBg']);
-    expect($('.celerik-theme-builder__summary').textContent).toBe('1 pair is below its minimum.');
+    expect($('.caelrik-theme-builder__summary').textContent).toBe('1 pair is below its minimum.');
   });
 
   test('a hex field updates its picker, the preview and the report as you type', () => {
@@ -57,7 +57,7 @@ describe('theme builder (fixture: bootstrap preset, purple primary, light error 
     expect(text('builder-light-danger-picker').value).toBe('#b3261e');
     expect(previewCss()).toContain('  --bs-form-invalid-color: #b3261e;');
     expect(failures()).toEqual([]);
-    expect($('.celerik-theme-builder__summary').textContent).toBe('Every pair meets its minimum.');
+    expect($('.caelrik-theme-builder__summary').textContent).toBe('Every pair meets its minimum.');
     expect(changes).toEqual(['#b3261e']);
   });
 
@@ -91,7 +91,7 @@ describe('theme builder (fixture: bootstrap preset, purple primary, light error 
     const theme = builder.getTheme();
     expect([theme.radius, theme.fontFamily, theme.shadow]).toEqual([1.25, 'Inter, sans-serif', undefined]);
     expect(text('builder-radius-value').textContent).toBe('1.25');
-    expect(previewCss()).toContain('  --celerik-radius: 1.25rem;');
+    expect(previewCss()).toContain('  --caelrik-radius: 1.25rem;');
 
     type($('[name="theme[fontFamily]"]'), 'Inter; } body {');
     expect($('[name="theme[fontFamily]"]').getAttribute('aria-invalid')).toBe('true');
@@ -99,7 +99,7 @@ describe('theme builder (fixture: bootstrap preset, purple primary, light error 
   });
 
   test('undo steps back one finished change at a time; reset returns to the start', () => {
-    const undo = $('[data-celerik-action="undo"]');
+    const undo = $('[data-caelrik-action="undo"]');
     expect(undo.disabled).toBe(true);
 
     const primary = text('builder-light-primary');
@@ -120,12 +120,12 @@ describe('theme builder (fixture: bootstrap preset, purple primary, light error 
     expect(document.activeElement).toBe($('[name="theme[name]"]'));
 
     type(primary, '#333333');
-    $('[data-celerik-action="reset"]').click();
+    $('[data-caelrik-action="reset"]').click();
     expect(builder.getTheme().light).toEqual(readOptions(element).theme.light);
   });
 
   test('the preview mode switches the preview between light and dark', () => {
-    const canvas = $('.celerik-theme-builder__canvas');
+    const canvas = $('.caelrik-theme-builder__canvas');
     const dark = text('builder-preview-dark');
     dark.checked = true;
     dark.dispatchEvent(new Event('change', { bubbles: true }));

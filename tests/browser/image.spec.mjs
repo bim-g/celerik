@@ -44,7 +44,7 @@ const open = (page, options = {}) => openComponents(page, { path: '/image', ...o
 
 async function choose(page) {
   const edited = page.locator('#profile-photo').evaluate((input) => new Promise((resolve) => {
-    input.addEventListener('celerik:image-edited', (event) => resolve(event.detail), { once: true });
+    input.addEventListener('caelrik:image-edited', (event) => resolve(event.detail), { once: true });
   }));
   await page.locator('#profile-photo').setInputFiles({ name: 'quarters.png', mimeType: 'image/png', buffer: png() });
   return edited;
@@ -125,7 +125,7 @@ test.describe('image editor', () => {
   test('the pointer drags a corner', async ({ page }) => {
     await open(page);
     await choose(page);
-    const handle = page.locator('.celerik-image-handle-se');
+    const handle = page.locator('.caelrik-image-handle-se');
     const box = await handle.boundingBox();
     await page.mouse.move(box.x + 12, box.y + 12);
     await page.mouse.down();

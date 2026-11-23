@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Celerik\Ui\Adapters\Laravel;
+namespace Caelrik\Ui\Adapters\Laravel;
 
-use Celerik\Ui\Data\DataRequest;
-use Celerik\Ui\Data\DateRange;
-use Celerik\Ui\Data\Event;
-use Celerik\Ui\Data\EventSourceInterface;
+use Caelrik\Ui\Data\DataRequest;
+use Caelrik\Ui\Data\DateRange;
+use Caelrik\Ui\Data\Event;
+use Caelrik\Ui\Data\EventSourceInterface;
 use DateTimeZone;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Database\Eloquent\Builder as EloquentBuilder;

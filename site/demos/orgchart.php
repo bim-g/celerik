@@ -1,6 +1,6 @@
 <?php
 
-use Celerik\Ui\Components\OrgChart;
+use Caelrik\Ui\Components\OrgChart;
 
 // Rows as they come from a database: an id, the manager's id, a name and a job title.
 $people = [

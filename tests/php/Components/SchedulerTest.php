@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Celerik\Ui\Tests\Components;
+namespace Caelrik\Ui\Tests\Components;
 
-use Celerik\Ui\Components\Scheduler;
-use Celerik\Ui\Data\ArrayEventSource;
+use Caelrik\Ui\Components\Scheduler;
+use Caelrik\Ui\Data\ArrayEventSource;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 
@@ -21,7 +21,7 @@ final class SchedulerTest extends TestCase
             ])
             ->render();
 
-        self::assertStringContainsString('<div id="team" class="celerik-scheduler" data-celerik="scheduler"', $html);
+        self::assertStringContainsString('<div id="team" class="caelrik-scheduler" data-caelrik="scheduler"', $html);
         self::assertStringContainsString('role="region" aria-label="Team &lt;calendar&gt;"', $html);
         self::assertStringContainsString(
             '<li><time datetime="2026-11-05T09:00:00+01:00">2026-11-05 09:00 – 2026-11-05 10:00</time> &lt;b&gt;Kick-off&lt;/b&gt;</li>',

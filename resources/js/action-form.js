@@ -1,9 +1,9 @@
 // Actions that open a form in a modal (Action::form()). The action's button opens the modal,
 // with the form reset and filled with the row's values (data-values) and the title written
-// for the row. The form checks its fields (Parsley, as any Celerik form), then Save sends
+// for the row. The form checks its fields (Parsley, as any Caelrik form), then Save sends
 // them to the action's URL: a form-encoded POST with `_method` and the action's CSRF token.
 // - A 2xx answer closes the modal; focus goes back to the button, the answer's `message` is
-//   shown, and `celerik:action` fires on the action (a grid reloads its rows).
+//   shown, and `caelrik:action` fires on the action (a grid reloads its rows).
 // - Otherwise `errors` ({"field": ["..."]}) are shown on their fields, as PHP shows server
 //   errors, and anything else in an alert at the top of the form.
 // Elements are built with DOM methods and textContent only (CSP).
@@ -75,7 +75,7 @@ export function fillValues(form, values) {
 }
 
 export function clearErrors(form) {
-  form.querySelectorAll('.celerik-server-error, .celerik-action-form-error').forEach((node) => node.remove());
+  form.querySelectorAll('.caelrik-server-error, .caelrik-action-form-error').forEach((node) => node.remove());
   for (const control of form.querySelectorAll('[aria-invalid]')) {
     control.removeAttribute('aria-invalid');
     control.classList.remove('is-invalid');
@@ -105,7 +105,7 @@ export function showErrors(form, errors, message) {
     }
     const feedback = document.createElement('div');
     feedback.id = `${control.id || `${form.id}-${control.name}`}-action-error`;
-    feedback.className = 'invalid-feedback d-block celerik-server-error';
+    feedback.className = 'invalid-feedback d-block caelrik-server-error';
     feedback.textContent = text;
     (control.closest('.mb-3') ?? control.parentElement).append(feedback);
     control.setAttribute('aria-invalid', 'true');
@@ -120,7 +120,7 @@ export function showErrors(form, errors, message) {
   let alert = null;
   if (general.length > 0) {
     alert = document.createElement('div');
-    alert.className = 'alert alert-danger celerik-action-form-error';
+    alert.className = 'alert alert-danger caelrik-action-form-error';
     alert.setAttribute('role', 'alert');
     alert.tabIndex = -1;
     alert.textContent = general.join(' ');
@@ -160,11 +160,11 @@ async function send(form, modalElement, modal, context) {
     }
   }
 
-  const submit = modalElement.querySelector('[data-celerik-form-submit]');
+  const submit = modalElement.querySelector('[data-caelrik-form-submit]');
   context.sending = true;
   submit?.setAttribute('aria-disabled', 'true');
   form.setAttribute('aria-busy', 'true');
-  const name = trigger.dataset.celerikAction;
+  const name = trigger.dataset.caelrikAction;
   try {
     const response = await (context.deps.fetch ?? fetch)(trigger.action, {
       method: 'POST', headers, body, credentials: 'same-origin',
@@ -188,10 +188,10 @@ async function send(form, modalElement, modal, context) {
 }
 
 function connect(form, modalElement, modal) {
-  if (form.celerikActionForm) {
+  if (form.caelrikActionForm) {
     return;
   }
-  form.celerikActionForm = true;
+  form.caelrikActionForm = true;
   // After the form's own checks passed: send it here, not as a page submit.
   $(form).parsley().on('form:submit', () => {
     const context = contexts.get(form);
@@ -218,14 +218,14 @@ function connect(form, modalElement, modal) {
       if (typeof message === 'string' && message !== '') {
         context.deps.notify('success', message);
       }
-      context.trigger.dispatchEvent(new CustomEvent('celerik:action', { bubbles: true, detail }));
+      context.trigger.dispatchEvent(new CustomEvent('caelrik:action', { bubbles: true, detail }));
     }
   });
 }
 
 // Opens the action's form for its row. deps: { fetch, notify } for tests and custom UIs.
 export function openActionForm(trigger, deps = {}) {
-  const modalElement = document.getElementById(trigger.dataset.celerikFormModal ?? '');
+  const modalElement = document.getElementById(trigger.dataset.caelrikFormModal ?? '');
   const form = modalElement?.querySelector('form');
   const Modal = bootstrapComponent('Modal');
   if (!form || !Modal || contexts.has(form)) {

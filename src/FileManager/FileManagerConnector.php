@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Celerik\Ui\FileManager;
+namespace Caelrik\Ui\FileManager;
 
 use LogicException;
 

@@ -53,34 +53,34 @@ describe('the editor', () => {
   afterEach(() => parsley.destroy());
 
   test('is hidden until a picture is chosen, with named tools and numbers', () => {
-    const editor = form.querySelector('.celerik-image-editor');
-    expect(input.celerikImageEditor).toBeDefined();
+    const editor = form.querySelector('.caelrik-image-editor');
+    expect(input.caelrikImageEditor).toBeDefined();
     expect(editor.hidden).toBe(true);
     expect(editor.getAttribute('role')).toBe('group');
     expect(editor.getAttribute('aria-label')).toBe('Edit the picture');
-    expect([...editor.querySelectorAll('.celerik-image-tools button')].map((button) => button.getAttribute('aria-label')))
+    expect([...editor.querySelectorAll('.caelrik-image-tools button')].map((button) => button.getAttribute('aria-label')))
       .toEqual(['Rotate left', 'Rotate right', 'Flip horizontally', 'Flip vertically', 'Undo the changes']);
-    expect([...editor.querySelectorAll('.celerik-image-ratio option')].map((option) => option.textContent)).toEqual(['Free', '1:1']);
+    expect([...editor.querySelectorAll('.caelrik-image-ratio option')].map((option) => option.textContent)).toEqual(['Free', '1:1']);
     expect(editor.querySelector('label[for="profile-photo-ratio"]').textContent).toBe('Shape');
-    const crop = editor.querySelector('.celerik-image-crop');
+    const crop = editor.querySelector('.caelrik-image-crop');
     expect(crop.tabIndex).toBe(0);
     expect(crop.getAttribute('aria-label')).toBe('Crop area');
     expect(document.getElementById(crop.getAttribute('aria-describedby')).textContent).toMatch(/arrow keys move it/);
-    expect([...editor.querySelectorAll('.celerik-image-numbers label')].map((label) => label.textContent))
+    expect([...editor.querySelectorAll('.caelrik-image-numbers label')].map((label) => label.textContent))
       .toEqual(['Left', 'Top', 'Width', 'Height']);
     expect(editor.querySelector('[role="status"]')).not.toBeNull();
     // Set up once.
-    expect(initImageEditor(input)).toBe(input.celerikImageEditor);
+    expect(initImageEditor(input)).toBe(input.caelrikImageEditor);
   });
 
   test('a file that is not a picture keeps the editor hidden', () => {
     Object.defineProperty(input, 'files', { value: [new File(['%PDF'], 'a.pdf', { type: 'application/pdf' })], configurable: true });
     input.dispatchEvent(new Event('change'));
-    expect(form.querySelector('.celerik-image-editor').hidden).toBe(true);
+    expect(form.querySelector('.caelrik-image-editor').hidden).toBe(true);
   });
 
   test('no axe-core violations, the editor shown', async () => {
-    form.querySelector('.celerik-image-editor').hidden = false;
+    form.querySelector('.caelrik-image-editor').hidden = false;
     const results = await axe.run(form, {
       runOnly: { type: 'tag', values: ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa'] },
       rules: { 'color-contrast': { enabled: false } },

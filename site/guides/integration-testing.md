@@ -1,8 +1,8 @@
 # Testing an integration
 
-Celerik's own test suites prove that the components work. They cannot prove that **your** application wires them correctly: routes, CSRF, authorization, asset paths, time zones, themes and your Content Security Policy live in your code.
+Caelrik's own test suites prove that the components work. They cannot prove that **your** application wires them correctly: routes, CSRF, authorization, asset paths, time zones, themes and your Content Security Policy live in your code.
 
-Test in this order. Each layer catches problems the previous one cannot see. Step-by-step guides and ready-made scripts are in the [celerik-doc](https://github.com/kivudesign/celerik-doc) repository.
+Test in this order. Each layer catches problems the previous one cannot see. Step-by-step guides and ready-made scripts are in the [caelrik-doc](https://github.com/kivudesign/celerik-doc) repository.
 
 | # | Layer | Catches | Guide |
 |---|---|---|---|
@@ -27,7 +27,7 @@ Test in this order. Each layer catches problems the previous one cannot see. Ste
 A custom theme is your code too. Check it before it ships:
 
 ```bash
-vendor/bin/celerik-theme check theme.json      # every contrast pair, exit 1 on a failure
+vendor/bin/caelrik-theme check theme.json      # every contrast pair, exit 1 on a failure
 ```
 
 Then load a page that uses it in light and dark mode with `check-page.sh`: axe-core checks the contrast of the rendered components, which the token check cannot see (for example text on a coloured calendar event).
@@ -36,9 +36,9 @@ Then load a page that uses it in light and dark mode with `check-page.sh`: axe-c
 
 Copy this into your pull request or release notes.
 
-- **Assets**: Bootstrap 5.3 (CSS and `bootstrap.bundle.js`) and jQuery 3.7 or 4 load before the Celerik tags; the whole `public/` folder is published, `chunks/` included, again after every update; `celerik.css` and your custom theme load in that order.
+- **Assets**: Bootstrap 5.3 (CSS and `bootstrap.bundle.js`) and jQuery 3.7 or 4 load before the Caelrik tags; the whole `public/` folder is published, `chunks/` included, again after every update; `caelrik.css` and your custom theme load in that order.
 - **Endpoints**: each endpoint uses the same component definition as its page (`respond()`); endpoints are behind authorization; JSON changes check the CSRF token; bad input answers 400 or 422 with a message.
 - **Data**: dates are converted to the right time zone before saving; uploads are claimed or stored outside the web root, and `purge()` runs from a cron job; editor HTML is sanitized with `EditorHtml::sanitize()`.
 - **Browser**: every component starts, with no console errors; no axe-core violations in light and dark mode; Tab order, Escape in dialogs, arrow keys in tabs, and the calendar's event dialog work from the keyboard; your production CSP reports no violations.
-- **Theme**: `celerik-theme check` passes; the ThemeBuilder, if deployed, is behind authorization or local only.
+- **Theme**: `caelrik-theme check` passes; the ThemeBuilder, if deployed, is behind authorization or local only.
 - **File Manager** (if used): its root is outside the web root, one per tenant or user when files are private; `elfinder-security.php` reports every attack refused; `composer audit` is clean.

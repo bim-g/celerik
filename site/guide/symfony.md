@@ -5,36 +5,36 @@ For Symfony 7.
 ## Setup
 
 ```bash
-composer require celerik/ui
+composer require caelrik/ui
 ```
 
 Register the bundle in `config/bundles.php`, then install the assets:
 
 ```php
-Celerik\Ui\Adapters\Symfony\CelerikUiBundle::class => ['all' => true],
+Caelrik\Ui\Adapters\Symfony\CaelrikUiBundle::class => ['all' => true],
 ```
 
 ```bash
-php bin/console assets:install   # public/bundles/celerikui
+php bin/console assets:install   # public/bundles/caelrik
 ```
 
 ## Twig
 
 ```twig
-{{ celerik_assets() }}
-{{ celerik_assets(customTheme: asset('css/acme.css'), nonce: csp_nonce) }}
+{{ caelrik_assets() }}
+{{ caelrik_assets(customTheme: asset('css/acme.css'), nonce: csp_nonce) }}
 
-{{ celerik(grid) }}
+{{ caelrik(grid) }}
 ```
 
-`celerik_assets()` takes `baseUrl` (default `/bundles/celerikui`), `nonce`, `theme` and `customTheme`.
+`caelrik_assets()` takes `baseUrl` (default `/bundles/caelrik`), `nonce`, `theme` and `customTheme`.
 
 ## A server-side grid with Doctrine
 
 ```php
 use App\Repository\ProductRepository;
-use Celerik\Ui\Adapters\Symfony\DoctrineDataSource;
-use Celerik\Ui\Components\Grid;
+use Caelrik\Ui\Adapters\Symfony\DoctrineDataSource;
+use Caelrik\Ui\Components\Grid;
 
 #[Route('/products')]
 final class ProductController extends AbstractController

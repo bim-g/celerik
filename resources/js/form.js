@@ -53,7 +53,7 @@ export async function initForm(element, options) {
   // Server-side errors are rendered by PHP; drop them once the field is re-validated.
   parsley.on('field:validated', (field) => {
     const inputs = fieldInputs(field).toArray();
-    inputs[0].closest('.mb-3')?.querySelector('.celerik-server-error')?.remove();
+    inputs[0].closest('.mb-3')?.querySelector('.caelrik-server-error')?.remove();
     // A collapsed section opens on an error, before Parsley focuses the first invalid field.
     if (!field.isValid()) {
       reveal(inputs[0]);
@@ -68,11 +68,11 @@ export async function initForm(element, options) {
     }
   });
 
-  const summary = options.errorSummary ? element.querySelector('.celerik-error-summary') : null;
+  const summary = options.errorSummary ? element.querySelector('.caelrik-error-summary') : null;
   const showErrors = summary ? initErrorSummary(element, summary, parsley) : null;
 
   // A wizard checks each step's fields before the next one.
-  element.celerikWizard = initWizard(element, parsley, {
+  element.caelrikWizard = initWizard(element, parsley, {
     summary,
     onInvalid: (fields) => (showErrors ? showErrors(fields) : focusField(fields[0].$element[0])),
     onValid: () => showErrors?.([]),
@@ -83,10 +83,10 @@ export async function initForm(element, options) {
 
   // Quill and FilePond are large: load them only for forms that use them.
   const enhancements = [enhanceFields(element, element, parsley)];
-  if (element.querySelector('textarea[data-celerik-editor]')) {
+  if (element.querySelector('textarea[data-caelrik-editor]')) {
     enhancements.push(import('./editor.js').then(({ initEditors }) => initEditors(element)));
   }
-  if (element.querySelector('input[type="file"][data-celerik-upload]')) {
+  if (element.querySelector('input[type="file"][data-caelrik-upload]')) {
     const token = csrfTokenFor(element, options);
     enhancements.push(import('./upload.js').then(({ initUploads }) => initUploads(element, token)));
   }
@@ -103,8 +103,8 @@ function enhanceFields(form, container, parsley) {
   initSignatures(container);
   initKeyValues(container, parsley);
 
-  for (const input of container.querySelectorAll('[data-celerik-mask]')) {
-    Inputmask(input.getAttribute('data-celerik-mask')).mask(input);
+  for (const input of container.querySelectorAll('[data-caelrik-mask]')) {
+    Inputmask(input.getAttribute('data-caelrik-mask')).mask(input);
   }
 
   // Date ranges: the end picker starts at the start (also for old input and after a reset),
@@ -134,7 +134,7 @@ function enhanceFields(form, container, parsley) {
   }
 
   // Range fields show their value after the label.
-  for (const output of container.querySelectorAll('output.celerik-range-value')) {
+  for (const output of container.querySelectorAll('output.caelrik-range-value')) {
     const input = document.getElementById(output.htmlFor.value);
     if (input) {
       const show = () => {
@@ -150,16 +150,16 @@ function enhanceFields(form, container, parsley) {
   // Searchable selects (Tom Select), Markdown fields (marked, DOMPurify) and code fields
   // (CodeMirror) load on demand.
   const loads = [];
-  if (container.querySelector('select[data-celerik-select]')) {
+  if (container.querySelector('select[data-caelrik-select]')) {
     loads.push(import('./select.js').then(({ initSelects }) => initSelects(container)));
   }
-  if (container.querySelector('textarea[data-celerik-markdown]')) {
+  if (container.querySelector('textarea[data-caelrik-markdown]')) {
     loads.push(import('./form-markdown.js').then(({ initMarkdowns }) => initMarkdowns(container)));
   }
-  if (container.querySelector('textarea[data-celerik-code]')) {
+  if (container.querySelector('textarea[data-caelrik-code]')) {
     loads.push(import('./form-code.js').then(({ initCodes }) => initCodes(container)));
   }
-  if (container.querySelector('input[type="file"][data-celerik-image-editor]')) {
+  if (container.querySelector('input[type="file"][data-caelrik-image-editor]')) {
     loads.push(import('./form-image.js').then(({ initImageEditors }) => initImageEditors(container)));
   }
   return Promise.all(loads);
@@ -202,17 +202,17 @@ function initErrorSummary(element, summary, parsley) {
 // Focuses a field, or its rich text editor, after showing it.
 function focusField(field) {
   reveal(field);
-  (field.celerikEditor?.root ?? field).focus();
+  (field.caelrikEditor?.root ?? field).focus();
 }
 
 // Shows an element: its wizard step, and the collapsed sections (<details>) around it.
 function reveal(element) {
-  element.closest('form')?.celerikWizard?.showStepOf(element);
+  element.closest('form')?.caelrikWizard?.showStepOf(element);
   for (let details = element.closest('details'); details; details = details.parentElement.closest('details')) {
     details.open = true;
   }
   // A Markdown field shown as its preview goes back to its text.
-  if (element.closest('.celerik-markdown-write')?.hidden) {
-    element.closest('.celerik-markdown').querySelector('.celerik-markdown-tab')?.click();
+  if (element.closest('.caelrik-markdown-write')?.hidden) {
+    element.closest('.caelrik-markdown').querySelector('.caelrik-markdown-tab')?.click();
   }
 }

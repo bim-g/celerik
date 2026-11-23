@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Celerik\Ui\Tests\Components;
+namespace Caelrik\Ui\Tests\Components;
 
-use Celerik\Ui\Components\Action;
-use Celerik\Ui\Components\Form;
-use Celerik\Ui\Components\Form\Field;
-use Celerik\Ui\Components\Grid;
-use Celerik\Ui\Components\Grid\Column;
+use Caelrik\Ui\Components\Action;
+use Caelrik\Ui\Components\Form;
+use Caelrik\Ui\Components\Form\Field;
+use Caelrik\Ui\Components\Grid;
+use Caelrik\Ui\Components\Grid\Column;
 use InvalidArgumentException;
 use LogicException;
 use PHPUnit\Framework\TestCase;
@@ -39,7 +39,7 @@ final class ActionFormTest extends TestCase
         ]);
 
         self::assertStringContainsString('action="/people/7"', $html);
-        self::assertStringContainsString('data-celerik-form-modal="person-form-modal"', $html);
+        self::assertStringContainsString('data-caelrik-form-modal="person-form-modal"', $html);
         self::assertStringContainsString('data-title="Edit Ada &quot;A&quot;"', $html);
         self::assertStringContainsString(
             'data-values="{&quot;name&quot;:&quot;Ada \&quot;A\&quot;&quot;,&quot;role&quot;:&quot;admin&quot;,'
@@ -58,7 +58,7 @@ final class ActionFormTest extends TestCase
         self::assertStringContainsString('<h2 class="modal-title fs-5" id="person-form-modal-title">Edit</h2>', $html);
         self::assertStringContainsString('modal-dialog modal-lg', $html);
         self::assertStringContainsString(
-            '<button type="submit" form="person-form" data-celerik-form-submit class="btn btn-secondary">Save</button>',
+            '<button type="submit" form="person-form" data-caelrik-form-submit class="btn btn-secondary">Save</button>',
             $html,
         );
         self::assertStringContainsString('data-bs-dismiss="modal">Cancel</button>', $html);
@@ -78,7 +78,7 @@ final class ActionFormTest extends TestCase
             ->render();
 
         self::assertSame(1, substr_count($html, 'id="person-form-modal"'));
-        self::assertSame(2, substr_count($html, 'data-celerik-form-modal="person-form-modal"'));
+        self::assertSame(2, substr_count($html, 'data-caelrik-form-modal="person-form-modal"'));
         self::assertGreaterThan(strpos($html, '</table>'), strpos($html, 'id="person-form-modal"'));
     }
 

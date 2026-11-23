@@ -4,12 +4,12 @@ import { loadFixture } from './helpers.js';
 
 const flush = () => new Promise((resolve) => { setTimeout(resolve, 0); });
 const item = (element, name) => [...element.querySelectorAll('[role=treeitem]')]
-  .find((node) => node.querySelector('.celerik-tree-label').textContent.trim() === name);
+  .find((node) => node.querySelector('.caelrik-tree-label').textContent.trim() === name);
 const press = (key) => document.activeElement.dispatchEvent(new KeyboardEvent('keydown', { key, bubbles: true }));
-const focused = () => document.activeElement.querySelector('.celerik-tree-label')?.textContent.trim();
+const focused = () => document.activeElement.querySelector('.caelrik-tree-label')?.textContent.trim();
 const visibleNames = (element) => [...element.querySelectorAll('[role=treeitem]')]
   .filter((node) => !node.closest('ul[hidden]'))
-  .map((node) => node.querySelector('.celerik-tree-label').textContent.trim());
+  .map((node) => node.querySelector('.caelrik-tree-label').textContent.trim());
 
 describe('tree helpers', () => {
   test('safeUrl keeps relative and http(s) links only', () => {
@@ -21,7 +21,7 @@ describe('tree helpers', () => {
 
   test('createNode writes a loaded node with text only', () => {
     const node = createNode({ id: 9, label: '<b>x</b>', href: 'javascript:alert(1)' }, {});
-    expect(node.querySelector('.celerik-tree-label').tagName).toBe('SPAN');
+    expect(node.querySelector('.caelrik-tree-label').tagName).toBe('SPAN');
     expect(node.textContent).toBe('<b>x</b>');
     expect(node.querySelector('b')).toBeNull();
   });
@@ -48,7 +48,7 @@ describe('a navigation tree', () => {
     expect(element.querySelectorAll('[tabindex="0"]')).toHaveLength(1);
     expect(guide.tabIndex).toBe(0);
     // The row is the treeitem, named by its own text, and owns its children's group.
-    expect(guide.matches('.celerik-tree-row')).toBe(true);
+    expect(guide.matches('.caelrik-tree-row')).toBe(true);
     expect(guide.parentElement.getAttribute('role')).toBe('none');
     const group = document.getElementById(guide.getAttribute('aria-owns'));
     expect(group.getAttribute('role')).toBe('group');
@@ -91,7 +91,7 @@ describe('a navigation tree', () => {
     press('Enter');
     expect(follow).toHaveBeenCalled();
 
-    item(element, 'Components').querySelector('.celerik-tree-toggle').click();
+    item(element, 'Components').querySelector('.caelrik-tree-toggle').click();
     expect(item(element, 'Components').getAttribute('aria-expanded')).toBe('true');
     expect(document.activeElement).toBe(item(element, 'Components'));
   });
@@ -119,7 +119,7 @@ describe('a checkable tree', () => {
 
   test('Space checks a node and its children, and the form values follow', () => {
     const events = [];
-    element.addEventListener('celerik:change', (event) => events.push(event.detail.value));
+    element.addEventListener('caelrik:change', (event) => events.push(event.detail.value));
     item(element, 'Contracts').focus();
     press(' ');
 
@@ -136,7 +136,7 @@ describe('a checkable tree', () => {
   });
 
   test('a click on a node checks it once, though its label holds the checkbox', () => {
-    item(element, 'Invoices').querySelector('span:not(.celerik-tree-spacer)').click();
+    item(element, 'Invoices').querySelector('span:not(.caelrik-tree-spacer)').click();
     expect(item(element, 'Invoices').getAttribute('aria-checked')).toBe('false');
     expect(checked()).toEqual([]);
   });

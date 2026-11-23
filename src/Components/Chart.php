@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Celerik\Ui\Components;
+namespace Caelrik\Ui\Components;
 
-use Celerik\Ui\Component;
-use Celerik\Ui\Support\Arr;
-use Celerik\Ui\Support\Html;
+use Caelrik\Ui\Component;
+use Caelrik\Ui\Support\Arr;
+use Caelrik\Ui\Support\Html;
 use InvalidArgumentException;
 
 /**
@@ -180,8 +180,8 @@ final class Chart extends Component
 
         return Html::tag(
             'figure',
-            $this->rootAttributes(['celerik-chart']),
-            Html::tag('div', ['class' => 'celerik-chart__canvas'], $canvas) . $this->dataTable(),
+            $this->rootAttributes(['caelrik-chart']),
+            Html::tag('div', ['class' => 'caelrik-chart__canvas'], $canvas) . $this->dataTable(),
         );
     }
 

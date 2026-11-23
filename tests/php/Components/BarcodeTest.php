@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Celerik\Ui\Tests\Components;
+namespace Caelrik\Ui\Tests\Components;
 
-use Celerik\Ui\Components\Barcode;
+use Caelrik\Ui\Components\Barcode;
 use InvalidArgumentException;
 use LogicException;
 use PHPUnit\Framework\TestCase;
@@ -99,16 +99,16 @@ final class BarcodeTest extends TestCase
 
         // 11 + 95 + 7 modules, two pixels each.
         self::assertStringStartsWith(
-            '<figure id="isbn" class="celerik-barcode" data-celerik="barcode" data-celerik-options="{}">'
-            . '<svg class="celerik-barcode-image" role="img" aria-label="Barcode: ISBN &lt;book&gt;" '
+            '<figure id="isbn" class="caelrik-barcode" data-caelrik="barcode" data-caelrik-options="{}">'
+            . '<svg class="caelrik-barcode-image" role="img" aria-label="Barcode: ISBN &lt;book&gt;" '
             . 'viewBox="0 0 113 40" width="226" height="80" preserveAspectRatio="none" shape-rendering="crispEdges" '
-            . 'focusable="false"><rect class="celerik-barcode-light" width="113" height="40"></rect>'
-            . '<path class="celerik-barcode-dark" d="M11 0h1v40h-1zM13 0h1v40h-1z',
+            . 'focusable="false"><rect class="caelrik-barcode-light" width="113" height="40"></rect>'
+            . '<path class="caelrik-barcode-dark" d="M11 0h1v40h-1zM13 0h1v40h-1z',
             $html,
         );
         self::assertStringEndsWith(
-            '</svg><figcaption class="celerik-barcode-caption"><span class="celerik-barcode-label">ISBN &lt;book&gt;</span>'
-            . '<span class="celerik-barcode-value">9780201379624</span></figcaption></figure>',
+            '</svg><figcaption class="caelrik-barcode-caption"><span class="caelrik-barcode-label">ISBN &lt;book&gt;</span>'
+            . '<span class="caelrik-barcode-value">9780201379624</span></figcaption></figure>',
             $html,
         );
     }
@@ -130,7 +130,7 @@ final class BarcodeTest extends TestCase
         $html = Barcode::make('ticket')->value('TICKET-0001')->label('Your ticket')->hideValue()->render();
 
         self::assertStringContainsString('aria-label="Barcode: Your ticket"', $html);
-        self::assertStringNotContainsString('celerik-barcode-value', $html);
+        self::assertStringNotContainsString('caelrik-barcode-value', $html);
     }
 
     public function testAValueIsNeeded(): void

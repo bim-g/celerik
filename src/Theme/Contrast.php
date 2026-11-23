@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Celerik\Ui\Theme;
+namespace Caelrik\Ui\Theme;
 
 use InvalidArgumentException;
 

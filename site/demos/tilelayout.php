@@ -1,6 +1,6 @@
 <?php
 
-use Celerik\Ui\Components\TileLayout;
+use Caelrik\Ui\Components\TileLayout;
 
 return TileLayout::make('dashboard')
     ->columns(3)

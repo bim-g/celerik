@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Celerik\Ui\Tests\Support;
+namespace Caelrik\Ui\Tests\Support;
 
-use Celerik\Ui\Support\Url;
+use Caelrik\Ui\Support\Url;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 

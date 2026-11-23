@@ -19,7 +19,7 @@ for (const theme of THEMES) {
         await openComponents(page, { theme, mode });
         await page.locator('#article').getByRole('textbox', { name: /Title/ }).fill('');
         await page.locator('#article').getByRole('button', { name: 'Publish' }).click();
-        await expect(page.locator('#article .celerik-error-summary')).toBeVisible();
+        await expect(page.locator('#article .caelrik-error-summary')).toBeVisible();
         expect(await axeViolations(page, { include: '#article' })).toEqual([]);
       });
 
@@ -45,7 +45,7 @@ for (const theme of THEMES) {
       test('no axe-core violations in a tree, with a node open and one loaded', async ({ page }) => {
         await openComponents(page, { theme, mode });
         // The chevron opens a node; a click on its name would check it.
-        await page.getByRole('treeitem', { name: 'Pictures', exact: true }).locator('.celerik-tree-toggle').click();
+        await page.getByRole('treeitem', { name: 'Pictures', exact: true }).locator('.caelrik-tree-toggle').click();
         await expect(page.getByRole('treeitem', { name: 'Holidays' })).toBeVisible({ timeout: 15_000 });
         await page.getByRole('treeitem', { name: 'Holidays' }).focus();
         expect(await axeViolations(page, { include: '#folders' })).toEqual([]);
@@ -60,7 +60,7 @@ for (const theme of THEMES) {
 
       test('no axe-core violations in a task board, a card picked up', async ({ page }) => {
         await openComponents(page, { theme, mode });
-        await page.locator('#sprint .celerik-board-card').first().focus();
+        await page.locator('#sprint .caelrik-board-card').first().focus();
         await page.keyboard.press('Space');
         expect(await axeViolations(page, { include: '#sprint' })).toEqual([]);
       });
@@ -74,7 +74,7 @@ for (const theme of THEMES) {
       test('no axe-core violations in a grouped grid with totals', async ({ page }) => {
         await openComponents(page, { theme, mode });
         // The endpoint answers through the test server: allow for a slow machine.
-        await expect(page.locator('#budget tr.celerik-grid-group')).toHaveCount(2, { timeout: 15_000 });
+        await expect(page.locator('#budget tr.caelrik-grid-group')).toHaveCount(2, { timeout: 15_000 });
         expect(await axeViolations(page, { include: '#budget' })).toEqual([]);
       });
 
@@ -82,7 +82,7 @@ for (const theme of THEMES) {
         await openComponents(page, { theme, mode });
         await page.locator('#users').getByRole('button', { name: 'Delete Ada Lovelace' }).click();
         await expect(page.getByRole('alertdialog', { name: 'Delete Ada Lovelace?' })).toBeVisible();
-        expect(await axeViolations(page, { include: '.celerik-action-dialog' })).toEqual([]);
+        expect(await axeViolations(page, { include: '.caelrik-action-dialog' })).toEqual([]);
       });
 
       test('no axe-core violations with a searchable select open, matches highlighted', async ({ page }) => {

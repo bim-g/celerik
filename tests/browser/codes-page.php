@@ -6,9 +6,9 @@
 
 declare(strict_types=1);
 
-use Celerik\Ui\Assets;
-use Celerik\Ui\Components\Barcode;
-use Celerik\Ui\Components\QrCode;
+use Caelrik\Ui\Assets;
+use Caelrik\Ui\Components\Barcode;
+use Caelrik\Ui\Components\QrCode;
 
 $mode = ($_GET['mode'] ?? '') === 'dark' ? 'dark' : 'light';
 ?>

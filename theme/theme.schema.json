@@ -1,8 +1,8 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://github.com/kivudesign/celerik/theme/theme.schema.json",
-  "title": "Celerik UI theme",
-  "description": "Design tokens of a Celerik theme on Bootstrap. Theme::toCss() (PHP), the ThemeBuilder and bin/celerik-theme turn it into a stylesheet loaded after celerik.css.",
+  "title": "Caelrik UI theme",
+  "description": "Design tokens of a Caelrik theme on Bootstrap. Theme::toCss() (PHP), the ThemeBuilder and bin/caelrik-theme turn it into a stylesheet loaded after caelrik.css.",
   "type": "object",
   "required": ["name", "light", "dark"],
   "additionalProperties": false,

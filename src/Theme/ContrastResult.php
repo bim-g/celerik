@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Celerik\Ui\Theme;
+namespace Caelrik\Ui\Theme;
 
 /**
  * The contrast of one color pair of a theme, in one mode.

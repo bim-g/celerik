@@ -1,7 +1,7 @@
 // Actions (PHP: Action::link(), Action::request()): a request action is a form that posts
 // without JavaScript. With it, a submit asks for confirmation in a dialog when the action
 // has one, sends the request with fetch and shows the answer's message, then fires
-// `celerik:action` on the form (a grid reloads or removes the row).
+// `caelrik:action` on the form (a grid reloads or removes the row).
 // Dialogs are built with DOM methods and textContent only (CSP).
 import { escapeHtml } from './notification-config.js';
 
@@ -50,8 +50,8 @@ export function actionHtml(action, row, ariaLabel = null, small = true) {
   if (action.csrf) {
     fields += `<input type="hidden"${attribute('name', action.csrf.field)}${attribute('value', action.csrf.token)}>`;
   }
-  return `<form method="post"${attribute('action', url)} class="celerik-action"`
-    + `${attribute('data-celerik-action', action.name)}${attribute('data-method', action.method)}`
+  return `<form method="post"${attribute('action', url)} class="caelrik-action"`
+    + `${attribute('data-caelrik-action', action.name)}${attribute('data-method', action.method)}`
     + `${attribute('data-confirm', action.confirm ? fill(action.confirm, row) : null)}`
     + `${attribute('data-confirm-detail', action.confirmDetail ? fill(action.confirmDetail, row) : null)}`
     + `${attribute('data-csrf-header', action.csrf?.header)}`
@@ -71,7 +71,7 @@ function formAttributes(form, row, attribute) {
       values[field] = value;
     }
   }
-  return `${attribute('data-celerik-form-modal', form.modal)}${attribute('data-title', fill(form.title, row))}`
+  return `${attribute('data-caelrik-form-modal', form.modal)}${attribute('data-title', fill(form.title, row))}`
     + `${attribute('data-values', JSON.stringify(values))}`;
 }
 
@@ -80,7 +80,7 @@ function formAttributes(form, row, attribute) {
 export function rowActionsHtml(actions, row, rowTitle) {
   const title = rowTitle ? fill(`{${rowTitle}}`, row) : '';
   const buttons = actions.map((action) => actionHtml(action, row, `${action.label} ${title}`.trim())).join('');
-  return `<div class="celerik-grid-action-list">${buttons}</div>`;
+  return `<div class="caelrik-grid-action-list">${buttons}</div>`;
 }
 
 // A row's checkbox (Grid::selectable()), as Grid::renderCheckbox() writes it.
@@ -89,7 +89,7 @@ export function rowCheckboxHtml(selection, row, rowTitle) {
   const title = rowTitle ? fill(`{${rowTitle}}`, row) : '';
   return `<input type="checkbox" class="form-check-input"${attribute('name', `${selection.name}[]`)}`
     + `${attribute('value', fill(`{${selection.key}}`, row))}${attribute('form', selection.form)}`
-    + `${attribute('aria-label', `${selection.labels.select} ${title}`.trim())} data-celerik-select>`;
+    + `${attribute('aria-label', `${selection.labels.select} ${title}`.trim())} data-caelrik-select>`;
 }
 
 let counter = 0;
@@ -112,9 +112,9 @@ function create(tag, attributes = {}, text = null) {
 // Resolves with true when confirmed.
 export function confirmAction({ question, detail = null, confirmLabel, cancelLabel = LABELS.cancel, danger = false }) {
   counter += 1;
-  const id = `celerik-action-dialog-${counter}`;
+  const id = `caelrik-action-dialog-${counter}`;
   const dialog = create('dialog', {
-    class: 'celerik-action-dialog',
+    class: 'caelrik-action-dialog',
     role: 'alertdialog',
     'aria-labelledby': `${id}-title`,
     'aria-describedby': detail ? `${id}-detail` : null,
@@ -183,22 +183,22 @@ async function readMessage(response) {
 
 const pending = new WeakSet();
 
-// Runs a request action's form: confirmation, request, message, `celerik:action` event.
+// Runs a request action's form: confirmation, request, message, `caelrik:action` event.
 // A grid's bulk form (Grid::bulkActions()) has a submit button per action: `submitter` is
 // the one pressed, and carries the action's URL, method, confirmation and labels. The form's
-// `celerikSelection()` (set by the grid) gives the selected rows, sent as `name[]`, and
+// `caelrikSelection()` (set by the grid) gives the selected rows, sent as `name[]`, and
 // `{count}` in the confirmation is their number.
 // options: { submitter, fetch, notify, confirm } (the last three for tests and custom UIs).
 // Resolves with the event's detail, or null when cancelled or already running.
 export async function submitAction(form, options = {}) {
-  const submitter = options.submitter?.dataset?.celerikAction ? options.submitter : null;
+  const submitter = options.submitter?.dataset?.caelrikAction ? options.submitter : null;
   const source = submitter ?? form;
   if (pending.has(form) || submitter?.disabled) {
     return null;
   }
   const labels = labelsOf(source);
   const button = submitter ?? form.querySelector('button[type=submit], button:not([type])');
-  const selection = typeof form.celerikSelection === 'function' ? form.celerikSelection() : null;
+  const selection = typeof form.caelrikSelection === 'function' ? form.caelrikSelection() : null;
   const ask = options.confirm ?? confirmAction;
   if (source.dataset.confirm) {
     const count = String(selection?.length ?? 0);
@@ -226,15 +226,15 @@ export async function submitAction(form, options = {}) {
   if (submitter?.name) {
     body.append(submitter.name, submitter.value);
   }
-  if (selection && form.dataset.celerikBulk) {
-    const field = `${form.dataset.celerikBulk}[]`;
+  if (selection && form.dataset.caelrikBulk) {
+    const field = `${form.dataset.caelrikBulk}[]`;
     body.delete(field);
     selection.forEach((key) => body.append(field, key));
   }
   const url = submitter?.hasAttribute('formaction')
     ? new URL(submitter.getAttribute('formaction'), document.baseURI).href
     : form.action;
-  const name = source.dataset.celerikAction;
+  const name = source.dataset.caelrikAction;
 
   pending.add(form);
   button?.setAttribute('aria-disabled', 'true');
@@ -259,6 +259,6 @@ export async function submitAction(form, options = {}) {
     pending.delete(form);
     button?.removeAttribute('aria-disabled');
   }
-  form.dispatchEvent(new CustomEvent('celerik:action', { bubbles: true, detail }));
+  form.dispatchEvent(new CustomEvent('caelrik:action', { bubbles: true, detail }));
   return detail;
 }

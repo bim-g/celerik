@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Celerik\Ui\Components;
+namespace Caelrik\Ui\Components;
 
-use Celerik\Ui\Component;
-use Celerik\Ui\Support\Html;
+use Caelrik\Ui\Component;
+use Caelrik\Ui\Support\Html;
 use InvalidArgumentException;
 use LogicException;
 
@@ -87,8 +87,8 @@ final class SplitButton extends Component
             'class' => Html::classes([
                 'btn',
                 'btn-' . ($this->solid ? '' : 'outline-') . $this->variant,
-                'celerik-action-button',
-                'celerik-menu-toggle',
+                'caelrik-action-button',
+                'caelrik-menu-toggle',
                 'dropdown-toggle',
                 'dropdown-toggle-split',
             ]),
@@ -99,7 +99,7 @@ final class SplitButton extends Component
 
         return Html::tag(
             'div',
-            $this->rootAttributes(['celerik-splitbutton', 'btn-group']),
+            $this->rootAttributes(['caelrik-splitbutton', 'btn-group']),
             $this->main->render() . $toggle . $this->renderItems($menu),
         );
     }

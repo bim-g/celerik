@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Celerik\Ui\Support;
+namespace Caelrik\Ui\Support;
 
 /**
  * URLs from data, made safe for href and src.

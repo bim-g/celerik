@@ -17,7 +17,7 @@ test.describe('org chart', () => {
 
   test('a team hangs under its manager, its members side by side', async ({ page }) => {
     await open(page);
-    const box = (name) => page.locator('#company .celerik-orgchart-node', { hasText: name }).boundingBox();
+    const box = (name) => page.locator('#company .caelrik-orgchart-node', { hasText: name }).boundingBox();
     const grace = await box('Grace Hopper');
     const ada = await box('Ada Lovelace');
     const katherine = await box('Katherine Johnson');
@@ -40,8 +40,8 @@ test.describe('org chart', () => {
 
   test('a narrow chart is an indented list; expandLevels opens two levels', async ({ page }) => {
     await open(page);
-    const ada = await page.locator('#narrow .celerik-orgchart-node', { hasText: 'Ada Lovelace' }).boundingBox();
-    const alan = await page.locator('#narrow .celerik-orgchart-node', { hasText: 'Alan Turing' }).boundingBox();
+    const ada = await page.locator('#narrow .caelrik-orgchart-node', { hasText: 'Ada Lovelace' }).boundingBox();
+    const alan = await page.locator('#narrow .caelrik-orgchart-node', { hasText: 'Alan Turing' }).boundingBox();
     expect(alan.x).toBeGreaterThan(ada.x);
     expect(alan.y).toBeGreaterThan(ada.y + ada.height);
     const alanTeam = page.locator('#narrow').getByRole('button', { name: "Alan Turing's team, 1 person" });
@@ -52,7 +52,7 @@ test.describe('org chart', () => {
   test('on a phone the wide chart becomes a list too', async ({ page }) => {
     await page.setViewportSize({ width: 390, height: 800 });
     await open(page);
-    const scroll = page.locator('#company .celerik-orgchart-scroll');
+    const scroll = page.locator('#company .caelrik-orgchart-scroll');
     expect(await scroll.evaluate((element) => element.scrollWidth <= element.clientWidth)).toBe(true);
   });
 

@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Celerik\Ui\Components;
+namespace Caelrik\Ui\Components;
 
-use Celerik\Ui\Component;
-use Celerik\Ui\Support\Html;
+use Caelrik\Ui\Component;
+use Caelrik\Ui\Support\Html;
 use InvalidArgumentException;
 use LogicException;
 
@@ -179,16 +179,16 @@ final class Barcode extends Component
 
         $caption = '';
         if (trim($this->label) !== '') {
-            $caption .= Html::tag('span', ['class' => 'celerik-barcode-label'], Html::escape($this->label));
+            $caption .= Html::tag('span', ['class' => 'caelrik-barcode-label'], Html::escape($this->label));
         }
         if ($this->showValue) {
-            $caption .= Html::tag('span', ['class' => 'celerik-barcode-value'], Html::escape($text));
+            $caption .= Html::tag('span', ['class' => 'caelrik-barcode-value'], Html::escape($text));
         }
 
         return Html::tag(
             'figure',
-            $this->rootAttributes(['celerik-barcode']),
-            $this->svg($modules, $text) . Html::tag('figcaption', ['class' => 'celerik-barcode-caption'], $caption),
+            $this->rootAttributes(['caelrik-barcode']),
+            $this->svg($modules, $text) . Html::tag('figcaption', ['class' => 'caelrik-barcode-caption'], $caption),
         );
     }
 
@@ -206,7 +206,7 @@ final class Barcode extends Component
         $name = strtr($this->labels['image'], ['{label}' => trim($this->label) !== '' ? $this->label : $text]);
 
         return Html::tag('svg', [
-            'class' => 'celerik-barcode-image',
+            'class' => 'caelrik-barcode-image',
             'role' => 'img',
             'aria-label' => $name,
             'viewBox' => '0 0 ' . $width . ' ' . self::number($height),
@@ -216,10 +216,10 @@ final class Barcode extends Component
             'shape-rendering' => 'crispEdges',
             'focusable' => 'false',
         ], Html::tag('rect', [
-            'class' => 'celerik-barcode-light',
+            'class' => 'caelrik-barcode-light',
             'width' => $width,
             'height' => self::number($height),
-        ], '') . Html::tag('path', ['class' => 'celerik-barcode-dark', 'd' => $path], ''));
+        ], '') . Html::tag('path', ['class' => 'caelrik-barcode-dark', 'd' => $path], ''));
     }
 
     private static function code128(string $value): string

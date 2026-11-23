@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace Celerik\Ui\Components;
+namespace Caelrik\Ui\Components;
 
-use Celerik\Ui\Component;
-use Celerik\Ui\Components\Form\Field;
-use Celerik\Ui\Components\Form\Grid;
-use Celerik\Ui\Components\Form\Repeater;
-use Celerik\Ui\Components\Form\Section;
-use Celerik\Ui\Components\Form\Wizard;
-use Celerik\Ui\Support\Arr;
-use Celerik\Ui\Support\Html;
+use Caelrik\Ui\Component;
+use Caelrik\Ui\Components\Form\Field;
+use Caelrik\Ui\Components\Form\Grid;
+use Caelrik\Ui\Components\Form\Repeater;
+use Caelrik\Ui\Components\Form\Section;
+use Caelrik\Ui\Components\Form\Wizard;
+use Caelrik\Ui\Support\Arr;
+use Caelrik\Ui\Support\Html;
 use InvalidArgumentException;
 
 /**
@@ -266,7 +266,7 @@ final class Form extends Component
             );
         }
 
-        $classes = $this->wizard === null ? ['celerik-form'] : ['celerik-form', 'celerik-wizard'];
+        $classes = $this->wizard === null ? ['caelrik-form'] : ['caelrik-form', 'caelrik-wizard'];
         $attributes = array_merge($this->rootAttributes($classes), [
             'action' => $this->action,
             'method' => $spoofed ? 'POST' : $this->method,
@@ -304,7 +304,7 @@ final class Form extends Component
         // Hidden until there are errors; form.js fills it after a failed browser validation.
         return Html::tag('div', [
             'id' => $this->id . '-error-summary',
-            'class' => 'alert alert-danger celerik-error-summary',
+            'class' => 'alert alert-danger caelrik-error-summary',
             'tabindex' => '-1',
             'aria-labelledby' => $titleId,
             'hidden' => $items === '',

@@ -61,27 +61,27 @@ export function itemHtml(options, row) {
   if (item.link) {
     heading = `<a href="${escapeHtml(fill(item.link, row, true))}">${heading}</a>`;
   }
-  let body = `<h${level} class="celerik-listview-title">${heading}</h${level}>`;
+  let body = `<h${level} class="caelrik-listview-title">${heading}</h${level}>`;
   if (text(item.description) !== '') {
-    body += `<p class="celerik-listview-description">${escapeHtml(text(item.description))}</p>`;
+    body += `<p class="caelrik-listview-description">${escapeHtml(text(item.description))}</p>`;
   }
   const meta = (item.meta ?? []).map(text).filter((value) => value !== '');
   if (meta.length > 0) {
-    body += `<p class="celerik-listview-meta">${meta.map((value) => `<span>${escapeHtml(value)}</span>`).join('')}</p>`;
+    body += `<p class="caelrik-listview-meta">${meta.map((value) => `<span>${escapeHtml(value)}</span>`).join('')}</p>`;
   }
 
   const src = item.image ? safeUrl(read(row, item.image)) : null;
   const image = src
-    ? `<img class="celerik-listview-image" src="${escapeHtml(src)}" alt="${escapeHtml(text(item.imageAlt))}" loading="lazy">`
+    ? `<img class="caelrik-listview-image" src="${escapeHtml(src)}" alt="${escapeHtml(text(item.imageAlt))}" loading="lazy">`
     : '';
 
   const actions = (options.actions ?? [])
     .map((action) => actionHtml(action, row, `${action.label} ${title}`.trim()))
     .join('');
 
-  return `<li${options.layout === 'cards' ? ' class="col"' : ''}><div class="celerik-listview-item">${image}`
-    + `<div class="celerik-listview-body">${body}</div>`
-    + `${actions ? `<div class="celerik-listview-actions">${actions}</div>` : ''}</div></li>`;
+  return `<li${options.layout === 'cards' ? ' class="col"' : ''}><div class="caelrik-listview-item">${image}`
+    + `<div class="caelrik-listview-body">${body}</div>`
+    + `${actions ? `<div class="caelrik-listview-actions">${actions}</div>` : ''}</div></li>`;
 }
 
 // Page numbers to offer: the first, the last, and the current one with its neighbours;
@@ -158,13 +158,13 @@ function renderPager(nav, page, count, labels) {
 
 // deps.fetch: for tests.
 export function initListView(element, options, deps = {}) {
-  const list = element.querySelector('.celerik-listview-items');
-  const empty = element.querySelector('.celerik-listview-empty');
-  const status = element.querySelector('[data-celerik-listview-status]');
-  const nav = element.querySelector('.celerik-listview-pager');
-  const toolbar = element.querySelector('.celerik-listview-toolbar');
-  const search = element.querySelector('[data-celerik-listview-search]');
-  const sort = element.querySelector('[data-celerik-listview-sort]');
+  const list = element.querySelector('.caelrik-listview-items');
+  const empty = element.querySelector('.caelrik-listview-empty');
+  const status = element.querySelector('[data-caelrik-listview-status]');
+  const nav = element.querySelector('.caelrik-listview-pager');
+  const toolbar = element.querySelector('.caelrik-listview-toolbar');
+  const search = element.querySelector('[data-caelrik-listview-search]');
+  const sort = element.querySelector('[data-caelrik-listview-sort]');
   const labels = { ...LABELS, ...options.labels };
   const serverSide = Boolean(options.url);
   const pageSize = options.pageSize ?? 10;
@@ -181,21 +181,21 @@ export function initListView(element, options, deps = {}) {
     } catch {
       // No sort values.
     }
-    const body = node.querySelector('.celerik-listview-body') ?? node;
+    const body = node.querySelector('.caelrik-listview-body') ?? node;
     return { node, text: body.textContent.toLocaleLowerCase(), values };
   });
 
   const noMatches = () => {
     const title = document.createElement('p');
-    title.className = 'celerik-listview-empty-title';
+    title.className = 'caelrik-listview-empty-title';
     title.textContent = labels.noMatches;
     const reset = document.createElement('button');
     reset.type = 'button';
-    reset.className = 'btn btn-sm btn-outline-secondary celerik-action-button';
-    reset.dataset.celerikListviewReset = '';
+    reset.className = 'btn btn-sm btn-outline-secondary caelrik-action-button';
+    reset.dataset.caelrikListviewReset = '';
     reset.textContent = labels.reset;
     const holder = document.createElement('div');
-    holder.className = 'celerik-listview-empty-action';
+    holder.className = 'caelrik-listview-empty-action';
     holder.append(reset);
     return [title, holder];
   };
@@ -321,7 +321,7 @@ export function initListView(element, options, deps = {}) {
     goTo(1);
   });
   element.addEventListener('click', async (event) => {
-    if (!event.target.closest('[data-celerik-listview-reset]')) {
+    if (!event.target.closest('[data-caelrik-listview-reset]')) {
       return;
     }
     search.value = '';
@@ -332,7 +332,7 @@ export function initListView(element, options, deps = {}) {
 
   // After an item's action: a server-side list reloads its page; a client-side list drops a
   // deleted item. Focus goes to the list, as the item may be gone.
-  element.addEventListener('celerik:action', async (event) => {
+  element.addEventListener('caelrik:action', async (event) => {
     const { ok, method } = event.detail ?? {};
     const node = event.target.closest('li');
     if (!ok || !node || !list.contains(node)) {

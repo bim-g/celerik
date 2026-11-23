@@ -9,7 +9,7 @@ Tasks on a timeline, with their progress, milestones and what each task waits fo
 ## Usage
 
 ```php
-use Celerik\Ui\Components\Gantt;
+use Caelrik\Ui\Components\Gantt;
 
 Gantt::make('launch')
     ->label('Product launch')

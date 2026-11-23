@@ -7,10 +7,10 @@ test.describe('prefers-reduced-motion: reduce', () => {
   test('charts, toasts and the modal do not animate', async ({ page }) => {
     await openComponents(page);
 
-    expect(await page.evaluate(() => document.querySelector('#revenue').celerik.options.animation)).toBe(false);
+    expect(await page.evaluate(() => document.querySelector('#revenue').caelrik.options.animation)).toBe(false);
 
     // The error toast stays until dismissed; the others may expire during the test.
-    const toast = page.locator('.celerik-toast-error');
+    const toast = page.locator('.caelrik-toast-error');
     expect(await toast.evaluate((element) => getComputedStyle(element).animationDuration)).toBe('0.001s');
 
     // Toasts still close: Notyf removes them on animationend.
@@ -25,7 +25,7 @@ test.describe('prefers-reduced-motion: reduce', () => {
 
 test('without the preference, charts and toasts keep their animations', async ({ page }) => {
   await openComponents(page);
-  expect(await page.evaluate(() => document.querySelector('#revenue').celerik.options.animation)).not.toBe(false);
-  expect(await page.locator('.celerik-toast-error').evaluate((element) => getComputedStyle(element).animationDuration))
+  expect(await page.evaluate(() => document.querySelector('#revenue').caelrik.options.animation)).not.toBe(false);
+  expect(await page.locator('.caelrik-toast-error').evaluate((element) => getComputedStyle(element).animationDuration))
     .toBe('0.3s');
 });

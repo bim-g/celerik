@@ -7,8 +7,8 @@
 
 declare(strict_types=1);
 
-use Celerik\Ui\Assets;
-use Celerik\Ui\Components\PdfViewer;
+use Caelrik\Ui\Assets;
+use Caelrik\Ui\Components\PdfViewer;
 
 $mode = ($_GET['mode'] ?? '') === 'dark' ? 'dark' : 'light';
 ?>

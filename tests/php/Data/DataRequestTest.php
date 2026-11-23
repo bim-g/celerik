@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Celerik\Ui\Tests\Data;
+namespace Caelrik\Ui\Tests\Data;
 
-use Celerik\Ui\Data\DataRequest;
+use Caelrik\Ui\Data\DataRequest;
 use PHPUnit\Framework\TestCase;
 
 final class DataRequestTest extends TestCase

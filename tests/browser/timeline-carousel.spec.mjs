@@ -15,7 +15,7 @@ test.describe('timeline and carousel', () => {
 
   test('an alternate timeline uses both sides on wide screens and one on phones', async ({ page }) => {
     await open(page);
-    const bodies = page.locator('#history .celerik-timeline-body');
+    const bodies = page.locator('#history .caelrik-timeline-body');
     const first = await bodies.nth(0).boundingBox();
     const second = await bodies.nth(1).boundingBox();
     expect(second.x + second.width).toBeLessThan(first.x);
@@ -53,7 +53,7 @@ test.describe('timeline and carousel', () => {
   test('automatic rotation pauses for the pointer and focus, and Stop stops it', async ({ page }) => {
     await open(page);
     const carousel = page.locator('#tips');
-    const active = () => carousel.locator('.celerik-carousel-slide.is-active');
+    const active = () => carousel.locator('.caelrik-carousel-slide.is-active');
     await expect(active()).toHaveAttribute('aria-label', '1 of 3');
     await expect(active()).toHaveAttribute('aria-label', '2 of 3', { timeout: 5000 });
 
@@ -66,12 +66,12 @@ test.describe('timeline and carousel', () => {
     await page.keyboard.press('Enter');
     const start = carousel.getByRole('button', { name: 'Start automatic slide show' });
     await expect(start).toBeFocused();
-    await expect(carousel.locator('.celerik-carousel-slides')).toHaveAttribute('aria-live', 'polite');
+    await expect(carousel.locator('.caelrik-carousel-slides')).toHaveAttribute('aria-live', 'polite');
   });
 
   test('carousel buttons are at least 24 x 24 px', async ({ page }) => {
     await open(page);
-    for (const button of await page.locator('.celerik-carousel button').all()) {
+    for (const button of await page.locator('.caelrik-carousel button').all()) {
       const box = await button.boundingBox();
       expect(box.width).toBeGreaterThanOrEqual(24);
       expect(box.height).toBeGreaterThanOrEqual(24);
@@ -83,7 +83,7 @@ test.describe('timeline and carousel', () => {
     await open(page);
     await expect(page.getByRole('button', { name: 'Start automatic slide show' })).toBeVisible();
     await page.waitForTimeout(3500);
-    await expect(page.locator('#tips .celerik-carousel-slide.is-active')).toHaveAttribute('aria-label', '1 of 3');
+    await expect(page.locator('#tips .caelrik-carousel-slide.is-active')).toHaveAttribute('aria-label', '1 of 3');
   });
 
   for (const mode of MODES) {

@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Celerik\Ui\Theme;
+namespace Caelrik\Ui\Theme;
 
 use InvalidArgumentException;
 use JsonException;
 
 /**
- * A Celerik theme: design tokens on top of Bootstrap (theme/theme.schema.json).
+ * A Caelrik theme: design tokens on top of Bootstrap (theme/theme.schema.json).
  *
  *     $theme = Theme::preset('bootstrap')->name('Acme')->color('light', 'primary', '#0b5394');
  *     $theme->contrast();   // WCAG report, see Contrast
@@ -21,7 +21,7 @@ final class Theme
     /** The shipped themes (theme/presets/{name}.json). */
     public const PRESETS = ['bootstrap'];
 
-    /** The Material and Tailwind looks, removed in 0.2.0: Celerik UI is Bootstrap only. */
+    /** The Material and Tailwind looks, removed in 0.2.0: Caelrik UI is Bootstrap only. */
     public const REMOVED_BASES = ['material', 'tailwind'];
 
     public const MODES = ['light', 'dark'];
@@ -269,7 +269,7 @@ final class Theme
     }
 
     /**
-     * The theme's stylesheet, to load after celerik.css
+     * The theme's stylesheet, to load after caelrik.css
      * (Assets::tags($url, customTheme: '/css/acme.css')).
      */
     public function toCss(): string
@@ -307,7 +307,7 @@ final class Theme
     public static function removedBase(string $base): string
     {
         return sprintf(
-            'The %s look was removed in Celerik UI 0.2.0: Celerik UI is Bootstrap only. '
+            'The %s look was removed in Caelrik UI 0.2.0: Caelrik UI is Bootstrap only. '
             . 'Use "bootstrap", and a custom theme (Theme::toCss()) for your colors, radius and font.',
             ucfirst($base),
         );

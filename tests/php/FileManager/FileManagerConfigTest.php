@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Celerik\Ui\Tests\FileManager;
+namespace Caelrik\Ui\Tests\FileManager;
 
-use Celerik\Ui\Components\FileManager;
-use Celerik\Ui\FileManager\FileManagerConfig;
-use Celerik\Ui\Upload\UploadRules;
+use Caelrik\Ui\Components\FileManager;
+use Caelrik\Ui\FileManager\FileManagerConfig;
+use Caelrik\Ui\Upload\UploadRules;
 use InvalidArgumentException;
 use LogicException;
 use PHPUnit\Framework\Attributes\DataProvider;
@@ -18,7 +18,7 @@ final class FileManagerConfigTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->root = sys_get_temp_dir() . '/celerik-fm-test-' . bin2hex(random_bytes(4));
+        $this->root = sys_get_temp_dir() . '/caelrik-fm-test-' . bin2hex(random_bytes(4));
         mkdir($this->root);
     }
 

@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Celerik\Ui\Components;
+namespace Caelrik\Ui\Components;
 
-use Celerik\Ui\Component;
-use Celerik\Ui\Support\Html;
+use Caelrik\Ui\Component;
+use Caelrik\Ui\Support\Html;
 use InvalidArgumentException;
 use LogicException;
 
@@ -182,11 +182,11 @@ final class Diagram extends Component
         $order = $this->order($ranks, $segments);
         [$boxes, $width, $height] = $this->place($order);
 
-        return Html::tag('figure', $this->rootAttributes(['celerik-diagram']), Html::tag(
+        return Html::tag('figure', $this->rootAttributes(['caelrik-diagram']), Html::tag(
             'div',
-            ['class' => 'celerik-diagram-scroll'],
+            ['class' => 'caelrik-diagram-scroll'],
             $this->svg($boxes, $back, $chains, $width, $height),
-        ) . Html::tag('figcaption', ['class' => 'celerik-diagram-caption'], Html::escape($this->label))
+        ) . Html::tag('figcaption', ['class' => 'caelrik-diagram-caption'], Html::escape($this->label))
             . $this->text($order));
     }
 
@@ -417,13 +417,13 @@ final class Diagram extends Component
                 $at = [($points[0][0] + $points[1][0]) / 2, ($points[0][1] + $points[1][1]) / 2];
             }
             $edges .= Html::tag('path', [
-                'class' => 'celerik-diagram-edge' . (isset($back[$index]) ? ' is-loop' : ''),
+                'class' => 'caelrik-diagram-edge' . (isset($back[$index]) ? ' is-loop' : ''),
                 'd' => $path,
                 'marker-end' => 'url(#' . $arrowId . ')',
             ], '');
             if ($edge['label'] !== null) {
                 $w = mb_strlen($edge['label']) * 6.6 + 12;
-                $labels .= Html::tag('g', ['class' => 'celerik-diagram-edge-label'], Html::tag('rect', [
+                $labels .= Html::tag('g', ['class' => 'caelrik-diagram-edge-label'], Html::tag('rect', [
                     'x' => self::n($at[0] - $w / 2 + $dx),
                     'y' => self::n($at[1] - 9 + $dy),
                     'width' => self::n($w),
@@ -446,7 +446,7 @@ final class Diagram extends Component
             $node = $this->nodes[$id];
             $x = $box['x'] + $dx;
             $y = $box['y'] + $dy;
-            $class = 'celerik-diagram-shape celerik-diagram-' . ($node['color'] ?? 'default');
+            $class = 'caelrik-diagram-shape caelrik-diagram-' . ($node['color'] ?? 'default');
             [$halfW, $halfH] = [$box['w'] / 2, $box['h'] / 2];
             $shape = match ($node['shape']) {
                 'decision' => Html::tag('polygon', ['class' => $class, 'points' => sprintf(
@@ -471,11 +471,11 @@ final class Diagram extends Component
                 ], Html::escape($text));
             }
             $text = Html::tag('text', [
-                'class' => 'celerik-diagram-text',
+                'class' => 'caelrik-diagram-text',
                 'text-anchor' => 'middle',
                 'dominant-baseline' => 'central',
             ], $tspans);
-            $nodes .= Html::tag('g', ['class' => 'celerik-diagram-node', 'data-step' => $id], $shape . $text);
+            $nodes .= Html::tag('g', ['class' => 'caelrik-diagram-node', 'data-step' => $id], $shape . $text);
         }
 
         $w = $width + 2 * $margin + ($down ? $side : 0);
@@ -488,10 +488,10 @@ final class Diagram extends Component
             'markerWidth' => '7',
             'markerHeight' => '7',
             'orient' => 'auto-start-reverse',
-        ], '<path class="celerik-diagram-arrowhead" d="M0 0L10 5L0 10z"></path>');
+        ], '<path class="caelrik-diagram-arrowhead" d="M0 0L10 5L0 10z"></path>');
 
         return Html::tag('svg', [
-            'class' => 'celerik-diagram-svg',
+            'class' => 'caelrik-diagram-svg',
             'width' => self::n($w),
             'height' => self::n($h),
             'viewBox' => '0 0 ' . self::n($w) . ' ' . self::n($h),
@@ -535,21 +535,21 @@ final class Diagram extends Component
                 }
                 $items .= Html::tag('li', ['id' => $this->stepId($id)], Html::tag(
                     'span',
-                    ['class' => 'celerik-diagram-step'],
+                    ['class' => 'caelrik-diagram-step'],
                     Html::escape($this->nodes[$id]['text']),
-                ) . ($tags === [] ? '' : ' ' . Html::tag('span', ['class' => 'celerik-diagram-tag'], Html::escape(
+                ) . ($tags === [] ? '' : ' ' . Html::tag('span', ['class' => 'caelrik-diagram-tag'], Html::escape(
                     '(' . implode(', ', $tags) . ')',
                 ))) . ($links === []
                     ? ''
-                    : Html::tag('span', ['class' => 'celerik-diagram-links'], implode(' · ', $links))));
+                    : Html::tag('span', ['class' => 'caelrik-diagram-links'], implode(' · ', $links))));
             }
         }
 
-        return Html::tag('details', ['class' => 'celerik-diagram-details'], Html::tag(
+        return Html::tag('details', ['class' => 'caelrik-diagram-details'], Html::tag(
             'summary',
             [],
             Html::escape($this->labels['text']),
-        ) . Html::tag('ol', ['class' => 'celerik-diagram-steps'], $items));
+        ) . Html::tag('ol', ['class' => 'caelrik-diagram-steps'], $items));
     }
 
     private function stepId(string $id): string

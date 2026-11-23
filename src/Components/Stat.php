@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Celerik\Ui\Components;
+namespace Caelrik\Ui\Components;
 
-use Celerik\Ui\Component;
-use Celerik\Ui\Support\Html;
-use Celerik\Ui\Support\Url;
+use Caelrik\Ui\Component;
+use Caelrik\Ui\Support\Html;
+use Caelrik\Ui\Support\Url;
 use InvalidArgumentException;
 use LogicException;
 
@@ -169,17 +169,17 @@ final class Stat extends Component
         if ($this->link !== null) {
             $label = Html::tag('a', ['href' => $this->link, 'class' => 'stretched-link'], $label);
         }
-        $body = Html::tag('p', ['class' => 'celerik-stat-label'], $label)
-            . Html::tag('p', ['class' => 'celerik-stat-value'], Html::escape($this->value))
+        $body = Html::tag('p', ['class' => 'caelrik-stat-label'], $label)
+            . Html::tag('p', ['class' => 'caelrik-stat-value'], Html::escape($this->value))
             . $this->renderTrend()
             . ($this->description === null
                 ? ''
-                : Html::tag('p', ['class' => 'celerik-stat-description'], Html::escape($this->description)))
+                : Html::tag('p', ['class' => 'caelrik-stat-description'], Html::escape($this->description)))
             . $this->renderSparkline();
 
         return Html::tag(
             'div',
-            $this->rootAttributes(['celerik-stat', 'card', 'celerik-stat-' . $this->color]),
+            $this->rootAttributes(['caelrik-stat', 'card', 'caelrik-stat-' . $this->color]),
             Html::tag('div', ['class' => 'card-body'], $body),
         );
     }
@@ -197,12 +197,12 @@ final class Stat extends Component
 
         return Html::tag(
             'p',
-            ['class' => 'celerik-stat-trend celerik-stat-trend-' . $mood],
-            Html::tag('span', ['aria-hidden' => 'true', 'class' => 'celerik-stat-arrow'], $arrow) . ' '
-                . Html::tag('span', ['class' => 'celerik-stat-change'], Html::escape($change))
+            ['class' => 'caelrik-stat-trend caelrik-stat-trend-' . $mood],
+            Html::tag('span', ['aria-hidden' => 'true', 'class' => 'caelrik-stat-arrow'], $arrow) . ' '
+                . Html::tag('span', ['class' => 'caelrik-stat-change'], Html::escape($change))
                 . ($this->changeText === ''
                     ? ''
-                    : ' ' . Html::tag('span', ['class' => 'celerik-stat-period'], Html::escape($this->changeText))),
+                    : ' ' . Html::tag('span', ['class' => 'caelrik-stat-period'], Html::escape($this->changeText))),
         );
     }
 
@@ -216,15 +216,15 @@ final class Stat extends Component
         $name = Sparkline::describe($this->labels['sparkline'], $this->label, $this->sparkline);
 
         return Html::tag('svg', [
-            'class' => 'celerik-stat-sparkline',
+            'class' => 'caelrik-stat-sparkline',
             'viewBox' => '0 0 ' . self::WIDTH . ' ' . self::HEIGHT,
             'preserveAspectRatio' => 'none',
             'role' => 'img',
             'aria-label' => $name,
             'focusable' => 'false',
-        ], Html::tag('polygon', ['class' => 'celerik-stat-area', 'points' => $area], '')
+        ], Html::tag('polygon', ['class' => 'caelrik-stat-area', 'points' => $area], '')
             . Html::tag('polyline', [
-                'class' => 'celerik-stat-line',
+                'class' => 'caelrik-stat-line',
                 'points' => $line,
                 'fill' => 'none',
                 'vector-effect' => 'non-scaling-stroke',

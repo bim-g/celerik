@@ -26,12 +26,12 @@ export function menuRoles(list, label = null) {
     list.setAttribute('aria-label', label);
   }
   for (const li of list.children) {
-    if (li.classList.contains('celerik-menu-divider')) {
+    if (li.classList.contains('caelrik-menu-divider')) {
       li.setAttribute('role', 'separator');
       continue;
     }
     li.setAttribute('role', 'none');
-    const item = li.querySelector('.celerik-menu-item, form.celerik-action button, a');
+    const item = li.querySelector('.caelrik-menu-item, form.caelrik-action button, a');
     if (!item) {
       continue;
     }
@@ -114,13 +114,13 @@ function menuKeys(list, { close, owner }) {
 
 // MenuButton and SplitButton: a button that opens the list after it.
 export function initMenuButton(element) {
-  const button = element.querySelector('.celerik-menu-toggle');
-  const list = element.querySelector('.celerik-menu-list');
+  const button = element.querySelector('.caelrik-menu-toggle');
+  const list = element.querySelector('.caelrik-menu-list');
   if (!button || !list) {
     return null;
   }
   menus += 1;
-  list.id ||= `celerik-menu-${menus}`;
+  list.id ||= `caelrik-menu-${menus}`;
   menuRoles(list);
   list.setAttribute('aria-labelledby', button.id || (button.id = `${list.id}-button`));
   button.setAttribute('aria-haspopup', 'menu');
@@ -172,20 +172,20 @@ export function initMenuButton(element) {
 export function itemsHtml(items, row) {
   return items.map((item) => {
     if (item.type === 'divider') {
-      return '<li class="celerik-menu-divider"></li>';
+      return '<li class="caelrik-menu-divider"></li>';
     }
     if (item.type === 'action') {
       return `<li>${actionHtml(item.action, row, null, false)}</li>`;
     }
-    return `<li><a class="celerik-menu-item" href="${escapeHtml(fill(item.url, row, true))}">${escapeHtml(fill(item.label, row))}</a></li>`;
+    return `<li><a class="caelrik-menu-item" href="${escapeHtml(fill(item.url, row, true))}">${escapeHtml(fill(item.label, row))}</a></li>`;
   }).join('');
 }
 
 export function initContextMenu(element, options = {}) {
   const list = document.createElement('ul');
-  list.className = 'celerik-menu-list celerik-contextmenu-list list-unstyled';
+  list.className = 'caelrik-menu-list caelrik-contextmenu-list list-unstyled';
   menus += 1;
-  list.id = `celerik-menu-${menus}`;
+  list.id = `caelrik-menu-${menus}`;
   list.hidden = true;
   document.body.append(list);
   let opener = null;
@@ -289,7 +289,7 @@ export function initNavigation(element, options = {}) {
   if (!options.horizontal) {
     return true;
   }
-  const groups = [...element.querySelectorAll('details.celerik-nav-group')];
+  const groups = [...element.querySelectorAll('details.caelrik-nav-group')];
   const closeAll = (except = null) => groups.forEach((group) => {
     if (group !== except) {
       group.open = false;

@@ -34,7 +34,7 @@ export function safeUrl(value) {
 // A node as TreeView::renderNode() writes it, for children from the endpoint.
 export function createNode(node, options) {
   const li = document.createElement('li');
-  li.className = 'celerik-tree-node';
+  li.className = 'caelrik-tree-node';
   const id = node.id === null || node.id === undefined ? null : String(node.id);
   if (id !== null) {
     li.dataset.id = id;
@@ -51,14 +51,14 @@ export function createNode(node, options) {
   }
 
   const row = document.createElement('div');
-  row.className = 'celerik-tree-row';
+  row.className = 'caelrik-tree-row';
   const href = node.href ? safeUrl(node.href) : null;
   let content;
   if (options.mode && id !== null) {
     content = document.createElement('label');
     const input = document.createElement('input');
     input.type = options.mode === 'single' ? 'radio' : 'checkbox';
-    input.className = 'form-check-input celerik-tree-input';
+    input.className = 'form-check-input caelrik-tree-input';
     input.name = options.mode === 'single' ? options.name : `${options.name}[]`;
     input.value = id;
     input.checked = Boolean(node.checked);
@@ -74,13 +74,13 @@ export function createNode(node, options) {
     content = document.createElement('span');
     content.textContent = String(node.label ?? '');
   }
-  content.classList.add('celerik-tree-label');
+  content.classList.add('caelrik-tree-label');
   row.append(content);
   li.append(row);
 
   if (children.length > 0) {
     const group = document.createElement('ul');
-    group.className = 'celerik-tree-group';
+    group.className = 'caelrik-tree-group';
     children.forEach((child) => group.append(createNode(child, options)));
     li.append(group);
   }
@@ -91,23 +91,23 @@ export function createNode(node, options) {
 const nodeOf = (item) => item.parentElement;
 const groupOf = (item) => [...nodeOf(item).children].find((child) => child.matches('ul'));
 const rowsIn = (list) => [...(list?.children ?? [])]
-  .map((li) => li.querySelector(':scope > .celerik-tree-row'))
+  .map((li) => li.querySelector(':scope > .caelrik-tree-row'))
   .filter(Boolean);
 const childItems = (item) => rowsIn(groupOf(item));
-const parentItem = (item) => nodeOf(item).parentElement?.closest('li')?.querySelector(':scope > .celerik-tree-row') ?? null;
-const inputOf = (item) => item.querySelector('.celerik-tree-input');
-const labelOf = (item) => item.querySelector('.celerik-tree-label');
+const parentItem = (item) => nodeOf(item).parentElement?.closest('li')?.querySelector(':scope > .caelrik-tree-row') ?? null;
+const inputOf = (item) => item.querySelector('.caelrik-tree-input');
+const labelOf = (item) => item.querySelector('.caelrik-tree-label');
 const expandable = (item) => item.hasAttribute('aria-expanded');
 const expanded = (item) => item.getAttribute('aria-expanded') === 'true';
 const disabled = (item) => item.getAttribute('aria-disabled') === 'true';
 
 export function initTree(element, options = {}, deps = {}) {
-  const root = element.querySelector('.celerik-tree-root');
+  const root = element.querySelector('.caelrik-tree-root');
   const labels = { ...LABELS, ...options.labels };
   const mode = options.mode ?? null;
   const send = deps.fetch ?? ((...args) => fetch(...args));
   trees += 1;
-  const prefix = `celerik-tree-${trees}`;
+  const prefix = `caelrik-tree-${trees}`;
   let groups = 0;
 
   const status = document.createElement('div');
@@ -135,7 +135,7 @@ export function initTree(element, options = {}, deps = {}) {
   const enhance = (list, level) => {
     const nodes = [...list.children].filter((child) => child.matches('li'));
     nodes.forEach((li, index) => {
-      const item = li.querySelector(':scope > .celerik-tree-row');
+      const item = li.querySelector(':scope > .caelrik-tree-row');
       if (!item) {
         return;
       }
@@ -159,9 +159,9 @@ export function initTree(element, options = {}, deps = {}) {
         input.setAttribute('aria-hidden', 'true');
         item.setAttribute(mode === 'single' ? 'aria-selected' : 'aria-checked', String(input.checked));
       }
-      if (!item.querySelector('.celerik-tree-toggle, .celerik-tree-spacer')) {
+      if (!item.querySelector('.caelrik-tree-toggle, .caelrik-tree-spacer')) {
         const mark = document.createElement('span');
-        mark.className = li.dataset.expanded !== undefined ? 'celerik-tree-toggle' : 'celerik-tree-spacer';
+        mark.className = li.dataset.expanded !== undefined ? 'caelrik-tree-toggle' : 'caelrik-tree-spacer';
         mark.setAttribute('aria-hidden', 'true');
         item.prepend(mark);
       }
@@ -180,7 +180,7 @@ export function initTree(element, options = {}, deps = {}) {
     });
   };
 
-  const all = () => [...root.querySelectorAll('.celerik-tree-row[role=treeitem]')];
+  const all = () => [...root.querySelectorAll('.caelrik-tree-row[role=treeitem]')];
   const visible = () => all().filter((item) => !item.closest('ul[hidden]'));
 
   const focus = (item) => {
@@ -193,10 +193,10 @@ export function initTree(element, options = {}, deps = {}) {
   };
 
   const changed = () => {
-    const values = [...root.querySelectorAll('.celerik-tree-input')]
+    const values = [...root.querySelectorAll('.caelrik-tree-input')]
       .filter((input) => input.checked)
       .map((input) => input.value);
-    element.dispatchEvent(new CustomEvent('celerik:change', {
+    element.dispatchEvent(new CustomEvent('caelrik:change', {
       bubbles: true,
       detail: { value: mode === 'single' ? (values[0] ?? null) : values },
     }));
@@ -266,12 +266,12 @@ export function initTree(element, options = {}, deps = {}) {
       if (children.length === 0) {
         // No children after all: the node no longer opens.
         item.removeAttribute('aria-expanded');
-        item.querySelector('.celerik-tree-toggle')?.classList.replace('celerik-tree-toggle', 'celerik-tree-spacer');
+        item.querySelector('.caelrik-tree-toggle')?.classList.replace('caelrik-tree-toggle', 'caelrik-tree-spacer');
         announce('');
         return;
       }
       const group = document.createElement('ul');
-      group.className = 'celerik-tree-group';
+      group.className = 'caelrik-tree-group';
       children.forEach((child) => group.append(createNode(child, options)));
       group.hidden = !expanded(item);
       li.append(group);
@@ -307,7 +307,7 @@ export function initTree(element, options = {}, deps = {}) {
       group.hidden = !open;
     }
     const li = nodeOf(item);
-    element.dispatchEvent(new CustomEvent('celerik:expand', {
+    element.dispatchEvent(new CustomEvent('caelrik:expand', {
       bubbles: true, detail: { id: li.dataset.id ?? null, expanded: open },
     }));
     if (open && li.dataset.hasChildren !== undefined && options.url) {
@@ -393,7 +393,7 @@ export function initTree(element, options = {}, deps = {}) {
       return;
     }
     focus(item);
-    if (event.target.closest('.celerik-tree-toggle')) {
+    if (event.target.closest('.caelrik-tree-toggle')) {
       setExpanded(item, !expanded(item));
       return;
     }

@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Celerik\Ui\Components;
+namespace Caelrik\Ui\Components;
 
-use Celerik\Ui\Component;
-use Celerik\Ui\Support\Html;
+use Caelrik\Ui\Component;
+use Caelrik\Ui\Support\Html;
 use InvalidArgumentException;
 use LogicException;
 
@@ -226,9 +226,9 @@ final class Gauge extends Component
         ], static fn (?string $part): bool => $part !== null && $part !== ''));
 
         $labelId = $this->id . '-label';
-        $label = Html::tag('p', ['class' => 'celerik-gauge-label', 'id' => $labelId], Html::escape($this->label));
+        $label = Html::tag('p', ['class' => 'caelrik-gauge-label', 'id' => $labelId], Html::escape($this->label));
         $meter = Html::tag('div', [
-            'class' => 'celerik-gauge-meter',
+            'class' => 'caelrik-gauge-meter',
             'role' => 'meter',
             'aria-labelledby' => $labelId,
             'aria-valuemin' => self::number($this->min),
@@ -239,31 +239,31 @@ final class Gauge extends Component
         // The meter says all this to screen readers.
         $reading = Html::tag(
             'p',
-            ['class' => 'celerik-gauge-reading', 'aria-hidden' => 'true'],
-            Html::tag('span', ['class' => 'celerik-gauge-value'], Html::escape($value))
+            ['class' => 'caelrik-gauge-reading', 'aria-hidden' => 'true'],
+            Html::tag('span', ['class' => 'caelrik-gauge-value'], Html::escape($value))
             . (($band['label'] ?? null) === null
                 ? ''
-                : ' ' . Html::tag('span', ['class' => 'celerik-gauge-band'], Html::escape($band['label']))),
+                : ' ' . Html::tag('span', ['class' => 'caelrik-gauge-band'], Html::escape($band['label']))),
         );
         $scale = $this->scale
             ? Html::tag(
                 'p',
-                ['class' => 'celerik-gauge-scale', 'aria-hidden' => 'true'],
+                ['class' => 'caelrik-gauge-scale', 'aria-hidden' => 'true'],
                 Html::tag('span', [], Html::escape($this->text($this->min)))
                 . Html::tag('span', [], Html::escape($this->text($this->max))),
             )
             : '';
 
         $inner = $this->shape === 'arc'
-            ? $label . Html::tag('div', ['class' => 'celerik-gauge-body'], $meter . $reading) . $scale
-            : Html::tag('div', ['class' => 'celerik-gauge-head'], $label . $reading) . $meter . $scale;
+            ? $label . Html::tag('div', ['class' => 'caelrik-gauge-body'], $meter . $reading) . $scale
+            : Html::tag('div', ['class' => 'caelrik-gauge-head'], $label . $reading) . $meter . $scale;
 
         return Html::tag('div', array_merge($this->attributes, [
             'id' => $this->id,
             'class' => Html::classes([
-                'celerik-gauge',
-                'celerik-gauge-' . $this->shape,
-                'celerik-gauge-' . $this->size,
+                'caelrik-gauge',
+                'caelrik-gauge-' . $this->shape,
+                'caelrik-gauge-' . $this->size,
                 ...$this->classes,
             ]),
         ]), $inner);
@@ -271,17 +271,17 @@ final class Gauge extends Component
 
     private function arc(string $color): string
     {
-        $svg = Html::tag('path', ['class' => 'celerik-gauge-track', 'd' => self::arcPath(0.0, 1.0, self::ARC)], '');
+        $svg = Html::tag('path', ['class' => 'caelrik-gauge-track', 'd' => self::arcPath(0.0, 1.0, self::ARC)], '');
         foreach ($this->bands as $band) {
             $svg .= Html::tag('path', [
-                'class' => 'celerik-gauge-range celerik-gauge-' . $band['color'],
+                'class' => 'caelrik-gauge-range caelrik-gauge-' . $band['color'],
                 'd' => self::arcPath($this->fraction($band['from']), $this->fraction($band['to']), self::BANDS),
             ], '');
         }
         $fraction = $this->fraction((float) $this->value);
         if ($fraction > 0) {
             $svg .= Html::tag('path', [
-                'class' => 'celerik-gauge-fill celerik-gauge-' . $color,
+                'class' => 'caelrik-gauge-fill caelrik-gauge-' . $color,
                 'd' => self::arcPath(0.0, $fraction, self::ARC),
             ], '');
         }
@@ -289,7 +289,7 @@ final class Gauge extends Component
             [$x1, $y1] = self::point($this->fraction($this->target), self::ARC - 8);
             [$x2, $y2] = self::point($this->fraction($this->target), self::BANDS + 2);
             $svg .= Html::tag('line', [
-                'class' => 'celerik-gauge-target',
+                'class' => 'caelrik-gauge-target',
                 'x1' => $x1,
                 'y1' => $y1,
                 'x2' => $x2,
@@ -298,7 +298,7 @@ final class Gauge extends Component
         }
 
         return Html::tag('svg', [
-            'class' => 'celerik-gauge-svg',
+            'class' => 'caelrik-gauge-svg',
             'viewBox' => '0 0 100 52',
             'aria-hidden' => 'true',
             'focusable' => 'false',
@@ -308,7 +308,7 @@ final class Gauge extends Component
     private function bar(string $color): string
     {
         $svg = Html::tag('rect', [
-            'class' => 'celerik-gauge-track',
+            'class' => 'caelrik-gauge-track',
             'x' => '0',
             'y' => '4',
             'width' => '100',
@@ -317,7 +317,7 @@ final class Gauge extends Component
         foreach ($this->bands as $band) {
             $from = $this->fraction($band['from']) * 100;
             $svg .= Html::tag('rect', [
-                'class' => 'celerik-gauge-range celerik-gauge-' . $band['color'],
+                'class' => 'caelrik-gauge-range caelrik-gauge-' . $band['color'],
                 'x' => self::coordinate($from),
                 'y' => '0',
                 'width' => self::coordinate($this->fraction($band['to']) * 100 - $from),
@@ -327,7 +327,7 @@ final class Gauge extends Component
         $fraction = $this->fraction((float) $this->value);
         if ($fraction > 0) {
             $svg .= Html::tag('rect', [
-                'class' => 'celerik-gauge-fill celerik-gauge-' . $color,
+                'class' => 'caelrik-gauge-fill caelrik-gauge-' . $color,
                 'x' => '0',
                 'y' => '4',
                 'width' => self::coordinate($fraction * 100),
@@ -337,7 +337,7 @@ final class Gauge extends Component
         if ($this->target !== null) {
             $x = self::coordinate($this->fraction($this->target) * 100);
             $svg .= Html::tag('line', [
-                'class' => 'celerik-gauge-target',
+                'class' => 'caelrik-gauge-target',
                 'x1' => $x,
                 'y1' => '0',
                 'x2' => $x,
@@ -347,7 +347,7 @@ final class Gauge extends Component
         }
 
         return Html::tag('svg', [
-            'class' => 'celerik-gauge-svg',
+            'class' => 'caelrik-gauge-svg',
             'viewBox' => '0 0 100 12',
             'preserveAspectRatio' => 'none',
             'aria-hidden' => 'true',

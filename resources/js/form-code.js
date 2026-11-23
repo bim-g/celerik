@@ -27,18 +27,18 @@ export const LANGUAGES = {
 
 // Syntax colors as classes (no inline styles), colored by the stylesheet.
 const highlight = HighlightStyle.define([
-  { tag: [tags.keyword, tags.operatorKeyword, tags.modifier, tags.controlKeyword], class: 'celerik-code-keyword' },
-  { tag: [tags.string, tags.special(tags.string), tags.regexp], class: 'celerik-code-string' },
-  { tag: [tags.comment, tags.lineComment, tags.blockComment, tags.docComment], class: 'celerik-code-comment' },
-  { tag: [tags.number, tags.bool, tags.null, tags.atom], class: 'celerik-code-number' },
-  { tag: [tags.function(tags.variableName), tags.function(tags.propertyName)], class: 'celerik-code-function' },
-  { tag: [tags.typeName, tags.className, tags.namespace], class: 'celerik-code-type' },
-  { tag: [tags.tagName, tags.angleBracket], class: 'celerik-code-tag' },
-  { tag: [tags.attributeName, tags.propertyName], class: 'celerik-code-property' },
-  { tag: [tags.heading, tags.strong], class: 'celerik-code-strong' },
-  { tag: tags.emphasis, class: 'celerik-code-emphasis' },
-  { tag: tags.link, class: 'celerik-code-link' },
-  { tag: tags.invalid, class: 'celerik-code-invalid' },
+  { tag: [tags.keyword, tags.operatorKeyword, tags.modifier, tags.controlKeyword], class: 'caelrik-code-keyword' },
+  { tag: [tags.string, tags.special(tags.string), tags.regexp], class: 'caelrik-code-string' },
+  { tag: [tags.comment, tags.lineComment, tags.blockComment, tags.docComment], class: 'caelrik-code-comment' },
+  { tag: [tags.number, tags.bool, tags.null, tags.atom], class: 'caelrik-code-number' },
+  { tag: [tags.function(tags.variableName), tags.function(tags.propertyName)], class: 'caelrik-code-function' },
+  { tag: [tags.typeName, tags.className, tags.namespace], class: 'caelrik-code-type' },
+  { tag: [tags.tagName, tags.angleBracket], class: 'caelrik-code-tag' },
+  { tag: [tags.attributeName, tags.propertyName], class: 'caelrik-code-property' },
+  { tag: [tags.heading, tags.strong], class: 'caelrik-code-strong' },
+  { tag: tags.emphasis, class: 'caelrik-code-emphasis' },
+  { tag: tags.link, class: 'caelrik-code-link' },
+  { tag: tags.invalid, class: 'caelrik-code-invalid' },
 ]);
 
 // The editor in the page's colors (Bootstrap's variables): CodeMirror's own theme is made for
@@ -50,19 +50,19 @@ const theme = EditorView.theme({
   '.cm-content': { caretColor: 'var(--bs-body-color)' },
   '.cm-cursor, .cm-dropCursor': { borderLeftColor: 'var(--bs-body-color)' },
   '&.cm-focused > .cm-scroller > .cm-selectionLayer .cm-selectionBackground, .cm-selectionBackground, .cm-content ::selection': {
-    backgroundColor: 'var(--celerik-code-selection)',
+    backgroundColor: 'var(--caelrik-code-selection)',
   },
   '.cm-gutters': {
     backgroundColor: 'var(--bs-tertiary-bg)',
     color: 'var(--bs-secondary-color)',
     borderRight: '1px solid var(--bs-border-color)',
   },
-  '.cm-activeLine': { backgroundColor: 'var(--celerik-code-active-line)' },
-  '.cm-activeLineGutter': { backgroundColor: 'var(--celerik-code-active-line)', color: 'var(--bs-body-color)' },
+  '.cm-activeLine': { backgroundColor: 'var(--caelrik-code-active-line)' },
+  '.cm-activeLineGutter': { backgroundColor: 'var(--caelrik-code-active-line)', color: 'var(--bs-body-color)' },
   '.cm-matchingBracket, &.cm-focused .cm-matchingBracket': {
     backgroundColor: 'transparent', outline: '1px solid var(--bs-secondary-color)',
   },
-  '.cm-searchMatch': { backgroundColor: 'var(--celerik-code-match)', outline: '1px solid var(--bs-warning-border-subtle)' },
+  '.cm-searchMatch': { backgroundColor: 'var(--caelrik-code-match)', outline: '1px solid var(--bs-warning-border-subtle)' },
   '.cm-panels': { backgroundColor: 'var(--bs-tertiary-bg)', color: 'var(--bs-body-color)' },
   '.cm-panels.cm-panels-bottom': { borderTop: '1px solid var(--bs-border-color)' },
   '.cm-textfield, .cm-button': {
@@ -70,7 +70,7 @@ const theme = EditorView.theme({
     backgroundColor: 'var(--bs-body-bg)',
     backgroundImage: 'none',
     color: 'var(--bs-body-color)',
-    border: '1px solid var(--celerik-input-border, var(--bs-border-color))',
+    border: '1px solid var(--caelrik-input-border, var(--bs-border-color))',
     borderRadius: 'var(--bs-border-radius-sm)',
   },
   '.cm-panel.cm-search [name=close]': { color: 'var(--bs-body-color)', minWidth: '24px', minHeight: '24px' },
@@ -87,18 +87,18 @@ const theme = EditorView.theme({
 const MIRRORED = ['aria-invalid', 'aria-describedby', 'aria-required'];
 
 export async function initCode(textarea) {
-  if (textarea.celerikEditor) return textarea.celerikEditor;
-  const options = JSON.parse(textarea.getAttribute('data-celerik-code') || '{}');
+  if (textarea.caelrikEditor) return textarea.caelrikEditor;
+  const options = JSON.parse(textarea.getAttribute('data-caelrik-code') || '{}');
   const language = LANGUAGES[options.language] ? await LANGUAGES[options.language]() : [];
   const nonce = document.querySelector('meta[name="csp-nonce"]')?.content;
 
   const keys = document.createElement('div');
   keys.id = `${textarea.id}-keys`;
-  keys.className = 'form-text celerik-code-keys';
+  keys.className = 'form-text caelrik-code-keys';
   keys.textContent = options.keys ?? '';
 
   const host = document.createElement('div');
-  host.className = 'celerik-code';
+  host.className = 'caelrik-code';
   textarea.before(host);
   host.after(keys);
 
@@ -185,10 +185,10 @@ export async function initCode(textarea) {
       view.destroy();
     },
   };
-  textarea.celerikEditor = api;
+  textarea.caelrikEditor = api;
   return api;
 }
 
 export function initCodes(container) {
-  return Promise.all([...container.querySelectorAll('textarea[data-celerik-code]')].map((textarea) => initCode(textarea)));
+  return Promise.all([...container.querySelectorAll('textarea[data-caelrik-code]')].map((textarea) => initCode(textarea)));
 }

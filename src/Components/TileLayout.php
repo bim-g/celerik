@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Celerik\Ui\Components;
+namespace Caelrik\Ui\Components;
 
-use Celerik\Ui\Component;
-use Celerik\Ui\Support\Html;
+use Caelrik\Ui\Component;
+use Caelrik\Ui\Support\Html;
 use InvalidArgumentException;
 use LogicException;
 use Stringable;
@@ -126,7 +126,7 @@ final class TileLayout extends Component
 
     /**
      * Keeps the user's layout in the browser (localStorage), per layout id. To keep it on the
-     * server, listen to the celerik:change event.
+     * server, listen to the caelrik:change event.
      */
     public function remember(bool $remember = true): self
     {
@@ -194,21 +194,21 @@ final class TileLayout extends Component
             $id = $this->id . '-tile-' . $key;
             $header = Html::tag(
                 'h' . $this->headingLevel,
-                ['class' => 'celerik-tile-title', 'id' => $id . '-title'],
+                ['class' => 'caelrik-tile-title', 'id' => $id . '-title'],
                 Html::escape($tile['title']),
             );
             $tools = '';
             if ($arrange) {
                 $header .= Html::tag('button', [
                     'type' => 'button',
-                    'class' => 'btn btn-sm celerik-action-button celerik-tile-handle',
+                    'class' => 'btn btn-sm caelrik-action-button caelrik-tile-handle',
                     'aria-expanded' => 'false',
                     'aria-controls' => $id . '-tools',
                     'aria-describedby' => $this->id . '-help',
                     'aria-label' => strtr($this->labels['arrange'], ['{tile}' => $tile['title']]),
                 ], '<span aria-hidden="true">⠿</span>');
                 $tools = Html::tag('div', [
-                    'class' => 'celerik-tile-tools',
+                    'class' => 'caelrik-tile-tools',
                     'id' => $id . '-tools',
                     'role' => 'group',
                     'aria-labelledby' => $id . '-title',
@@ -217,25 +217,25 @@ final class TileLayout extends Component
             }
             $html .= Html::tag('section', [
                 'class' => Html::classes([
-                    'celerik-tile',
+                    'caelrik-tile',
                     'card',
-                    'celerik-tile-cols-' . $tile['cols'],
-                    'celerik-tile-rows-' . $tile['rows'],
+                    'caelrik-tile-cols-' . $tile['cols'],
+                    'caelrik-tile-rows-' . $tile['rows'],
                 ]),
                 'id' => $id,
                 'aria-labelledby' => $id . '-title',
                 'data-tile' => $key,
                 'data-cols' => (string) $tile['cols'],
                 'data-rows' => (string) $tile['rows'],
-            ], Html::tag('div', ['class' => 'celerik-tile-header card-header'], $header)
+            ], Html::tag('div', ['class' => 'caelrik-tile-header card-header'], $header)
                 . $tools
-                . Html::tag('div', ['class' => 'celerik-tile-body card-body'], Html::content($tile['content']))
-                . ($this->resizable ? '<span class="celerik-tile-grip" aria-hidden="true"></span>' : ''));
+                . Html::tag('div', ['class' => 'caelrik-tile-body card-body'], Html::content($tile['content']))
+                . ($this->resizable ? '<span class="caelrik-tile-grip" aria-hidden="true"></span>' : ''));
         }
 
         return Html::tag(
             'div',
-            $this->rootAttributes(['celerik-tilelayout', 'celerik-tilelayout-cols-' . $this->columns]),
+            $this->rootAttributes(['caelrik-tilelayout', 'caelrik-tilelayout-cols-' . $this->columns]),
             $help . $html,
         );
     }

@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Celerik\Ui\Components;
+namespace Caelrik\Ui\Components;
 
-use Celerik\Ui\Component;
-use Celerik\Ui\Support\Html;
-use Celerik\Ui\Support\Url;
+use Caelrik\Ui\Component;
+use Caelrik\Ui\Support\Html;
+use Caelrik\Ui\Support\Url;
 use InvalidArgumentException;
 use LogicException;
 use Stringable;
@@ -39,17 +39,17 @@ final class Carousel extends Component
         'show' => 'Slide {index}',
     ];
 
-    private const CHEVRON_START = '<svg class="celerik-carousel-icon" viewBox="0 0 16 16" width="16" height="16" '
+    private const CHEVRON_START = '<svg class="caelrik-carousel-icon" viewBox="0 0 16 16" width="16" height="16" '
         . 'aria-hidden="true" focusable="false"><path d="M10 3 5 8l5 5" fill="none" stroke="currentColor" '
         . 'stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
-    private const CHEVRON_END = '<svg class="celerik-carousel-icon" viewBox="0 0 16 16" width="16" height="16" '
+    private const CHEVRON_END = '<svg class="caelrik-carousel-icon" viewBox="0 0 16 16" width="16" height="16" '
         . 'aria-hidden="true" focusable="false"><path d="M6 3l5 5-5 5" fill="none" stroke="currentColor" '
         . 'stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
-    private const PAUSE = '<svg class="celerik-carousel-icon celerik-carousel-icon-pause" viewBox="0 0 16 16" '
+    private const PAUSE = '<svg class="caelrik-carousel-icon caelrik-carousel-icon-pause" viewBox="0 0 16 16" '
         . 'width="16" height="16" aria-hidden="true" focusable="false"><rect x="3.5" y="3" width="3" height="10" '
         . 'rx="0.5" fill="currentColor"/><rect x="9.5" y="3" width="3" height="10" rx="0.5" '
         . 'fill="currentColor"/></svg>';
-    private const PLAY = '<svg class="celerik-carousel-icon celerik-carousel-icon-play" viewBox="0 0 16 16" '
+    private const PLAY = '<svg class="caelrik-carousel-icon caelrik-carousel-icon-play" viewBox="0 0 16 16" '
         . 'width="16" height="16" aria-hidden="true" focusable="false"><path d="M4.5 2.5v11l9-5.5z" '
         . 'fill="currentColor"/></svg>';
 
@@ -104,14 +104,14 @@ final class Carousel extends Component
         $image = Html::tag('img', [
             'src' => $src,
             'alt' => $alt,
-            'class' => 'celerik-carousel-image',
+            'class' => 'caelrik-carousel-image',
             'loading' => $this->slides === [] ? null : 'lazy',
         ]);
         $caption = $caption === null || $caption === ''
             ? ''
-            : Html::tag('figcaption', ['class' => 'celerik-carousel-caption'], Html::escape($caption));
+            : Html::tag('figcaption', ['class' => 'caelrik-carousel-caption'], Html::escape($caption));
         $this->slides[] = [
-            'content' => Html::tag('figure', ['class' => 'celerik-carousel-figure'], $image . $caption),
+            'content' => Html::tag('figure', ['class' => 'caelrik-carousel-figure'], $image . $caption),
             'label' => $label,
         ];
 
@@ -201,7 +201,7 @@ final class Carousel extends Component
         foreach ($this->slides as $index => $slide) {
             $position = ['{index}' => (string) ($index + 1), '{count}' => (string) $count];
             $slides .= Html::tag('div', [
-                'class' => Html::classes(['celerik-carousel-slide', $index === 0 ? 'is-active' : null]),
+                'class' => Html::classes(['caelrik-carousel-slide', $index === 0 ? 'is-active' : null]),
                 'id' => $this->id . '-slide-' . ($index + 1),
                 'role' => 'group',
                 'aria-roledescription' => 'slide',
@@ -209,7 +209,7 @@ final class Carousel extends Component
             ], $slide['content']);
             $dots .= Html::tag('button', [
                 'type' => 'button',
-                'class' => 'celerik-carousel-dot',
+                'class' => 'caelrik-carousel-dot',
                 'aria-controls' => $this->id . '-slide-' . ($index + 1),
                 'aria-label' => $slide['label'] ?? strtr($this->labels['show'], $position),
                 'aria-current' => $index === 0 ? 'true' : null,
@@ -230,25 +230,25 @@ final class Carousel extends Component
             );
             if ($this->picker) {
                 $controls .= Html::tag('div', [
-                    'class' => 'celerik-carousel-picker',
+                    'class' => 'caelrik-carousel-picker',
                     'role' => 'group',
                     'aria-label' => $this->labels['slides'],
                 ], $dots);
             }
             $controls .= $this->button('next', $this->labels['next'], self::CHEVRON_END, $slidesId);
-            $controls = Html::tag('div', ['class' => 'celerik-carousel-controls'], $controls);
+            $controls = Html::tag('div', ['class' => 'caelrik-carousel-controls'], $controls);
         }
 
         $attributes = $this->rootAttributes([
-            'celerik-carousel',
-            'celerik-carousel-ratio-' . $this->ratio,
+            'caelrik-carousel',
+            'caelrik-carousel-ratio-' . $this->ratio,
             $this->autoplay > 0 ? 'is-playing' : null,
         ]);
         $attributes['aria-roledescription'] = 'carousel';
         $attributes['aria-label'] = $this->label;
 
         return Html::tag('section', $attributes, $controls . Html::tag('div', [
-            'class' => 'celerik-carousel-slides',
+            'class' => 'caelrik-carousel-slides',
             'id' => $slidesId,
             'aria-live' => $this->autoplay > 0 ? 'off' : 'polite',
         ], $slides));
@@ -258,7 +258,7 @@ final class Carousel extends Component
     {
         return Html::tag('button', [
             'type' => 'button',
-            'class' => 'btn btn-sm celerik-action-button btn-outline-secondary celerik-carousel-' . $role,
+            'class' => 'btn btn-sm caelrik-action-button btn-outline-secondary caelrik-carousel-' . $role,
             'aria-label' => $label,
             'aria-controls' => $controls,
             'aria-disabled' => $disabled ? 'true' : null,

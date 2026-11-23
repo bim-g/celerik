@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Celerik\Ui\Components;
+namespace Caelrik\Ui\Components;
 
-use Celerik\Ui\Component;
-use Celerik\Ui\Support\Html;
+use Caelrik\Ui\Component;
+use Caelrik\Ui\Support\Html;
 use InvalidArgumentException;
 use LogicException;
 use Stringable;
@@ -115,7 +115,7 @@ final class Splitter extends Component
         foreach ($this->panes as $index => $pane) {
             $id = $this->id . '-pane-' . ($index + 1);
             $html .= Html::tag('div', [
-                'class' => 'celerik-splitter-pane',
+                'class' => 'caelrik-splitter-pane',
                 'id' => $id,
                 'data-size' => $pane['size'] === null ? null : (string) $pane['size'],
                 'data-min' => (string) $pane['min'],
@@ -128,7 +128,7 @@ final class Splitter extends Component
             $paneName = $pane['label'] === '' ? 'pane ' . ($index + 1) : $pane['label'];
             $name = strtr($this->labels['resize'], ['{pane}' => $paneName]);
             $html .= Html::tag('div', [
-                'class' => 'celerik-splitter-handle',
+                'class' => 'caelrik-splitter-handle',
                 'role' => 'separator',
                 'tabindex' => '0',
                 // The divider between side-by-side panes is a vertical line.
@@ -143,7 +143,7 @@ final class Splitter extends Component
 
         return Html::tag(
             'div',
-            $this->rootAttributes(['celerik-splitter', 'celerik-splitter-' . $this->orientation]),
+            $this->rootAttributes(['caelrik-splitter', 'caelrik-splitter-' . $this->orientation]),
             $html,
         );
     }

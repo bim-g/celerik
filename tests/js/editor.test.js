@@ -39,7 +39,7 @@ describe('editor integration (Quill)', () => {
   afterEach(() => parsley.destroy());
 
   const textarea = () => form.querySelector('textarea[name="body"]');
-  const editable = () => form.querySelector('.celerik-editor .ql-editor');
+  const editable = () => form.querySelector('.caelrik-editor .ql-editor');
 
   test('replaces the textarea with an accessible editor holding the allowed content', () => {
     expect(editable()).not.toBeNull();
@@ -57,14 +57,14 @@ describe('editor integration (Quill)', () => {
   });
 
   test('Tab is left to the browser (no keyboard trap)', () => {
-    const quill = textarea().celerikEditor;
+    const quill = textarea().caelrikEditor;
     // Only Quill's table binding is left, and no toolbar allows tables.
     // Leaving the editor with Tab is checked in a real browser (tests/browser/keyboard.spec.mjs).
     expect((quill.keyboard.bindings.Tab ?? []).map((binding) => binding.format)).toEqual([['table']]);
   });
 
   test('typing updates the submitted value, with normal spaces', () => {
-    const quill = textarea().celerikEditor;
+    const quill = textarea().caelrikEditor;
 
     quill.setText('New text\n', 'user');
 
@@ -72,7 +72,7 @@ describe('editor integration (Quill)', () => {
   });
 
   test('real non-breaking spaces and a typed "&nbsp;" survive the space fix', () => {
-    const quill = textarea().celerikEditor;
+    const quill = textarea().caelrikEditor;
 
     quill.setText('10 km &nbsp; literal\n', 'user');
 
@@ -80,7 +80,7 @@ describe('editor integration (Quill)', () => {
   });
 
   test('an emptied required editor fails validation and shows it on the editor', async () => {
-    const quill = textarea().celerikEditor;
+    const quill = textarea().caelrikEditor;
     quill.setText('', 'user');
 
     expect(textarea().value).toBe('');
@@ -88,7 +88,7 @@ describe('editor integration (Quill)', () => {
     await Promise.resolve(); // let the MutationObserver mirror the class
 
     expect(textarea().classList.contains('is-invalid')).toBe(true);
-    expect(form.querySelector('.celerik-editor').classList.contains('is-invalid')).toBe(true);
+    expect(form.querySelector('.caelrik-editor').classList.contains('is-invalid')).toBe(true);
     expect(editable().getAttribute('aria-invalid')).toBe('true');
     expect(textarea().closest('.mb-3').querySelector('.invalid-feedback').textContent).toMatch(/required/i);
   });

@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Celerik\Ui\Adapters\Symfony;
+namespace Caelrik\Ui\Adapters\Symfony;
 
-use Celerik\Ui\Data\Aggregate;
-use Celerik\Ui\Data\DataRequest;
-use Celerik\Ui\Data\DataResult;
-use Celerik\Ui\Data\DataSourceInterface;
-use Celerik\Ui\Support\Arr;
+use Caelrik\Ui\Data\Aggregate;
+use Caelrik\Ui\Data\DataRequest;
+use Caelrik\Ui\Data\DataResult;
+use Caelrik\Ui\Data\DataSourceInterface;
+use Caelrik\Ui\Support\Arr;
 use Doctrine\ORM\QueryBuilder;
 
 /**
@@ -52,22 +52,22 @@ final class DoctrineDataSource implements DataSourceInterface
             $search = $query->expr()->orX();
             foreach ($fields as $field) {
                 $search->add(sprintf(
-                    "LOWER(%s) LIKE :celerik_search ESCAPE '%s'",
+                    "LOWER(%s) LIKE :caelrik_search ESCAPE '%s'",
                     $this->path($alias, $field),
                     DataRequest::LIKE_ESCAPE,
                 ));
             }
-            $query->andWhere($search)->setParameter('celerik_search', mb_strtolower($pattern));
+            $query->andWhere($search)->setParameter('caelrik_search', mb_strtolower($pattern));
         }
 
         $index = 0;
         foreach ($request->filters as $field => $value) {
-            $parameter = 'celerik_filter_' . $index++;
+            $parameter = 'caelrik_filter_' . $index++;
             $query->andWhere($this->path($alias, $field) . ' = :' . $parameter)->setParameter($parameter, $value);
         }
 
         foreach ($request->conditions as $condition) {
-            $parameter = 'celerik_filter_' . $index++;
+            $parameter = 'caelrik_filter_' . $index++;
             $path = $this->path($alias, $condition['field']);
 
             if ($condition['operator'] === DataRequest::CONTAINS) {
@@ -128,12 +128,12 @@ final class DoctrineDataSource implements DataSourceInterface
 
         $path = $this->path($alias, $field);
         $base = $this->aggregates($query)
-            ->select($path . ' AS celerik_group')
-            ->addSelect('COUNT(DISTINCT ' . $alias . ') AS celerik_count');
+            ->select($path . ' AS caelrik_group')
+            ->addSelect('COUNT(DISTINCT ' . $alias . ') AS caelrik_count');
         $index = 0;
         foreach ($totals as $total => $function) {
             $base->addSelect(sprintf(
-                '%s(%s) AS celerik_total_%d',
+                '%s(%s) AS caelrik_total_%d',
                 strtoupper($function),
                 $this->path($alias, $total),
                 $index++,
@@ -142,8 +142,8 @@ final class DoctrineDataSource implements DataSourceInterface
         $present = array_values(array_filter($values, static fn (mixed $value): bool => $value !== null));
         $where = $base->expr()->orX();
         if ($present !== []) {
-            $where->add($path . ' IN (:celerik_groups)');
-            $base->setParameter('celerik_groups', $present);
+            $where->add($path . ' IN (:caelrik_groups)');
+            $base->setParameter('caelrik_groups', $present);
         }
         if (in_array(null, $values, true)) {
             $where->add($path . ' IS NULL');
@@ -156,10 +156,10 @@ final class DoctrineDataSource implements DataSourceInterface
             $sums = [];
             $index = 0;
             foreach ($totals as $total => $function) {
-                $sums[$total] = Aggregate::number($result['celerik_total_' . $index++]);
+                $sums[$total] = Aggregate::number($result['caelrik_total_' . $index++]);
             }
-            $found[Aggregate::groupKey($result['celerik_group'])] = [
-                'count' => (int) $result['celerik_count'],
+            $found[Aggregate::groupKey($result['caelrik_group'])] = [
+                'count' => (int) $result['caelrik_count'],
                 'totals' => $sums,
             ];
         }

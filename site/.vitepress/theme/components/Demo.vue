@@ -45,8 +45,8 @@ onBeforeUnmount(() => observer?.disconnect());
 </script>
 
 <template>
-  <figure class="celerik-demo">
-    <div class="celerik-demo__bar">
+  <figure class="caelrik-demo">
+    <div class="caelrik-demo__bar">
       <a :href="src" target="_blank" rel="noopener">Open the demo in a new tab<span class="visually-hidden"> ({{ label }})</span></a>
     </div>
     <iframe

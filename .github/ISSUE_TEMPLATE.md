@@ -9,7 +9,7 @@
 
 ## Environment
 
-- Celerik UI version:
+- Caelrik UI version:
 - PHP version:
 - Framework (plain / Laravel x.y / Symfony x.y):
 - Browser:

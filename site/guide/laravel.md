@@ -5,28 +5,28 @@ For Laravel 11 and later. The service provider is auto-discovered.
 ## Setup
 
 ```bash
-composer require celerik/ui
-php artisan vendor:publish --tag=celerik-assets     # public/vendor/celerik
-php artisan vendor:publish --tag=celerik-elfinder   # only for the File Manager
+composer require caelrik/ui
+php artisan vendor:publish --tag=caelrik-assets     # public/vendor/caelrik
+php artisan vendor:publish --tag=caelrik-elfinder   # only for the File Manager
 ```
 
 ## Blade
 
 ```blade
-<x-celerik-assets />
-<x-celerik-assets custom-theme="{{ asset('css/acme.css') }}" :nonce="$cspNonce" />
+<x-caelrik-assets />
+<x-caelrik-assets custom-theme="{{ asset('css/acme.css') }}" :nonce="$cspNonce" />
 
-<x-celerik :component="$grid" />
+<x-caelrik :component="$grid" />
 ```
 
-`<x-celerik-assets>` takes `base-url` (default `asset('vendor/celerik')`), `nonce`, `theme` and `custom-theme`.
+`<x-caelrik-assets>` takes `base-url` (default `asset('vendor/caelrik')`), `nonce`, `theme` and `custom-theme`.
 
 ## A server-side grid with Eloquent
 
 ```php
 use App\Models\User;
-use Celerik\Ui\Adapters\Laravel\EloquentDataSource;
-use Celerik\Ui\Components\Grid;
+use Caelrik\Ui\Adapters\Laravel\EloquentDataSource;
+use Caelrik\Ui\Components\Grid;
 use Illuminate\Http\Request;
 
 final class UserController extends Controller

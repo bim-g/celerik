@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Celerik\Ui\Data;
+namespace Caelrik\Ui\Data;
 
 /**
  * Normalized paging, sorting, search and filter parameters.
  *
  * Built from query parameters in either of two formats:
  * - DataTables server-side protocol: draw, start, length, order[i][column|dir], columns[i][data], search[value]
- * - Celerik simple format: page, per_page, sort=name,-created_at, search, filter[field]=value
+ * - Caelrik simple format: page, per_page, sort=name,-created_at, search, filter[field]=value
  *
  * Typed filters (a Grid's column filters) are read from filter[field] in both formats:
  * filter[name]=ada (text), filter[status]=active (exact), filter[verified]=1 (boolean),

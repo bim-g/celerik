@@ -6,14 +6,14 @@
 
 declare(strict_types=1);
 
-use Celerik\Ui\Assets;
-use Celerik\Ui\Components\Chart;
-use Celerik\Ui\Components\Form;
-use Celerik\Ui\Components\Form\Field;
-use Celerik\Ui\Components\Grid;
-use Celerik\Ui\Components\Tabs;
-use Celerik\Ui\Components\ThemeBuilder;
-use Celerik\Ui\Theme\Theme;
+use Caelrik\Ui\Assets;
+use Caelrik\Ui\Components\Chart;
+use Caelrik\Ui\Components\Form;
+use Caelrik\Ui\Components\Form\Field;
+use Caelrik\Ui\Components\Grid;
+use Caelrik\Ui\Components\Tabs;
+use Caelrik\Ui\Components\ThemeBuilder;
+use Caelrik\Ui\Theme\Theme;
 
 /** @var string $theme */
 /** @var string $mode */
@@ -61,7 +61,7 @@ $builder = ThemeBuilder::make('builder')
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" href="data:,">
-    <title>Celerik theme builder (<?= $theme ?>)</title>
+    <title>Caelrik theme builder (<?= $theme ?>)</title>
     <link rel="stylesheet" href="/vendor/bootstrap/css/bootstrap.min.css">
     <script src="/vendor/jquery/jquery.min.js" defer></script>
     <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js" defer></script>

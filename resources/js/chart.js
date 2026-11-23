@@ -29,7 +29,7 @@ import {
 import { prefersReducedMotion } from './core.js';
 
 // Everything the PHP Chart types and common options need. Time scales are left out:
-// they require a date adapter that Celerik does not ship.
+// they require a date adapter that Caelrik does not ship.
 Chart.register(
   LineController, BarController, PieController, DoughnutController,
   RadarController, PolarAreaController, ScatterController, BubbleController,
@@ -43,7 +43,7 @@ export function initChart(element, options) {
   if (options.height) {
     canvas.parentElement.style.height = `${options.height}px`;
   } else {
-    canvas.parentElement.classList.add(`celerik-chart__canvas--${chartShape(options.type ?? 'line')}`);
+    canvas.parentElement.classList.add(`caelrik-chart__canvas--${chartShape(options.type ?? 'line')}`);
   }
 
   // Flat colors that follow Bootstrap and the color mode: the text, grid lines and font of
@@ -74,7 +74,7 @@ export function initChart(element, options) {
         chart.update();
         renderDataTable(element, canvas.getAttribute('aria-label') ?? '', payload.data);
       })
-      .catch((error) => console.error(`Celerik: failed to load chart #${element.id}`, error));
+      .catch((error) => console.error(`Caelrik: failed to load chart #${element.id}`, error));
   }
 
   return chart;

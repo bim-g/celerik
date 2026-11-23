@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Celerik\Ui\Data;
+namespace Caelrik\Ui\Data;
 
 /**
  * A source of rows for data-bound components (Grid today, Scheduler and others later).

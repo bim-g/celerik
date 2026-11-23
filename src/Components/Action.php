@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Celerik\Ui\Components;
+namespace Caelrik\Ui\Components;
 
-use Celerik\Ui\Support\Arr;
-use Celerik\Ui\Support\Html;
+use Caelrik\Ui\Support\Arr;
+use Caelrik\Ui\Support\Html;
 use InvalidArgumentException;
 use Stringable;
 
@@ -250,7 +250,7 @@ final class Action implements Stringable
             ->button($this->submitLabel ?? $this->label, $this->variant, attributes: [
                 'type' => 'submit',
                 'form' => $formId,
-                'data-celerik-form-submit' => true,
+                'data-caelrik-form-submit' => true,
             ])
             ->render();
     }
@@ -292,7 +292,7 @@ final class Action implements Stringable
             'name' => $this->method === 'POST' ? null : '_method',
             'value' => $this->method === 'POST' ? null : $this->method,
             'class' => $this->buttonClass() . ' btn-sm',
-            'data-celerik-action' => $this->name,
+            'data-caelrik-action' => $this->name,
             'data-method' => $this->method,
             'data-confirm' => $this->confirm,
             'data-confirm-detail' => $this->confirmDetail,
@@ -392,14 +392,14 @@ final class Action implements Stringable
         return Html::tag('form', [
             'method' => 'post',
             'action' => $url,
-            'class' => 'celerik-action',
-            'data-celerik-action' => $this->name,
+            'class' => 'caelrik-action',
+            'data-caelrik-action' => $this->name,
             'data-method' => $this->method,
             'data-confirm' => $this->confirm === null ? null : $text($this->confirm),
             'data-confirm-detail' => $this->confirmDetail === null ? null : $text($this->confirmDetail),
             'data-csrf-header' => $this->csrfToken === null ? null : $this->csrfHeader,
             'data-labels' => $labels,
-            'data-celerik-form-modal' => $this->modalId(),
+            'data-caelrik-form-modal' => $this->modalId(),
             'data-title' => $this->form === null ? null : $text($this->formTitle ?? $this->label),
             'data-values' => $this->form === null ? null : json_encode(
                 $this->formValues($row),
@@ -454,7 +454,7 @@ final class Action implements Stringable
 
     private function buttonClass(): string
     {
-        return 'btn celerik-action-button btn-' . ($this->solid ? '' : 'outline-') . $this->variant;
+        return 'btn caelrik-action-button btn-' . ($this->solid ? '' : 'outline-') . $this->variant;
     }
 
     /**

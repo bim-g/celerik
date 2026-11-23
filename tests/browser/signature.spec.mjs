@@ -83,7 +83,7 @@ test.describe('signature', () => {
     const context = await browser.newContext({ javaScriptEnabled: false });
     const page = await context.newPage();
     await page.goto('/signature');
-    await expect(page.locator('.celerik-signature-pad').first()).toBeHidden();
+    await expect(page.locator('.caelrik-signature-pad').first()).toBeHidden();
     await page.getByLabel('Type your name').first().fill('Ada Lovelace');
     const [response] = await Promise.all([
       page.waitForResponse((each) => each.url().endsWith('/signature') && each.request().method() === 'POST'),

@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Celerik\Ui\Tests\Components;
+namespace Caelrik\Ui\Tests\Components;
 
-use Celerik\Ui\Components\Form;
-use Celerik\Ui\Components\Form\Field;
-use Celerik\Ui\Components\Form\Section;
+use Caelrik\Ui\Components\Form;
+use Caelrik\Ui\Components\Form\Field;
+use Caelrik\Ui\Components\Form\Section;
 use InvalidArgumentException;
 use LogicException;
 use PHPUnit\Framework\TestCase;
@@ -52,7 +52,7 @@ final class FormLayoutTest extends TestCase
         )->render();
 
         self::assertStringContainsString(
-            '<section id="f-section-Shipping-address" class="card mb-4 celerik-form-section"'
+            '<section id="f-section-Shipping-address" class="card mb-4 caelrik-form-section"'
             . ' aria-labelledby="f-section-Shipping-address-heading"'
             . ' aria-describedby="f-section-Shipping-address-description"><div class="card-body">'
             . '<h2 id="f-section-Shipping-address-heading" class="card-title h5 mb-1">Shipping address</h2>'
@@ -72,7 +72,7 @@ final class FormLayoutTest extends TestCase
         )->render();
 
         self::assertStringContainsString(
-            '<fieldset id="address" class="celerik-form-fieldset mb-3"><legend class="celerik-form-legend">Address</legend><div class="row">',
+            '<fieldset id="address" class="caelrik-form-fieldset mb-3"><legend class="caelrik-form-legend">Address</legend><div class="row">',
             $html,
         );
     }
@@ -87,13 +87,13 @@ final class FormLayoutTest extends TestCase
         $html = $form->errors(['vat' => 'The VAT number is invalid.'])->render();
 
         self::assertStringContainsString(
-            '<details id="f-section-Billing" class="card mb-4 celerik-form-section" open>'
-            . '<summary id="f-section-Billing-heading" class="celerik-form-summary card-body h5">Billing</summary>'
+            '<details id="f-section-Billing" class="card mb-4 caelrik-form-section" open>'
+            . '<summary id="f-section-Billing-heading" class="caelrik-form-summary card-body h5">Billing</summary>'
             . '<div class="card-body pt-0" role="group" aria-labelledby="f-section-Billing-heading">',
             $html,
         );
-        self::assertStringContainsString('<details id="f-section-Notes" class="card mb-4 celerik-form-section"><summary', $html);
-        self::assertStringContainsString('<details id="f-section-Shipping" class="card mb-4 celerik-form-section" open>', $html);
+        self::assertStringContainsString('<details id="f-section-Notes" class="card mb-4 caelrik-form-section"><summary', $html);
+        self::assertStringContainsString('<details id="f-section-Shipping" class="card mb-4 caelrik-form-section" open>', $html);
         // Fields in sections are in the error summary and found by getFields().
         self::assertStringContainsString('<a href="#f-vat" class="alert-link">The VAT number is invalid.</a>', $html);
         self::assertSame(['vat', 'note', 'street'], array_map(static fn (Field $field): string => $field->getName(), $form->getFields()));

@@ -3,7 +3,7 @@ import { axeViolations, MODES, openComponents } from './helpers.mjs';
 
 const open = async (page, options = {}) => {
   const errors = await openComponents(page, { path: '/markdown', ...options });
-  await page.locator('.celerik-markdown').first().waitFor();
+  await page.locator('.caelrik-markdown').first().waitFor();
   return errors;
 };
 const body = (page) => page.getByRole('textbox', { name: 'Body' });
@@ -59,7 +59,7 @@ test.describe('Markdown field', () => {
 
   test('the preview is sanitized HTML, and the arrow keys switch tabs', async ({ page }) => {
     await open(page);
-    const notes = page.locator('.celerik-markdown').nth(1);
+    const notes = page.locator('.caelrik-markdown').nth(1);
     await notes.getByRole('tab', { name: 'Write' }).focus();
     await page.keyboard.press('ArrowRight');
     const preview = notes.getByRole('tabpanel', { name: 'Preview' });
@@ -109,7 +109,7 @@ test.describe('Markdown field', () => {
     test(`no axe-core violations (${mode}), writing and previewing`, async ({ page }) => {
       await open(page, { mode });
       expect(await axeViolations(page)).toEqual([]);
-      await page.locator('.celerik-markdown').nth(1).getByRole('tab', { name: 'Preview' }).click();
+      await page.locator('.caelrik-markdown').nth(1).getByRole('tab', { name: 'Preview' }).click();
       expect(await axeViolations(page)).toEqual([]);
     });
   }

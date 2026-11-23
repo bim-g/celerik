@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Celerik\Ui\Components\Form;
+namespace Caelrik\Ui\Components\Form;
 
-use Celerik\Ui\Support\Html;
+use Caelrik\Ui\Support\Html;
 use Closure;
 use InvalidArgumentException;
 

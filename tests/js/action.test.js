@@ -36,7 +36,7 @@ describe('action templates', () => {
     // Parsed the same way: the DOM writes attributes in its own style.
     const parsed = document.createElement('div');
     parsed.innerHTML = rowActionsHtml(options.actions, row, options.rowTitle);
-    expect(parsed.innerHTML).toBe(table.querySelector('tbody td.celerik-grid-actions').innerHTML);
+    expect(parsed.innerHTML).toBe(table.querySelector('tbody td.caelrik-grid-actions').innerHTML);
   });
 
   test('a link keeps a row value from becoming a script URL', () => {
@@ -52,7 +52,7 @@ describe('confirmation dialog', () => {
     document.getElementById('opener').focus();
 
     const answer = confirmAction({ question: 'Delete Ada?', detail: 'This cannot be undone.', confirmLabel: 'Delete', danger: true });
-    const dialog = document.querySelector('dialog.celerik-action-dialog');
+    const dialog = document.querySelector('dialog.caelrik-action-dialog');
 
     expect(dialog.getAttribute('role')).toBe('alertdialog');
     expect(document.getElementById(dialog.getAttribute('aria-labelledby')).textContent).toBe('Delete Ada?');
@@ -79,7 +79,7 @@ describe('confirmation dialog', () => {
 });
 
 describe('submitAction', () => {
-  const deleteForm = `<form method="post" action="/people/7" class="celerik-action" data-celerik-action="delete"
+  const deleteForm = `<form method="post" action="/people/7" class="caelrik-action" data-caelrik-action="delete"
       data-method="DELETE" data-confirm="Delete Ada?" data-csrf-header="X-CSRF-TOKEN" data-labels='{"cancel":"Keep"}'>
       <input type="hidden" name="_method" value="DELETE"><input type="hidden" name="_token" value="t0ken">
       <button type="submit" class="btn btn-outline-danger">Delete</button></form>`;
@@ -95,12 +95,12 @@ describe('submitAction', () => {
     expect(fetch).not.toHaveBeenCalled();
   });
 
-  test('sends the request with its method and token, shows the message and fires celerik:action', async () => {
+  test('sends the request with its method and token, shows the message and fires caelrik:action', async () => {
     const fetch = jest.fn(async () => response(200, { message: 'Ada was deleted.' }));
     const notify = jest.fn();
     const element = form(deleteForm);
     const events = [];
-    document.addEventListener('celerik:action', (event) => events.push(event.detail), { once: true });
+    document.addEventListener('caelrik:action', (event) => events.push(event.detail), { once: true });
 
     const detail = await submitAction(element, { fetch, notify, confirm: async () => true });
 
@@ -117,7 +117,7 @@ describe('submitAction', () => {
 
   test('an error shows the answer\'s message, or the failed label', async () => {
     const notify = jest.fn();
-    const post = form('<form action="/x" class="celerik-action" data-celerik-action="archive" data-method="POST"><button>Archive</button></form>');
+    const post = form('<form action="/x" class="caelrik-action" data-caelrik-action="archive" data-method="POST"><button>Archive</button></form>');
 
     await submitAction(post, { fetch: async () => response(422, { message: 'Already archived.' }), notify });
     await submitAction(post, { fetch: async () => response(500), notify });
@@ -134,7 +134,7 @@ describe('submitAction', () => {
   test('a second submit while the first runs is ignored', async () => {
     let finish;
     const fetch = jest.fn(() => new Promise((resolve) => { finish = resolve; }));
-    const post = form('<form action="/x" class="celerik-action" data-celerik-action="archive"><button>Archive</button></form>');
+    const post = form('<form action="/x" class="caelrik-action" data-caelrik-action="archive"><button>Archive</button></form>');
 
     const first = submitAction(post, { fetch, notify: jest.fn() });
     expect(await submitAction(post, { fetch, notify: jest.fn() })).toBeNull();
@@ -149,9 +149,9 @@ describe('grid row actions', () => {
   test('a deleted row leaves a client-side grid, and focus moves to the next row\'s button', async () => {
     const table = loadFixture('grid-actions');
     const grid = initGrid(table, readOptions(table));
-    const deleteButton = (index) => table.querySelectorAll('tbody tr')[index].querySelector('[data-celerik-action="delete"] button');
+    const deleteButton = (index) => table.querySelectorAll('tbody tr')[index].querySelector('[data-caelrik-action="delete"] button');
 
-    expect(table.querySelector('thead th.celerik-grid-actions').textContent).toBe('Actions');
+    expect(table.querySelector('thead th.caelrik-grid-actions').textContent).toBe('Actions');
     deleteButton(0).focus();
     await submitAction(deleteButton(0).form, {
       fetch: async () => response(200, {}), notify: jest.fn(), confirm: async () => true,
@@ -168,8 +168,8 @@ describe('grid row actions', () => {
     const { columns } = readOptions(table);
     const config = buildGridConfig({ columns, actions: [{ name: 'a', label: 'A', url: '/', className: 'btn' }], export: ['csv'] });
 
-    expect(config.layout.topStart[1].buttons).toEqual([{ extend: 'csv', exportOptions: { columns: ':not(.celerik-grid-actions):not(.celerik-grid-select)' } }]);
-    expect(config.columns.at(-1)).toMatchObject({ data: 'celerikActions', orderable: false, searchable: false, className: 'celerik-grid-actions' });
+    expect(config.layout.topStart[1].buttons).toEqual([{ extend: 'csv', exportOptions: { columns: ':not(.caelrik-grid-actions):not(.caelrik-grid-select)' } }]);
+    expect(config.columns.at(-1)).toMatchObject({ data: 'caelrikActions', orderable: false, searchable: false, className: 'caelrik-grid-actions' });
   });
 });
 

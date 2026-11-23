@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Celerik\Ui\Tests\Components;
+namespace Caelrik\Ui\Tests\Components;
 
-use Celerik\Ui\Components\Action;
-use Celerik\Ui\Components\Grid;
-use Celerik\Ui\Components\Grid\Column;
+use Caelrik\Ui\Components\Action;
+use Caelrik\Ui\Components\Grid;
+use Caelrik\Ui\Components\Grid\Column;
 use InvalidArgumentException;
 use LogicException;
 use PHPUnit\Framework\TestCase;
@@ -27,13 +27,13 @@ final class GridSelectionTest extends TestCase
         $html = $this->grid()->render();
 
         self::assertStringContainsString(
-            '<th scope="col" class="celerik-grid-select"><input type="checkbox" class="form-check-input"'
-            . ' aria-label="Select all rows on this page" data-celerik-select-all></th>',
+            '<th scope="col" class="caelrik-grid-select"><input type="checkbox" class="form-check-input"'
+            . ' aria-label="Select all rows on this page" data-caelrik-select-all></th>',
             $html,
         );
         self::assertStringContainsString(
-            '<td class="celerik-grid-select"><input type="checkbox" class="form-check-input" name="ids[]" value="7"'
-            . ' aria-label="Select Ada &lt;L&gt;" data-celerik-select></td><td>7</td>',
+            '<td class="caelrik-grid-select"><input type="checkbox" class="form-check-input" name="ids[]" value="7"'
+            . ' aria-label="Select Ada &lt;L&gt;" data-caelrik-select></td><td>7</td>',
             $html,
         );
         // Without bulk actions there is no bulk form.
@@ -65,15 +65,15 @@ final class GridSelectionTest extends TestCase
         $html = $grid->render();
 
         self::assertStringStartsWith(
-            '<form id="members-bulk" method="post" class="celerik-action celerik-grid-bulk d-flex flex-wrap align-items-center gap-2 mb-3"'
-            . ' role="group" aria-label="Lignes choisies" data-celerik-bulk="members">'
+            '<form id="members-bulk" method="post" class="caelrik-action caelrik-grid-bulk d-flex flex-wrap align-items-center gap-2 mb-3"'
+            . ' role="group" aria-label="Lignes choisies" data-caelrik-bulk="members">'
             . '<input type="hidden" name="_token" value="t0ken">'
-            . '<span class="celerik-grid-selected" role="status" data-celerik-selected>Aucune ligne</span>'
+            . '<span class="caelrik-grid-selected" role="status" data-caelrik-selected>Aucune ligne</span>'
             . '<button type="submit" formaction="/members/bulk-delete" name="_method" value="DELETE"'
-            . ' class="btn celerik-action-button btn-outline-danger btn-sm" data-celerik-action="delete" data-method="DELETE"'
+            . ' class="btn caelrik-action-button btn-outline-danger btn-sm" data-caelrik-action="delete" data-method="DELETE"'
             . ' data-confirm="Delete {count} members?" data-csrf-header="X-CSRF-TOKEN">Delete selected</button>'
-            . '<button type="submit" formaction="/members/mail" class="btn celerik-action-button btn-outline-secondary btn-sm"'
-            . ' data-celerik-action="export" data-method="POST">E-mail them</button></form><table',
+            . '<button type="submit" formaction="/members/mail" class="btn caelrik-action-button btn-outline-secondary btn-sm"'
+            . ' data-caelrik-action="export" data-method="POST">E-mail them</button></form><table',
             $html,
         );
         self::assertStringContainsString('name="members[]" value="7" form="members-bulk"', $html);

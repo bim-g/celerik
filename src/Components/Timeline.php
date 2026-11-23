@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Celerik\Ui\Components;
+namespace Caelrik\Ui\Components;
 
-use Celerik\Ui\Component;
-use Celerik\Ui\Support\Html;
-use Celerik\Ui\Support\Url;
+use Caelrik\Ui\Component;
+use Caelrik\Ui\Support\Html;
+use Caelrik\Ui\Support\Url;
 use DateTimeInterface;
 use InvalidArgumentException;
 use LogicException;
@@ -135,8 +135,8 @@ final class Timeline extends Component
             $items .= $this->renderEvent($event);
         }
         $attributes = $this->rootAttributes([
-            'celerik-timeline',
-            $this->alternate ? 'celerik-timeline-alternate' : null,
+            'caelrik-timeline',
+            $this->alternate ? 'caelrik-timeline-alternate' : null,
         ]);
         $attributes['aria-label'] = $this->label;
 
@@ -155,7 +155,7 @@ final class Timeline extends Component
         }
         $body = Html::tag(
             $this->headingLevel === null ? 'p' : 'h' . $this->headingLevel,
-            ['class' => 'celerik-timeline-title'],
+            ['class' => 'caelrik-timeline-title'],
             $title,
         );
 
@@ -163,28 +163,28 @@ final class Timeline extends Component
         if ($time instanceof DateTimeInterface) {
             $body .= Html::tag(
                 'time',
-                ['class' => 'celerik-timeline-time', 'datetime' => $time->format(DateTimeInterface::ATOM)],
+                ['class' => 'caelrik-timeline-time', 'datetime' => $time->format(DateTimeInterface::ATOM)],
                 Html::escape($time->format($this->dateFormat)),
             );
         } elseif ($time !== null && $time !== '') {
-            $body .= Html::tag('p', ['class' => 'celerik-timeline-time'], Html::escape($time));
+            $body .= Html::tag('p', ['class' => 'caelrik-timeline-time'], Html::escape($time));
         }
         if ($event['content'] !== null) {
-            $body .= Html::tag('div', ['class' => 'celerik-timeline-content'], Html::content($event['content']));
+            $body .= Html::tag('div', ['class' => 'caelrik-timeline-content'], Html::content($event['content']));
         }
 
         $marker = Html::tag('span', [
             'class' => Html::classes([
-                'celerik-timeline-marker',
-                $event['color'] !== null ? 'celerik-timeline-marker-' . $event['color'] : null,
+                'caelrik-timeline-marker',
+                $event['color'] !== null ? 'caelrik-timeline-marker-' . $event['color'] : null,
                 $event['marker'] !== null ? 'has-text' : null,
             ]),
             'aria-hidden' => 'true',
         ], Html::escape($event['marker'] ?? ''));
 
         return Html::tag('li', [
-            'class' => Html::classes(['celerik-timeline-event', $event['current'] ? 'is-current' : null]),
+            'class' => Html::classes(['caelrik-timeline-event', $event['current'] ? 'is-current' : null]),
             'aria-current' => $event['current'] ? 'step' : null,
-        ], $marker . Html::tag('div', ['class' => 'celerik-timeline-body'], $body));
+        ], $marker . Html::tag('div', ['class' => 'caelrik-timeline-body'], $body));
     }
 }

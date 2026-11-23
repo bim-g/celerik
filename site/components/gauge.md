@@ -9,7 +9,7 @@ A value on a scale, and small charts the size of a word. Both are SVGs drawn by 
 ## Gauge
 
 ```php
-use Celerik\Ui\Components\Gauge;
+use Caelrik\Ui\Components\Gauge;
 
 Gauge::make('cpu')
     ->label('CPU')
@@ -40,7 +40,7 @@ Gauge::make('quota')->label('Storage used')->value(1250)->range(0, 2000)->format
 ## Sparkline
 
 ```php
-use Celerik\Ui\Components\Sparkline;
+use Caelrik\Ui\Components\Sparkline;
 
 Sparkline::make()->label('Revenue')->values([8, 9, 12, 11, 14, 13, 16])->type('area')->markLast();
 Sparkline::make()->label('Profit')->values([3, -2, 0, 5])->type('bar')->color('success');

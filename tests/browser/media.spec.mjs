@@ -46,10 +46,10 @@ test.describe('media player', () => {
     await podcast.getByText('Transcript').click();
     const seek = podcast.getByRole('button', { name: 'Play from 0:04' });
     await expect(seek).toBeVisible();
-    await expect(podcast.locator('.celerik-media-cue').first()).toContainText('Narrator A soft tone starts.');
+    await expect(podcast.locator('.caelrik-media-cue').first()).toContainText('Narrator A soft tone starts.');
     await seek.click();
     await expect.poll(() => podcast.locator('audio').evaluate((media) => media.currentTime)).toBeGreaterThanOrEqual(4);
-    await expect(podcast.locator('.celerik-media-cue[aria-current="true"]')).toContainText('The tone fades out.');
+    await expect(podcast.locator('.caelrik-media-cue[aria-current="true"]')).toContainText('The tone fades out.');
   });
 
   test('without JavaScript, the browser\'s own player and the transcript', async ({ browser }) => {
@@ -71,7 +71,7 @@ test.describe('media player', () => {
   for (const mode of MODES) {
     test(`no axe-core violations (${mode}), with the transcripts open`, async ({ page }) => {
       await open(page, { mode });
-      for (const summary of await page.locator('.celerik-media-transcript summary').all()) {
+      for (const summary of await page.locator('.caelrik-media-transcript summary').all()) {
         await summary.click();
       }
       await page.locator('#podcast').getByRole('button', { name: 'Play from 0:02' }).click();

@@ -13,18 +13,18 @@
 
 declare(strict_types=1);
 
-use Celerik\Ui\Components\Form;
-use Celerik\Ui\Components\Form\Field;
-use Celerik\Ui\Support\EditorHtml;
-use Celerik\Ui\Upload\StoredFile;
-use Celerik\Ui\Upload\UploadedFile;
-use Celerik\Ui\Upload\UploadException;
-use Celerik\Ui\Upload\UploadHandler;
-use Celerik\Ui\Upload\UploadRules;
+use Caelrik\Ui\Components\Form;
+use Caelrik\Ui\Components\Form\Field;
+use Caelrik\Ui\Support\EditorHtml;
+use Caelrik\Ui\Upload\StoredFile;
+use Caelrik\Ui\Upload\UploadedFile;
+use Caelrik\Ui\Upload\UploadException;
+use Caelrik\Ui\Upload\UploadHandler;
+use Caelrik\Ui\Upload\UploadRules;
 
 /** @var string $path */
 
-$storage = sys_get_temp_dir() . '/celerik-example';
+$storage = sys_get_temp_dir() . '/caelrik-example';
 $uploadRules = [
     'cover' => UploadRules::images()->maxSize('2M'),
     'attachments' => UploadRules::documents()->maxSize('5M')->maxFiles(3),

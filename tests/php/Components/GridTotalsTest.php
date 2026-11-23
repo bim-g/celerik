@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Celerik\Ui\Tests\Components;
+namespace Caelrik\Ui\Tests\Components;
 
-use Celerik\Ui\Components\Grid;
-use Celerik\Ui\Components\Grid\Column;
-use Celerik\Ui\Data\Aggregate;
-use Celerik\Ui\Data\ArrayDataSource;
-use Celerik\Ui\Data\DataRequest;
+use Caelrik\Ui\Components\Grid;
+use Caelrik\Ui\Components\Grid\Column;
+use Caelrik\Ui\Data\Aggregate;
+use Caelrik\Ui\Data\ArrayDataSource;
+use Caelrik\Ui\Data\DataRequest;
 use InvalidArgumentException;
 use LogicException;
 use PHPUnit\Framework\TestCase;
@@ -79,11 +79,11 @@ final class GridTotalsTest extends TestCase
         $html = $this->grid()->rows(self::ROWS)->render();
 
         self::assertStringContainsString(
-            '<td class="celerik-grid-total" data-celerik-total="amount"><span class="celerik-grid-total-label">Total'
-            . '</span> <span class="celerik-grid-total-value">4,950.50</span></td>',
+            '<td class="caelrik-grid-total" data-caelrik-total="amount"><span class="caelrik-grid-total-label">Total'
+            . '</span> <span class="caelrik-grid-total-value">4,950.50</span></td>',
             $html,
         );
-        self::assertStringContainsString('<span class="celerik-grid-total-value">2.5</span>', $html);
+        self::assertStringContainsString('<span class="caelrik-grid-total-value">2.5</span>', $html);
         preg_match_all('/<tr><td>([^<]*)<\/td><td>(\w+)<\/td>/', $html, $rows);
         self::assertSame(['', 'Design', 'Design', 'Sales', 'Sales'], $rows[1]);
         self::assertStringContainsString('<td data-value="1200.5">1200.5</td>', $html);
@@ -93,7 +93,7 @@ final class GridTotalsTest extends TestCase
     {
         $html = $this->grid()->url('/expenses')->render();
 
-        self::assertStringContainsString('<td class="celerik-grid-total" data-celerik-total="amount"></td>', $html);
+        self::assertStringContainsString('<td class="caelrik-grid-total" data-caelrik-total="amount"></td>', $html);
     }
 
     public function testNoTotalsNoFooter(): void

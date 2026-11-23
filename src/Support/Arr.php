@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Celerik\Ui\Support;
+namespace Caelrik\Ui\Support;
 
 /**
  * Dot-notation helpers for row arrays (`user.name` reads `$row['user']['name']`).

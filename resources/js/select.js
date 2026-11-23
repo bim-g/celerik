@@ -9,8 +9,8 @@ TomSelect.define('remove_button', removeButton);
 // Searchable selects (Field::searchable(), Field::remote()). The original <select> stays
 // in the form, hidden: it submits the value, and Parsley validates it.
 export function initSelects(form) {
-  return [...form.querySelectorAll('select[data-celerik-select]')].map((select) => {
-    const options = JSON.parse(select.getAttribute('data-celerik-select') || '{}');
+  return [...form.querySelectorAll('select[data-caelrik-select]')].map((select) => {
+    const options = JSON.parse(select.getAttribute('data-caelrik-select') || '{}');
     const tomSelect = new TomSelect(select, buildSelectConfig(select, options));
 
     // Help and error texts describe the search box, which has the focus.

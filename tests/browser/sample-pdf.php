@@ -11,14 +11,14 @@ declare(strict_types=1);
 /**
  * @param list<array{title: string, lines: list<string>}> $pages
  */
-function celerik_sample_pdf(string $title, array $pages): string
+function caelrik_sample_pdf(string $title, array $pages): string
 {
     $escape = static fn (string $text): string => strtr($text, ['\\' => '\\\\', '(' => '\\(', ')' => '\\)']);
     $objects = [];
     $objects[1] = '<< /Type /Catalog /Pages 2 0 R >>';
     $objects[3] = '<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>';
     $objects[4] = '<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding >>';
-    $objects[5] = sprintf('<< /Title (%s) /Producer (Celerik UI tests) >>', $escape($title));
+    $objects[5] = sprintf('<< /Title (%s) /Producer (Caelrik UI tests) >>', $escape($title));
     $kids = [];
     $next = 6;
     foreach ($pages as $page) {
@@ -61,23 +61,23 @@ function celerik_sample_pdf(string $title, array $pages): string
     );
 }
 
-function celerik_sample_report(): string
+function caelrik_sample_report(): string
 {
     $pages = [];
     $topics = ['Summary', 'Sales by region', 'Outlook'];
     foreach ($topics as $index => $topic) {
         $lines = [];
         for ($line = 1; $line <= 24; $line++) {
-            $lines[] = sprintf('%s, line %d: Celerik UI draws this page with PDF.js.', $topic, $line);
+            $lines[] = sprintf('%s, line %d: Caelrik UI draws this page with PDF.js.', $topic, $line);
         }
         $pages[] = ['title' => sprintf('Page %d. %s', $index + 1, $topic), 'lines' => $lines];
     }
 
-    return celerik_sample_pdf('Annual report 2026', $pages);
+    return caelrik_sample_pdf('Annual report 2026', $pages);
 }
 
 if (PHP_SAPI === 'cli' && realpath($_SERVER['SCRIPT_FILENAME'] ?? '') === __FILE__) {
     $target = $argv[1] ?? 'sample.pdf';
-    file_put_contents($target, celerik_sample_report());
+    file_put_contents($target, caelrik_sample_report());
     echo "Wrote $target\n";
 }

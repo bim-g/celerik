@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Celerik\Ui\Components;
+namespace Caelrik\Ui\Components;
 
-use Celerik\Ui\Component;
-use Celerik\Ui\Support\Html;
-use Celerik\Ui\Support\Url;
+use Caelrik\Ui\Component;
+use Caelrik\Ui\Support\Html;
+use Caelrik\Ui\Support\Url;
 use LogicException;
 
 /**
@@ -84,39 +84,39 @@ final class UserMenu extends Component
         }
 
         $picture = $this->avatar !== null
-            ? Html::tag('img', ['class' => 'celerik-usermenu-avatar', 'src' => $this->avatar, 'alt' => ''])
+            ? Html::tag('img', ['class' => 'caelrik-usermenu-avatar', 'src' => $this->avatar, 'alt' => ''])
             : Html::tag(
                 'span',
-                ['class' => 'celerik-usermenu-avatar celerik-usermenu-initials', 'aria-hidden' => 'true'],
+                ['class' => 'caelrik-usermenu-avatar caelrik-usermenu-initials', 'aria-hidden' => 'true'],
                 Html::escape(self::initials($this->userName)),
             );
-        $summary = Html::tag('summary', ['class' => 'btn celerik-usermenu-toggle'], $picture . Html::tag(
+        $summary = Html::tag('summary', ['class' => 'btn caelrik-usermenu-toggle'], $picture . Html::tag(
             'span',
-            ['class' => 'celerik-usermenu-name'],
+            ['class' => 'caelrik-usermenu-name'],
             Html::escape($this->userName),
         ));
 
         $items = '';
         foreach ($this->items as $item) {
             $items .= match ($item['type']) {
-                'divider' => Html::tag('li', ['class' => 'celerik-usermenu-divider', 'aria-hidden' => 'true'], ''),
+                'divider' => Html::tag('li', ['class' => 'caelrik-usermenu-divider', 'aria-hidden' => 'true'], ''),
                 'action' => Html::tag('li', [], $item['action']->render()),
                 default => Html::tag('li', [], Html::tag('a', [
-                    'class' => 'celerik-usermenu-item',
+                    'class' => 'caelrik-usermenu-item',
                     'href' => $item['url'],
                 ], Html::escape($item['label']))),
             };
         }
         $detail = $this->detail === null
             ? ''
-            : Html::tag('p', ['class' => 'celerik-usermenu-detail'], Html::escape($this->detail));
-        $panel = Html::tag('div', ['class' => 'celerik-usermenu-panel'], $detail . Html::tag(
+            : Html::tag('p', ['class' => 'caelrik-usermenu-detail'], Html::escape($this->detail));
+        $panel = Html::tag('div', ['class' => 'caelrik-usermenu-panel'], $detail . Html::tag(
             'ul',
             ['class' => 'list-unstyled mb-0'],
             $items,
         ));
 
-        return Html::tag('details', $this->rootAttributes(['celerik-usermenu']), $summary . $panel);
+        return Html::tag('details', $this->rootAttributes(['caelrik-usermenu']), $summary . $panel);
     }
 
     /**

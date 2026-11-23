@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Celerik\Ui\Tests\Components;
+namespace Caelrik\Ui\Tests\Components;
 
-use Celerik\Ui\Components\Gantt;
+use Caelrik\Ui\Components\Gantt;
 use DateTimeImmutable;
 use InvalidArgumentException;
 use LogicException;
@@ -26,13 +26,13 @@ final class GanttTest extends TestCase
         $html = $this->launch()->render();
 
         self::assertStringStartsWith(
-            '<div id="launch" class="celerik-gantt celerik-gantt-week" data-celerik="gantt" data-celerik-options="{}">'
-            . '<p id="launch-label" class="celerik-gantt-label">Launch &lt;v1&gt;</p>'
-            . '<div class="celerik-gantt-scroll" role="region" aria-labelledby="launch-label" tabindex="0">'
-            . '<div class="celerik-gantt-canvas"><table class="celerik-gantt-table" aria-labelledby="launch-label"><thead><tr>'
+            '<div id="launch" class="caelrik-gantt caelrik-gantt-week" data-caelrik="gantt" data-caelrik-options="{}">'
+            . '<p id="launch-label" class="caelrik-gantt-label">Launch &lt;v1&gt;</p>'
+            . '<div class="caelrik-gantt-scroll" role="region" aria-labelledby="launch-label" tabindex="0">'
+            . '<div class="caelrik-gantt-canvas"><table class="caelrik-gantt-table" aria-labelledby="launch-label"><thead><tr>'
             . '<th scope="col">Task</th><th scope="col">Start</th><th scope="col">End</th><th scope="col">Progress</th>'
-            . '<th scope="col">Depends on</th><th scope="col" class="celerik-gantt-timeline"><span class="visually-hidden">'
-            . 'Timeline</span><svg class="celerik-gantt-scale" width="350" height="40" viewBox="0 0 350 40" '
+            . '<th scope="col">Depends on</th><th scope="col" class="caelrik-gantt-timeline"><span class="visually-hidden">'
+            . 'Timeline</span><svg class="caelrik-gantt-scale" width="350" height="40" viewBox="0 0 350 40" '
             . 'aria-hidden="true" focusable="false">',
             $html,
         );
@@ -47,16 +47,16 @@ final class GanttTest extends TestCase
         );
 
         self::assertStringContainsString(
-            '<tr data-task="build" data-depends="design"><th scope="row" class="celerik-gantt-name">Build &lt;api&gt;</th>'
+            '<tr data-task="build" data-depends="design"><th scope="row" class="caelrik-gantt-name">Build &lt;api&gt;</th>'
             . '<td><time datetime="2026-11-16">Nov 16, 2026</time></td><td><time datetime="2026-11-27">Nov 27, 2026</time></td>'
-            . '<td>40%</td><td>Design</td><td class="celerik-gantt-timeline"><svg class="celerik-gantt-row" width="350" '
+            . '<td>40%</td><td>Design</td><td class="caelrik-gantt-timeline"><svg class="caelrik-gantt-row" width="350" '
             . 'height="28" viewBox="0 0 350 28" aria-hidden="true" focusable="false">',
             $html,
         );
         self::assertStringContainsString(
-            '<line class="celerik-gantt-today" x1="185" y1="0" x2="185" y2="28"></line>'
-            . '<rect class="celerik-gantt-bar celerik-gantt-success" x="141" y="6" width="118" height="16" rx="3" '
-            . 'data-task="build"></rect><rect class="celerik-gantt-done celerik-gantt-success" x="141" y="6" '
+            '<line class="caelrik-gantt-today" x1="185" y1="0" x2="185" y2="28"></line>'
+            . '<rect class="caelrik-gantt-bar caelrik-gantt-success" x="141" y="6" width="118" height="16" rx="3" '
+            . 'data-task="build"></rect><rect class="caelrik-gantt-done caelrik-gantt-success" x="141" y="6" '
             . 'width="47.2" height="16" rx="3"></rect>',
             $html,
         );
@@ -64,7 +64,7 @@ final class GanttTest extends TestCase
         self::assertStringContainsString('<tr class="is-milestone" data-task="release" data-depends="build design">', $html);
         self::assertStringContainsString('<td>Milestone</td><td>Build &lt;api&gt;, Design</td>', $html);
         self::assertStringContainsString(
-            '<polygon class="celerik-gantt-milestone celerik-gantt-primary" points="285,6 293,14 285,22 277,14" '
+            '<polygon class="caelrik-gantt-milestone caelrik-gantt-primary" points="285,6 293,14 285,22 277,14" '
             . 'data-task="release">',
             $html,
         );
@@ -80,14 +80,14 @@ final class GanttTest extends TestCase
             ->render();
         // One day before and after; 28 px a day; weekends shaded; no today line.
         self::assertStringContainsString('width="168" height="40"', $day);
-        self::assertStringContainsString('<rect class="celerik-gantt-weekend" x="56" y="0" width="28" height="28">', $day);
+        self::assertStringContainsString('<rect class="caelrik-gantt-weekend" x="56" y="0" width="28" height="28">', $day);
         self::assertStringContainsString('<text x="14" y="33" text-anchor="middle">19</text>', $day);
-        self::assertStringNotContainsString('celerik-gantt-today', $day);
+        self::assertStringNotContainsString('caelrik-gantt-today', $day);
         self::assertStringContainsString('<th scope="col">Tâche</th>', $day);
         self::assertStringContainsString('<time datetime="2026-11-20">Fri 20</time>', $day);
         self::assertStringContainsString('<td>Jalon</td>', $day);
         // A task without a progress has no done part and an empty cell.
-        self::assertStringNotContainsString('celerik-gantt-done', $day);
+        self::assertStringNotContainsString('caelrik-gantt-done', $day);
 
         $month = Gantt::make('m')->label('Roadmap')->scale('month')->today('2027-01-15')
             ->task('a', 'A', '2026-11-16', '2027-01-31')->render();

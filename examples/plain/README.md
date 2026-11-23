@@ -18,4 +18,4 @@ Open <http://localhost:8000>.
 - `theme-builder.php`: the ThemeBuilder at `/theme-builder`, previewing this page's form, grid, tabs and chart (only from this computer). Save keeps the theme in the session; `/?custom=1` shows the example with it (`/custom-theme.css` is `Theme::toCss()`).
 - Dark mode: add `?mode=dark`. The links at the top of the page switch between light, dark and the saved theme.
 - The form posts to `/contact`. Server-side errors are shown with Bootstrap feedback, and the CSRF token is checked with `hash_equals`.
-- Bootstrap and jQuery come from a CDN here. Celerik's own bundle is served from `public/` under `/assets/`.
+- Bootstrap and jQuery come from a CDN here. Caelrik's own bundle is served from `public/` under `/assets/`.

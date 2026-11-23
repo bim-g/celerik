@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Celerik\Ui\Components;
+namespace Caelrik\Ui\Components;
 
-use Celerik\Ui\Component;
-use Celerik\Ui\Support\Html;
-use Celerik\Ui\Support\Url;
+use Caelrik\Ui\Component;
+use Caelrik\Ui\Support\Html;
+use Caelrik\Ui\Support\Url;
 use InvalidArgumentException;
 use LogicException;
 
@@ -173,15 +173,15 @@ final class PdfViewer extends Component
         $titleId = $this->id . '-title';
         $button = fn (string $part, string $text, string $icon): string => Html::tag('button', [
             'type' => 'button',
-            'class' => 'btn btn-sm celerik-action-button btn-outline-secondary celerik-pdf-' . $part,
+            'class' => 'btn btn-sm caelrik-action-button btn-outline-secondary caelrik-pdf-' . $part,
             'aria-label' => $text,
         ], Html::tag('span', ['aria-hidden' => 'true'], $icon));
 
-        $header = Html::tag('div', ['class' => 'celerik-pdf-header'], Html::tag(
+        $header = Html::tag('div', ['class' => 'caelrik-pdf-header'], Html::tag(
             'p',
-            ['id' => $titleId, 'class' => 'celerik-pdf-title'],
+            ['id' => $titleId, 'class' => 'caelrik-pdf-title'],
             Html::escape($this->label),
-        ) . ($this->download ? $this->downloadLink('btn btn-sm celerik-action-button btn-outline-secondary') : ''));
+        ) . ($this->download ? $this->downloadLink('btn btn-sm caelrik-action-button btn-outline-secondary') : ''));
 
         $zooms = '';
         foreach (self::ZOOMS as $zoom) {
@@ -192,51 +192,51 @@ final class PdfViewer extends Component
         }
         $pageId = $this->id . '-page';
         $toolbar = Html::tag('div', [
-            'class' => 'celerik-pdf-toolbar',
+            'class' => 'caelrik-pdf-toolbar',
             'role' => 'group',
             'aria-label' => $labels['toolbar'],
             'hidden' => true,
-        ], Html::tag('div', ['class' => 'celerik-pdf-tools'], $button('previous', $labels['previous'], '‹')
-            . Html::tag('label', ['for' => $pageId, 'class' => 'celerik-pdf-page-label'], Html::escape($labels['page']))
+        ], Html::tag('div', ['class' => 'caelrik-pdf-tools'], $button('previous', $labels['previous'], '‹')
+            . Html::tag('label', ['for' => $pageId, 'class' => 'caelrik-pdf-page-label'], Html::escape($labels['page']))
             . Html::tag('input', [
                 'type' => 'number',
                 'id' => $pageId,
-                'class' => 'form-control form-control-sm celerik-pdf-page-input',
+                'class' => 'form-control form-control-sm caelrik-pdf-page-input',
                 'min' => 1,
                 'value' => $this->page,
                 'inputmode' => 'numeric',
             ])
-            . Html::tag('span', ['class' => 'celerik-pdf-total'], '')
+            . Html::tag('span', ['class' => 'caelrik-pdf-total'], '')
             . $button('next', $labels['next'], '›'))
-            . Html::tag('div', ['class' => 'celerik-pdf-tools'], $button('zoom-out', $labels['zoomOut'], '−')
+            . Html::tag('div', ['class' => 'caelrik-pdf-tools'], $button('zoom-out', $labels['zoomOut'], '−')
             . Html::tag('select', [
-                'class' => 'form-select form-select-sm celerik-pdf-zoom',
+                'class' => 'form-select form-select-sm caelrik-pdf-zoom',
                 'aria-label' => $labels['zoom'],
             ], $zooms)
             . $button('zoom-in', $labels['zoomIn'], '+')));
 
         $viewport = Html::tag('div', [
-            'class' => 'celerik-pdf-viewport',
+            'class' => 'caelrik-pdf-viewport',
             'role' => 'region',
             'aria-label' => strtr($labels['pages'], ['{label}' => $this->label]),
             'tabindex' => 0,
-        ], Html::tag('p', ['class' => 'celerik-pdf-message'], Html::escape($labels['noscript']) . ' '
+        ], Html::tag('p', ['class' => 'caelrik-pdf-message'], Html::escape($labels['noscript']) . ' '
             . $this->downloadLink('')));
 
         return Html::tag(
             'section',
-            array_merge($this->rootAttributes(['celerik-pdf', 'celerik-pdf-' . $this->size]), [
+            array_merge($this->rootAttributes(['caelrik-pdf', 'caelrik-pdf-' . $this->size]), [
                 'aria-labelledby' => $titleId,
             ]),
             $header . $toolbar . $viewport
-                . Html::tag('p', ['class' => 'visually-hidden celerik-pdf-status', 'role' => 'status'], ''),
+                . Html::tag('p', ['class' => 'visually-hidden caelrik-pdf-status', 'role' => 'status'], ''),
         );
     }
 
     private function downloadLink(string $class): string
     {
         return Html::tag('a', [
-            'class' => Html::classes(['celerik-pdf-download', $class]),
+            'class' => Html::classes(['caelrik-pdf-download', $class]),
             'href' => $this->url,
             'download' => true,
         ], Html::escape($this->labels['download']));

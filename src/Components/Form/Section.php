@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Celerik\Ui\Components\Form;
+namespace Caelrik\Ui\Components\Form;
 
-use Celerik\Ui\Support\Html;
+use Caelrik\Ui\Support\Html;
 use Closure;
 use LogicException;
 
@@ -167,11 +167,11 @@ final class Section
         );
 
         if ($this->fieldset) {
-            $legend = Html::tag('legend', ['class' => 'celerik-form-legend'], Html::escape($this->heading));
+            $legend = Html::tag('legend', ['class' => 'caelrik-form-legend'], Html::escape($this->heading));
 
             return Html::tag('fieldset', [
                 'id' => $id,
-                'class' => 'celerik-form-fieldset mb-3',
+                'class' => 'caelrik-form-fieldset mb-3',
                 'aria-describedby' => $descriptionId,
             ], $legend . $description . $content);
         }
@@ -184,14 +184,14 @@ final class Section
             // (and must be the first child of <details>).
             $summary = Html::tag(
                 'summary',
-                ['id' => $headingId, 'class' => 'celerik-form-summary card-body h' . min($level + 3, 6)],
+                ['id' => $headingId, 'class' => 'caelrik-form-summary card-body h' . min($level + 3, 6)],
                 Html::escape($this->heading),
             );
             $open = !$this->collapsed || $this->hasErrors($hasError);
 
             return Html::tag(
                 'details',
-                ['id' => $id, 'class' => 'card mb-4 celerik-form-section', 'open' => $open],
+                ['id' => $id, 'class' => 'card mb-4 caelrik-form-section', 'open' => $open],
                 $summary . Html::tag('div', [
                     'class' => 'card-body pt-0',
                     'role' => 'group',
@@ -213,7 +213,7 @@ final class Section
 
         return Html::tag('section', [
             'id' => $id,
-            'class' => 'card mb-4 celerik-form-section',
+            'class' => 'card mb-4 caelrik-form-section',
             'aria-labelledby' => $headingId,
             'aria-describedby' => $descriptionId,
         ], Html::tag('div', ['class' => 'card-body'], $heading . $body));

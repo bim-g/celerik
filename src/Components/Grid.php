@@ -2,20 +2,20 @@
 
 declare(strict_types=1);
 
-namespace Celerik\Ui\Components;
+namespace Caelrik\Ui\Components;
 
-use Celerik\Ui\Component;
-use Celerik\Ui\Components\Grid\Column;
-use Celerik\Ui\Components\Grid\Editor;
-use Celerik\Ui\Components\Grid\Filter;
-use Celerik\Ui\Data\Aggregate;
-use Celerik\Ui\Data\CellEdit;
-use Celerik\Ui\Data\DataRequest;
-use Celerik\Ui\Data\DataResult;
-use Celerik\Ui\Data\DataSourceInterface;
-use Celerik\Ui\Data\InvalidCellEdit;
-use Celerik\Ui\Support\Arr;
-use Celerik\Ui\Support\Html;
+use Caelrik\Ui\Component;
+use Caelrik\Ui\Components\Grid\Column;
+use Caelrik\Ui\Components\Grid\Editor;
+use Caelrik\Ui\Components\Grid\Filter;
+use Caelrik\Ui\Data\Aggregate;
+use Caelrik\Ui\Data\CellEdit;
+use Caelrik\Ui\Data\DataRequest;
+use Caelrik\Ui\Data\DataResult;
+use Caelrik\Ui\Data\DataSourceInterface;
+use Caelrik\Ui\Data\InvalidCellEdit;
+use Caelrik\Ui\Support\Arr;
+use Caelrik\Ui\Support\Html;
 use InvalidArgumentException;
 use LogicException;
 
@@ -568,11 +568,11 @@ final class Grid extends Component
 
         $headers = '';
         if ($this->selectKey !== null) {
-            $headers .= Html::tag('th', ['scope' => 'col', 'class' => 'celerik-grid-select'], Html::tag('input', [
+            $headers .= Html::tag('th', ['scope' => 'col', 'class' => 'caelrik-grid-select'], Html::tag('input', [
                 'type' => 'checkbox',
                 'class' => 'form-check-input',
                 'aria-label' => $this->labels['selectAll'],
-                'data-celerik-select-all' => true,
+                'data-caelrik-select-all' => true,
             ]));
         }
         foreach ($this->columns as $column) {
@@ -580,7 +580,7 @@ final class Grid extends Component
         }
         if ($this->actions !== []) {
             $this->assertActionFields();
-            $header = ['scope' => 'col', 'class' => 'celerik-grid-actions'];
+            $header = ['scope' => 'col', 'class' => 'caelrik-grid-actions'];
             $headers .= Html::tag('th', $header, Html::escape($this->labels['actions']));
         }
 
@@ -589,7 +589,7 @@ final class Grid extends Component
             foreach ($this->sortedRows() as $row) {
                 $cells = $this->selectKey === null ? '' : Html::tag(
                     'td',
-                    ['class' => 'celerik-grid-select'],
+                    ['class' => 'caelrik-grid-select'],
                     $this->renderCheckbox($row),
                 );
                 foreach ($this->columns as $column) {
@@ -598,7 +598,7 @@ final class Grid extends Component
                     $editor = $column->getEditor();
                     if ($editor !== null) {
                         $data ??= $editor->editValue($value);
-                        $attributes = ['class' => 'celerik-grid-editable', 'data-value' => $data];
+                        $attributes = ['class' => 'caelrik-grid-editable', 'data-value' => $data];
                         $cells .= Html::tag('td', $attributes, $this->renderEditable($column, $editor, $row, $value));
                         continue;
                     }
@@ -606,7 +606,7 @@ final class Grid extends Component
                     $cells .= Html::tag('td', $attributes, Html::escape(Arr::toText($value)));
                 }
                 if ($this->actions !== []) {
-                    $cells .= Html::tag('td', ['class' => 'celerik-grid-actions'], $this->renderActions($row));
+                    $cells .= Html::tag('td', ['class' => 'caelrik-grid-actions'], $this->renderActions($row));
                 }
                 $body .= Html::tag('tr', [], $cells);
             }
@@ -614,7 +614,7 @@ final class Grid extends Component
 
         return $filters . $bulk . Html::tag(
             'table',
-            $this->rootAttributes(['table', 'table-striped', 'table-hover', 'w-100', 'celerik-grid']),
+            $this->rootAttributes(['table', 'table-striped', 'table-hover', 'w-100', 'caelrik-grid']),
             $caption . Html::tag('thead', [], Html::tag('tr', [], $headers)) . Html::tag('tbody', [], $body)
             . $this->renderFooter(),
         ) . $this->renderActionModals();
@@ -643,7 +643,7 @@ final class Grid extends Component
             return '';
         }
 
-        $cells = $this->selectKey === null ? '' : Html::tag('td', ['class' => 'celerik-grid-select'], '');
+        $cells = $this->selectKey === null ? '' : Html::tag('td', ['class' => 'caelrik-grid-select'], '');
         foreach ($this->columns as $column) {
             $function = $column->getTotal();
             if ($function === null) {
@@ -657,12 +657,12 @@ final class Grid extends Component
             );
             $cells .= Html::tag(
                 'td',
-                ['class' => 'celerik-grid-total', 'data-celerik-total' => $field],
+                ['class' => 'caelrik-grid-total', 'data-caelrik-total' => $field],
                 $this->renderTotal($column, $value),
             );
         }
         if ($this->actions !== []) {
-            $cells .= Html::tag('td', ['class' => 'celerik-grid-actions'], '');
+            $cells .= Html::tag('td', ['class' => 'caelrik-grid-actions'], '');
         }
 
         return Html::tag('tfoot', [], Html::tag('tr', [], $cells));
@@ -685,8 +685,8 @@ final class Grid extends Component
             $this->labels['thousands'],
         );
 
-        return Html::tag('span', ['class' => 'celerik-grid-total-label'], Html::escape($this->labels[$function]))
-            . ' ' . Html::tag('span', ['class' => 'celerik-grid-total-value'], Html::escape($text));
+        return Html::tag('span', ['class' => 'caelrik-grid-total-label'], Html::escape($this->labels[$function]))
+            . ' ' . Html::tag('span', ['class' => 'caelrik-grid-total-value'], Html::escape($text));
     }
 
     /**
@@ -702,12 +702,12 @@ final class Grid extends Component
             '{row}' => Arr::toText(Arr::get($row, $this->rowTitleField())),
         ]);
 
-        return Html::tag('span', ['class' => 'celerik-grid-value'], Html::escape($this->editText($editor, $value)))
+        return Html::tag('span', ['class' => 'caelrik-grid-value'], Html::escape($this->editText($editor, $value)))
             . Html::tag('button', [
                 'type' => 'button',
-                'class' => 'btn btn-link btn-sm celerik-grid-edit',
+                'class' => 'btn btn-link btn-sm caelrik-grid-edit',
                 'aria-label' => $name,
-                'data-celerik-edit' => $column->getField(),
+                'data-caelrik-edit' => $column->getField(),
             ], self::PENCIL);
     }
 
@@ -832,7 +832,7 @@ final class Grid extends Component
             $buttons .= $action->render($row, small: true, ariaLabel: $ariaLabel, modal: false);
         }
 
-        return Html::tag('div', ['class' => 'celerik-grid-action-list'], $buttons);
+        return Html::tag('div', ['class' => 'caelrik-grid-action-list'], $buttons);
     }
 
     /**
@@ -842,17 +842,17 @@ final class Grid extends Component
     private function renderEmpty(): string
     {
         $title = Html::escape($this->emptyTitle ?? $this->labels['empty']);
-        $html = Html::tag('p', ['class' => 'celerik-grid-empty-title'], $title);
+        $html = Html::tag('p', ['class' => 'caelrik-grid-empty-title'], $title);
         if ($this->emptyDescription !== null) {
             $description = Html::escape($this->emptyDescription);
-            $html .= Html::tag('p', ['class' => 'celerik-grid-empty-description'], $description);
+            $html .= Html::tag('p', ['class' => 'caelrik-grid-empty-description'], $description);
         }
         if ($this->emptyAction !== null) {
             $action = $this->emptyAction->render(small: true);
-            $html .= Html::tag('div', ['class' => 'celerik-grid-empty-action'], $action);
+            $html .= Html::tag('div', ['class' => 'caelrik-grid-empty-action'], $action);
         }
 
-        return Html::tag('div', ['class' => 'celerik-grid-empty'], $html);
+        return Html::tag('div', ['class' => 'caelrik-grid-empty'], $html);
     }
 
     /**
@@ -862,15 +862,15 @@ final class Grid extends Component
     {
         $button = Html::tag('button', [
             'type' => 'button',
-            'class' => 'btn btn-sm btn-outline-secondary celerik-action-button',
-            'data-celerik-grid-reset' => true,
+            'class' => 'btn btn-sm btn-outline-secondary caelrik-action-button',
+            'data-caelrik-grid-reset' => true,
         ], Html::escape($this->labels['reset']));
 
         return Html::tag(
             'div',
-            ['class' => 'celerik-grid-empty'],
-            Html::tag('p', ['class' => 'celerik-grid-empty-title'], Html::escape($this->labels['noMatches']))
-            . Html::tag('div', ['class' => 'celerik-grid-empty-action'], $button),
+            ['class' => 'caelrik-grid-empty'],
+            Html::tag('p', ['class' => 'caelrik-grid-empty-title'], Html::escape($this->labels['noMatches']))
+            . Html::tag('div', ['class' => 'caelrik-grid-empty-action'], $button),
         );
     }
 
@@ -891,7 +891,7 @@ final class Grid extends Component
             'value' => Arr::toText(Arr::get($row, (string) $this->selectKey)),
             'form' => $this->bulkActions === [] ? null : $this->id . '-bulk',
             'aria-label' => trim($this->labels['select'] . ' ' . $title),
-            'data-celerik-select' => true,
+            'data-caelrik-select' => true,
         ]);
     }
 
@@ -912,17 +912,17 @@ final class Grid extends Component
         }
         $status = Html::tag(
             'span',
-            ['class' => 'celerik-grid-selected', 'role' => 'status', 'data-celerik-selected' => true],
+            ['class' => 'caelrik-grid-selected', 'role' => 'status', 'data-caelrik-selected' => true],
             Html::escape($this->labels['noneSelected']),
         );
 
         return Html::tag('form', [
             'id' => $this->id . '-bulk',
             'method' => 'post',
-            'class' => 'celerik-action celerik-grid-bulk d-flex flex-wrap align-items-center gap-2 mb-3',
+            'class' => 'caelrik-action caelrik-grid-bulk d-flex flex-wrap align-items-center gap-2 mb-3',
             'role' => 'group',
             'aria-label' => $this->labels['bulkActions'],
-            'data-celerik-bulk' => $this->selectName,
+            'data-caelrik-bulk' => $this->selectName,
         ], $csrf . $status . $buttons);
     }
 
@@ -1036,7 +1036,7 @@ final class Grid extends Component
             $field = $column->getField();
             $id = $this->id . '-filter-' . str_replace('.', '-', $field);
             $title = Html::escape($column->getTitle());
-            $data = ['data-celerik-filter' => $field];
+            $data = ['data-caelrik-filter' => $field];
 
             if ($filter->getType() === Filter::DATE_RANGE) {
                 // A group named by the column title, with a From and a To date.
@@ -1046,7 +1046,7 @@ final class Grid extends Component
                     $label = Html::escape($this->labels[$end]);
                     $input = $data + ['type' => 'date', 'class' => 'form-control', 'id' => $endId];
                     $inputs .= Html::tag('label', ['class' => 'visually-hidden', 'for' => $endId], $label)
-                        . Html::tag('input', $input + ['data-celerik-filter-end' => $end]);
+                        . Html::tag('input', $input + ['data-caelrik-filter-end' => $end]);
                 }
                 $legend = Html::tag('legend', ['class' => 'form-label fs-6 mb-2'], $title);
                 $group = Html::tag('div', ['class' => 'input-group'], $inputs);
@@ -1078,12 +1078,12 @@ final class Grid extends Component
 
         $clear = Html::tag('div', ['class' => 'col-auto'], Html::tag(
             'button',
-            ['type' => 'button', 'class' => 'btn btn-outline-secondary', 'data-celerik-filter-clear' => true],
+            ['type' => 'button', 'class' => 'btn btn-outline-secondary', 'data-caelrik-filter-clear' => true],
             Html::escape($this->labels['clear']),
         ));
 
         return Html::tag('div', [
-            'class' => 'celerik-grid-filters row g-3 align-items-end mb-3',
+            'class' => 'caelrik-grid-filters row g-3 align-items-end mb-3',
             'id' => $this->id . '-filters',
             'role' => 'search',
             'aria-label' => $this->labels['filters'],

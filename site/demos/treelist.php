@@ -1,8 +1,8 @@
 <?php
 
-use Celerik\Ui\Components\Action;
-use Celerik\Ui\Components\Grid\Column;
-use Celerik\Ui\Components\TreeList;
+use Caelrik\Ui\Components\Action;
+use Caelrik\Ui\Components\Grid\Column;
+use Caelrik\Ui\Components\TreeList;
 
 // The demo answers requests in the browser: nothing is saved.
 return TreeList::make('roadmap')

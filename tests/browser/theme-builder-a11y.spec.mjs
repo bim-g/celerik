@@ -28,7 +28,7 @@ test('keyboard only: edit a color, switch the preview mode, undo, export', async
   await page.keyboard.press('Control+A');
   await page.keyboard.type('#0f766e');
   await page.keyboard.press('Tab'); // "change": one undo step
-  await expect.poll(() => page.locator('#builder .celerik-theme-builder__canvas .btn-primary').first()
+  await expect.poll(() => page.locator('#builder .caelrik-theme-builder__canvas .btn-primary').first()
     .evaluate((button) => getComputedStyle(button).backgroundColor)).toBe('rgb(15, 118, 110)');
 
   // The color pickers are skipped (tabindex -1): every color has a hex field instead.
@@ -39,9 +39,9 @@ test('keyboard only: edit a color, switch the preview mode, undo, export', async
   await tabTo(page, light);
   await page.keyboard.press('ArrowRight');
   await expect(page.getByRole('radio', { name: 'Dark' })).toBeChecked();
-  await expect(page.locator('#builder .celerik-theme-builder__canvas')).toHaveAttribute('data-bs-theme', 'dark');
+  await expect(page.locator('#builder .caelrik-theme-builder__canvas')).toHaveAttribute('data-bs-theme', 'dark');
 
-  const undo = page.locator('#builder .celerik-theme-builder__history').getByRole('button', { name: 'Undo' });
+  const undo = page.locator('#builder .caelrik-theme-builder__history').getByRole('button', { name: 'Undo' });
   await undo.focus();
   await page.keyboard.press('Enter');
   await expect(primary).toHaveValue('#0d6efd');
@@ -71,7 +71,7 @@ test.describe('forced colors', () => {
     for (let i = 0; i < 60; i += 1) {
       const result = await page.evaluate(() => {
         const element = document.activeElement;
-        if (!element?.closest('.celerik-theme-builder__controls')) {
+        if (!element?.closest('.caelrik-theme-builder__controls')) {
           return null;
         }
         const style = getComputedStyle(element);
@@ -97,7 +97,7 @@ for (const base of THEMES) {
       await page.getByRole('textbox', { name: 'Primary', exact: true }).nth(1).fill('#5eead4');
       await page.getByRole('textbox', { name: 'Primary, hovered', exact: true }).nth(1).fill('#99f6e4');
       await page.getByRole('textbox', { name: 'Text on primary', exact: true }).nth(1).fill('#042f2e');
-      await expect(page.locator('#builder .celerik-theme-builder__summary')).toHaveText('Every pair meets its minimum.');
+      await expect(page.locator('#builder .caelrik-theme-builder__summary')).toHaveText('Every pair meets its minimum.');
 
       const [download] = await Promise.all([page.waitForEvent('download'), page.getByRole('button', { name: 'Download CSS' }).click()]);
       const css = await (await import('node:fs/promises')).readFile(await download.path(), 'utf8');

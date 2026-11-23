@@ -6,6 +6,26 @@ The same version is published on Packagist (`celerik/ui`) and npm (`@celerikui/u
 
 ## [Unreleased]
 
+### Changed
+
+- **Celerik UI is now Caelrik UI** ([#185](https://github.com/kivudesign/celerik/issues/185)), a name of its own, apart from other companies and products. This is a breaking change, with no aliases: every name below changes at once.
+
+  | Before | After |
+  |---|---|
+  | `composer require celerik/ui` | `composer require caelrik/ui` |
+  | `npm install @celerikui/ui` | `npm install @caelrik/ui` |
+  | `Celerik\Ui\…` (PHP namespace) | `Caelrik\Ui\…` |
+  | `public/celerik.js`, `public/celerik.css`, `resources/scss/celerik.scss` | `caelrik.js`, `caelrik.css`, `caelrik.scss` |
+  | CSS classes `celerik-*`, CSS custom properties `--celerik-*` | `caelrik-*`, `--caelrik-*` |
+  | `data-celerik`, `data-celerik-options` and the other `data-celerik-*` attributes | `data-caelrik*` |
+  | Events `celerik:*` (`celerik:ready`, `celerik:change`…) | `caelrik:*` |
+  | `window.Celerik` | `window.Caelrik` |
+  | Laravel: `CelerikServiceProvider`, `<x-celerik-assets />`, `<x-celerik />`, `vendor:publish --tag=celerik-assets` (and `celerik-elfinder`) | `CaelrikServiceProvider`, `<x-caelrik-assets />`, `<x-caelrik />`, `--tag=caelrik-assets` (`caelrik-elfinder`) |
+  | Symfony: `CelerikUiBundle`, `CelerikTwigExtension`, `{{ celerik_assets() }}`, `{{ celerik() }}` | `CaelrikUiBundle`, `CaelrikTwigExtension`, `{{ caelrik_assets() }}`, `{{ caelrik() }}` |
+  | `vendor/bin/celerik-theme` | `vendor/bin/caelrik-theme` |
+
+  To migrate, replace `Celerik\Ui` with `Caelrik\Ui` in PHP, and `celerik` with `caelrik` in your own CSS, JavaScript and templates where they use these names. `Assets::cdnUrl()` now points to `@caelrik/ui`, which starts at 0.7.0. The GitHub repository and the documentation site keep their addresses until the repository is renamed; GitHub redirects the old ones then. The old packages stay published at 0.6.0.
+
 ## [0.6.0] - 2026-11-23
 
 Phase 8 (Visualization, media and specialized editors): gauges and sparklines, a Gantt chart, a map, an org chart and flowchart diagrams; QR codes and barcodes; a PDF viewer and a media player; and form fields for signatures, Markdown, code and picture editing. The charts, diagrams and codes are drawn by PHP as SVG with text alternatives; PDF.js, Plyr, CodeMirror, marked and DOMPurify are loaded only by pages that use them. It also fixes `Url::safe()`, which let `javascript:0` and `data:1` through, and `Html::tag()` closing `<track>`. Code fields need the page's nonce under a strict Content Security Policy (see the CSP guide).

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Celerik\Ui\Tests\Adapters\Laravel;
+namespace Caelrik\Ui\Tests\Adapters\Laravel;
 
 use Illuminate\Database\Eloquent\Model;
 

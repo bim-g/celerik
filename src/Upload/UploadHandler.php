@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Celerik\Ui\Upload;
+namespace Caelrik\Ui\Upload;
 
 use finfo;
 use RuntimeException;

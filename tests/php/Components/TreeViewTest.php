@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Celerik\Ui\Tests\Components;
+namespace Caelrik\Ui\Tests\Components;
 
-use Celerik\Ui\Components\TreeView;
+use Caelrik\Ui\Components\TreeView;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 
@@ -20,15 +20,15 @@ final class TreeViewTest extends TestCase
             ['label' => 'Tabbed', 'href' => "java\tscript:alert(1)"],
         ])->render();
 
-        self::assertStringContainsString('<div id="site" class="celerik-tree" data-celerik="treeview"', $html);
-        self::assertStringContainsString('<ul class="celerik-tree-root" aria-label="Site">', $html);
+        self::assertStringContainsString('<div id="site" class="caelrik-tree" data-caelrik="treeview"', $html);
+        self::assertStringContainsString('<ul class="caelrik-tree-root" aria-label="Site">', $html);
         self::assertStringContainsString(
-            '<li class="celerik-tree-node" data-expanded="true"><div class="celerik-tree-row">'
-            . '<a class="celerik-tree-label" href="/guide">Guide &lt;now&gt;</a></div><ul class="celerik-tree-group">',
+            '<li class="caelrik-tree-node" data-expanded="true"><div class="caelrik-tree-row">'
+            . '<a class="caelrik-tree-label" href="/guide">Guide &lt;now&gt;</a></div><ul class="caelrik-tree-group">',
             $html,
         );
         self::assertStringContainsString('href="/guide/install?a=1&amp;b=2"', $html);
-        self::assertStringContainsString('<span class="celerik-tree-label">Bad</span>', $html);
+        self::assertStringContainsString('<span class="caelrik-tree-label">Bad</span>', $html);
         self::assertStringNotContainsString('script:', $html);
     }
 
@@ -42,15 +42,15 @@ final class TreeViewTest extends TestCase
 
         $checkable = TreeView::make('f')->checkable('folders')->nodes($nodes)->render();
         self::assertStringContainsString(
-            '<input type="checkbox" class="form-check-input celerik-tree-input" name="folders[]" value="2" checked>',
+            '<input type="checkbox" class="form-check-input caelrik-tree-input" name="folders[]" value="2" checked>',
             $checkable,
         );
         self::assertStringContainsString('name="folders[]" value="3" disabled>', $checkable);
         self::assertStringContainsString('data-disabled', $checkable);
-        self::assertStringContainsString('<span class="celerik-tree-label">No id</span>', $checkable);
+        self::assertStringContainsString('<span class="caelrik-tree-label">No id</span>', $checkable);
 
         $selectable = TreeView::make('p')->selectable('folder')->nodes([['id' => 'a', 'label' => 'A', 'selected' => true]]);
-        self::assertStringContainsString('<input type="radio" class="form-check-input celerik-tree-input" name="folder" value="a" checked>', $selectable->render());
+        self::assertStringContainsString('<input type="radio" class="form-check-input caelrik-tree-input" name="folder" value="a" checked>', $selectable->render());
         self::assertSame(['mode' => 'single', 'name' => 'folder'], $selectable->toArray());
     }
 

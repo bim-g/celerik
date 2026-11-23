@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Celerik\Ui\Components;
+namespace Caelrik\Ui\Components;
 
-use Celerik\Ui\Component;
-use Celerik\Ui\Support\Html;
-use Celerik\Ui\Theme\Contrast;
-use Celerik\Ui\Theme\ContrastResult;
-use Celerik\Ui\Theme\Theme;
+use Caelrik\Ui\Component;
+use Caelrik\Ui\Support\Html;
+use Caelrik\Ui\Theme\Contrast;
+use Caelrik\Ui\Theme\ContrastResult;
+use Caelrik\Ui\Theme\Theme;
 use InvalidArgumentException;
 use Stringable;
 
@@ -262,14 +262,14 @@ final class ThemeBuilder extends Component
             . $this->actions();
 
         $form = Html::tag('form', [
-            'class' => 'celerik-theme-builder__controls',
+            'class' => 'caelrik-theme-builder__controls',
             'method' => 'post',
             'action' => $this->saveUrl ?? '',
             'aria-labelledby' => $titleId,
             'novalidate' => true,
         ], $controls);
 
-        return Html::tag('div', $this->rootAttributes(['celerik-theme-builder']), $form . $this->previewArea());
+        return Html::tag('div', $this->rootAttributes(['caelrik-theme-builder']), $form . $this->previewArea());
     }
 
     private function generalFields(Theme $theme): string
@@ -292,7 +292,7 @@ final class ThemeBuilder extends Component
         foreach ($theme->palette($mode) as $token => $color) {
             $id = sprintf('%s-%s-%s', $this->id, $mode, $token);
             $label = $this->labels[$token] ?? self::TOKENS[$token][0];
-            $fields .= Html::tag('div', ['class' => 'mb-2 celerik-theme-builder__color'], Html::tag(
+            $fields .= Html::tag('div', ['class' => 'mb-2 caelrik-theme-builder__color'], Html::tag(
                 'label',
                 ['for' => $id, 'class' => 'form-label', 'id' => $id . '-label'],
                 Html::escape($label),
@@ -302,7 +302,7 @@ final class ThemeBuilder extends Component
                 'class' => 'form-control form-control-color',
                 'value' => $color,
                 'aria-label' => $label . ', ' . ($this->labels['picker'] ?? self::LABELS['picker']),
-                'data-celerik-token' => $mode . '.' . $token,
+                'data-caelrik-token' => $mode . '.' . $token,
                 'tabindex' => '-1',
             ]) . Html::tag('input', [
                 'type' => 'text',
@@ -316,7 +316,7 @@ final class ThemeBuilder extends Component
                 'spellcheck' => 'false',
                 'autocomplete' => 'off',
                 'aria-describedby' => $id . '-help',
-                'data-celerik-token' => $mode . '.' . $token,
+                'data-caelrik-token' => $mode . '.' . $token,
             ])) . Html::tag(
                 'div',
                 ['id' => $id . '-help', 'class' => 'form-text'],
@@ -326,7 +326,7 @@ final class ThemeBuilder extends Component
 
         return Html::tag(
             'fieldset',
-            ['class' => 'mb-3 celerik-theme-builder__palette', 'data-celerik-mode' => $mode],
+            ['class' => 'mb-3 caelrik-theme-builder__palette', 'data-caelrik-mode' => $mode],
             Html::tag('legend', ['class' => 'h6'], $this->text($mode)) . $fields,
         );
     }
@@ -413,11 +413,11 @@ final class ThemeBuilder extends Component
         $summaryClass = $failures === 0 ? 'text-success-emphasis' : 'text-danger-emphasis';
 
         return Html::tag('section', [
-            'class' => 'mb-3 celerik-theme-builder__report',
+            'class' => 'mb-3 caelrik-theme-builder__report',
             'aria-labelledby' => $this->id . '-report-title',
         ], Html::tag('h3', ['id' => $this->id . '-report-title', 'class' => 'h6'], $this->text('report'))
             . Html::tag('p', [
-                'class' => 'celerik-theme-builder__summary ' . $summaryClass,
+                'class' => 'caelrik-theme-builder__summary ' . $summaryClass,
                 'role' => 'status',
             ], Html::escape($summary))
             . Html::tag('ul', ['class' => 'list-unstyled small mb-0'], $items));
@@ -428,8 +428,8 @@ final class ThemeBuilder extends Component
         $passes = $result->passes();
 
         return Html::tag('li', [
-            'class' => 'celerik-theme-builder__pair ' . ($passes ? 'is-pass' : 'is-fail'),
-            'data-celerik-pair' => $result->mode . '.' . $result->foreground . '.' . $result->background,
+            'class' => 'caelrik-theme-builder__pair ' . ($passes ? 'is-pass' : 'is-fail'),
+            'data-caelrik-pair' => $result->mode . '.' . $result->foreground . '.' . $result->background,
         ], Html::tag(
             'span',
             ['class' => 'badge ' . ($passes ? 'text-bg-success' : 'text-bg-danger')],
@@ -449,7 +449,7 @@ final class ThemeBuilder extends Component
         $button = fn (string $action, string $label): string => Html::tag('button', [
             'type' => 'button',
             'class' => 'btn btn-secondary',
-            'data-celerik-action' => $action,
+            'data-caelrik-action' => $action,
         ], $this->text($label));
         $importLabel = Html::tag(
             'label',
@@ -461,7 +461,7 @@ final class ThemeBuilder extends Component
         // layout goes on an inner element.
         $group = static fn (string $part, string $content): string => Html::tag(
             'div',
-            ['class' => 'celerik-theme-builder__' . $part, 'hidden' => true],
+            ['class' => 'caelrik-theme-builder__' . $part, 'hidden' => true],
             Html::tag('div', ['class' => 'd-flex flex-wrap gap-2 mb-2'], $content),
         );
         $history = $group('history', $button('undo', 'undo') . $button('reset', 'reset'));
@@ -474,7 +474,7 @@ final class ThemeBuilder extends Component
                 'id' => $this->id . '-import',
                 'class' => 'visually-hidden',
                 'accept' => 'application/json,.json',
-                'data-celerik-action' => 'import',
+                'data-caelrik-action' => 'import',
             ]));
 
         $save = $this->saveUrl === null
@@ -483,7 +483,7 @@ final class ThemeBuilder extends Component
 
         return $history
             . $exports
-            . Html::tag('p', ['class' => 'celerik-theme-builder__message small mb-2', 'role' => 'status'], '')
+            . Html::tag('p', ['class' => 'caelrik-theme-builder__message small mb-2', 'role' => 'status'], '')
             . $save;
     }
 
@@ -509,15 +509,15 @@ final class ThemeBuilder extends Component
         }
 
         return Html::tag('section', [
-            'class' => 'celerik-theme-builder__preview',
+            'class' => 'caelrik-theme-builder__preview',
             'aria-labelledby' => $this->id . '-preview-title',
         ], Html::tag('h2', ['id' => $this->id . '-preview-title', 'class' => 'h4'], $this->text('preview'))
-            . Html::tag('fieldset', ['class' => 'mb-3 celerik-theme-builder__modes', 'hidden' => true], Html::tag(
+            . Html::tag('fieldset', ['class' => 'mb-3 caelrik-theme-builder__modes', 'hidden' => true], Html::tag(
                 'legend',
                 ['class' => 'visually-hidden'],
                 $this->text('previewMode'),
             ) . Html::tag('div', ['class' => 'btn-group', 'role' => 'group'], $modes))
-            . Html::tag('div', ['class' => 'celerik-theme-builder__canvas', 'data-bs-theme' => 'light'], $items));
+            . Html::tag('div', ['class' => 'caelrik-theme-builder__canvas', 'data-bs-theme' => 'light'], $items));
     }
 
     private function field(string $key, string $label, string $control): string

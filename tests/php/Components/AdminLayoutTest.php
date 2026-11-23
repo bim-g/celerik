@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Celerik\Ui\Tests\Components;
+namespace Caelrik\Ui\Tests\Components;
 
-use Celerik\Ui\Components\Action;
-use Celerik\Ui\Components\AdminLayout;
-use Celerik\Ui\Components\Breadcrumb;
-use Celerik\Ui\Components\Navigation;
-use Celerik\Ui\Components\UserMenu;
-use Celerik\Ui\Support\Html;
+use Caelrik\Ui\Components\Action;
+use Caelrik\Ui\Components\AdminLayout;
+use Caelrik\Ui\Components\Breadcrumb;
+use Caelrik\Ui\Components\Navigation;
+use Caelrik\Ui\Components\UserMenu;
+use Caelrik\Ui\Support\Html;
 use InvalidArgumentException;
 use LogicException;
 use PHPUnit\Framework\TestCase;
@@ -33,7 +33,7 @@ final class AdminLayoutTest extends TestCase
             ->item('Home', '/')->item('Members <all>', '/members')->item('Ada', '/members/1')
             ->render();
 
-        self::assertStringContainsString('<nav id="crumbs" class="celerik-breadcrumb" data-celerik="breadcrumb"', $html);
+        self::assertStringContainsString('<nav id="crumbs" class="caelrik-breadcrumb" data-caelrik="breadcrumb"', $html);
         self::assertStringContainsString('aria-label="You are here"', $html);
         self::assertStringContainsString('<li class="breadcrumb-item"><a href="/members">Members &lt;all&gt;</a></li>', $html);
         self::assertStringContainsString('<li class="breadcrumb-item active" aria-current="page">Ada</li>', $html);
@@ -43,12 +43,12 @@ final class AdminLayoutTest extends TestCase
     {
         $exact = $this->navigation('/members/invitations?sort=name')->render();
         self::assertStringContainsString(
-            '<a class="celerik-nav-link active" href="/members/invitations" aria-current="page"><span>Invitations</span> '
-            . '<span class="badge rounded-pill text-bg-secondary celerik-nav-badge">3</span></a>',
+            '<a class="caelrik-nav-link active" href="/members/invitations" aria-current="page"><span>Invitations</span> '
+            . '<span class="badge rounded-pill text-bg-secondary caelrik-nav-badge">3</span></a>',
             $exact,
         );
         self::assertSame(1, substr_count($exact, 'aria-current'));
-        self::assertStringContainsString('<details class="celerik-nav-group" open><summary class="celerik-nav-link">Members</summary>', $exact);
+        self::assertStringContainsString('<details class="caelrik-nav-group" open><summary class="caelrik-nav-link">Members</summary>', $exact);
 
         // A page under a link is in its section; the longest matching link wins.
         $section = $this->navigation('/members/42/edit')->render();
@@ -59,7 +59,7 @@ final class AdminLayoutTest extends TestCase
         self::assertStringContainsString('href="/settings?tab=general" aria-current="page"', $this->navigation('/settings')->render());
         $home = $this->navigation('/reports')->render();
         self::assertStringNotContainsString('aria-current', $home);
-        self::assertStringContainsString('<details class="celerik-nav-group"><summary', $home);
+        self::assertStringContainsString('<details class="caelrik-nav-group"><summary', $home);
     }
 
     public function testUserMenuIsADisclosureWithTheUsersLinksAndActions(): void
@@ -70,20 +70,20 @@ final class AdminLayoutTest extends TestCase
             ->action(Action::request('logout', 'Sign out', '/logout')->csrf('t0k3n'))
             ->render();
 
-        self::assertStringContainsString('<details id="account" class="celerik-usermenu" data-celerik="usermenu"', $html);
+        self::assertStringContainsString('<details id="account" class="caelrik-usermenu" data-caelrik="usermenu"', $html);
         self::assertStringContainsString(
-            '<summary class="btn celerik-usermenu-toggle"><span class="celerik-usermenu-avatar celerik-usermenu-initials" '
-            . 'aria-hidden="true">AL</span><span class="celerik-usermenu-name">Ada Lovelace</span></summary>',
+            '<summary class="btn caelrik-usermenu-toggle"><span class="caelrik-usermenu-avatar caelrik-usermenu-initials" '
+            . 'aria-hidden="true">AL</span><span class="caelrik-usermenu-name">Ada Lovelace</span></summary>',
             $html,
         );
         self::assertStringNotContainsString('javascript', $html);
-        self::assertStringContainsString('<p class="celerik-usermenu-detail">ada@example.com</p>', $html);
-        self::assertStringContainsString('<a class="celerik-usermenu-item" href="/profile">Profile</a>', $html);
+        self::assertStringContainsString('<p class="caelrik-usermenu-detail">ada@example.com</p>', $html);
+        self::assertStringContainsString('<a class="caelrik-usermenu-item" href="/profile">Profile</a>', $html);
         self::assertStringContainsString('action="/logout"', $html);
         self::assertStringNotContainsString('role="menu"', $html);
 
         $picture = UserMenu::make('a')->user('Grace', avatar: '/avatars/grace.png')->render();
-        self::assertStringContainsString('<img class="celerik-usermenu-avatar" src="/avatars/grace.png" alt="">', $picture);
+        self::assertStringContainsString('<img class="caelrik-usermenu-avatar" src="/avatars/grace.png" alt="">', $picture);
     }
 
     public function testLayoutHasASkipLinkAnAppBarASidebarAndAMainLandmark(): void
@@ -99,7 +99,7 @@ final class AdminLayoutTest extends TestCase
             ->render();
 
         self::assertStringStartsWith(
-            '<a class="visually-hidden-focusable celerik-skip-link" href="#app-main">Skip to main content</a>',
+            '<a class="visually-hidden-focusable caelrik-skip-link" href="#app-main">Skip to main content</a>',
             $html,
         );
         self::assertStringContainsString('<a class="navbar-brand" href="/">Acme &lt;Inc&gt;</a>', $html);
@@ -107,11 +107,11 @@ final class AdminLayoutTest extends TestCase
             'data-bs-toggle="offcanvas" data-bs-target="#app-sidebar" aria-controls="app-sidebar" aria-label="Open navigation"',
             $html,
         );
-        self::assertStringContainsString('<aside class="celerik-admin-sidebar offcanvas-lg offcanvas-start" id="app-sidebar"', $html);
+        self::assertStringContainsString('<aside class="caelrik-admin-sidebar offcanvas-lg offcanvas-start" id="app-sidebar"', $html);
         self::assertStringContainsString('<a class="btn" href="/help">Help</a>Plain &lt;text&gt;', $html);
         self::assertMatchesRegularExpression(
-            '#<main class="celerik-admin-main" id="app-main" tabindex="-1"><nav [^>]*celerik-breadcrumb.*</nav>'
-            . '<h1 class="celerik-admin-title h3">Dashboard</h1><p>Hello.</p></main>#',
+            '#<main class="caelrik-admin-main" id="app-main" tabindex="-1"><nav [^>]*caelrik-breadcrumb.*</nav>'
+            . '<h1 class="caelrik-admin-title h3">Dashboard</h1><p>Hello.</p></main>#',
             $html,
         );
     }

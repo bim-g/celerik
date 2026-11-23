@@ -52,7 +52,7 @@ describe('media player', () => {
   });
 
   test('transcript times become buttons that play from there', () => {
-    const buttons = [...element.querySelectorAll('.celerik-media-seek')];
+    const buttons = [...element.querySelectorAll('.caelrik-media-seek')];
     expect(buttons.map((button) => button.getAttribute('aria-label'))).toEqual([
       'Play from 0:00', 'Play from 1:05', 'Play from 2:10',
     ]);
@@ -64,7 +64,7 @@ describe('media player', () => {
   });
 
   test('the line being spoken is marked', () => {
-    const cues = [...element.querySelectorAll('.celerik-media-cue')];
+    const cues = [...element.querySelectorAll('.caelrik-media-cue')];
     player.currentTime = 70;
     player.handlers.timeupdate();
     expect(cues.map((cue) => cue.getAttribute('aria-current'))).toEqual([null, 'true', null]);

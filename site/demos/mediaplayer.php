@@ -1,7 +1,7 @@
 <?php
 
-use Celerik\Ui\Components\MediaPlayer;
-use Celerik\Ui\Support\Html;
+use Caelrik\Ui\Components\MediaPlayer;
+use Caelrik\Ui\Support\Html;
 
 $transcript = [
     [0, 'A soft tone starts.', 'Narrator'],

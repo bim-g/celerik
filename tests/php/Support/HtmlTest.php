@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Celerik\Ui\Tests\Support;
+namespace Caelrik\Ui\Tests\Support;
 
-use Celerik\Ui\Support\Html;
+use Caelrik\Ui\Support\Html;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 

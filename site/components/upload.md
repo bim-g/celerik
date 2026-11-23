@@ -7,7 +7,7 @@ Uploads need a server, so there is no live demo of them on this site: see `examp
 ## A plain file input
 
 ```php
-use Celerik\Ui\Upload\UploadRules;
+use Caelrik\Ui\Upload\UploadRules;
 
 Field::file('cv', 'CV')->rules(UploadRules::documents()->maxSize('5M'))->required();
 ```
@@ -15,7 +15,7 @@ Field::file('cv', 'CV')->rules(UploadRules::documents()->maxSize('5M'))->require
 The form switches to `multipart/form-data`. Store the file with the same rules:
 
 ```php
-use Celerik\Ui\Upload\{UploadedFile, UploadException, UploadHandler};
+use Caelrik\Ui\Upload\{UploadedFile, UploadException, UploadHandler};
 
 $handler = new UploadHandler(UploadRules::documents()->maxSize('5M'), $temporaryDirectory);
 

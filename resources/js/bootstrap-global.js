@@ -2,7 +2,7 @@
 export function bootstrapComponent(name) {
   const component = window.bootstrap?.[name];
   if (!component) {
-    console.warn(`Celerik: load Bootstrap's JS (bootstrap.bundle.js) to use ${name}.`);
+    console.warn(`Caelrik: load Bootstrap's JS (bootstrap.bundle.js) to use ${name}.`);
   }
   return component ?? null;
 }

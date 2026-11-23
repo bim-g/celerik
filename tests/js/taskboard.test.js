@@ -18,12 +18,12 @@ describe('task board', () => {
   let element;
   let fetch;
 
-  const titles = (column) => [...element.querySelectorAll(`.celerik-board-cards[data-column="${column}"] .celerik-board-card-title`)]
+  const titles = (column) => [...element.querySelectorAll(`.caelrik-board-cards[data-column="${column}"] .caelrik-board-card-title`)]
     .map((node) => node.textContent);
-  const card = (title) => [...element.querySelectorAll('.celerik-board-card')]
-    .find((node) => node.querySelector('.celerik-board-card-title').textContent === title);
+  const card = (title) => [...element.querySelectorAll('.caelrik-board-card')]
+    .find((node) => node.querySelector('.caelrik-board-card-title').textContent === title);
   const press = (target, key) => target.dispatchEvent(new KeyboardEvent('keydown', { key, bubbles: true }));
-  const count = (column) => element.querySelector(`.celerik-board-column[data-column="${column}"] .visually-hidden`).textContent;
+  const count = (column) => element.querySelector(`.caelrik-board-column[data-column="${column}"] .visually-hidden`).textContent;
   const said = async () => {
     await new Promise((resolve) => { setTimeout(resolve, 60); });
     return element.querySelector('[role=status]').textContent;
@@ -36,7 +36,7 @@ describe('task board', () => {
   });
 
   test('PHP writes columns as named sections, with counts, cards and a Move form', () => {
-    const section = element.querySelector('.celerik-board-column[data-column="doing"]');
+    const section = element.querySelector('.caelrik-board-column[data-column="doing"]');
     expect(document.getElementById(section.getAttribute('aria-labelledby')).textContent).toContain('In progress');
     expect(count('doing')).toBe('2 of 2 cards');
     expect(count('done')).toBe('1 card');
@@ -91,7 +91,7 @@ describe('task board', () => {
 
     // With room in the column, Left moves the card there at the same position; Up and Down
     // move it within the column.
-    element.querySelector('[data-column="doing"] .celerik-board-card').remove();
+    element.querySelector('[data-column="doing"] .caelrik-board-card').remove();
     press(plan, 'ArrowLeft');
     expect(titles('doing')).toEqual(['Plan', 'API']);
     expect(document.activeElement).toBe(plan);
@@ -125,7 +125,7 @@ describe('task board', () => {
   test('a refused move puts the card back and says why', async () => {
     fetch.mockResolvedValue(reply(422, { message: 'Only Ada can close this task.' }));
     const events = [];
-    element.addEventListener('celerik:move', (event) => events.push(event.detail));
+    element.addEventListener('caelrik:move', (event) => events.push(event.detail));
     const form = card('Fix login').querySelector('form');
     form.querySelector('select').value = 'done';
     form.dispatchEvent(new Event('submit', { bubbles: true, cancelable: true }));

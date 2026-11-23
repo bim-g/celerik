@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Celerik\Ui\Tests\Components;
+namespace Caelrik\Ui\Tests\Components;
 
-use Celerik\Ui\Components\TileLayout;
-use Celerik\Ui\Support\Html;
+use Caelrik\Ui\Components\TileLayout;
+use Caelrik\Ui\Support\Html;
 use InvalidArgumentException;
 use LogicException;
 use PHPUnit\Framework\TestCase;
@@ -20,21 +20,21 @@ final class TileLayoutTest extends TestCase
         $html = $layout->render();
 
         self::assertStringContainsString(
-            '<div id="dashboard" class="celerik-tilelayout celerik-tilelayout-cols-4" data-celerik="tilelayout"',
+            '<div id="dashboard" class="caelrik-tilelayout caelrik-tilelayout-cols-4" data-caelrik="tilelayout"',
             $html,
         );
         self::assertStringContainsString(
-            '<section class="celerik-tile card celerik-tile-cols-2 celerik-tile-rows-1" id="dashboard-tile-revenue" '
+            '<section class="caelrik-tile card caelrik-tile-cols-2 caelrik-tile-rows-1" id="dashboard-tile-revenue" '
             . 'aria-labelledby="dashboard-tile-revenue-title" data-tile="revenue" data-cols="2" data-rows="1">'
-            . '<div class="celerik-tile-header card-header"><h3 class="celerik-tile-title" '
+            . '<div class="caelrik-tile-header card-header"><h3 class="caelrik-tile-title" '
             . 'id="dashboard-tile-revenue-title">Revenue &lt;net&gt;</h3></div>'
-            . '<div class="celerik-tile-body card-body">Up 12%.</div></section>',
+            . '<div class="caelrik-tile-body card-body">Up 12%.</div></section>',
             $html,
         );
-        self::assertStringContainsString('celerik-tile-rows-2', $html);
+        self::assertStringContainsString('caelrik-tile-rows-2', $html);
         self::assertStringContainsString('<p>48</p>', $html);
         // Not arrangeable: no tools, no help, no inline styles.
-        self::assertStringNotContainsString('celerik-tile-handle', $html);
+        self::assertStringNotContainsString('caelrik-tile-handle', $html);
         self::assertStringNotContainsString('dashboard-help', $html);
         self::assertStringNotContainsString('style=', $html);
         self::assertSame(['columns' => 4], $layout->toArray());
@@ -55,12 +55,12 @@ final class TileLayoutTest extends TestCase
             $html,
         );
         self::assertStringContainsString(
-            '<button type="button" class="btn btn-sm celerik-action-button celerik-tile-handle" aria-expanded="false" '
+            '<button type="button" class="btn btn-sm caelrik-action-button caelrik-tile-handle" aria-expanded="false" '
             . 'aria-controls="board-tile-a-tools" aria-describedby="board-help" aria-label="Ranger Sales">',
             $html,
         );
         self::assertStringContainsString(
-            '<div class="celerik-tile-tools" id="board-tile-a-tools" role="group" '
+            '<div class="caelrik-tile-tools" id="board-tile-a-tools" role="group" '
             . 'aria-labelledby="board-tile-a-title" hidden>'
             . '<button type="button" class="btn btn-sm btn-outline-secondary" data-tile-command="earlier">Avant</button>'
             . '<button type="button" class="btn btn-sm btn-outline-secondary" data-tile-command="later">Move later</button>'
@@ -68,7 +68,7 @@ final class TileLayoutTest extends TestCase
             $html,
         );
         self::assertStringNotContainsString('data-tile-command="wider"', $html);
-        self::assertStringNotContainsString('celerik-tile-grip', $html);
+        self::assertStringNotContainsString('caelrik-tile-grip', $html);
         self::assertSame(
             ['columns' => 3, 'reorderable' => true, 'remember' => true, 'labels' => [
                 'moved' => TileLayout::LABELS['moved'],
@@ -81,7 +81,7 @@ final class TileLayoutTest extends TestCase
         self::assertStringContainsString('>With Shift, they resize it.</p>', $resizable);
         self::assertStringContainsString('data-tile-command="taller"', $resizable);
         self::assertStringNotContainsString('data-tile-command="earlier"', $resizable);
-        self::assertStringContainsString('<span class="celerik-tile-grip" aria-hidden="true"></span>', $resizable);
+        self::assertStringContainsString('<span class="caelrik-tile-grip" aria-hidden="true"></span>', $resizable);
     }
 
     public function testATileWiderThanTheLayoutIsRefused(): void

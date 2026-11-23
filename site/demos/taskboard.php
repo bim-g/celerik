@@ -1,6 +1,6 @@
 <?php
 
-use Celerik\Ui\Components\TaskBoard;
+use Caelrik\Ui\Components\TaskBoard;
 
 // The demo answers moves in the browser: nothing is saved.
 return TaskBoard::make('release-board')

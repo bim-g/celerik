@@ -1,6 +1,6 @@
 # Accessibility
 
-Celerik UI targets **WCAG 2.2 level AA** for the markup and behaviour it produces, on Bootstrap 5.3, in light and dark mode.
+Caelrik UI targets **WCAG 2.2 level AA** for the markup and behaviour it produces, on Bootstrap 5.3, in light and dark mode.
 
 Automated tests can't prove conformance on their own. They catch regressions in what can be measured; screen-reader and keyboard use also need people. The [manual test plan](#manual-test-plan) below lists what is checked by hand. Its results table starts empty until a release is tested.
 
@@ -43,7 +43,7 @@ All of these run in CI on every pull request. See [TESTING.md](TESTING.md).
 
 ### Known limits
 
-These come from the third-party libraries and are not fixed by Celerik:
+These come from the third-party libraries and are not fixed by Caelrik:
 
 - **elFinder** (File Manager): the file list and folder tree are not exposed as ARIA grid or tree widgets, so screen readers announce little structure. Its dialogs are jQuery UI dialogs. If screen-reader users must manage files, also give them a plain list and upload form.
 - **FullCalendar**: days are not focusable; events and toolbar buttons are reached with Tab, not with arrow keys, and long months mean many tab stops.
@@ -53,14 +53,14 @@ These come from the third-party libraries and are not fixed by Celerik:
 
 ## What your application must still do
 
-Celerik makes its own components accessible; the page around them is yours:
+Caelrik makes its own components accessible; the page around them is yours:
 
 - set the page language (`<html lang="…">`) and a unique `<title>`;
 - use headings and landmarks (`<main>`, `<nav>`) in a logical order;
 - name components (`title()`, `caption()`, `label()`) in the page's language, and translate built-in labels (`Scheduler::labels()`, the notification dismiss label, Quill and FilePond texts);
 - keep your own content and colors at 4.5:1 contrast, also when you customize a theme;
 - write error messages that say how to fix the problem;
-- test your pages with the same tools: `documentation/` (the [celerik-doc](https://github.com/kivudesign/celerik-doc) repository) has a page checker and an integration checklist.
+- test your pages with the same tools: `documentation/` (the [caelrik-doc](https://github.com/kivudesign/celerik-doc) repository) has a page checker and an integration checklist.
 
 ## Manual test plan
 

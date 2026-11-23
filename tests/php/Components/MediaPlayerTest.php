@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Celerik\Ui\Tests\Components;
+namespace Caelrik\Ui\Tests\Components;
 
-use Celerik\Ui\Components\MediaPlayer;
+use Caelrik\Ui\Components\MediaPlayer;
 use InvalidArgumentException;
 use LogicException;
 use PHPUnit\Framework\TestCase;
@@ -23,10 +23,10 @@ final class MediaPlayerTest extends TestCase
             ->render();
 
         self::assertSame(
-            '<figure id="intro" class="celerik-media celerik-media-video" data-celerik="mediaplayer" data-celerik-options="{'
+            '<figure id="intro" class="caelrik-media caelrik-media-video" data-caelrik="mediaplayer" data-caelrik-options="{'
             . '&quot;title&quot;:&quot;Getting &lt;started&gt;&quot;,&quot;labels&quot;:{&quot;playFrom&quot;:&quot;Play from {time}&quot;},'
-            . '&quot;options&quot;:[]}"><div class="celerik-media-frame">'
-            . '<video class="celerik-media-element" controls preload="metadata" playsinline poster="/media/intro.jpg" '
+            . '&quot;options&quot;:[]}"><div class="caelrik-media-frame">'
+            . '<video class="caelrik-media-element" controls preload="metadata" playsinline poster="/media/intro.jpg" '
             . 'aria-label="Getting &lt;started&gt;">'
             . '<source src="/media/intro.webm" type="video/webm"><source src="/media/intro.mp4?v=2&amp;q=hd" type="video/mp4">'
             . '<track kind="captions" src="/media/intro.en.vtt" srclang="en" label="English">'
@@ -34,7 +34,7 @@ final class MediaPlayerTest extends TestCase
             . '<track kind="subtitles" src="/media/intro.ln.vtt" srclang="ln" label="Lingála">'
             . '<track kind="descriptions" src="/media/intro.desc.vtt" srclang="en-GB" label="English descriptions">'
             . '<p>Your browser cannot play this media. <a href="/media/intro.webm" download>Download it</a></p></video></div>'
-            . '<figcaption class="celerik-media-caption">Getting &lt;started&gt;</figcaption></figure>',
+            . '<figcaption class="caelrik-media-caption">Getting &lt;started&gt;</figcaption></figure>',
             $html,
         );
     }
@@ -53,25 +53,25 @@ final class MediaPlayerTest extends TestCase
     {
         $html = MediaPlayer::make('podcast')->audio()->label('Episode 12')->source('/media/12.mp3', 'audio/mpeg')
             ->poster('/ignored.jpg')->loop()->muted()
-            ->transcript([[0, 'Welcome <back>.', 'Ada'], [65.5, 'Today: Celerik.'], ['1:02:03', 'Goodbye.']])
+            ->transcript([[0, 'Welcome <back>.', 'Ada'], [65.5, 'Today: Caelrik.'], ['1:02:03', 'Goodbye.']])
             ->labels(['transcript' => 'Transcription', 'playFrom' => 'Lire depuis {time}'])
             ->render();
 
         self::assertStringContainsString(
-            '<audio class="celerik-media-element" controls preload="metadata" loop muted aria-label="Episode 12">',
+            '<audio class="caelrik-media-element" controls preload="metadata" loop muted aria-label="Episode 12">',
             $html,
         );
-        self::assertStringContainsString('celerik-media celerik-media-audio', $html);
+        self::assertStringContainsString('caelrik-media caelrik-media-audio', $html);
         self::assertStringNotContainsString('poster', $html);
         self::assertStringContainsString('&quot;playFrom&quot;:&quot;Lire depuis {time}&quot;', $html);
         self::assertStringEndsWith(
-            '<details class="celerik-media-transcript"><summary>Transcription</summary><ol class="celerik-media-cues">'
-            . '<li class="celerik-media-cue" data-time="0"><time class="celerik-media-time" datetime="PT0S">0:00</time> '
-            . '<span class="celerik-media-words"><span class="celerik-media-speaker">Ada</span> Welcome &lt;back&gt;.</span></li>'
-            . '<li class="celerik-media-cue" data-time="65.5"><time class="celerik-media-time" datetime="PT65.5S">1:05</time> '
-            . '<span class="celerik-media-words">Today: Celerik.</span></li>'
-            . '<li class="celerik-media-cue" data-time="3723"><time class="celerik-media-time" datetime="PT3723S">1:02:03</time> '
-            . '<span class="celerik-media-words">Goodbye.</span></li></ol></details></figure>',
+            '<details class="caelrik-media-transcript"><summary>Transcription</summary><ol class="caelrik-media-cues">'
+            . '<li class="caelrik-media-cue" data-time="0"><time class="caelrik-media-time" datetime="PT0S">0:00</time> '
+            . '<span class="caelrik-media-words"><span class="caelrik-media-speaker">Ada</span> Welcome &lt;back&gt;.</span></li>'
+            . '<li class="caelrik-media-cue" data-time="65.5"><time class="caelrik-media-time" datetime="PT65.5S">1:05</time> '
+            . '<span class="caelrik-media-words">Today: Caelrik.</span></li>'
+            . '<li class="caelrik-media-cue" data-time="3723"><time class="caelrik-media-time" datetime="PT3723S">1:02:03</time> '
+            . '<span class="caelrik-media-words">Goodbye.</span></li></ol></details></figure>',
             $html,
         );
         // No inline style: a strict Content Security Policy blocks style attributes.

@@ -105,7 +105,7 @@ describe('change handlers', () => {
   test('a rejected move is rolled back and reported', async () => {
     const request = jest.fn().mockResolvedValue({ ok: false });
     const errors = jest.fn();
-    element.addEventListener('celerik:scheduler:error', errors);
+    element.addEventListener('caelrik:scheduler:error', errors);
     const info = { event: fcEvent(), revert: jest.fn() };
 
     await createChangeHandlers(element, { updateUrl: '/u' }, { request }).eventDrop(info);
@@ -145,7 +145,7 @@ describe('change handlers', () => {
     await createChangeHandlers(element, { createUrl: '/c' }, { request, prompt: () => '   ' }).select(info);
 
     const prompt = jest.fn();
-    element.addEventListener('celerik:scheduler:select', (event) => event.preventDefault());
+    element.addEventListener('caelrik:scheduler:select', (event) => event.preventDefault());
     await createChangeHandlers(element, { createUrl: '/c' }, { request, prompt }).select(info);
 
     expect(prompt).not.toHaveBeenCalled();
@@ -195,7 +195,7 @@ describe('change handlers', () => {
   test('a refused dialog change is rolled back and reported; cancel changes nothing', async () => {
     const request = jest.fn().mockResolvedValue({ ok: false });
     const errors = jest.fn();
-    element.addEventListener('celerik:scheduler:error', errors);
+    element.addEventListener('caelrik:scheduler:error', errors);
     const dialog = jest.fn()
       .mockResolvedValueOnce({ action: 'save', start: '2026-11-06', end: '', allDay: true })
       .mockResolvedValueOnce(null);
@@ -222,7 +222,7 @@ describe('change handlers', () => {
     expect(request).toHaveBeenCalledWith('/d', expect.objectContaining({ id: '7' }));
     expect(event.remove).toHaveBeenCalled();
 
-    element.addEventListener('celerik:scheduler:edit', (e) => e.preventDefault());
+    element.addEventListener('caelrik:scheduler:edit', (e) => e.preventDefault());
     dialog.mockClear();
     await handlers.eventClick({ event, jsEvent: { preventDefault: jest.fn() } });
     expect(dialog).not.toHaveBeenCalled();

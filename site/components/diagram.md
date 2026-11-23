@@ -9,7 +9,7 @@ A flowchart drawn by PHP as an SVG, and written as text under it: steps, decisio
 ## Usage
 
 ```php
-use Celerik\Ui\Components\Diagram;
+use Caelrik\Ui\Components\Diagram;
 
 Diagram::make('signup')
     ->label('Sign-up')

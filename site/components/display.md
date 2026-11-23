@@ -37,7 +37,7 @@ Chip::make()->label('PHP')->removable('skills[]', 'php');      // with a Remove 
 Chip::make('remote')->label('Remote')->checkbox('remote', '1', checked: true);   // a filter
 ```
 
-- **Removable**: the "Remove PHP" button (a 24px target) takes the chip and its hidden field away, so the form posts what is left. Focus moves to the next chip's button, and the removal is announced. A cancelable `celerik:remove` event comes first. Without JavaScript the button is hidden.
+- **Removable**: the "Remove PHP" button (a 24px target) takes the chip and its hidden field away, so the form posts what is left. Focus moves to the next chip's button, and the removal is announced. A cancelable `caelrik:remove` event comes first. Without JavaScript the button is hidden.
 - **A filter chip** is a real checkbox, posted with its form with or without JavaScript. Checked shows a ✓, not only a color.
 - `avatar(Avatar::make()->person('Ada'))` adds a small picture.
 

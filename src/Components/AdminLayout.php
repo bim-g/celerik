@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Celerik\Ui\Components;
+namespace Caelrik\Ui\Components;
 
-use Celerik\Ui\Component;
-use Celerik\Ui\Support\Html;
+use Caelrik\Ui\Component;
+use Caelrik\Ui\Support\Html;
 use InvalidArgumentException;
 use Stringable;
 
@@ -147,13 +147,13 @@ final class AdminLayout extends Component
 
         $skip = Html::tag(
             'a',
-            ['class' => 'visually-hidden-focusable celerik-skip-link', 'href' => '#' . $main],
+            ['class' => 'visually-hidden-focusable caelrik-skip-link', 'href' => '#' . $main],
             Html::escape($this->labels['skip']),
         );
 
         $toggle = $this->navigation === null ? '' : Html::tag('button', [
             'type' => 'button',
-            'class' => 'btn celerik-appbar-toggle d-lg-none',
+            'class' => 'btn caelrik-appbar-toggle d-lg-none',
             'data-bs-toggle' => 'offcanvas',
             'data-bs-target' => '#' . $sidebar,
             'aria-controls' => $sidebar,
@@ -167,12 +167,12 @@ final class AdminLayout extends Component
             $end .= Html::content($item);
         }
         $end .= $this->userMenu?->render() ?? '';
-        $appBar = Html::tag('header', ['class' => 'celerik-appbar navbar border-bottom bg-body'], Html::tag(
+        $appBar = Html::tag('header', ['class' => 'caelrik-appbar navbar border-bottom bg-body'], Html::tag(
             'div',
             ['class' => 'container-fluid gap-2'],
             $toggle . $brand . Html::tag(
                 'div',
-                ['class' => 'celerik-appbar-end ms-auto d-flex align-items-center gap-2'],
+                ['class' => 'caelrik-appbar-end ms-auto d-flex align-items-center gap-2'],
                 $end,
             ),
         ));
@@ -181,7 +181,7 @@ final class AdminLayout extends Component
         if ($this->navigation !== null) {
             $title = $sidebar . '-title';
             $aside = Html::tag('aside', [
-                'class' => 'celerik-admin-sidebar offcanvas-lg offcanvas-start',
+                'class' => 'caelrik-admin-sidebar offcanvas-lg offcanvas-start',
                 'id' => $sidebar,
                 'tabindex' => '-1',
                 'aria-labelledby' => $title,
@@ -200,16 +200,16 @@ final class AdminLayout extends Component
 
         $heading = $this->title === null
             ? ''
-            : Html::tag('h1', ['class' => 'celerik-admin-title h3'], Html::escape($this->title));
+            : Html::tag('h1', ['class' => 'caelrik-admin-title h3'], Html::escape($this->title));
         $content = Html::tag(
             'main',
-            ['class' => 'celerik-admin-main', 'id' => $main, 'tabindex' => '-1'],
+            ['class' => 'caelrik-admin-main', 'id' => $main, 'tabindex' => '-1'],
             ($this->breadcrumb?->render() ?? '') . $heading . Html::content($this->content),
         );
 
-        return $skip . Html::tag('div', $this->rootAttributes(['celerik-admin']), $appBar . Html::tag(
+        return $skip . Html::tag('div', $this->rootAttributes(['caelrik-admin']), $appBar . Html::tag(
             'div',
-            ['class' => 'celerik-admin-body'],
+            ['class' => 'caelrik-admin-body'],
             $aside . $content,
         ));
     }

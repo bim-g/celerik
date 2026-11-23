@@ -7,12 +7,12 @@
 
 declare(strict_types=1);
 
-use Celerik\Ui\Assets;
-use Celerik\Ui\Components\Form;
-use Celerik\Ui\Components\Form\Field;
+use Caelrik\Ui\Assets;
+use Caelrik\Ui\Components\Form;
+use Caelrik\Ui\Components\Form\Field;
 
 $mode = ($_GET['mode'] ?? '') === 'dark' ? 'dark' : 'light';
-$notes = "## Release notes\n\nCelerik **0.6** adds a [Markdown field](https://example.com/docs).\n\n- Tabs\n- A toolbar\n\n"
+$notes = "## Release notes\n\nCaelrik **0.6** adds a [Markdown field](https://example.com/docs).\n\n- Tabs\n- A toolbar\n\n"
     . "<img src=x alt=\"\" onerror=\"document.title='hacked'\"> <script>document.title='hacked'</script>";
 ?>
 <!doctype html>

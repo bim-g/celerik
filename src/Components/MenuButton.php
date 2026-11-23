@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Celerik\Ui\Components;
+namespace Caelrik\Ui\Components;
 
-use Celerik\Ui\Component;
-use Celerik\Ui\Support\Html;
+use Caelrik\Ui\Component;
+use Caelrik\Ui\Support\Html;
 use InvalidArgumentException;
 use LogicException;
 
@@ -97,15 +97,15 @@ final class MenuButton extends Component
                 'btn-' . ($this->solid ? '' : 'outline-') . $this->variant,
                 $this->small ? 'btn-sm' : null,
                 // Outlined buttons keep 4.5:1 text in dark mode, as actions do.
-                'celerik-action-button',
-                'celerik-menu-toggle',
+                'caelrik-action-button',
+                'caelrik-menu-toggle',
                 'dropdown-toggle',
             ]),
             'id' => $this->id . '-button',
             'aria-controls' => $menu,
         ], Html::escape($this->label));
 
-        $classes = $this->align === 'end' ? ['celerik-menubutton', 'celerik-menu-end'] : ['celerik-menubutton'];
+        $classes = $this->align === 'end' ? ['caelrik-menubutton', 'caelrik-menu-end'] : ['caelrik-menubutton'];
 
         return Html::tag('div', $this->rootAttributes($classes), $button . $this->renderItems($menu));
     }

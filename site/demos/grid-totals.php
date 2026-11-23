@@ -1,7 +1,7 @@
 <?php
 
-use Celerik\Ui\Components\Grid;
-use Celerik\Ui\Components\Grid\Column;
+use Caelrik\Ui\Components\Grid;
+use Caelrik\Ui\Components\Grid\Column;
 
 return Grid::make('expenses')
     ->caption('Expenses by team')

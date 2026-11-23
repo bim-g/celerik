@@ -11,16 +11,16 @@ test.describe('gauges and sparklines', () => {
     await expect(cpu).toHaveAttribute('aria-valuenow', '72');
     await expect(cpu).toHaveAttribute('aria-valuetext', '72%, High, target 90%');
     // The band is written, not only colored.
-    await expect(page.locator('#cpu .celerik-gauge-band')).toHaveText('High');
+    await expect(page.locator('#cpu .caelrik-gauge-band')).toHaveText('High');
     await expect(page.getByRole('meter', { name: 'Storage used' })).toHaveAttribute('aria-valuetext', '1,250 GB, OK, target 1,500 GB');
   });
 
   test('the semicircle keeps its shape and its value sits inside it', async ({ page }) => {
     await open(page);
     for (const id of ['cpu', 'memory', 'disk']) {
-      const svg = await page.locator(`#${id} .celerik-gauge-svg`).boundingBox();
+      const svg = await page.locator(`#${id} .caelrik-gauge-svg`).boundingBox();
       expect(svg.width / svg.height).toBeCloseTo(100 / 52, 1);
-      const value = await page.locator(`#${id} .celerik-gauge-value`).boundingBox();
+      const value = await page.locator(`#${id} .caelrik-gauge-value`).boundingBox();
       expect(value.x).toBeGreaterThan(svg.x);
       expect(value.x + value.width).toBeLessThan(svg.x + svg.width);
     }
@@ -28,8 +28,8 @@ test.describe('gauges and sparklines', () => {
 
   test('a linear gauge fills its share of the bar', async ({ page }) => {
     await open(page);
-    const track = await page.locator('#quota .celerik-gauge-track').boundingBox();
-    const fill = await page.locator('#quota .celerik-gauge-fill').boundingBox();
+    const track = await page.locator('#quota .caelrik-gauge-track').boundingBox();
+    const fill = await page.locator('#quota .caelrik-gauge-fill').boundingBox();
     expect(fill.width / track.width).toBeCloseTo(0.625, 2);
   });
 

@@ -7,10 +7,10 @@ const keydown = (target, key, init = {}) => target.dispatchEvent(new KeyboardEve
 
 describe('tile layout', () => {
   let element;
-  const keys = () => [...element.querySelectorAll('.celerik-tile')].map((tile) => tile.dataset.tile);
+  const keys = () => [...element.querySelectorAll('.caelrik-tile')].map((tile) => tile.dataset.tile);
   const tile = (key) => element.querySelector(`[data-tile="${key}"]`);
-  const handle = (key) => tile(key).querySelector('.celerik-tile-handle');
-  const tools = (key) => tile(key).querySelector('.celerik-tile-tools');
+  const handle = (key) => tile(key).querySelector('.caelrik-tile-handle');
+  const tools = (key) => tile(key).querySelector('.caelrik-tile-tools');
   const command = (key, name) => tile(key).querySelector(`[data-tile-command="${name}"]`);
   const status = () => element.querySelector('[role=status]');
 
@@ -26,9 +26,9 @@ describe('tile layout', () => {
 
   test('PHP lays the tiles out: titled regions, spans as classes, tools hidden', () => {
     expect(keys()).toEqual(['revenue', 'orders', 'visits']);
-    expect(element.classList.contains('celerik-tilelayout-cols-4')).toBe(true);
-    expect(tile('revenue').classList.contains('celerik-tile-cols-2')).toBe(true);
-    expect(tile('orders').classList.contains('celerik-tile-rows-2')).toBe(true);
+    expect(element.classList.contains('caelrik-tilelayout-cols-4')).toBe(true);
+    expect(tile('revenue').classList.contains('caelrik-tile-cols-2')).toBe(true);
+    expect(tile('orders').classList.contains('caelrik-tile-rows-2')).toBe(true);
     expect(tile('visits').getAttribute('aria-labelledby')).toBe('dashboard-tile-visits-title');
     expect(handle('visits').getAttribute('aria-label')).toBe('Arrange Visits <today>');
     expect(tools('revenue').hidden).toBe(true);
@@ -49,7 +49,7 @@ describe('tile layout', () => {
   test('the tools move and resize the tile, say so, and cannot go past the limits', () => {
     initTileLayout(element, readOptions(element));
     const changes = [];
-    element.addEventListener('celerik:change', (event) => changes.push(event.detail.tiles));
+    element.addEventListener('caelrik:change', (event) => changes.push(event.detail.tiles));
 
     expect(command('revenue', 'earlier').getAttribute('aria-disabled')).toBe('true');
     expect(command('visits', 'later').getAttribute('aria-disabled')).toBe('true');
@@ -66,8 +66,8 @@ describe('tile layout', () => {
     command('revenue', 'wider').click();
     command('revenue', 'wider').click();
     command('revenue', 'wider').click();
-    expect(tile('revenue').classList.contains('celerik-tile-cols-4')).toBe(true);
-    expect(tile('revenue').classList.contains('celerik-tile-cols-2')).toBe(false);
+    expect(tile('revenue').classList.contains('caelrik-tile-cols-4')).toBe(true);
+    expect(tile('revenue').classList.contains('caelrik-tile-cols-2')).toBe(false);
     expect(command('revenue', 'wider').getAttribute('aria-disabled')).toBe('true');
     jest.advanceTimersByTime(60);
     expect(status().textContent).toBe('Revenue: width 4 of 4, height 1 of 6.');
@@ -111,7 +111,7 @@ describe('tile layout', () => {
   });
 
   test('a remembered layout comes back, with new tiles after it and spans within limits', () => {
-    window.localStorage.setItem('celerik-tilelayout:dashboard', JSON.stringify([
+    window.localStorage.setItem('caelrik-tilelayout:dashboard', JSON.stringify([
       { key: 'visits', cols: 3, rows: 1 },
       { key: 'gone', cols: 1, rows: 1 },
       { key: 'revenue', cols: 9, rows: 9 },
@@ -125,12 +125,12 @@ describe('tile layout', () => {
     ]);
 
     api.move('orders', 0);
-    expect(JSON.parse(window.localStorage.getItem('celerik-tilelayout:dashboard')).map((entry) => entry.key))
+    expect(JSON.parse(window.localStorage.getItem('caelrik-tilelayout:dashboard')).map((entry) => entry.key))
       .toEqual(['orders', 'visits', 'revenue']);
   });
 
   test('broken saved data is ignored', () => {
-    window.localStorage.setItem('celerik-tilelayout:dashboard', '{oops');
+    window.localStorage.setItem('caelrik-tilelayout:dashboard', '{oops');
     initTileLayout(element, readOptions(element));
     expect(keys()).toEqual(['revenue', 'orders', 'visits']);
   });

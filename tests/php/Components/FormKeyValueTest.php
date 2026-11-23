@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Celerik\Ui\Tests\Components;
+namespace Caelrik\Ui\Tests\Components;
 
-use Celerik\Ui\Components\Form;
-use Celerik\Ui\Components\Form\Field;
-use Celerik\Ui\Components\Form\Repeater;
+use Caelrik\Ui\Components\Form;
+use Caelrik\Ui\Components\Form\Field;
+use Caelrik\Ui\Components\Form\Repeater;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 
@@ -20,17 +20,17 @@ final class FormKeyValueTest extends TestCase
 
         self::assertStringContainsString(
             '<fieldset id="f-headers-group"><legend class="form-label fs-6">Headers</legend>'
-            . '<div class="celerik-key-value-head" aria-hidden="true"><span>Key</span><span>Value</span></div>'
-            . '<ol class="celerik-key-value-rows"><li class="celerik-key-value-row" data-celerik-index="0">'
+            . '<div class="caelrik-key-value-head" aria-hidden="true"><span>Key</span><span>Value</span></div>'
+            . '<ol class="caelrik-key-value-rows"><li class="caelrik-key-value-row" data-caelrik-index="0">'
             . '<label for="f-headers" class="visually-hidden">Key 1</label>'
             . '<input type="text" id="f-headers" name="headers[0][key]" value="Accept" autocomplete="off"'
             . ' data-parsley-validate-if-empty="true" data-parsley-keyneeded="true"'
             . ' data-parsley-keyneeded-message="Enter a key for this value." data-parsley-keyunique="true"'
-            . ' data-parsley-keyunique-message="This key is already used." class="form-control celerik-key-value-key">'
+            . ' data-parsley-keyunique-message="This key is already used." class="form-control caelrik-key-value-key">'
             . '<label for="f-headers-0-value" class="visually-hidden">Value 1</label>'
             . '<input type="text" id="f-headers-0-value" name="headers[0][value]" value="application/json"'
-            . ' class="form-control celerik-key-value-value">'
-            . '<button type="button" class="btn btn-outline-secondary celerik-key-value-remove" data-celerik-key-value-remove>',
+            . ' class="form-control caelrik-key-value-value">'
+            . '<button type="button" class="btn btn-outline-secondary caelrik-key-value-remove" data-caelrik-key-value-remove>',
             $html,
         );
         self::assertStringContainsString('<span class="visually-hidden">Remove row 1</span></button></li>', $html);
@@ -40,11 +40,11 @@ final class FormKeyValueTest extends TestCase
         );
         self::assertStringContainsString('<label for="f-headers-1-value" class="visually-hidden">Value 2</label>', $html);
         // The template of a new row, and the Add button.
-        self::assertStringContainsString('<button type="button" class="btn btn-sm btn-outline-primary" data-celerik-key-value-add>Add row</button>', $html);
-        self::assertStringContainsString('<template><li class="celerik-key-value-row" data-celerik-index="__pair__">', $html);
+        self::assertStringContainsString('<button type="button" class="btn btn-sm btn-outline-primary" data-caelrik-key-value-add>Add row</button>', $html);
+        self::assertStringContainsString('<template><li class="caelrik-key-value-row" data-caelrik-index="__pair__">', $html);
         self::assertStringContainsString('name="headers[__pair__][key]"', $html);
         self::assertStringContainsString(
-            '<div class="mb-3 celerik-key-value" data-celerik-key-value="{&quot;id&quot;:&quot;f-headers&quot;,'
+            '<div class="mb-3 caelrik-key-value" data-caelrik-key-value="{&quot;id&quot;:&quot;f-headers&quot;,'
             . '&quot;required&quot;:false,&quot;key&quot;:&quot;Key&quot;,&quot;value&quot;:&quot;Value&quot;,'
             . '&quot;remove&quot;:&quot;Remove row %d&quot;}">',
             $html,
@@ -56,8 +56,8 @@ final class FormKeyValueTest extends TestCase
         $html = Form::make('f')->submit(null)->add(Field::keyValue('meta')->required())->render();
 
         // One row, plus the template's.
-        self::assertSame(2, substr_count($html, 'class="celerik-key-value-row"'));
-        self::assertStringContainsString('<legend class="form-label fs-6">Meta <span class="celerik-required"', $html);
+        self::assertSame(2, substr_count($html, 'class="caelrik-key-value-row"'));
+        self::assertStringContainsString('<legend class="form-label fs-6">Meta <span class="caelrik-required"', $html);
         // A required list needs a key in its first row.
         self::assertStringContainsString(
             'name="meta[0][key]" autocomplete="off" required data-parsley-required-message="Enter a key for this value."',
@@ -88,10 +88,10 @@ final class FormKeyValueTest extends TestCase
         self::assertStringContainsString('<span class="visually-hidden">Retirer la ligne 2</span>', $html);
         self::assertStringContainsString('data-parsley-keyneeded-message="Saisissez une clé."', $html);
         self::assertStringContainsString('data-parsley-keyunique-message="Clé en double."', $html);
-        self::assertStringContainsString('<div class="celerik-key-value-head" aria-hidden="true"><span>Clé</span><span>Valeur</span></div>', $html);
+        self::assertStringContainsString('<div class="caelrik-key-value-head" aria-hidden="true"><span>Clé</span><span>Valeur</span></div>', $html);
         // An error on one row shows under the list.
         self::assertStringContainsString('<fieldset id="f-meta-group" aria-describedby="f-meta-help f-meta-error">', $html);
-        self::assertStringContainsString('<div id="f-meta-error" class="invalid-feedback d-block celerik-server-error">The keys must be distinct.</div>', $html);
+        self::assertStringContainsString('<div id="f-meta-error" class="invalid-feedback d-block caelrik-server-error">The keys must be distinct.</div>', $html);
         // The error summary links to the first key.
         self::assertStringContainsString('<a href="#f-meta" class="alert-link">Required.</a>', Form::make('f')->submit(null)
             ->add(Field::keyValue('meta'))->errorSummary()->errors(['meta' => 'Required.'])->render());

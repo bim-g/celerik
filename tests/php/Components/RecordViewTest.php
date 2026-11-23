@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Celerik\Ui\Tests\Components;
+namespace Caelrik\Ui\Tests\Components;
 
 use ArrayObject;
-use Celerik\Ui\Components\RecordView;
-use Celerik\Ui\Components\RecordView\Entry;
-use Celerik\Ui\Support\Html;
+use Caelrik\Ui\Components\RecordView;
+use Caelrik\Ui\Components\RecordView\Entry;
+use Caelrik\Ui\Support\Html;
 use DateTimeImmutable;
 use InvalidArgumentException;
 use LogicException;
@@ -32,20 +32,20 @@ final class RecordViewTest extends TestCase
             ->section(null, [Entry::text('name', 'Again')->help('As written.')])
             ->render();
 
-        self::assertStringContainsString('<div id="member" class="celerik-recordview" data-celerik="recordview"', $html);
+        self::assertStringContainsString('<div id="member" class="caelrik-recordview" data-caelrik="recordview"', $html);
         self::assertStringContainsString(
-            '<section class="celerik-recordview-section" aria-labelledby="member-section-1-title">'
-            . '<h3 class="celerik-recordview-title" id="member-section-1-title">Profile</h3>'
-            . '<p class="celerik-recordview-description">Who.</p>'
-            . '<dl class="celerik-recordview-entries celerik-recordview-cols-2">'
-            . '<div class="celerik-recordview-entry"><dt>Name</dt><dd>Ada &lt;L&gt;</dd></div>'
-            . '<div class="celerik-recordview-entry celerik-recordview-span-2"><dt>Company</dt><dd>Engines</dd></div>'
+            '<section class="caelrik-recordview-section" aria-labelledby="member-section-1-title">'
+            . '<h3 class="caelrik-recordview-title" id="member-section-1-title">Profile</h3>'
+            . '<p class="caelrik-recordview-description">Who.</p>'
+            . '<dl class="caelrik-recordview-entries caelrik-recordview-cols-2">'
+            . '<div class="caelrik-recordview-entry"><dt>Name</dt><dd>Ada &lt;L&gt;</dd></div>'
+            . '<div class="caelrik-recordview-entry caelrik-recordview-span-2"><dt>Company</dt><dd>Engines</dd></div>'
             . '</dl></section>',
             $html,
         );
         self::assertStringContainsString(
-            '<div class="celerik-recordview-section"><dl class="celerik-recordview-entries celerik-recordview-cols-1">'
-            . '<div class="celerik-recordview-entry"><dt>Again</dt><dd>Ada &lt;L&gt;<div class="form-text">As written.</div></dd>',
+            '<div class="caelrik-recordview-section"><dl class="caelrik-recordview-entries caelrik-recordview-cols-1">'
+            . '<div class="caelrik-recordview-entry"><dt>Again</dt><dd>Ada &lt;L&gt;<div class="form-text">As written.</div></dd>',
             $html,
         );
     }
@@ -53,7 +53,7 @@ final class RecordViewTest extends TestCase
     public function testASpanIsNoWiderThanItsSection(): void
     {
         $html = RecordView::make('r')->record([])->section('S', [Entry::text('a', 'A')->span(4)], columns: 2)->render();
-        self::assertStringContainsString('celerik-recordview-span-2', $html);
+        self::assertStringContainsString('caelrik-recordview-span-2', $html);
     }
 
     public function testRecordsAreArraysArrayAccessOrObjects(): void
@@ -95,7 +95,7 @@ final class RecordViewTest extends TestCase
         self::assertSame('1 234,50 €', self::value(Entry::number('n', 'N', 2, '', ' €', ',', ' '), ['n' => '1234.5']));
         self::assertSame('n/a', self::value(Entry::number('n', 'N'), ['n' => 'n/a']));
         self::assertSame(
-            '<span class="celerik-recordview-no"><span class="celerik-recordview-mark" aria-hidden="true">✕</span> No</span>',
+            '<span class="caelrik-recordview-no"><span class="caelrik-recordview-mark" aria-hidden="true">✕</span> No</span>',
             self::value(Entry::boolean('b', 'B'), ['b' => '0']),
         );
         self::assertStringContainsString('✓</span> Yes', self::value(Entry::boolean('b', 'B'), ['b' => 1]));
@@ -103,7 +103,7 @@ final class RecordViewTest extends TestCase
         self::assertSame('<span class="badge text-bg-secondary">new</span>', self::value(Entry::badge('s', 'S'), ['s' => 'new']));
         self::assertSame('<ul class="list-unstyled mb-0"><li>a</li><li>&lt;b&gt;</li></ul>', self::value(Entry::list('l', 'L'), ['l' => ['a', '<b>']]));
         self::assertSame(
-            '<img src="/a.png" alt="Ada" class="celerik-recordview-image img-fluid rounded" loading="lazy">',
+            '<img src="/a.png" alt="Ada" class="caelrik-recordview-image img-fluid rounded" loading="lazy">',
             self::value(Entry::image('i', 'I', 'Ada'), ['i' => '/a.png']),
         );
         self::assertSame('', self::value(Entry::image('i', 'I'), ['i' => 'data:image/png;base64,xx']));

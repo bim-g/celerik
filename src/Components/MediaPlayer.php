@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Celerik\Ui\Components;
+namespace Caelrik\Ui\Components;
 
-use Celerik\Ui\Component;
-use Celerik\Ui\Support\Html;
-use Celerik\Ui\Support\Url;
+use Caelrik\Ui\Component;
+use Caelrik\Ui\Support\Html;
+use Caelrik\Ui\Support\Url;
 use InvalidArgumentException;
 use LogicException;
 
@@ -212,7 +212,7 @@ final class MediaPlayer extends Component
         ));
 
         $media = Html::tag($this->type, [
-            'class' => 'celerik-media-element',
+            'class' => 'caelrik-media-element',
             'controls' => true,
             'preload' => 'metadata',
             'playsinline' => $this->type === 'video',
@@ -224,9 +224,9 @@ final class MediaPlayer extends Component
 
         return Html::tag(
             'figure',
-            $this->rootAttributes(['celerik-media', 'celerik-media-' . $this->type]),
-            Html::tag('div', ['class' => 'celerik-media-frame'], $media)
-                . Html::tag('figcaption', ['class' => 'celerik-media-caption'], Html::escape($this->label))
+            $this->rootAttributes(['caelrik-media', 'caelrik-media-' . $this->type]),
+            Html::tag('div', ['class' => 'caelrik-media-frame'], $media)
+                . Html::tag('figcaption', ['class' => 'caelrik-media-caption'], Html::escape($this->label))
                 . $this->renderTranscript(),
         );
     }
@@ -240,22 +240,22 @@ final class MediaPlayer extends Component
         foreach ($this->transcript as $cue) {
             $speaker = $cue['speaker'] === null
                 ? ''
-                : Html::tag('span', ['class' => 'celerik-media-speaker'], Html::escape($cue['speaker'])) . ' ';
+                : Html::tag('span', ['class' => 'caelrik-media-speaker'], Html::escape($cue['speaker'])) . ' ';
             $seconds = self::number($cue['time']);
             $time = Html::tag(
                 'time',
-                ['class' => 'celerik-media-time', 'datetime' => 'PT' . $seconds . 'S'],
+                ['class' => 'caelrik-media-time', 'datetime' => 'PT' . $seconds . 'S'],
                 self::clock($cue['time']),
             );
-            $words = Html::tag('span', ['class' => 'celerik-media-words'], $speaker . Html::escape($cue['text']));
-            $items .= Html::tag('li', ['class' => 'celerik-media-cue', 'data-time' => $seconds], $time . ' ' . $words);
+            $words = Html::tag('span', ['class' => 'caelrik-media-words'], $speaker . Html::escape($cue['text']));
+            $items .= Html::tag('li', ['class' => 'caelrik-media-cue', 'data-time' => $seconds], $time . ' ' . $words);
         }
 
         return Html::tag(
             'details',
-            ['class' => 'celerik-media-transcript'],
+            ['class' => 'caelrik-media-transcript'],
             Html::tag('summary', [], Html::escape($this->labels['transcript']))
-                . Html::tag('ol', ['class' => 'celerik-media-cues'], $items),
+                . Html::tag('ol', ['class' => 'caelrik-media-cues'], $items),
         );
     }
 

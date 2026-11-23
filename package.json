@@ -1,7 +1,7 @@
 {
-  "name": "@celerikui/ui",
+  "name": "@caelrik/ui",
   "version": "0.1.0",
-  "description": "The JavaScript and CSS bundle of Celerik UI, the accessible Bootstrap-based PHP component suite.",
+  "description": "The JavaScript and CSS bundle of Caelrik UI, the accessible Bootstrap-based PHP component suite.",
   "homepage": "https://kivudesign.github.io/celerik/",
   "license": "MIT",
   "repository": {
@@ -22,11 +22,11 @@
     "public/**/*.js",
     "public/**/*.css"
   ],
-  "browser": "./public/celerik.js",
-  "style": "./public/celerik.css",
+  "browser": "./public/caelrik.js",
+  "style": "./public/caelrik.css",
   "exports": {
-    ".": "./public/celerik.js",
-    "./celerik.css": "./public/celerik.css",
+    ".": "./public/caelrik.js",
+    "./caelrik.css": "./public/caelrik.css",
     "./public/*": "./public/*",
     "./package.json": "./package.json"
   },

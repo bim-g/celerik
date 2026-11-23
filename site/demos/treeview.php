@@ -1,6 +1,6 @@
 <?php
 
-use Celerik\Ui\Components\TreeView;
+use Caelrik\Ui\Components\TreeView;
 
 // A checkable tree: its checkboxes post the checked ids with the form around it.
 return TreeView::make('shared-folders')

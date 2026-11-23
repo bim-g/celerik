@@ -1,7 +1,7 @@
 import { expect, test } from '@playwright/test';
 import { MODES, openComponents } from './helpers.mjs';
 
-// Celerik's flat design (resources/scss/_flat.scss): borders instead of shadows, and field
+// Caelrik's flat design (resources/scss/_flat.scss): borders instead of shadows, and field
 // borders that can be seen (3:1 on the page, WCAG 1.4.11), in light and dark mode.
 
 // WCAG contrast of two computed "rgb(r, g, b)" colors.
@@ -26,7 +26,7 @@ for (const mode of MODES) {
         checkbox: '#signup-terms',
         'searchable select': '#preferences-languages-ts-control',
         'rich text editor': '.ql-container.ql-snow',
-        'one-time code box': '.celerik-otp-slot',
+        'one-time code box': '.caelrik-otp-slot',
       };
       for (const [name, selector] of Object.entries(fields)) {
         // Tom Select draws the border on its wrapper, around the search box.
@@ -43,7 +43,7 @@ for (const mode of MODES) {
       const shadow = (selector) => page.locator(selector).first().evaluate((element) => getComputedStyle(element).boxShadow);
 
       expect(await shadow('.notyf__toast')).toBe('none');
-      expect(await shadow('.celerik-scheduler-dialog, #team-calendar')).toBe('none');
+      expect(await shadow('.caelrik-scheduler-dialog, #team-calendar')).toBe('none');
 
       const active = page.locator('#team-calendar .fc-button-active');
       const [color, fill] = await active.evaluate((element) => [getComputedStyle(element).color, getComputedStyle(element).backgroundColor]);

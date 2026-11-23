@@ -1,9 +1,9 @@
 <?php
 
-use Celerik\Ui\Components\Action;
-use Celerik\Ui\Components\MenuButton;
-use Celerik\Ui\Components\SplitButton;
-use Celerik\Ui\Components\Toolbar;
+use Caelrik\Ui\Components\Action;
+use Caelrik\Ui\Components\MenuButton;
+use Caelrik\Ui\Components\SplitButton;
+use Caelrik\Ui\Components\Toolbar;
 
 // The demo answers requests in the browser: nothing is saved.
 return Toolbar::make('member-tools')

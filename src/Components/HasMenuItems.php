@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Celerik\Ui\Components;
+namespace Caelrik\Ui\Components;
 
-use Celerik\Ui\Support\Html;
+use Caelrik\Ui\Support\Html;
 
 /**
  * The items of a menu (MenuButton, SplitButton): links, actions and dividers. PHP writes a
@@ -48,7 +48,7 @@ trait HasMenuItems
         $modals = '';
         foreach ($this->items as $item) {
             if ($item['type'] === 'divider') {
-                $html .= Html::tag('li', ['class' => 'celerik-menu-divider'], '');
+                $html .= Html::tag('li', ['class' => 'caelrik-menu-divider'], '');
                 continue;
             }
             if ($item['type'] === 'action') {
@@ -58,10 +58,10 @@ trait HasMenuItems
             }
             $label = Html::escape($item['label']);
             $html .= Html::tag('li', [], $item['disabled'] ?? false
-                ? Html::tag('span', ['class' => 'celerik-menu-item', 'data-disabled' => true], $label)
-                : Html::tag('a', ['class' => 'celerik-menu-item', 'href' => $item['url']], $label));
+                ? Html::tag('span', ['class' => 'caelrik-menu-item', 'data-disabled' => true], $label)
+                : Html::tag('a', ['class' => 'caelrik-menu-item', 'href' => $item['url']], $label));
         }
 
-        return Html::tag('ul', ['class' => 'celerik-menu-list list-unstyled', 'id' => $id], $html) . $modals;
+        return Html::tag('ul', ['class' => 'caelrik-menu-list list-unstyled', 'id' => $id], $html) . $modals;
     }
 }

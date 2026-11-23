@@ -30,11 +30,11 @@ export function initTaskBoard(element, options = {}, deps = {}) {
   const labels = { ...LABELS, ...options.labels };
   const columns = options.columns ?? [];
   const send = deps.fetch ?? ((...args) => fetch(...args));
-  const lists = () => [...element.querySelectorAll('.celerik-board-cards')];
-  const listOf = (card) => card.closest('.celerik-board-cards');
+  const lists = () => [...element.querySelectorAll('.caelrik-board-cards')];
+  const listOf = (card) => card.closest('.caelrik-board-cards');
   const columnOf = (list) => columns.find((column) => column.key === list.dataset.column) ?? { key: list.dataset.column, label: list.dataset.column };
-  const cardsIn = (list) => [...list.children].filter((child) => child.matches('.celerik-board-card'));
-  const titleOf = (card) => card.querySelector('.celerik-board-card-title')?.textContent.trim() ?? '';
+  const cardsIn = (list) => [...list.children].filter((child) => child.matches('.caelrik-board-card'));
+  const titleOf = (card) => card.querySelector('.caelrik-board-card-title')?.textContent.trim() ?? '';
   const full = (list, card) => {
     const { limit } = columnOf(list);
     return Boolean(limit) && cardsIn(list).filter((other) => other !== card).length >= limit;
@@ -63,7 +63,7 @@ export function initTaskBoard(element, options = {}, deps = {}) {
     for (const list of lists()) {
       const column = columnOf(list);
       const count = cardsIn(list).length;
-      const badge = element.querySelector(`.celerik-board-column[data-column="${list.dataset.column}"] [data-celerik-board-count]`);
+      const badge = element.querySelector(`.caelrik-board-column[data-column="${list.dataset.column}"] [data-caelrik-board-count]`);
       if (badge) {
         const [short, long] = badge.children;
         short.textContent = column.limit ? `${count}/${column.limit}` : String(count);
@@ -74,7 +74,7 @@ export function initTaskBoard(element, options = {}, deps = {}) {
         }
       }
       for (const card of cardsIn(list)) {
-        const select = card.querySelector('.celerik-board-move select');
+        const select = card.querySelector('.caelrik-board-move select');
         if (select) {
           select.value = list.dataset.column;
         }
@@ -89,7 +89,7 @@ export function initTaskBoard(element, options = {}, deps = {}) {
 
   // Sends a move; a refused one puts the card back where it was.
   const save = async (card, from, fromIndex) => {
-    const form = card.querySelector('.celerik-board-move');
+    const form = card.querySelector('.caelrik-board-move');
     const list = listOf(card);
     if (!form || !options.moveUrl) {
       return true;
@@ -129,7 +129,7 @@ export function initTaskBoard(element, options = {}, deps = {}) {
       }
       announce(`${message ? `${message} ` : ''}${format(labels.failed, { column: columnOf(from).label })}`);
     }
-    element.dispatchEvent(new CustomEvent('celerik:move', {
+    element.dispatchEvent(new CustomEvent('caelrik:move', {
       bubbles: true,
       detail: {
         id: card.dataset.id ?? null, column: listOf(card).dataset.column, position: cardsIn(listOf(card)).indexOf(card), ok,
@@ -148,12 +148,12 @@ export function initTaskBoard(element, options = {}, deps = {}) {
 
   // The Move form: the card goes last in the chosen column.
   element.addEventListener('submit', (event) => {
-    const form = event.target.closest('.celerik-board-move');
+    const form = event.target.closest('.caelrik-board-move');
     if (!form) {
       return;
     }
     event.preventDefault();
-    const card = form.closest('.celerik-board-card');
+    const card = form.closest('.caelrik-board-card');
     const from = listOf(card);
     const fromIndex = cardsIn(from).indexOf(card);
     const select = form.querySelector('select');
@@ -193,7 +193,7 @@ export function initTaskBoard(element, options = {}, deps = {}) {
   };
 
   element.addEventListener('keydown', (event) => {
-    const card = event.target.matches?.('.celerik-board-card') ? event.target : null;
+    const card = event.target.matches?.('.caelrik-board-card') ? event.target : null;
     if (!card || event.altKey || event.ctrlKey || event.metaKey || !options.moveUrl) {
       return;
     }
@@ -273,10 +273,10 @@ export function initTaskBoard(element, options = {}, deps = {}) {
     for (const list of lists()) {
       Sortable.create(list, {
         group: {
-          name: element.id || 'celerik-board',
+          name: element.id || 'caelrik-board',
           put: (to, from, card) => !full(to.el, card),
         },
-        draggable: '.celerik-board-card',
+        draggable: '.caelrik-board-card',
         // The card's own controls keep working: they do not start a drag.
         filter: 'select, button, a, input, label',
         preventOnFilter: false,

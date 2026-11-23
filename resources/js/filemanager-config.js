@@ -34,7 +34,7 @@ export function loadAsset(tag, url, documentRef = document) {
   const attribute = tag === 'link' ? 'href' : 'src';
   for (const existing of documentRef.querySelectorAll(tag)) {
     if (existing.getAttribute(attribute) === url) {
-      return existing.celerikLoaded ?? Promise.resolve();
+      return existing.caelrikLoaded ?? Promise.resolve();
     }
   }
 
@@ -48,11 +48,11 @@ export function loadAsset(tag, url, documentRef = document) {
   }
   element.setAttribute(attribute, url);
 
-  element.celerikLoaded = new Promise((resolve, reject) => {
+  element.caelrikLoaded = new Promise((resolve, reject) => {
     element.addEventListener('load', () => resolve(), { once: true });
-    element.addEventListener('error', () => reject(new Error(`Celerik: could not load ${url}`)), { once: true });
+    element.addEventListener('error', () => reject(new Error(`Caelrik: could not load ${url}`)), { once: true });
   });
   documentRef.head.append(element);
 
-  return element.celerikLoaded;
+  return element.caelrikLoaded;
 }

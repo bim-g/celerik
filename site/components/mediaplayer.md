@@ -11,7 +11,7 @@ The demo plays a short tone (both players share one sound file). Its video playe
 ## Usage
 
 ```php
-use Celerik\Ui\Components\MediaPlayer;
+use Caelrik\Ui\Components\MediaPlayer;
 
 MediaPlayer::make('intro')
     ->label('Getting started')
@@ -22,7 +22,7 @@ MediaPlayer::make('intro')
     ->captions('/media/intro.fr.vtt', 'fr', 'Français')
     ->descriptions('/media/intro.desc.vtt', 'en', 'English')
     ->transcript([
-        [0, 'Welcome to Celerik.', 'Ada'],
+        [0, 'Welcome to Caelrik.', 'Ada'],
         ['1:05', 'Install it with Composer.'],
     ]);
 ```

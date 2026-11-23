@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Celerik\Ui\Data;
+namespace Caelrik\Ui\Data;
 
 use InvalidArgumentException;
 

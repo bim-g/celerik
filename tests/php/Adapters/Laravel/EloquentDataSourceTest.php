@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Celerik\Ui\Tests\Adapters\Laravel;
+namespace Caelrik\Ui\Tests\Adapters\Laravel;
 
-use Celerik\Ui\Adapters\Laravel\EloquentDataSource;
-use Celerik\Ui\Components\Grid;
-use Celerik\Ui\Components\Grid\Column;
-use Celerik\Ui\Components\Grid\Filter;
-use Celerik\Ui\Data\DataRequest;
+use Caelrik\Ui\Adapters\Laravel\EloquentDataSource;
+use Caelrik\Ui\Components\Grid;
+use Caelrik\Ui\Components\Grid\Column;
+use Caelrik\Ui\Components\Grid\Filter;
+use Caelrik\Ui\Data\DataRequest;
 use Illuminate\Database\Capsule\Manager as Capsule;
 use PHPUnit\Framework\TestCase;
 

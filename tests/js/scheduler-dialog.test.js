@@ -9,7 +9,7 @@ describe('event dialog', () => {
     validate: (values) => validateDialog(values, DEFAULT_LABELS),
     ...overrides,
   });
-  const dialog = () => document.querySelector('dialog.celerik-scheduler-dialog');
+  const dialog = () => document.querySelector('dialog.caelrik-scheduler-dialog');
   const input = (text) => document.getElementById(
     [...dialog().querySelectorAll('label')].find((label) => label.textContent === text).htmlFor,
   );

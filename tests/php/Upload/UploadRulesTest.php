@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Celerik\Ui\Tests\Upload;
+namespace Caelrik\Ui\Tests\Upload;
 
-use Celerik\Ui\Upload\UploadRules;
+use Caelrik\Ui\Upload\UploadRules;
 use InvalidArgumentException;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;

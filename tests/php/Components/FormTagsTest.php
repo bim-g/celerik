@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Celerik\Ui\Tests\Components;
+namespace Caelrik\Ui\Tests\Components;
 
-use Celerik\Ui\Components\Form;
-use Celerik\Ui\Components\Form\Field;
-use Celerik\Ui\Components\Form\Repeater;
+use Caelrik\Ui\Components\Form;
+use Caelrik\Ui\Components\Form\Field;
+use Caelrik\Ui\Components\Form\Repeater;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 
@@ -20,7 +20,7 @@ final class FormTagsTest extends TestCase
 
         self::assertStringContainsString(
             '<label for="f-skills" class="form-label">Skills</label>'
-            . '<select id="f-skills" name="skills[]" multiple data-celerik-select="{&quot;placeholder&quot;:&quot;Add a skill&quot;,&quot;tags&quot;:true}" class="form-select">'
+            . '<select id="f-skills" name="skills[]" multiple data-caelrik-select="{&quot;placeholder&quot;:&quot;Add a skill&quot;,&quot;tags&quot;:true}" class="form-select">'
             . '<option value="PHP">PHP</option><option value="Laravel">Laravel</option></select>',
             $html,
         );
@@ -59,11 +59,11 @@ final class FormTagsTest extends TestCase
         )->render();
 
         self::assertStringContainsString(
-            'name="skills[]" required multiple data-celerik-select="{&quot;tags&quot;:true,&quot;max&quot;:5,&quot;add&quot;:&quot;Ajouter « %s »&quot;}"'
+            'name="skills[]" required multiple data-caelrik-select="{&quot;tags&quot;:true,&quot;max&quot;:5,&quot;add&quot;:&quot;Ajouter « %s »&quot;}"'
             . ' data-parsley-mincheck="2" data-parsley-maxcheck="5"',
             $html,
         );
-        self::assertStringContainsString('Skills <span class="celerik-required"', $html);
+        self::assertStringContainsString('Skills <span class="caelrik-required"', $html);
     }
 
     public function testRemoteSuggestions(): void
@@ -72,7 +72,7 @@ final class FormTagsTest extends TestCase
             Field::tags('topics')->remote('/topics/options', value: 'name'),
         )->render();
 
-        self::assertStringContainsString('data-celerik-select="{&quot;url&quot;:&quot;/topics/options&quot;,&quot;tags&quot;:true}"', $html);
+        self::assertStringContainsString('data-caelrik-select="{&quot;url&quot;:&quot;/topics/options&quot;,&quot;tags&quot;:true}"', $html);
     }
 
     public function testInARepeaterRow(): void

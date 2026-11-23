@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Celerik\Ui\Components;
+namespace Caelrik\Ui\Components;
 
-use Celerik\Ui\Component;
-use Celerik\Ui\Support\Html;
+use Caelrik\Ui\Component;
+use Caelrik\Ui\Support\Html;
 
 /**
  * Where the page sits: Home / Members / Ada Lovelace. A navigation landmark with an ordered
@@ -67,7 +67,7 @@ final class Breadcrumb extends Component
 
         return Html::tag(
             'nav',
-            array_merge($this->rootAttributes(['celerik-breadcrumb']), ['aria-label' => $this->label]),
+            array_merge($this->rootAttributes(['caelrik-breadcrumb']), ['aria-label' => $this->label]),
             Html::tag('ol', ['class' => 'breadcrumb mb-0'], $items),
         );
     }

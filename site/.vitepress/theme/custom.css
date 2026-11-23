@@ -1,12 +1,12 @@
 /* Live demos (components/Demo.vue). */
-.celerik-demo {
+.caelrik-demo {
   margin: 1.5rem 0;
   border: 1px solid var(--vp-c-divider);
   border-radius: 6px;
   overflow: hidden;
 }
 
-.celerik-demo__bar {
+.caelrik-demo__bar {
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem 1rem;
@@ -17,18 +17,18 @@
   border-bottom: 1px solid var(--vp-c-divider);
 }
 
-.celerik-demo__bar a {
+.caelrik-demo__bar a {
   margin-left: auto;
 }
 
-.celerik-demo iframe {
+.caelrik-demo iframe {
   display: block;
   width: 100%;
   border: 0;
   background: var(--vp-c-bg);
 }
 
-.celerik-demo figcaption {
+.caelrik-demo figcaption {
   padding: 0.375rem 0.75rem;
   font-size: 0.8125rem;
   color: var(--vp-c-text-2);
@@ -47,7 +47,7 @@
   border: 0 !important;
 }
 
-/* Accessible brand colors (WCAG 1.4.3): Celerik's blue, with white text on buttons. */
+/* Accessible brand colors (WCAG 1.4.3): Caelrik's blue, with white text on buttons. */
 :root {
   --vp-c-brand-1: #0a58ca;
   --vp-c-brand-2: #084298;
@@ -89,11 +89,11 @@
   --vp-shadow-4: none;
   --vp-shadow-5: none;
   --vp-sidebar-bg-color: var(--vp-c-bg);
-  --celerik-docs-radius: 6px;
+  --caelrik-docs-radius: 6px;
 }
 
 :root .VPButton.VPButton {
-  border-radius: var(--celerik-docs-radius);
+  border-radius: var(--caelrik-docs-radius);
 }
 
 /* The secondary button is outlined, not a grey pill. */
@@ -110,24 +110,24 @@
 :root .VPFeature.VPFeature {
   background-color: transparent;
   border: 1px solid var(--vp-c-divider);
-  border-radius: var(--celerik-docs-radius);
+  border-radius: var(--caelrik-docs-radius);
 }
 
 /* Search button: an outlined field, like the components' inputs. */
 :root .DocSearch-Button.DocSearch-Button {
   background-color: transparent;
   border: 1px solid var(--vp-c-divider);
-  border-radius: var(--celerik-docs-radius);
+  border-radius: var(--caelrik-docs-radius);
 }
 
 /* Search dialog and flyout menus: a border instead of a shadow. */
 :root .VPLocalSearchBox .shell.shell {
   border: 1px solid var(--vp-c-divider);
-  border-radius: var(--celerik-docs-radius);
+  border-radius: var(--caelrik-docs-radius);
 }
 
 :root .VPMenu.VPMenu {
-  border-radius: var(--celerik-docs-radius);
+  border-radius: var(--caelrik-docs-radius);
 }
 
 /* Sidebar on the page background, set apart by a line. */
@@ -140,6 +140,6 @@
 /* Code blocks, tips and warnings, and the demos: the same small radius. */
 .vp-doc div[class*='language-'],
 .vp-doc .custom-block,
-.celerik-demo {
-  border-radius: var(--celerik-docs-radius);
+.caelrik-demo {
+  border-radius: var(--caelrik-docs-radius);
 }

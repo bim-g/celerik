@@ -23,7 +23,7 @@ require $root . '/vendor/autoload.php';
 // Symfony's bundle). When one is not installed, an empty stand-in lets reflection read
 // the adapter: only its own methods are documented anyway.
 spl_autoload_register(static function (string $class): void {
-    if (str_starts_with($class, 'Celerik\\') || !preg_match('/^[A-Za-z_][A-Za-z0-9_\\\\]*$/', $class)) {
+    if (str_starts_with($class, 'Caelrik\\') || !preg_match('/^[A-Za-z_][A-Za-z0-9_\\\\]*$/', $class)) {
         return;
     }
     $parts = explode('\\', $class);
@@ -150,7 +150,7 @@ foreach ($files as $file) {
         continue;
     }
     $relative = substr($file->getPathname(), strlen($root . '/src/'), -4);
-    $class = 'Celerik\\Ui\\' . str_replace(['/', '\\'], '\\', $relative);
+    $class = 'Caelrik\\Ui\\' . str_replace(['/', '\\'], '\\', $relative);
     try {
         $reflection = new ReflectionClass($class);
     } catch (Throwable $exception) {
@@ -168,9 +168,9 @@ foreach (glob($output . '/*.md') ?: [] as $old) {
     unlink($old);
 }
 
-// Celerik\Ui\Adapters\Laravel => adapters-laravel; Celerik\Ui => core.
+// Caelrik\Ui\Adapters\Laravel => adapters-laravel; Caelrik\Ui => core.
 $slug = static function (string $namespace): string {
-    $relative = trim(str_replace('\\', '-', substr($namespace, strlen('Celerik\\Ui'))), '-');
+    $relative = trim(str_replace('\\', '-', substr($namespace, strlen('Caelrik\\Ui'))), '-');
     return strtolower($relative) ?: 'core';
 };
 $title = static fn (string $namespace): string => $namespace;
@@ -178,7 +178,7 @@ $ownMethod = static fn (ReflectionMethod $m, ReflectionClass $class): bool
     => $m->getDeclaringClass()->getName() === $class->getName();
 
 $index = "# API reference\n\n"
-    . "Every public class of `celerik/ui`, generated from the PHP code and its docblocks.\n\n::: v-pre\n\n";
+    . "Every public class of `caelrik/ui`, generated from the PHP code and its docblocks.\n\n::: v-pre\n\n";
 $sidebar = [];
 $count = 0;
 
@@ -203,7 +203,7 @@ foreach ($byNamespace as $namespace => $classes) {
         if ($reflection->getParentClass() !== false) {
             $page .= ' extends `' . $reflection->getParentClass()->getShortName() . '`';
         }
-        $shown = static fn (ReflectionClass $i): bool => str_starts_with($i->getName(), 'Celerik\\')
+        $shown = static fn (ReflectionClass $i): bool => str_starts_with($i->getName(), 'Caelrik\\')
             || in_array($i->getName(), ['JsonSerializable', 'Stringable'], true);
         $interfaces = array_map(
             static fn (ReflectionClass $i): string => '`' . $i->getShortName() . '`',
@@ -257,7 +257,7 @@ foreach ($byNamespace as $namespace => $classes) {
         $inherited = array_filter(
             $reflection->getMethods(ReflectionMethod::IS_PUBLIC),
             static fn (ReflectionMethod $m): bool => !$ownMethod($m, $reflection)
-                && str_starts_with($m->getDeclaringClass()->getName(), 'Celerik\\')
+                && str_starts_with($m->getDeclaringClass()->getName(), 'Caelrik\\')
                 && !str_starts_with($m->getName(), '__'),
         );
         if ($inherited !== []) {

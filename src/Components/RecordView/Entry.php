@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Celerik\Ui\Components\RecordView;
+namespace Caelrik\Ui\Components\RecordView;
 
-use Celerik\Ui\Support\Arr;
-use Celerik\Ui\Support\Dates;
-use Celerik\Ui\Support\Html;
-use Celerik\Ui\Support\Url;
+use Caelrik\Ui\Support\Arr;
+use Caelrik\Ui\Support\Dates;
+use Caelrik\Ui\Support\Html;
+use Caelrik\Ui\Support\Url;
 use Closure;
 use DateTimeInterface;
 use InvalidArgumentException;
@@ -294,9 +294,9 @@ final class Entry
     {
         $yes = filter_var($value, FILTER_VALIDATE_BOOL, FILTER_NULL_ON_FAILURE) ?? (bool) $value;
 
-        return Html::tag('span', ['class' => 'celerik-recordview-' . ($yes ? 'yes' : 'no')], Html::tag(
+        return Html::tag('span', ['class' => 'caelrik-recordview-' . ($yes ? 'yes' : 'no')], Html::tag(
             'span',
-            ['class' => 'celerik-recordview-mark', 'aria-hidden' => 'true'],
+            ['class' => 'caelrik-recordview-mark', 'aria-hidden' => 'true'],
             $yes ? '✓' : '✕',
         ) . ' ' . Html::escape($yes ? $labels['yes'] : $labels['no']));
     }
@@ -323,7 +323,7 @@ final class Entry
 
         return Html::tag(
             'ul',
-            ['class' => $this->options['badges'] ? 'celerik-recordview-badges' : 'list-unstyled mb-0'],
+            ['class' => $this->options['badges'] ? 'caelrik-recordview-badges' : 'list-unstyled mb-0'],
             $html,
         );
     }
@@ -338,7 +338,7 @@ final class Entry
         return Html::tag('img', [
             'src' => $safe,
             'alt' => (string) $this->options['alt'],
-            'class' => 'celerik-recordview-image img-fluid rounded',
+            'class' => 'caelrik-recordview-image img-fluid rounded',
             'loading' => 'lazy',
         ]);
     }

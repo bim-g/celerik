@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Celerik\Ui\Tests;
+namespace Caelrik\Ui\Tests;
 
-use Celerik\Ui\Assets;
-use Celerik\Ui\ComponentRegistry;
-use Celerik\Ui\Components\Grid;
+use Caelrik\Ui\Assets;
+use Caelrik\Ui\ComponentRegistry;
+use Caelrik\Ui\Components\Grid;
 use InvalidArgumentException;
 use LogicException;
 use PHPUnit\Framework\TestCase;
@@ -48,9 +48,9 @@ final class ComponentRegistryTest extends TestCase
     public function testAssetTags(): void
     {
         self::assertSame(
-            '<link rel="stylesheet" href="/vendor/celerik/celerik.css">' . "\n"
-            . '<script type="module" src="/vendor/celerik/celerik.js"></script>',
-            Assets::tags('/vendor/celerik/'),
+            '<link rel="stylesheet" href="/vendor/caelrik/caelrik.css">' . "\n"
+            . '<script type="module" src="/vendor/caelrik/caelrik.js"></script>',
+            Assets::tags('/vendor/caelrik/'),
         );
     }
 
@@ -64,7 +64,7 @@ final class ComponentRegistryTest extends TestCase
                 Assets::tags('/assets', theme: $removed);
                 self::fail(sprintf('The %s look was accepted.', $removed));
             } catch (InvalidArgumentException $exception) {
-                self::assertStringContainsString('was removed in Celerik UI 0.2.0', $exception->getMessage());
+                self::assertStringContainsString('was removed in Caelrik UI 0.2.0', $exception->getMessage());
             }
         }
 
@@ -75,19 +75,19 @@ final class ComponentRegistryTest extends TestCase
     public function testAssetTagsLoadACustomThemeLastAndEscapeItsUrl(): void
     {
         self::assertSame(
-            '<link rel="stylesheet" href="/assets/celerik.css">' . "\n"
+            '<link rel="stylesheet" href="/assets/caelrik.css">' . "\n"
             . '<link rel="stylesheet" href="/css/acme.css?v=2&amp;x=&quot;">' . "\n"
-            . '<script type="module" src="/assets/celerik.js"></script>',
+            . '<script type="module" src="/assets/caelrik.js"></script>',
             Assets::tags('/assets', customTheme: '/css/acme.css?v=2&x="'),
         );
     }
 
     public function testCdnUrlPointsToAReleaseOnJsDelivr(): void
     {
-        self::assertSame('https://cdn.jsdelivr.net/npm/@celerikui/ui@0.2.0/public', Assets::cdnUrl('0.2.0'));
-        self::assertSame('https://cdn.jsdelivr.net/npm/@celerikui/ui@1.0.0-beta.1/public', Assets::cdnUrl('v1.0.0-beta.1'));
+        self::assertSame('https://cdn.jsdelivr.net/npm/@caelrik/ui@0.2.0/public', Assets::cdnUrl('0.2.0'));
+        self::assertSame('https://cdn.jsdelivr.net/npm/@caelrik/ui@1.0.0-beta.1/public', Assets::cdnUrl('v1.0.0-beta.1'));
         self::assertStringContainsString(
-            '<script type="module" src="https://cdn.jsdelivr.net/npm/@celerikui/ui@0.2.0/public/celerik.js"></script>',
+            '<script type="module" src="https://cdn.jsdelivr.net/npm/@caelrik/ui@0.2.0/public/caelrik.js"></script>',
             Assets::tags(Assets::cdnUrl('0.2.0')),
         );
     }
@@ -101,7 +101,7 @@ final class ComponentRegistryTest extends TestCase
 
     public function testCdnUrlNeedsAVersionForADevelopmentInstall(): void
     {
-        // In this repository celerik/ui is the root package, installed as a branch (dev-…).
+        // In this repository caelrik/ui is the root package, installed as a branch (dev-…).
         $this->expectException(LogicException::class);
         $this->expectExceptionMessage('which is not on the CDN');
 
@@ -112,9 +112,9 @@ final class ComponentRegistryTest extends TestCase
     {
         self::assertSame(
             '<meta name="csp-nonce" content="abc">' . "\n"
-            . '<link rel="stylesheet" href="/vendor/celerik/celerik.css">' . "\n"
-            . '<script type="module" src="/vendor/celerik/celerik.js" nonce="abc"></script>',
-            Assets::tags('/vendor/celerik/', 'abc'),
+            . '<link rel="stylesheet" href="/vendor/caelrik/caelrik.css">' . "\n"
+            . '<script type="module" src="/vendor/caelrik/caelrik.js" nonce="abc"></script>',
+            Assets::tags('/vendor/caelrik/', 'abc'),
         );
     }
 }

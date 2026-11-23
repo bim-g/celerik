@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Celerik\Ui\Components;
+namespace Caelrik\Ui\Components;
 
-use Celerik\Ui\Component;
-use Celerik\Ui\Support\Html;
+use Caelrik\Ui\Component;
+use Caelrik\Ui\Support\Html;
 use InvalidArgumentException;
 
 /**
@@ -92,11 +92,11 @@ final class Skeleton extends Component
     {
         $shapes = '';
         if ($this->image) {
-            $shapes .= '<span class="placeholder celerik-skeleton-image"></span>';
+            $shapes .= '<span class="placeholder caelrik-skeleton-image"></span>';
         }
         if ($this->avatar || $this->heading) {
-            $shapes .= '<span class="celerik-skeleton-header">'
-                . ($this->avatar ? '<span class="placeholder celerik-skeleton-avatar"></span>' : '')
+            $shapes .= '<span class="caelrik-skeleton-header">'
+                . ($this->avatar ? '<span class="placeholder caelrik-skeleton-avatar"></span>' : '')
                 . ($this->heading ? '<span class="placeholder placeholder-lg col-6"></span>' : '')
                 . '</span>';
         }
@@ -108,12 +108,12 @@ final class Skeleton extends Component
 
         return Html::tag('div', array_merge($this->attributes, [
             'class' => Html::classes([
-                'celerik-skeleton',
+                'caelrik-skeleton',
                 $this->glow ? 'placeholder-glow' : null,
                 ...$this->classes,
             ]),
             'role' => 'status',
         ]), Html::tag('span', ['class' => 'visually-hidden'], Html::escape($this->label))
-            . Html::tag('span', ['class' => 'celerik-skeleton-shapes', 'aria-hidden' => 'true'], $shapes));
+            . Html::tag('span', ['class' => 'caelrik-skeleton-shapes', 'aria-hidden' => 'true'], $shapes));
     }
 }

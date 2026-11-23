@@ -2,25 +2,25 @@
 
 declare(strict_types=1);
 
-namespace Celerik\Ui;
+namespace Caelrik\Ui;
 
-use Celerik\Ui\Support\Html;
-use Celerik\Ui\Theme\Theme;
+use Caelrik\Ui\Support\Html;
+use Caelrik\Ui\Theme\Theme;
 use Composer\InstalledVersions;
 use InvalidArgumentException;
 use LogicException;
 
 /**
- * Renders the tags for the prebuilt bundle (public/celerik.css and public/celerik.js).
+ * Renders the tags for the prebuilt bundle (public/caelrik.css and public/caelrik.js).
  *
- * celerik.js is an ES module that loads each component's library from public/chunks/
+ * caelrik.js is an ES module that loads each component's library from public/chunks/
  * only when that component is on the page. Module scripts are deferred, so jQuery and
  * Bootstrap (peer dependencies) only need to be included before these tags.
  */
 final class Assets
 {
-    public const STYLESHEET = 'celerik.css';
-    public const SCRIPT = 'celerik.js';
+    public const STYLESHEET = 'caelrik.css';
+    public const SCRIPT = 'caelrik.js';
 
     /**
      * The looks tags() accepts: Bootstrap only since 0.2.0, when Material and Tailwind
@@ -28,8 +28,8 @@ final class Assets
      */
     public const THEMES = ['bootstrap'];
 
-    /** The bundle of every release on jsDelivr, from the @celerikui/ui npm package. */
-    public const CDN = 'https://cdn.jsdelivr.net/npm/@celerikui/ui@%s/public';
+    /** The bundle of every release on jsDelivr, from the @caelrik/ui npm package. */
+    public const CDN = 'https://cdn.jsdelivr.net/npm/@caelrik/ui@%s/public';
 
     /**
      * The bundle's URL on the jsDelivr CDN, for Assets::tags() when you do not serve the
@@ -48,12 +48,12 @@ final class Assets
     public static function cdnUrl(?string $version = null): string
     {
         if ($version === null) {
-            $installed = class_exists(InstalledVersions::class) && InstalledVersions::isInstalled('celerik/ui')
-                ? InstalledVersions::getPrettyVersion('celerik/ui')
+            $installed = class_exists(InstalledVersions::class) && InstalledVersions::isInstalled('caelrik/ui')
+                ? InstalledVersions::getPrettyVersion('caelrik/ui')
                 : null;
             if ($installed === null || str_starts_with($installed, 'dev-') || str_ends_with($installed, '-dev')) {
                 throw new LogicException(sprintf(
-                    'celerik/ui is installed as "%s", which is not on the CDN: pass a released version, '
+                    'caelrik/ui is installed as "%s", which is not on the CDN: pass a released version, '
                     . 'or serve the package\'s public/ folder (npm run build in a development checkout).',
                     $installed ?? 'unknown',
                 ));

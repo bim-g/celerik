@@ -1,12 +1,12 @@
 <?php
 
-use Celerik\Ui\Components\Barcode;
-use Celerik\Ui\Components\QrCode;
-use Celerik\Ui\Support\Html;
+use Caelrik\Ui\Components\Barcode;
+use Caelrik\Ui\Components\QrCode;
+use Caelrik\Ui\Support\Html;
 
 return [
     Html::raw('<div class="d-flex flex-wrap gap-4 align-items-start">'),
-    QrCode::make('site')->value('https://kivudesign.github.io/celerik/')->label('Celerik UI'),
+    QrCode::make('site')->value('https://kivudesign.github.io/celerik/')->label('Caelrik UI'),
     QrCode::make('wifi')->value('WIFI:T:WPA;S:Office;P:correct horse battery staple;;')->label('Office Wi-Fi')
         ->hideValue()->level('Q'),
     Html::raw('</div><div class="d-flex flex-wrap gap-4 align-items-start">'),

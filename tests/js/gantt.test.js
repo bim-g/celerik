@@ -17,17 +17,17 @@ describe('gantt arrows', () => {
   test('one decorative arrow per dependency, from the task to the task that waits for it', () => {
     const gantt = loadFixture('gantt');
     const api = initGantt(gantt);
-    const overlay = gantt.querySelector('.celerik-gantt-arrows');
+    const overlay = gantt.querySelector('.caelrik-gantt-arrows');
     expect(overlay.getAttribute('aria-hidden')).toBe('true');
     expect(overlay.querySelector('marker').id).toBe('launch-arrow');
-    const links = [...overlay.querySelectorAll('.celerik-gantt-link')]
+    const links = [...overlay.querySelectorAll('.caelrik-gantt-link')]
       .map((path) => `${path.dataset.from}>${path.dataset.to}`);
     expect(links).toEqual(['design>build', 'design>docs', 'build>release', 'docs>release']);
-    expect(overlay.querySelector('.celerik-gantt-link').getAttribute('marker-end')).toBe('url(#launch-arrow)');
+    expect(overlay.querySelector('.caelrik-gantt-link').getAttribute('marker-end')).toBe('url(#launch-arrow)');
 
     // Redrawing replaces the arrows.
     api.draw();
-    expect(overlay.querySelectorAll('.celerik-gantt-link')).toHaveLength(4);
+    expect(overlay.querySelectorAll('.caelrik-gantt-link')).toHaveLength(4);
     api.destroy();
   });
 

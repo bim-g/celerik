@@ -2,17 +2,17 @@
 
 declare(strict_types=1);
 
-namespace Celerik\Ui\Theme;
+namespace Caelrik\Ui\Theme;
 
 use InvalidArgumentException;
 
 /**
- * The celerik-theme command: build a theme stylesheet from theme.json, check its contrast,
+ * The caelrik-theme command: build a theme stylesheet from theme.json, check its contrast,
  * or start a theme from a preset.
  *
- *     vendor/bin/celerik-theme preset bootstrap > theme.json
- *     vendor/bin/celerik-theme check theme.json
- *     vendor/bin/celerik-theme build theme.json public/css/acme.css
+ *     vendor/bin/caelrik-theme preset bootstrap > theme.json
+ *     vendor/bin/caelrik-theme check theme.json
+ *     vendor/bin/caelrik-theme build theme.json public/css/acme.css
  *
  * Exit codes: 0 done, 1 a contrast check failed, 2 invalid usage or an invalid theme.
  */
@@ -26,9 +26,9 @@ final class Console
 
     private const USAGE = <<<'TXT'
         Usage:
-          celerik-theme preset bootstrap                  Print the Bootstrap preset as theme JSON
-          celerik-theme check <theme.json>                Print the WCAG contrast report
-          celerik-theme build <theme.json> <output.css>   Write the theme stylesheet
+          caelrik-theme preset bootstrap                  Print the Bootstrap preset as theme JSON
+          caelrik-theme check <theme.json>                Print the WCAG contrast report
+          caelrik-theme build <theme.json> <output.css>   Write the theme stylesheet
 
         Options:
           --allow-contrast-failures   build: write the stylesheet even if a pair fails

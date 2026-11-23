@@ -20,7 +20,7 @@ export function activeCue(times, time) {
 }
 
 export function initMediaPlayer(element, options = {}) {
-  const media = element.querySelector('.celerik-media-element');
+  const media = element.querySelector('.caelrik-media-element');
   const labels = options.labels ?? {};
   const hasCaptions = Boolean(media.querySelector('track[kind="captions"][default], track[kind="subtitles"][default]'));
 
@@ -38,13 +38,13 @@ export function initMediaPlayer(element, options = {}) {
       'settings', 'pip', 'fullscreen'],
   }, options.options));
 
-  const cues = [...element.querySelectorAll('.celerik-media-cue')];
+  const cues = [...element.querySelectorAll('.caelrik-media-cue')];
   const times = cues.map((cue) => Number(cue.dataset.time));
   for (const cue of cues) {
-    const time = cue.querySelector('.celerik-media-time');
+    const time = cue.querySelector('.caelrik-media-time');
     const button = document.createElement('button');
     button.type = 'button';
-    button.className = 'btn btn-link celerik-media-seek';
+    button.className = 'btn btn-link caelrik-media-seek';
     button.setAttribute('aria-label', text(labels.playFrom ?? 'Play from {time}', { time: time.textContent }));
     time.replaceWith(button);
     button.append(time);

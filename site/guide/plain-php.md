@@ -1,21 +1,21 @@
 # Plain PHP
 
-Celerik needs no framework: components are plain PHP objects and `Assets::tags()` writes the asset tags.
+Caelrik needs no framework: components are plain PHP objects and `Assets::tags()` writes the asset tags.
 
 ## Assets
 
 Copy the bundle to your web root, and again after each update, for example in a deployment script:
 
 ```bash
-cp -r vendor/celerik/ui/public public/vendor/celerik
+cp -r vendor/caelrik/ui/public public/vendor/caelrik
 ```
 
 Or skip the copy and load it from the CDN: `Assets::tags(Assets::cdnUrl())` (see [Getting started](./getting-started#or-use-the-cdn-or-npm)).
 
 ```php
-<?= Celerik\Ui\Assets::tags('/vendor/celerik') ?>
-<?= Celerik\Ui\Assets::tags('/vendor/celerik', customTheme: '/css/acme.css') ?>
-<?= Celerik\Ui\Assets::tags('/vendor/celerik', nonce: $cspNonce) ?>
+<?= Caelrik\Ui\Assets::tags('/vendor/caelrik') ?>
+<?= Caelrik\Ui\Assets::tags('/vendor/caelrik', customTheme: '/css/acme.css') ?>
+<?= Caelrik\Ui\Assets::tags('/vendor/caelrik', nonce: $cspNonce) ?>
 ```
 
 ## A page with a server-side grid
@@ -24,9 +24,9 @@ Or skip the copy and load it from the CDN: `Assets::tags(Assets::cdnUrl())` (see
 <?php
 require __DIR__ . '/../vendor/autoload.php';
 
-use Celerik\Ui\Assets;
-use Celerik\Ui\Components\Grid;
-use Celerik\Ui\Data\ArrayDataSource;
+use Caelrik\Ui\Assets;
+use Caelrik\Ui\Components\Grid;
+use Caelrik\Ui\Data\ArrayDataSource;
 
 $grid = Grid::make('people')
     ->caption('People')
@@ -48,7 +48,7 @@ if (parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH) === '/people.json') {
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
     <script src="https://cdn.jsdelivr.net/npm/jquery@4.0.0/dist/jquery.min.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" defer></script>
-    <?= Assets::tags('/vendor/celerik') ?>
+    <?= Assets::tags('/vendor/caelrik') ?>
 </head>
 <body>
 <main class="container py-4">

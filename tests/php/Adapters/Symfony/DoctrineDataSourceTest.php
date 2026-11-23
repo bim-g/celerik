@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Celerik\Ui\Tests\Adapters\Symfony;
+namespace Caelrik\Ui\Tests\Adapters\Symfony;
 
-use Celerik\Ui\Adapters\Symfony\DoctrineDataSource;
-use Celerik\Ui\Components\Grid;
-use Celerik\Ui\Components\Grid\Column;
-use Celerik\Ui\Data\DataRequest;
-use Celerik\Ui\Tests\Adapters\Symfony\Entity\Author;
-use Celerik\Ui\Tests\Adapters\Symfony\Entity\Book;
+use Caelrik\Ui\Adapters\Symfony\DoctrineDataSource;
+use Caelrik\Ui\Components\Grid;
+use Caelrik\Ui\Components\Grid\Column;
+use Caelrik\Ui\Data\DataRequest;
+use Caelrik\Ui\Tests\Adapters\Symfony\Entity\Author;
+use Caelrik\Ui\Tests\Adapters\Symfony\Entity\Book;
 use Doctrine\DBAL\DriverManager;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\ORMSetup;

@@ -19,9 +19,9 @@ function nameQuillControls(container, toolbar, labels) {
 // The PHP <textarea> stays in the form as the submitted value (and as the no-JS
 // fallback). Quill is created next to it, and Parsley keeps validating the textarea.
 export function initEditor(textarea) {
-  const options = JSON.parse(textarea.getAttribute('data-celerik-editor') || '{}');
+  const options = JSON.parse(textarea.getAttribute('data-caelrik-editor') || '{}');
   const container = document.createElement('div');
-  container.className = 'celerik-editor';
+  container.className = 'caelrik-editor';
   textarea.after(container);
 
   const quill = new Quill(container, buildEditorConfig(options));
@@ -67,10 +67,10 @@ export function initEditor(textarea) {
   mirror();
   new MutationObserver(mirror).observe(textarea, { attributes: true, attributeFilter: ['class'] });
 
-  textarea.celerikEditor = quill;
+  textarea.caelrikEditor = quill;
   return quill;
 }
 
 export function initEditors(form) {
-  return [...form.querySelectorAll('textarea[data-celerik-editor]')].map(initEditor);
+  return [...form.querySelectorAll('textarea[data-caelrik-editor]')].map(initEditor);
 }

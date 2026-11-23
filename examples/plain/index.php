@@ -9,18 +9,18 @@
 
 declare(strict_types=1);
 
-use Celerik\Ui\Assets;
-use Celerik\Ui\Components\Chart;
-use Celerik\Ui\Components\Form;
-use Celerik\Ui\Components\Form\Field;
-use Celerik\Ui\Components\Grid;
-use Celerik\Ui\Data\ArrayDataSource;
+use Caelrik\Ui\Assets;
+use Caelrik\Ui\Components\Chart;
+use Caelrik\Ui\Components\Form;
+use Caelrik\Ui\Components\Form\Field;
+use Caelrik\Ui\Components\Grid;
+use Caelrik\Ui\Data\ArrayDataSource;
 
 require dirname(__DIR__, 2) . '/vendor/autoload.php';
 
 $path = parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH) ?: '/';
 
-// Serve the prebuilt bundle (celerik.js, celerik.css, chunks/*) from the package's public/ directory.
+// Serve the prebuilt bundle (caelrik.js, caelrik.css, chunks/*) from the package's public/ directory.
 if (str_starts_with($path, '/assets/')) {
     $public = realpath(dirname(__DIR__, 2) . '/public');
     $file = realpath($public . '/' . substr($path, strlen('/assets/')));
@@ -114,7 +114,7 @@ require __DIR__ . '/theme-builder.php';
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Celerik UI — plain PHP example</title>
+    <title>Caelrik UI — plain PHP example</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
     <script src="https://cdn.jsdelivr.net/npm/jquery@4.0.0/dist/jquery.min.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" defer></script>
@@ -122,7 +122,7 @@ require __DIR__ . '/theme-builder.php';
 </head>
 <body>
 <main class="container py-4">
-    <h1 class="h3 mb-3">Celerik UI — plain PHP</h1>
+    <h1 class="h3 mb-3">Caelrik UI — plain PHP</h1>
     <nav class="mb-4 small" aria-label="Theme">
         Mode:
         <?php foreach (['light', 'dark'] as $m) : ?>

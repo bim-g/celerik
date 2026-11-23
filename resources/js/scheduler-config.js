@@ -23,9 +23,9 @@ export const DEFAULT_LABELS = {
 
 // Toolbar button that opens the event dialog for a new event: selecting days with the
 // mouse is not possible from the keyboard.
-export const CREATE_BUTTON = 'celerikCreate';
+export const CREATE_BUTTON = 'caelrikCreate';
 
-// Celerik endpoints answer {data, meta}; FullCalendar wants a plain array of events.
+// Caelrik endpoints answer {data, meta}; FullCalendar wants a plain array of events.
 export function toFullCalendarEvents(payload) {
   if (Array.isArray(payload)) {
     return payload;
@@ -152,7 +152,7 @@ export async function sendChange(url, payload, csrf) {
 // only way (WCAG 2.1.1, 2.5.7).
 //
 // Before creating, editing or deleting, a cancelable event is dispatched on the element
-// (`celerik:scheduler:select`, `celerik:scheduler:edit`, `celerik:scheduler:delete`): call
+// (`caelrik:scheduler:select`, `caelrik:scheduler:edit`, `caelrik:scheduler:delete`): call
 // preventDefault() to replace the built-in prompt, dialog or confirm with your own UI.
 export function createChangeHandlers(element, options, deps = {}) {
   const request = deps.request ?? ((url, payload) => sendChange(url, payload, options.csrf));
@@ -163,7 +163,7 @@ export function createChangeHandlers(element, options, deps = {}) {
   const labels = { ...DEFAULT_LABELS, ...options.labels };
 
   const emit = (name, detail, cancelable = false) => element.dispatchEvent(
-    new CustomEvent(`celerik:scheduler:${name}`, { bubbles: true, cancelable, detail }),
+    new CustomEvent(`caelrik:scheduler:${name}`, { bubbles: true, cancelable, detail }),
   );
   const fail = (action, detail) => emit('error', { action, ...detail });
 

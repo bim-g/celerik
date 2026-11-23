@@ -1,4 +1,4 @@
-// Tom Select settings for a searchable select, from its data-celerik-select options
+// Tom Select settings for a searchable select, from its data-caelrik-select options
 // (Field::searchable(), Field::remote()). Pure, so it can be unit-tested.
 
 // The URL of a remote search: the endpoint, with ?search=<query>.
@@ -15,7 +15,7 @@ export async function fetchOptions(url, query, fetchImpl = (...args) => fetch(..
     credentials: 'same-origin',
   });
   if (!response.ok) {
-    throw new Error(`Celerik: ${url} answered ${response.status}.`);
+    throw new Error(`Caelrik: ${url} answered ${response.status}.`);
   }
   const { data } = await response.json();
   return Array.isArray(data)

@@ -6,11 +6,11 @@ import { loadFixture } from './helpers.js';
 describe('scheduler integration (FullCalendar)', () => {
   test('replaces the fallback list with a calendar showing the events', () => {
     const element = loadFixture('scheduler');
-    expect(element.querySelector('.celerik-scheduler__fallback')).not.toBeNull();
+    expect(element.querySelector('.caelrik-scheduler__fallback')).not.toBeNull();
 
     const calendar = initScheduler(element, readOptions(element));
 
-    expect(element.querySelector('.celerik-scheduler__fallback')).toBeNull();
+    expect(element.querySelector('.caelrik-scheduler__fallback')).toBeNull();
     expect(element.classList.contains('fc')).toBe(true);
     expect(calendar.view.type).toBe('listWeek');
     expect(calendar.getEvents().map((event) => event.title)).toEqual(['Kick-off', 'Design review', 'Holiday']);

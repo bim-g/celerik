@@ -21,7 +21,7 @@ echo json_encode($grid->respond(new ArrayDataSource($rows), $_GET));
 
 ### The response
 
-Every Celerik endpoint answers with the same envelope:
+Every Caelrik endpoint answers with the same envelope:
 
 ```json
 {
@@ -165,7 +165,7 @@ try {
 }
 ```
 
-Changes arrive as `{"id", "title", "start", "end", "allDay"}`. Validate them with `Data\Event::fromArray()`, save them, and answer `{"data": event}`, or an error status: the calendar then rolls the change back and fires `celerik:scheduler:error`.
+Changes arrive as `{"id", "title", "start", "end", "allDay"}`. Validate them with `Data\Event::fromArray()`, save them, and answer `{"data": event}`, or an error status: the calendar then rolls the change back and fires `caelrik:scheduler:error`.
 
 | Source | For |
 |---|---|

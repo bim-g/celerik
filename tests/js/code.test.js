@@ -33,7 +33,7 @@ describe('code fields (Field::code())', () => {
 
   const parts = (name) => {
     const textarea = form.querySelector(`#snippet-${name}`);
-    return { textarea, editor: textarea.celerikEditor, content: textarea.celerikEditor.root };
+    return { textarea, editor: textarea.caelrikEditor, content: textarea.caelrikEditor.root };
   };
 
   test('the editor takes the name, the description and the text; the textarea steps aside', () => {
@@ -73,7 +73,7 @@ describe('code fields (Field::code())', () => {
     return Promise.resolve().then(() => {
       expect(content.getAttribute('aria-invalid')).toBe('true');
       expect(content.getAttribute('aria-required')).toBe('true');
-      expect(content.closest('.celerik-code').classList.contains('is-invalid')).toBe(true);
+      expect(content.closest('.caelrik-code').classList.contains('is-invalid')).toBe(true);
       textarea.focus();
       expect(document.activeElement).toBe(content);
     });

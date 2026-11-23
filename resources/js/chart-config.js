@@ -22,14 +22,14 @@ export function withPatterns(data, type) {
 const PER_POINT_TYPES = ['pie', 'doughnut', 'polarArea'];
 const HEX = /^#[0-9a-f]{6}$/i;
 
-// The flat palette (celerik.css: --celerik-chart-1 to 6, light and dark) and the page's
+// The flat palette (caelrik.css: --caelrik-chart-1 to 6, light and dark) and the page's
 // text, grid and font, read from the chart's element. Empty values are left out, so
 // Chart.js keeps its own.
 export function readChartTheme(element) {
   const style = getComputedStyle(element);
   const read = (name) => style.getPropertyValue(name).trim();
   return {
-    colors: [1, 2, 3, 4, 5, 6].map((index) => read(`--celerik-chart-${index}`)).filter(Boolean),
+    colors: [1, 2, 3, 4, 5, 6].map((index) => read(`--caelrik-chart-${index}`)).filter(Boolean),
     text: read('--bs-secondary-color'),
     title: read('--bs-body-color'),
     grid: read('--bs-border-color-translucent'),
@@ -115,9 +115,9 @@ export function buildChartConfig(options, { reducedMotion = false, theme = null 
 
 // Text alternative for charts whose data arrives over HTTP (PHP renders it for embedded data).
 export function renderDataTable(figure, caption, data) {
-  figure.querySelector('table.celerik-chart__data')?.remove();
+  figure.querySelector('table.caelrik-chart__data')?.remove();
   const table = document.createElement('table');
-  table.className = 'visually-hidden celerik-chart__data';
+  table.className = 'visually-hidden caelrik-chart__data';
   table.createCaption().textContent = caption;
 
   const head = table.createTHead().insertRow();

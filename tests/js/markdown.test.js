@@ -23,7 +23,7 @@ describe('format()', () => {
     ['An [idea]', 'italic', 'An _[idea]_'],
     ['Run [npm test]', 'code', 'Run `[npm test]`'],
     ['[a\nb]', 'code', '```\n[a\nb]\n```'],
-    ['[Celerik]', 'link', '[Celerik]([])'],
+    ['[Caelrik]', 'link', '[Caelrik]([])'],
     ['[https://example.com]', 'link', '[[]](https://example.com)'],
     ['See []', 'link', 'See [[]]()'],
     ['Ti[]tle', 'heading', '## Title[]'],
@@ -62,13 +62,13 @@ describe('Markdown fields in a form', () => {
   afterEach(() => parsley.destroy());
 
   const parts = (name) => {
-    const box = form.querySelector(`#post-${name}`).closest('.celerik-markdown');
+    const box = form.querySelector(`#post-${name}`).closest('.caelrik-markdown');
     return {
       box,
       textarea: box.querySelector('textarea'),
       tabs: [...box.querySelectorAll('[role="tab"]')],
       toolbar: box.querySelector('[role="toolbar"]'),
-      preview: box.querySelector('.celerik-markdown-preview'),
+      preview: box.querySelector('.caelrik-markdown-preview'),
     };
   };
 

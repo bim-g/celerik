@@ -1,6 +1,6 @@
 <?php
 
-use Celerik\Ui\Components\Chart;
+use Caelrik\Ui\Components\Chart;
 
 return Chart::make('revenue')
     ->type('line')

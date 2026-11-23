@@ -1,15 +1,15 @@
 # Roadmap
 
-Celerik UI is, and will stay, free and open source (MIT).
+Caelrik UI is, and will stay, free and open source (MIT).
 
 ## Where we are going
 
-Celerik UI aims to give PHP applications what [Telerik UI](https://www.telerik.com/kendo-jquery-ui) gives .NET and JavaScript ones: a complete set of business components, ready to use from PHP, accessible and themeable. It is far from complete yet. The phases below fill the gaps in order of need, one family of components at a time.
+Caelrik UI aims to give PHP applications what [Telerik UI](https://www.telerik.com/kendo-jquery-ui) gives .NET and JavaScript ones: a complete set of business components, ready to use from PHP, accessible and themeable. It is far from complete yet. The phases below fill the gaps in order of need, one family of components at a time.
 
 Two references guide the work:
 
 - **Telerik UI's catalogue** sets the breadth: which components a full suite has. [Components.md](Components.md) maps each one to an open-source library and to a phase.
-- **[Filament](https://filamentphp.com)** sets the depth for admin and business screens: forms with layout and repeatable groups, tables with filters and actions, confirmation dialogs, read-only record views and dashboard widgets. Filament is built on Laravel and Livewire; Celerik offers the same ideas to plain PHP, Laravel and Symfony, with server-rendered HTML and progressive enhancement.
+- **[Filament](https://filamentphp.com)** sets the depth for admin and business screens: forms with layout and repeatable groups, tables with filters and actions, confirmation dialogs, read-only record views and dashboard widgets. Filament is built on Laravel and Livewire; Caelrik offers the same ideas to plain PHP, Laravel and Symfony, with server-rendered HTML and progressive enhancement.
 
 Every component follows the same rules: a PHP builder, an endpoint helper when it loads data, keyboard and screen-reader support (WCAG 2.2 AA, tested in light and dark mode), Bootstrap 5.3 in light and dark mode, a documentation page with a live demo, and only MIT, Apache 2.0, BSD or ISC libraries.
 
@@ -25,12 +25,12 @@ Every component follows the same rules: a PHP builder, an endpoint helper when i
 
 - Scheduler, File Manager, Upload, rich text editor.
 - Modals, Tabs, Notifications.
-- Light and dark mode. (Material and Tailwind-inspired looks were added here, and removed in 0.2.0: Celerik UI is Bootstrap only.)
+- Light and dark mode. (Material and Tailwind-inspired looks were added here, and removed in 0.2.0: Caelrik UI is Bootstrap only.)
 
 ### Phase 3 ✅
 
 - Accessibility polish: browser accessibility tests in light and dark mode, reduced motion, Windows High Contrast, keyboard editing in the Scheduler, form error summary, charts readable without color, WCAG 2.2 AA (see [ACCESSIBILITY.md](ACCESSIBILITY.md)).
-- ThemeBuilder: theme tokens and presets, `Theme` in PHP with WCAG contrast checks, the ThemeBuilder component and the `celerik-theme` command (see [THEMING.md](THEMING.md)).
+- ThemeBuilder: theme tokens and presets, `Theme` in PHP with WCAG contrast checks, the ThemeBuilder component and the `caelrik-theme` command (see [THEMING.md](THEMING.md)).
 - Documentation portal: guides, a page and a live demo per component, an API reference generated from the code, published to GitHub Pages (<https://kivudesign.github.io/celerik/>).
 
 ### Phase 4 — Forms ✅
@@ -41,8 +41,8 @@ Every component follows the same rules: a PHP builder, an endpoint helper when i
 
 ### Distribution ✅
 
-- Releases include the built bundle, so installing needs no Node.js ([GitHub releases](https://github.com/kivudesign/celerik/releases), [Packagist](https://packagist.org/packages/celerik/ui)).
-- The bundle on npm (`@celerikui/ui`) and on the jsDelivr CDN (`Assets::cdnUrl()`).
+- Releases include the built bundle, so installing needs no Node.js ([GitHub releases](https://github.com/kivudesign/celerik/releases), [Packagist](https://packagist.org/packages/caelrik/ui)).
+- The bundle on npm (`@caelrik/ui`) and on the jsDelivr CDN (`Assets::cdnUrl()`).
 - Reproducible CI and releases, weekly dependency updates, a [changelog](CHANGELOG.md) and release notes grouped by kind of change.
 
 ### Phase 5 — Data ✅
@@ -90,7 +90,7 @@ Showing records and states.
 
 - Spreadsheet and PivotGrid: large libraries, after the phases above.
 - Developer experience: clear error messages, a setup check command, translations of every built-in text, recipes in the documentation (CRUD admin page, dashboard), complete IDE autocompletion.
-- Community: issue forms, labels for first contributions, GitHub Discussions, a showcase of projects built with Celerik.
+- Community: issue forms, labels for first contributions, GitHub Discussions, a showcase of projects built with Caelrik.
 
 ## Road to 1.0
 

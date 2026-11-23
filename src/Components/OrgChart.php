@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Celerik\Ui\Components;
+namespace Caelrik\Ui\Components;
 
-use Celerik\Ui\Component;
-use Celerik\Ui\Support\Html;
-use Celerik\Ui\Support\Url;
+use Caelrik\Ui\Component;
+use Caelrik\Ui\Support\Html;
+use Caelrik\Ui\Support\Url;
 use InvalidArgumentException;
 use LogicException;
 
@@ -185,7 +185,7 @@ final class OrgChart extends Component
         $seen = [];
         $labelId = $this->id . '-label';
         $tree = $this->list($roots, $children, $seen, 1, [
-            'class' => 'celerik-orgchart-tree',
+            'class' => 'caelrik-orgchart-tree',
             'aria-labelledby' => $labelId,
         ]);
         if (count($seen) !== count($this->nodes)) {
@@ -194,11 +194,11 @@ final class OrgChart extends Component
         }
 
         return Html::tag('div', $this->rootAttributes([
-            'celerik-orgchart',
+            'caelrik-orgchart',
             $this->collapsible ? 'is-collapsible' : null,
-        ]), Html::tag('p', ['id' => $labelId, 'class' => 'celerik-orgchart-label'], Html::escape($this->label))
+        ]), Html::tag('p', ['id' => $labelId, 'class' => 'caelrik-orgchart-label'], Html::escape($this->label))
             . Html::tag('div', [
-                'class' => 'celerik-orgchart-scroll',
+                'class' => 'caelrik-orgchart-scroll',
                 'role' => 'region',
                 'aria-labelledby' => $labelId,
                 'tabindex' => '0',
@@ -225,36 +225,36 @@ final class OrgChart extends Component
                 $name = Html::tag('a', ['href' => $node['url']], $name);
             }
             $card = Avatar::make()->person($node['name'])->image($node['image'])->decorative()->render()
-                . Html::tag('div', ['class' => 'celerik-orgchart-text'], Html::tag(
+                . Html::tag('div', ['class' => 'caelrik-orgchart-text'], Html::tag(
                     'p',
-                    ['class' => 'celerik-orgchart-name'],
+                    ['class' => 'caelrik-orgchart-name'],
                     $name,
                 ) . ($node['title'] === null || $node['title'] === ''
                     ? ''
-                    : Html::tag('p', ['class' => 'celerik-orgchart-title'], Html::escape($node['title']))));
+                    : Html::tag('p', ['class' => 'caelrik-orgchart-title'], Html::escape($node['title']))));
             if ($this->collapsible && $team !== []) {
                 $count = $this->count($id, $children);
                 $card .= Html::tag('button', [
                     'type' => 'button',
-                    'class' => 'celerik-orgchart-toggle',
+                    'class' => 'caelrik-orgchart-toggle',
                     'aria-expanded' => 'true',
                     'aria-controls' => $listId,
                     'aria-label' => strtr($this->labels[$count === 1 ? 'teamOne' : 'team'], [
                         '{name}' => $node['name'],
                         '{count}' => (string) $count,
                     ]),
-                ], Html::tag('span', ['class' => 'celerik-orgchart-count'], (string) $count)
-                    . '<span class="celerik-orgchart-chevron" aria-hidden="true"></span>');
+                ], Html::tag('span', ['class' => 'caelrik-orgchart-count'], (string) $count)
+                    . '<span class="caelrik-orgchart-chevron" aria-hidden="true"></span>');
             }
 
             $items .= Html::tag('li', [
-                'class' => 'celerik-orgchart-item',
+                'class' => 'caelrik-orgchart-item',
                 'data-level' => (string) $level,
-            ], Html::tag('div', ['class' => 'celerik-orgchart-node'], $card)
+            ], Html::tag('div', ['class' => 'caelrik-orgchart-node'], $card)
                 . ($team === []
                     ? ''
                     : $this->list($team, $children, $seen, $level + 1, [
-                    'class' => 'celerik-orgchart-team',
+                    'class' => 'caelrik-orgchart-team',
                     'id' => $listId,
                 ])));
         }

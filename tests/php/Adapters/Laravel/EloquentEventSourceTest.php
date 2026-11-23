@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Celerik\Ui\Tests\Adapters\Laravel;
+namespace Caelrik\Ui\Tests\Adapters\Laravel;
 
-use Celerik\Ui\Adapters\Laravel\EloquentEventSource;
-use Celerik\Ui\Components\Scheduler;
-use Celerik\Ui\Data\DateRange;
-use Celerik\Ui\Data\Event;
+use Caelrik\Ui\Adapters\Laravel\EloquentEventSource;
+use Caelrik\Ui\Components\Scheduler;
+use Caelrik\Ui\Data\DateRange;
+use Caelrik\Ui\Data\Event;
 use DateTimeImmutable;
 use Illuminate\Database\Capsule\Manager as Capsule;
 use InvalidArgumentException;

@@ -2,33 +2,33 @@
 
 // Runtime hooks: a custom theme (Theme::toCss()) overrides these.
 :root {
-  --celerik-required-color: #{$celerik-required-color};
-  --celerik-chart-min-height: #{$celerik-chart-min-height};
-  --celerik-grid-header-bg: #{$celerik-grid-header-bg};
-  --celerik-grid-header-color: inherit;
-  --celerik-grid-header-font-weight: #{$celerik-grid-header-font-weight};
-  --celerik-grid-header-text-transform: none;
-  --celerik-focus-ring: #{$celerik-focus-ring};
-  --celerik-scheduler-today-bg: #{$celerik-scheduler-today-bg};
-  --celerik-scheduler-title-font-size: #{$celerik-scheduler-title-font-size};
-  --celerik-editor-min-height: #{$celerik-editor-min-height};
-  --celerik-radius: var(--bs-border-radius);
-  --celerik-surface-shadow: none;
+  --caelrik-required-color: #{$caelrik-required-color};
+  --caelrik-chart-min-height: #{$caelrik-chart-min-height};
+  --caelrik-grid-header-bg: #{$caelrik-grid-header-bg};
+  --caelrik-grid-header-color: inherit;
+  --caelrik-grid-header-font-weight: #{$caelrik-grid-header-font-weight};
+  --caelrik-grid-header-text-transform: none;
+  --caelrik-focus-ring: #{$caelrik-focus-ring};
+  --caelrik-scheduler-today-bg: #{$caelrik-scheduler-today-bg};
+  --caelrik-scheduler-title-font-size: #{$caelrik-scheduler-title-font-size};
+  --caelrik-editor-min-height: #{$caelrik-editor-min-height};
+  --caelrik-radius: var(--bs-border-radius);
+  --caelrik-surface-shadow: none;
   // Stars of a rating field: amber with 3:1 and more on light backgrounds (WCAG 1.4.11);
   // Bootstrap's warning yellow on dark ones.
-  --celerik-rating-color: #c27c0e;
+  --caelrik-rating-color: #c27c0e;
 }
 
 [data-bs-theme='dark'] {
-  --celerik-rating-color: #ffc107;
+  --caelrik-rating-color: #ffc107;
 }
 
-.celerik-grid {
+.caelrik-grid {
   thead th {
-    background-color: var(--celerik-grid-header-bg);
-    color: var(--celerik-grid-header-color);
-    font-weight: var(--celerik-grid-header-font-weight);
-    text-transform: var(--celerik-grid-header-text-transform);
+    background-color: var(--caelrik-grid-header-bg);
+    color: var(--caelrik-grid-header-color);
+    font-weight: var(--caelrik-grid-header-font-weight);
+    text-transform: var(--caelrik-grid-header-text-transform);
   }
 
   caption {
@@ -40,11 +40,11 @@
 // button, laid out like the button. Outline buttons take the text-emphasis colors, which
 // keep 4.5:1 in light and dark mode (Bootstrap's own outline colors drop to about 3.3:1 on
 // the dark background); secondary takes the body color and the field border (3:1).
-.celerik-action {
+.caelrik-action {
   display: inline-block;
 }
 
-.celerik-action-button {
+.caelrik-action-button {
   @each $variant in primary, success, danger, warning, info {
     &.btn-outline-#{$variant} {
       --bs-btn-color: var(--bs-#{$variant}-text-emphasis);
@@ -54,13 +54,13 @@
 
   &.btn-outline-secondary {
     --bs-btn-color: var(--bs-body-color);
-    --bs-btn-border-color: var(--celerik-input-border);
+    --bs-btn-border-color: var(--caelrik-input-border);
   }
 }
 
 // A grid's selection column (Grid::selectable()): its checkboxes have no visible label, so
 // each box is itself a 24 x 24 px target (WCAG 2.5.8).
-.celerik-grid .celerik-grid-select {
+.caelrik-grid .caelrik-grid-select {
   width: 1%;
 
   .form-check-input {
@@ -72,7 +72,7 @@
 }
 
 // ListView (Components\ListView): items one per line, or as cards; a pager below.
-.celerik-listview-items {
+.caelrik-listview-items {
   margin-bottom: 0;
 
   &:focus-visible {
@@ -81,18 +81,18 @@
   }
 }
 
-.celerik-listview-list .celerik-listview-items > li + li {
+.caelrik-listview-list .caelrik-listview-items > li + li {
   border-top: 1px solid var(--bs-border-color);
 }
 
-.celerik-listview-item {
+.caelrik-listview-item {
   display: flex;
   gap: 1rem;
   align-items: flex-start;
   padding: 0.875rem 0;
 }
 
-.celerik-listview-cards .celerik-listview-item {
+.caelrik-listview-cards .caelrik-listview-item {
   flex-direction: column;
   height: 100%;
   padding: 1rem;
@@ -101,7 +101,7 @@
   background-color: var(--bs-body-bg);
 }
 
-.celerik-listview-image {
+.caelrik-listview-image {
   flex-shrink: 0;
   width: 4.5rem;
   height: 4.5rem;
@@ -109,29 +109,29 @@
   border-radius: var(--bs-border-radius);
 }
 
-.celerik-listview-cards .celerik-listview-image {
+.caelrik-listview-cards .caelrik-listview-image {
   width: 100%;
   height: auto;
   aspect-ratio: 16 / 9;
 }
 
-.celerik-listview-body {
+.caelrik-listview-body {
   flex: 1 1 auto;
   min-width: 0;
 }
 
-.celerik-listview-title {
+.caelrik-listview-title {
   margin-bottom: 0.25rem;
   font-size: 1rem;
   font-weight: 600;
   overflow-wrap: anywhere;
 }
 
-.celerik-listview-description {
+.caelrik-listview-description {
   margin-bottom: 0.25rem;
 }
 
-.celerik-listview-meta {
+.caelrik-listview-meta {
   display: flex;
   flex-wrap: wrap;
   gap: 0.25rem 0.75rem;
@@ -140,32 +140,32 @@
   font-size: 0.875em;
 }
 
-.celerik-listview-actions {
+.caelrik-listview-actions {
   display: flex;
   flex-wrap: wrap;
   gap: 0.375rem;
 }
 
-.celerik-listview-empty {
+.caelrik-listview-empty {
   padding: 1.5rem 1rem;
   text-align: center;
 }
 
-.celerik-listview-empty-title {
+.caelrik-listview-empty-title {
   margin-bottom: 0.25rem;
   font-weight: 600;
 }
 
-.celerik-listview-empty-description {
+.caelrik-listview-empty-description {
   margin-bottom: 0;
   color: var(--bs-secondary-color);
 }
 
-.celerik-listview-empty-action {
+.caelrik-listview-empty-action {
   margin-top: 0.75rem;
 }
 
-.celerik-listview-footer {
+.caelrik-listview-footer {
   display: flex;
   flex-wrap: wrap;
   gap: 0.75rem;
@@ -174,40 +174,40 @@
   margin-top: 1rem;
 }
 
-.celerik-listview-status {
+.caelrik-listview-status {
   margin-bottom: 0;
   color: var(--bs-secondary-color);
 }
 
 // The pager's buttons are 2.25rem tall: above WCAG 2.5.8's 24px.
-.celerik-listview-pager .page-link {
+.caelrik-listview-pager .page-link {
   min-width: 2.25rem;
   text-align: center;
 }
 
-.celerik-listview[aria-busy='true'] .celerik-listview-items {
+.caelrik-listview[aria-busy='true'] .caelrik-listview-items {
   opacity: 0.6;
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  .celerik-listview-items {
+  .caelrik-listview-items {
     transition: opacity 0.15s ease-in-out;
   }
 }
 
 // TreeView (Components\TreeView): nested lists, indented, with a chevron for nodes that open.
-.celerik-tree-root,
-.celerik-tree-group {
+.caelrik-tree-root,
+.caelrik-tree-group {
   margin: 0;
   padding: 0;
   list-style: none;
 }
 
-.celerik-tree-group {
+.caelrik-tree-group {
   padding-left: 1.25rem;
 }
 
-.celerik-tree-row {
+.caelrik-tree-row {
   display: flex;
   gap: 0.25rem;
   align-items: center;
@@ -217,7 +217,7 @@
   cursor: default;
 }
 
-.celerik-tree-label {
+.caelrik-tree-label {
   display: inline-flex;
   gap: 0.5rem;
   align-items: center;
@@ -231,18 +231,18 @@
 }
 
 // Without JavaScript, the nested lists keep their indentation and every control works.
-.celerik-tree:not(:has([role='tree'])) .celerik-tree-group {
+.caelrik-tree:not(:has([role='tree'])) .caelrik-tree-group {
   padding-left: 1.5rem;
 }
 
-.celerik-tree-toggle,
-.celerik-tree-spacer {
+.caelrik-tree-toggle,
+.caelrik-tree-spacer {
   flex-shrink: 0;
   width: 1.25rem;
   height: 1.25rem;
 }
 
-.celerik-tree-toggle {
+.caelrik-tree-toggle {
   position: relative;
   cursor: pointer;
 
@@ -259,55 +259,55 @@
   }
 }
 
-.celerik-tree-row[aria-expanded='true'] > .celerik-tree-toggle::before {
+.caelrik-tree-row[aria-expanded='true'] > .caelrik-tree-toggle::before {
   transform: translate(-50%, -70%) rotate(45deg);
 }
 
-.celerik-tree-row[aria-busy='true'] > .celerik-tree-toggle {
+.caelrik-tree-row[aria-busy='true'] > .caelrik-tree-toggle {
   opacity: 0.5;
 }
 
 // The node's row is the treeitem and takes the focus.
-.celerik-tree [role='treeitem']:focus-visible {
+.caelrik-tree [role='treeitem']:focus-visible {
   outline: 2px solid var(--bs-focus-ring-color, var(--bs-primary));
   outline-offset: 1px;
 }
 
-.celerik-tree-row:hover {
+.caelrik-tree-row:hover {
   background-color: var(--bs-tertiary-bg);
 }
 
-.celerik-tree [role='treeitem'][aria-selected='true'] {
+.caelrik-tree [role='treeitem'][aria-selected='true'] {
   background-color: var(--bs-primary-bg-subtle);
   color: var(--bs-primary-text-emphasis);
   font-weight: 600;
 }
 
-.celerik-tree [role='treeitem'][aria-disabled='true'] {
+.caelrik-tree [role='treeitem'][aria-disabled='true'] {
   color: var(--bs-secondary-color);
   cursor: not-allowed;
 }
 
 // The checkbox or radio button is the node's picture of its state: the node takes the
 // clicks and keys.
-.celerik-tree [role='tree'] .celerik-tree-input {
+.caelrik-tree [role='tree'] .caelrik-tree-input {
   pointer-events: none;
 }
 
 // TreeList (Components\TreeList): the first cell is indented by the row's level (classes,
 // not inline styles: a strict CSP allows no style attributes).
-.celerik-treelist-tree {
+.caelrik-treelist-tree {
   white-space: nowrap;
 }
 
 @for $level from 2 through 12 {
-  .celerik-treelist-level-#{$level} {
+  .caelrik-treelist-level-#{$level} {
     padding-left: calc(0.5rem + #{($level - 1) * 1.25rem}) !important;
   }
 }
 
-.celerik-treelist-toggle,
-.celerik-treelist-spacer {
+.caelrik-treelist-toggle,
+.caelrik-treelist-spacer {
   display: inline-block;
   position: relative;
   width: 1.25rem;
@@ -316,7 +316,7 @@
   vertical-align: -0.125rem;
 }
 
-.celerik-treelist-toggle {
+.caelrik-treelist-toggle {
   cursor: pointer;
 
   &::before {
@@ -332,24 +332,24 @@
   }
 }
 
-.celerik-treelist tr[aria-expanded='true'] .celerik-treelist-toggle::before {
+.caelrik-treelist tr[aria-expanded='true'] .caelrik-treelist-toggle::before {
   transform: translate(-50%, -70%) rotate(45deg);
 }
 
 // Rows and cells take the focus in turn: each shows it with an inset outline.
-.celerik-treelist :is(tr, td):focus-visible {
+.caelrik-treelist :is(tr, td):focus-visible {
   outline: 2px solid var(--bs-focus-ring-color, var(--bs-primary));
   outline-offset: -2px;
 }
 
-.celerik-treelist-actions {
+.caelrik-treelist-actions {
   width: 1%;
   white-space: nowrap;
 }
 
 // TaskBoard (Components\TaskBoard): columns side by side that scroll sideways on narrow
 // screens, each a list of cards.
-.celerik-board-columns {
+.caelrik-board-columns {
   display: grid;
   grid-auto-columns: minmax(16rem, 1fr);
   grid-auto-flow: column;
@@ -358,7 +358,7 @@
   padding-bottom: 0.5rem;
 }
 
-.celerik-board-column {
+.caelrik-board-column {
   display: flex;
   flex-direction: column;
   min-width: 0;
@@ -368,7 +368,7 @@
   background-color: var(--bs-tertiary-bg);
 }
 
-.celerik-board-column-title {
+.caelrik-board-column-title {
   display: flex;
   gap: 0.5rem;
   align-items: center;
@@ -378,7 +378,7 @@
   font-weight: 600;
 }
 
-.celerik-board-cards {
+.caelrik-board-cards {
   display: flex;
   flex: 1 1 auto;
   flex-direction: column;
@@ -387,7 +387,7 @@
   margin: 0;
 }
 
-.celerik-board-card {
+.caelrik-board-card {
   padding: 0.75rem;
   border: 1px solid var(--bs-border-color);
   border-radius: var(--bs-border-radius);
@@ -413,19 +413,19 @@
   }
 }
 
-.celerik-board-card-title {
+.caelrik-board-card-title {
   margin-bottom: 0.25rem;
   font-size: 0.95rem;
   font-weight: 600;
   overflow-wrap: anywhere;
 }
 
-.celerik-board-card-description {
+.caelrik-board-card-description {
   margin-bottom: 0.25rem;
   font-size: 0.875rem;
 }
 
-.celerik-board-card-meta {
+.caelrik-board-card-meta {
   display: flex;
   flex-wrap: wrap;
   gap: 0.25rem 0.75rem;
@@ -434,7 +434,7 @@
   font-size: 0.8125rem;
 }
 
-.celerik-board-move {
+.caelrik-board-move {
   margin-top: 0.5rem;
 
   .form-select,
@@ -445,7 +445,7 @@
 
 // AdminLayout (Components\AdminLayout): the app bar on top, the sidebar beside the main
 // content on large screens (Bootstrap's offcanvas-lg below), the user menu at the end.
-.celerik-skip-link:focus {
+.caelrik-skip-link:focus {
   position: absolute;
   z-index: 1080;
   top: 0.5rem;
@@ -456,29 +456,29 @@
   box-shadow: 0 0 0 2px var(--bs-primary);
 }
 
-.celerik-admin {
+.caelrik-admin {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
 }
 
-.celerik-appbar {
+.caelrik-appbar {
   position: sticky;
   z-index: 1020;
   top: 0;
 }
 
-.celerik-appbar-toggle {
+.caelrik-appbar-toggle {
   border: 1px solid var(--bs-border-color);
 }
 
-.celerik-admin-body {
+.caelrik-admin-body {
   display: flex;
   flex: 1 1 auto;
   min-height: 0;
 }
 
-.celerik-admin-main {
+.caelrik-admin-main {
   flex: 1 1 auto;
   min-width: 0;
   padding: 1.25rem;
@@ -487,17 +487,17 @@
     outline: none;
   }
 
-  > .celerik-breadcrumb {
+  > .caelrik-breadcrumb {
     margin-bottom: 0.5rem;
   }
 }
 
-.celerik-admin-title {
+.caelrik-admin-title {
   margin-bottom: 1rem;
 }
 
 @media (min-width: 992px) {
-  .celerik-admin-sidebar {
+  .caelrik-admin-sidebar {
     position: sticky;
     top: 3.5rem;
     flex: 0 0 16rem;
@@ -510,11 +510,11 @@
 
 // Without JavaScript the offcanvas cannot open: the sidebar is shown above the content.
 @media (max-width: 991.98px) {
-  html:not(.celerik-js) .celerik-admin-body {
+  html:not(.caelrik-js) .caelrik-admin-body {
     flex-direction: column;
   }
 
-  html:not(.celerik-js) .celerik-admin-sidebar.offcanvas-lg {
+  html:not(.caelrik-js) .caelrik-admin-sidebar.offcanvas-lg {
     position: static;
     visibility: visible;
     width: auto;
@@ -522,31 +522,31 @@
     border-bottom: 1px solid var(--bs-border-color);
   }
 
-  html:not(.celerik-js) .celerik-appbar-toggle,
-  html:not(.celerik-js) .celerik-admin-sidebar .offcanvas-header {
+  html:not(.caelrik-js) .caelrik-appbar-toggle,
+  html:not(.caelrik-js) .caelrik-admin-sidebar .offcanvas-header {
     display: none;
   }
 }
 
 // Navigation (Components\Navigation): links, and groups that open and close (<details>).
-.celerik-nav {
+.caelrik-nav {
   padding: 0.75rem 0.5rem;
 }
 
-.celerik-nav-list {
+.caelrik-nav-list {
   display: flex;
   flex-direction: column;
   gap: 0.125rem;
   margin: 0;
 
-  .celerik-nav-list {
+  .caelrik-nav-list {
     margin: 0.125rem 0 0.25rem 0.75rem;
     padding-left: 0.5rem;
     border-left: 1px solid var(--bs-border-color);
   }
 }
 
-.celerik-nav-link {
+.caelrik-nav-link {
   display: flex;
   gap: 0.5rem;
   align-items: center;
@@ -574,7 +574,7 @@
   }
 }
 
-summary.celerik-nav-link {
+summary.caelrik-nav-link {
   cursor: pointer;
   list-style: none;
 
@@ -594,12 +594,12 @@ summary.celerik-nav-link {
   }
 }
 
-.celerik-nav-group[open] > summary.celerik-nav-link::after {
+.caelrik-nav-group[open] > summary.caelrik-nav-link::after {
   transform: rotate(45deg);
 }
 
 // UserMenu (Components\UserMenu): a disclosure in the app bar, its panel under it.
-.celerik-usermenu {
+.caelrik-usermenu {
   position: relative;
 
   > summary {
@@ -614,7 +614,7 @@ summary.celerik-nav-link {
   }
 }
 
-.celerik-usermenu-avatar {
+.caelrik-usermenu-avatar {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -624,15 +624,15 @@ summary.celerik-nav-link {
   object-fit: cover;
 }
 
-.celerik-usermenu-initials {
+.caelrik-usermenu-initials {
   background-color: var(--bs-primary);
-  color: var(--celerik-on-primary, #fff);
+  color: var(--caelrik-on-primary, #fff);
   font-size: 0.8125rem;
   font-weight: 600;
 }
 
 @media (max-width: 575.98px) {
-  .celerik-usermenu-name {
+  .caelrik-usermenu-name {
     position: absolute !important;
     width: 1px !important;
     height: 1px !important;
@@ -642,7 +642,7 @@ summary.celerik-nav-link {
   }
 }
 
-.celerik-usermenu-panel {
+.caelrik-usermenu-panel {
   position: absolute;
   z-index: 1030;
   top: calc(100% + 0.25rem);
@@ -659,7 +659,7 @@ summary.celerik-nav-link {
   }
 }
 
-.celerik-usermenu-detail {
+.caelrik-usermenu-detail {
   margin: 0 0 0.5rem;
   padding: 0 0.5rem 0.5rem;
   border-bottom: 1px solid var(--bs-border-color);
@@ -668,7 +668,7 @@ summary.celerik-nav-link {
   overflow-wrap: anywhere;
 }
 
-.celerik-usermenu-item {
+.caelrik-usermenu-item {
   display: block;
   padding: 0.375rem 0.5rem;
   border-radius: var(--bs-border-radius);
@@ -685,25 +685,25 @@ summary.celerik-nav-link {
   }
 }
 
-.celerik-usermenu-divider {
+.caelrik-usermenu-divider {
   margin: 0.375rem 0;
   border-top: 1px solid var(--bs-border-color);
 }
 
 // Menus (MenuButton, SplitButton, ContextMenu): a list under its button, or at the pointer.
 // Without JavaScript, the button is hidden and the items are a plain list.
-.celerik-menubutton,
-.celerik-splitbutton {
+.caelrik-menubutton,
+.caelrik-splitbutton {
   position: relative;
   display: inline-flex;
   vertical-align: middle;
 }
 
-html:not(.celerik-js) .celerik-menu-toggle {
+html:not(.caelrik-js) .caelrik-menu-toggle {
   display: none;
 }
 
-.celerik-menu-list {
+.caelrik-menu-list {
   z-index: 1035;
   min-width: 12rem;
   margin: 0;
@@ -713,18 +713,18 @@ html:not(.celerik-js) .celerik-menu-toggle {
   background-color: var(--bs-body-bg);
   color: var(--bs-body-color);
 
-  .celerik-js :is(.celerik-menubutton, .celerik-splitbutton) > & {
+  .caelrik-js :is(.caelrik-menubutton, .caelrik-splitbutton) > & {
     position: absolute;
     top: calc(100% + 0.25rem);
     left: 0;
   }
 
-  .celerik-js .celerik-menu-end > & {
+  .caelrik-js .caelrik-menu-end > & {
     right: 0;
     left: auto;
   }
 
-  &.celerik-contextmenu-list {
+  &.caelrik-contextmenu-list {
     position: fixed;
   }
 
@@ -734,8 +734,8 @@ html:not(.celerik-js) .celerik-menu-toggle {
 }
 
 // Every item looks the same, a link or a request action's button.
-.celerik-menu-item,
-.celerik-menu-list .celerik-action button {
+.caelrik-menu-item,
+.caelrik-menu-list .caelrik-action button {
   display: block;
   width: 100%;
   padding: 0.375rem 0.75rem;
@@ -766,43 +766,43 @@ html:not(.celerik-js) .celerik-menu-toggle {
   }
 }
 
-.celerik-menu-divider {
+.caelrik-menu-divider {
   margin: 0.375rem 0;
   border-top: 1px solid var(--bs-border-color);
 }
 
 // Toolbar (Components\Toolbar): its controls in a row, separators between groups.
-.celerik-toolbar {
+.caelrik-toolbar {
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
   align-items: center;
 }
 
-.celerik-toolbar-item form {
+.caelrik-toolbar-item form {
   margin: 0;
 }
 
-.celerik-toolbar-separator {
+.caelrik-toolbar-separator {
   align-self: stretch;
   width: 1px;
   background-color: var(--bs-border-color);
 }
 
 // Navigation::horizontal(): a bar of links, its groups dropping down below their names.
-.celerik-nav-horizontal {
+.caelrik-nav-horizontal {
   padding: 0;
 
-  > .celerik-nav-list {
+  > .caelrik-nav-list {
     flex-direction: row;
     flex-wrap: wrap;
     gap: 0.25rem;
   }
 
-  .celerik-nav-group {
+  .caelrik-nav-group {
     position: relative;
 
-    > .celerik-nav-list {
+    > .caelrik-nav-list {
       position: absolute;
       z-index: 1030;
       top: calc(100% + 0.25rem);
@@ -818,13 +818,13 @@ html:not(.celerik-js) .celerik-menu-toggle {
 }
 
 // Accordion (Components\Accordion): Bootstrap's look, opened and closed by layout.js.
-.celerik-accordion .accordion-button:focus-visible {
+.caelrik-accordion .accordion-button:focus-visible {
   outline: 2px solid var(--bs-focus-ring-color, var(--bs-primary));
   outline-offset: -2px;
 }
 
 // Card (Components\Card): its actions sit above the title's stretched link.
-.celerik-card-actions {
+.caelrik-card-actions {
   position: relative;
   z-index: 2;
   display: flex;
@@ -833,7 +833,7 @@ html:not(.celerik-js) .celerik-menu-toggle {
   margin-top: 0.75rem;
 }
 
-.celerik-card-link:focus-visible {
+.caelrik-card-link:focus-visible {
   outline: none;
 
   &::after {
@@ -844,18 +844,18 @@ html:not(.celerik-js) .celerik-menu-toggle {
 }
 
 // Splitter (Components\Splitter): panes and dividers in a row or a column.
-.celerik-splitter {
+.caelrik-splitter {
   display: flex;
   min-height: 12rem;
   border: 1px solid var(--bs-border-color);
   border-radius: var(--bs-border-radius);
 
-  &.celerik-splitter-vertical {
+  &.caelrik-splitter-vertical {
     flex-direction: column;
   }
 }
 
-.celerik-splitter-pane {
+.caelrik-splitter-pane {
   flex: 1 1 0;
   min-width: 0;
   min-height: 0;
@@ -863,18 +863,18 @@ html:not(.celerik-js) .celerik-menu-toggle {
   padding: 0.75rem;
 }
 
-.celerik-splitter-handle {
+.caelrik-splitter-handle {
   position: relative;
   flex: 0 0 0.5rem;
   background-color: var(--bs-tertiary-bg);
   touch-action: none;
 
-  .celerik-splitter-horizontal > & {
+  .caelrik-splitter-horizontal > & {
     cursor: col-resize;
     border-inline: 1px solid var(--bs-border-color);
   }
 
-  .celerik-splitter-vertical > & {
+  .caelrik-splitter-vertical > & {
     cursor: row-resize;
     border-block: 1px solid var(--bs-border-color);
   }
@@ -885,7 +885,7 @@ html:not(.celerik-js) .celerik-menu-toggle {
     position: absolute;
     inset: 0 -0.5rem;
 
-    .celerik-splitter-vertical > & {
+    .caelrik-splitter-vertical > & {
       inset: -0.5rem 0;
     }
   }
@@ -902,39 +902,39 @@ html:not(.celerik-js) .celerik-menu-toggle {
 }
 
 // Without JavaScript the dividers do nothing: they are not shown.
-html:not(.celerik-js) .celerik-splitter-handle {
+html:not(.caelrik-js) .caelrik-splitter-handle {
   display: none;
 }
 
 // Tile layout (Components\TileLayout): tiles on a grid of columns, spans as classes (no
 // inline styles). The flow is not dense: what is seen keeps the order of the page.
-.celerik-tilelayout {
-  --celerik-tile-columns: 3;
-  --celerik-tile-row: 10rem;
+.caelrik-tilelayout {
+  --caelrik-tile-columns: 3;
+  --caelrik-tile-row: 10rem;
   position: relative;
   display: grid;
-  grid-template-columns: repeat(var(--celerik-tile-columns), minmax(0, 1fr));
-  grid-auto-rows: minmax(var(--celerik-tile-row), auto);
+  grid-template-columns: repeat(var(--caelrik-tile-columns), minmax(0, 1fr));
+  grid-auto-rows: minmax(var(--caelrik-tile-row), auto);
   gap: 1rem;
 }
 
 @for $i from 1 through 12 {
-  .celerik-tilelayout-cols-#{$i} {
-    --celerik-tile-columns: #{$i};
+  .caelrik-tilelayout-cols-#{$i} {
+    --caelrik-tile-columns: #{$i};
   }
 
-  .celerik-tile-cols-#{$i} {
+  .caelrik-tile-cols-#{$i} {
     grid-column: span $i;
   }
 }
 
 @for $i from 1 through 6 {
-  .celerik-tile-rows-#{$i} {
+  .caelrik-tile-rows-#{$i} {
     grid-row: span $i;
   }
 }
 
-.celerik-tile {
+.caelrik-tile {
   position: relative;
   min-width: 0;
   margin: 0;
@@ -947,13 +947,13 @@ html:not(.celerik-js) .celerik-splitter-handle {
   }
 }
 
-.celerik-tile-header {
+.caelrik-tile-header {
   display: flex;
   align-items: center;
   gap: 0.5rem;
 }
 
-.celerik-tile-title {
+.caelrik-tile-title {
   flex: 1 1 auto;
   min-width: 0;
   margin: 0;
@@ -961,7 +961,7 @@ html:not(.celerik-js) .celerik-splitter-handle {
   font-weight: 600;
 }
 
-.celerik-tile-handle {
+.caelrik-tile-handle {
   min-width: 1.5rem;
   min-height: 1.5rem;
   cursor: grab;
@@ -972,7 +972,7 @@ html:not(.celerik-js) .celerik-splitter-handle {
   }
 }
 
-.celerik-tile-tools {
+.caelrik-tile-tools {
   display: flex;
   flex-wrap: wrap;
   gap: 0.25rem;
@@ -989,13 +989,13 @@ html:not(.celerik-js) .celerik-splitter-handle {
   }
 }
 
-.celerik-tile-body {
+.caelrik-tile-body {
   min-height: 0;
   overflow: auto;
 }
 
 // The corner grip: a 24px target (WCAG 2.5.8); the tools resize without it.
-.celerik-tile-grip {
+.caelrik-tile-grip {
   position: absolute;
   inset-block-end: 0;
   inset-inline-end: 0;
@@ -1013,32 +1013,32 @@ html:not(.celerik-js) .celerik-splitter-handle {
 }
 
 // Without JavaScript nothing can be arranged.
-html:not(.celerik-js) {
-  .celerik-tile-handle,
-  .celerik-tile-grip {
+html:not(.caelrik-js) {
+  .caelrik-tile-handle,
+  .caelrik-tile-grip {
     display: none;
   }
 }
 
 // Record view (Components\RecordView): sections of labels and values, in 1 to 4 columns
 // (one on small screens).
-.celerik-recordview {
+.caelrik-recordview {
   display: grid;
   gap: 1.5rem;
 }
 
-.celerik-recordview-title {
+.caelrik-recordview-title {
   margin-bottom: 0.25rem;
   font-size: 1.125rem;
   font-weight: 600;
 }
 
-.celerik-recordview-description {
+.caelrik-recordview-description {
   margin-bottom: 0.75rem;
   color: var(--bs-secondary-color);
 }
 
-.celerik-recordview-entries {
+.caelrik-recordview-entries {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
   gap: 1rem 1.5rem;
@@ -1058,17 +1058,17 @@ html:not(.celerik-js) {
 
 @media (min-width: 768px) {
   @for $i from 2 through 4 {
-    .celerik-recordview-cols-#{$i} {
+    .caelrik-recordview-cols-#{$i} {
       grid-template-columns: repeat($i, minmax(0, 1fr));
     }
 
-    .celerik-recordview-span-#{$i} {
+    .caelrik-recordview-span-#{$i} {
       grid-column: span $i;
     }
   }
 }
 
-.celerik-recordview-badges {
+.caelrik-recordview-badges {
   display: flex;
   flex-wrap: wrap;
   gap: 0.25rem;
@@ -1077,20 +1077,20 @@ html:not(.celerik-js) {
   list-style: none;
 }
 
-.celerik-recordview-yes .celerik-recordview-mark {
+.caelrik-recordview-yes .caelrik-recordview-mark {
   color: var(--bs-success-text-emphasis);
 }
 
-.celerik-recordview-no .celerik-recordview-mark {
+.caelrik-recordview-no .caelrik-recordview-mark {
   color: var(--bs-danger-text-emphasis);
 }
 
-.celerik-recordview-image {
+.caelrik-recordview-image {
   max-height: 12rem;
 }
 
 // Stat tiles (Components\Stat, Components\Stats): a label, a value, a trend and a sparkline.
-.celerik-stats {
+.caelrik-stats {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
   gap: 1rem;
@@ -1102,7 +1102,7 @@ html:not(.celerik-js) {
     display: flex;
     min-width: 0;
 
-    > .celerik-stat {
+    > .caelrik-stat {
       flex: 1 1 auto;
     }
   }
@@ -1110,7 +1110,7 @@ html:not(.celerik-js) {
 
 @media (min-width: 576px) {
   @for $i from 2 through 6 {
-    .celerik-stats-cols-#{$i} {
+    .caelrik-stats-cols-#{$i} {
       grid-template-columns: repeat(2, minmax(0, 1fr));
     }
   }
@@ -1118,13 +1118,13 @@ html:not(.celerik-js) {
 
 @media (min-width: 992px) {
   @for $i from 3 through 6 {
-    .celerik-stats-cols-#{$i} {
+    .caelrik-stats-cols-#{$i} {
       grid-template-columns: repeat($i, minmax(0, 1fr));
     }
   }
 }
 
-.celerik-stat {
+.caelrik-stat {
   position: relative;
   height: 100%;
 
@@ -1151,14 +1151,14 @@ html:not(.celerik-js) {
 }
 
 // A stat in a tile, a card, or any container: no second border.
-:is(.celerik-tile-body, .card-body) > .celerik-stat {
+:is(.caelrik-tile-body, .card-body) > .caelrik-stat {
   --bs-card-border-width: 0;
   --bs-card-spacer-x: 0;
   --bs-card-spacer-y: 0;
   --bs-card-bg: transparent;
 }
 
-.celerik-stat-label {
+.caelrik-stat-label {
   font-size: 0.875rem;
   font-weight: 500;
   color: var(--bs-secondary-color);
@@ -1173,42 +1173,42 @@ html:not(.celerik-js) {
   }
 }
 
-.celerik-stat-value {
+.caelrik-stat-value {
   font-size: 1.75rem;
   font-weight: 600;
   line-height: 1.2;
   font-variant-numeric: tabular-nums;
 }
 
-.celerik-stat-trend {
+.caelrik-stat-trend {
   font-size: 0.875rem;
   font-weight: 500;
 }
 
-.celerik-stat-trend-good {
+.caelrik-stat-trend-good {
   color: var(--bs-success-text-emphasis);
 }
 
-.celerik-stat-trend-bad {
+.caelrik-stat-trend-bad {
   color: var(--bs-danger-text-emphasis);
 }
 
-.celerik-stat-trend-flat,
-.celerik-stat-period,
-.celerik-stat-description {
+.caelrik-stat-trend-flat,
+.caelrik-stat-period,
+.caelrik-stat-description {
   color: var(--bs-secondary-color);
 }
 
-.celerik-stat-period {
+.caelrik-stat-period {
   font-weight: 400;
 }
 
-.celerik-stat-description {
+.caelrik-stat-description {
   font-size: 0.875rem;
 }
 
 // The sparkline: text-emphasis colors keep 3:1 against the card (WCAG 1.4.11).
-.celerik-stat-sparkline {
+.caelrik-stat-sparkline {
   display: block;
   width: 100%;
   height: 2.5rem;
@@ -1217,61 +1217,61 @@ html:not(.celerik-js) {
   overflow: visible;
 }
 
-.celerik-stat-line {
+.caelrik-stat-line {
   stroke: currentColor;
   stroke-width: 2;
   stroke-linejoin: round;
   stroke-linecap: round;
 }
 
-.celerik-stat-area {
+.caelrik-stat-area {
   fill: currentColor;
   opacity: 0.12;
 }
 
 @each $color in primary, secondary, success, danger, warning, info {
-  .celerik-stat-#{$color} .celerik-stat-sparkline {
+  .caelrik-stat-#{$color} .caelrik-stat-sparkline {
     color: var(--bs-#{$color}-text-emphasis);
   }
 }
 
 @media (forced-colors: active) {
-  .celerik-stat-sparkline {
+  .caelrik-stat-sparkline {
     color: CanvasText !important;
   }
 
-  .celerik-stat-area {
+  .caelrik-stat-area {
     display: none;
   }
 }
 
 // Avatar (Components\Avatar): a picture or initials; a status dot shaped by its status.
-.celerik-avatar {
-  --celerik-avatar-size: 2rem;
+.caelrik-avatar {
+  --caelrik-avatar-size: 2rem;
   position: relative;
   display: inline-flex;
   flex: 0 0 auto;
   align-items: center;
   justify-content: center;
-  width: var(--celerik-avatar-size);
-  height: var(--celerik-avatar-size);
+  width: var(--caelrik-avatar-size);
+  height: var(--caelrik-avatar-size);
   border-radius: 50%;
-  font-size: calc(var(--celerik-avatar-size) * 0.4);
+  font-size: calc(var(--caelrik-avatar-size) * 0.4);
   font-weight: 600;
   line-height: 1;
   vertical-align: middle;
   user-select: none;
 
-  &.celerik-avatar-square {
+  &.caelrik-avatar-square {
     border-radius: var(--bs-border-radius);
   }
 }
 
-.celerik-avatar-sm { --celerik-avatar-size: 1.5rem; }
-.celerik-avatar-lg { --celerik-avatar-size: 2.5rem; }
-.celerik-avatar-xl { --celerik-avatar-size: 3.5rem; }
+.caelrik-avatar-sm { --caelrik-avatar-size: 1.5rem; }
+.caelrik-avatar-lg { --caelrik-avatar-size: 2.5rem; }
+.caelrik-avatar-xl { --caelrik-avatar-size: 3.5rem; }
 
-.celerik-avatar-image {
+.caelrik-avatar-image {
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -1279,32 +1279,32 @@ html:not(.celerik-js) {
 }
 
 // Online: a filled dot; away: half filled; busy: a bar; offline: a ring.
-.celerik-avatar-status {
+.caelrik-avatar-status {
   position: absolute;
   inset-block-end: -1px;
   inset-inline-end: -1px;
-  width: max(0.625rem, calc(var(--celerik-avatar-size) * 0.32));
-  height: max(0.625rem, calc(var(--celerik-avatar-size) * 0.32));
+  width: max(0.625rem, calc(var(--caelrik-avatar-size) * 0.32));
+  height: max(0.625rem, calc(var(--caelrik-avatar-size) * 0.32));
   border: 2px solid var(--bs-body-bg);
   border-radius: 50%;
   background-color: var(--bs-body-bg);
-  box-shadow: inset 0 0 0 2px var(--celerik-status);
+  box-shadow: inset 0 0 0 2px var(--caelrik-status);
 }
 
 // Plain colors in light mode, emphasis colors in dark mode: 3:1 against the page either way.
-.celerik-avatar-status-online {
-  --celerik-status: var(--bs-success);
-  background-color: var(--celerik-status);
+.caelrik-avatar-status-online {
+  --caelrik-status: var(--bs-success);
+  background-color: var(--caelrik-status);
 }
 
-.celerik-avatar-status-away {
-  --celerik-status: var(--bs-warning-text-emphasis);
-  background-image: linear-gradient(to top, var(--celerik-status) 50%, transparent 50%);
+.caelrik-avatar-status-away {
+  --caelrik-status: var(--bs-warning-text-emphasis);
+  background-image: linear-gradient(to top, var(--caelrik-status) 50%, transparent 50%);
 }
 
-.celerik-avatar-status-busy {
-  --celerik-status: var(--bs-danger);
-  background-color: var(--celerik-status);
+.caelrik-avatar-status-busy {
+  --caelrik-status: var(--bs-danger);
+  background-color: var(--caelrik-status);
 
   &::after {
     content: '';
@@ -1314,17 +1314,17 @@ html:not(.celerik-js) {
   }
 }
 
-.celerik-avatar-status-offline {
-  --celerik-status: var(--bs-secondary-color);
+.caelrik-avatar-status-offline {
+  --caelrik-status: var(--bs-secondary-color);
 }
 
 [data-bs-theme="dark"] {
-  .celerik-avatar-status-online { --celerik-status: var(--bs-success-text-emphasis); }
-  .celerik-avatar-status-busy { --celerik-status: var(--bs-danger-text-emphasis); }
+  .caelrik-avatar-status-online { --caelrik-status: var(--bs-success-text-emphasis); }
+  .caelrik-avatar-status-busy { --caelrik-status: var(--bs-danger-text-emphasis); }
 }
 
 // Chip (Components\Chip): plain, removable, or a filter checkbox.
-.celerik-chip {
+.caelrik-chip {
   display: inline-flex;
   align-items: center;
   gap: 0.375rem;
@@ -1338,17 +1338,17 @@ html:not(.celerik-js) {
   line-height: 1.25;
   vertical-align: middle;
 
-  .celerik-avatar {
+  .caelrik-avatar {
     margin-inline-start: -0.375rem;
   }
 
-  &:has(.celerik-chip-remove) {
+  &:has(.caelrik-chip-remove) {
     padding-inline-end: 0.125rem;
   }
 }
 
 // A 24px target (WCAG 2.5.8).
-.celerik-chip-remove {
+.caelrik-chip-remove {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -1373,19 +1373,19 @@ html:not(.celerik-js) {
   }
 }
 
-html:not(.celerik-js) .celerik-chip-remove {
+html:not(.caelrik-js) .caelrik-chip-remove {
   display: none;
 }
 
-.celerik-chip-check {
+.caelrik-chip-check {
   display: inline-block;
 
-  .celerik-chip {
+  .caelrik-chip {
     cursor: pointer;
     user-select: none;
   }
 
-  .btn-check:checked + .celerik-chip {
+  .btn-check:checked + .caelrik-chip {
     border-color: var(--bs-primary-border-subtle);
     background-color: var(--bs-primary-bg-subtle);
     color: var(--bs-primary-text-emphasis);
@@ -1397,25 +1397,25 @@ html:not(.celerik-js) .celerik-chip-remove {
     }
   }
 
-  .btn-check:focus-visible + .celerik-chip {
+  .btn-check:focus-visible + .caelrik-chip {
     outline: 2px solid var(--bs-focus-ring-color, var(--bs-primary));
     outline-offset: 2px;
   }
 }
 
 // Tooltip (Components\Tooltip): placed by classes from JavaScript.
-.celerik-tooltip-wrap {
+.caelrik-tooltip-wrap {
   position: relative;
   display: inline-block;
 }
 
-.celerik-tooltip-text {
+.caelrik-tooltip-text {
   text-decoration: underline dotted;
   text-underline-offset: 0.2em;
   cursor: help;
 }
 
-.celerik-tooltip {
+.caelrik-tooltip {
   position: absolute;
   z-index: 1080;
   inset-inline-start: 50%;
@@ -1456,12 +1456,12 @@ html:not(.celerik-js) .celerik-chip-remove {
   }
 }
 
-[dir="rtl"] .celerik-tooltip:not(.is-start, .is-end) {
+[dir="rtl"] .caelrik-tooltip:not(.is-start, .is-end) {
   transform: translateX(50%);
 }
 
 // Popover (Components\Popover): a disclosure whose panel floats under its button.
-.celerik-popover {
+.caelrik-popover {
   position: relative;
   display: inline-block;
 
@@ -1474,7 +1474,7 @@ html:not(.celerik-js) .celerik-chip-remove {
   }
 }
 
-.celerik-popover-panel {
+.caelrik-popover-panel {
   position: absolute;
   z-index: 1070;
   top: calc(100% + 0.25rem);
@@ -1487,7 +1487,7 @@ html:not(.celerik-js) .celerik-chip-remove {
   background-color: var(--bs-body-bg);
   font-size: 0.875rem;
 
-  .celerik-popover-end > & {
+  .caelrik-popover-end > & {
     inset-inline-start: auto;
     inset-inline-end: 0;
   }
@@ -1497,26 +1497,26 @@ html:not(.celerik-js) .celerik-chip-remove {
   }
 }
 
-.celerik-popover-title {
+.caelrik-popover-title {
   margin-bottom: 0.25rem;
   font-weight: 600;
 }
 
 // Progress (Components\Progress): a native <progress> bar, or an SVG circle. Fill colors keep
 // 3:1 against the track (WCAG 1.4.11): info and warning use their darker emphasis colors.
-.celerik-progress,
-.celerik-progress-circle {
-  --celerik-progress-color: var(--bs-primary);
-  --celerik-progress-track: var(--bs-secondary-bg);
+.caelrik-progress,
+.caelrik-progress-circle {
+  --caelrik-progress-color: var(--bs-primary);
+  --caelrik-progress-track: var(--bs-secondary-bg);
 }
 
-.celerik-progress-secondary { --celerik-progress-color: var(--bs-secondary-color); }
-.celerik-progress-success { --celerik-progress-color: var(--bs-success); }
-.celerik-progress-danger { --celerik-progress-color: var(--bs-danger); }
-.celerik-progress-warning { --celerik-progress-color: var(--bs-warning-text-emphasis); }
-.celerik-progress-info { --celerik-progress-color: var(--bs-info-text-emphasis); }
+.caelrik-progress-secondary { --caelrik-progress-color: var(--bs-secondary-color); }
+.caelrik-progress-success { --caelrik-progress-color: var(--bs-success); }
+.caelrik-progress-danger { --caelrik-progress-color: var(--bs-danger); }
+.caelrik-progress-warning { --caelrik-progress-color: var(--bs-warning-text-emphasis); }
+.caelrik-progress-info { --caelrik-progress-color: var(--bs-info-text-emphasis); }
 
-.celerik-progress-text {
+.caelrik-progress-text {
   display: flex;
   justify-content: space-between;
   gap: 1rem;
@@ -1524,12 +1524,12 @@ html:not(.celerik-js) .celerik-chip-remove {
   font-size: 0.875rem;
 }
 
-.celerik-progress-value {
+.caelrik-progress-value {
   font-variant-numeric: tabular-nums;
   font-weight: 600;
 }
 
-.celerik-progress-bar {
+.caelrik-progress-bar {
   display: block;
   width: 100%;
   height: 0.5rem;
@@ -1537,31 +1537,31 @@ html:not(.celerik-js) .celerik-chip-remove {
   border-radius: 50rem;
   overflow: hidden;
   appearance: none;
-  background-color: var(--celerik-progress-track);
-  color: var(--celerik-progress-color);
+  background-color: var(--caelrik-progress-track);
+  color: var(--caelrik-progress-color);
 
-  .celerik-progress-sm & { height: 0.25rem; }
-  .celerik-progress-lg & { height: 1rem; }
+  .caelrik-progress-sm & { height: 0.25rem; }
+  .caelrik-progress-lg & { height: 1rem; }
 
   &::-webkit-progress-bar {
-    background-color: var(--celerik-progress-track);
+    background-color: var(--caelrik-progress-track);
   }
 
   &::-webkit-progress-value {
     border-radius: 50rem;
-    background-color: var(--celerik-progress-color);
+    background-color: var(--caelrik-progress-color);
   }
 
   &::-moz-progress-bar {
     border-radius: 50rem;
-    background-color: var(--celerik-progress-color);
+    background-color: var(--caelrik-progress-color);
   }
 
   // Indeterminate: a segment that slides along the track.
   &:indeterminate {
-    background-image: linear-gradient(90deg, transparent 0 35%, var(--celerik-progress-color) 35% 65%, transparent 65%);
+    background-image: linear-gradient(90deg, transparent 0 35%, var(--caelrik-progress-color) 35% 65%, transparent 65%);
     background-size: 200% 100%;
-    animation: celerik-progress-slide 1.5s linear infinite;
+    animation: caelrik-progress-slide 1.5s linear infinite;
 
     &::-webkit-progress-bar {
       background-color: transparent;
@@ -1573,12 +1573,12 @@ html:not(.celerik-js) .celerik-chip-remove {
   }
 }
 
-@keyframes celerik-progress-slide {
+@keyframes caelrik-progress-slide {
   from { background-position: 100% 0; }
   to { background-position: -100% 0; }
 }
 
-.celerik-progress-circle {
+.caelrik-progress-circle {
   display: inline-flex;
   flex-direction: column;
   align-items: center;
@@ -1587,13 +1587,13 @@ html:not(.celerik-js) .celerik-chip-remove {
   vertical-align: middle;
 }
 
-.celerik-progress-dial {
+.caelrik-progress-dial {
   position: relative;
   width: 3rem;
   height: 3rem;
 
-  .celerik-progress-sm & { width: 2rem; height: 2rem; }
-  .celerik-progress-lg & { width: 4.5rem; height: 4.5rem; }
+  .caelrik-progress-sm & { width: 2rem; height: 2rem; }
+  .caelrik-progress-lg & { width: 4.5rem; height: 4.5rem; }
 
   svg {
     display: block;
@@ -1601,7 +1601,7 @@ html:not(.celerik-js) .celerik-chip-remove {
     height: 100%;
   }
 
-  .celerik-progress-value {
+  .caelrik-progress-value {
     position: absolute;
     inset: 0;
     display: flex;
@@ -1610,41 +1610,41 @@ html:not(.celerik-js) .celerik-chip-remove {
     font-size: 0.75rem;
   }
 
-  .celerik-progress-sm & .celerik-progress-value { font-size: 0.5625rem; }
-  .celerik-progress-lg & .celerik-progress-value { font-size: 1rem; }
+  .caelrik-progress-sm & .caelrik-progress-value { font-size: 0.5625rem; }
+  .caelrik-progress-lg & .caelrik-progress-value { font-size: 1rem; }
 }
 
-.celerik-progress-track {
-  stroke: var(--celerik-progress-track);
+.caelrik-progress-track {
+  stroke: var(--caelrik-progress-track);
   stroke-width: 3.5;
 }
 
-.celerik-progress-arc {
-  stroke: var(--celerik-progress-color);
+.caelrik-progress-arc {
+  stroke: var(--caelrik-progress-color);
   stroke-width: 3.5;
   stroke-linecap: round;
 }
 
-.celerik-progress-circle.is-indeterminate svg {
-  animation: celerik-progress-spin 1.2s linear infinite;
+.caelrik-progress-circle.is-indeterminate svg {
+  animation: caelrik-progress-spin 1.2s linear infinite;
 }
 
-@keyframes celerik-progress-spin {
+@keyframes caelrik-progress-spin {
   to { transform: rotate(360deg); }
 }
 
 // Loader (Components\Loader) and skeleton (Components\Skeleton).
-.celerik-loader {
+.caelrik-loader {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
 }
 
-.celerik-skeleton {
+.caelrik-skeleton {
   display: block;
 }
 
-.celerik-skeleton-shapes {
+.caelrik-skeleton-shapes {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
@@ -1655,14 +1655,14 @@ html:not(.celerik-js) .celerik-chip-remove {
   }
 }
 
-.celerik-skeleton-header {
+.caelrik-skeleton-header {
   display: flex;
   align-items: center;
   gap: 0.75rem;
   margin-bottom: 0.25rem;
 }
 
-.celerik-skeleton-avatar {
+.caelrik-skeleton-avatar {
   flex: 0 0 auto;
   width: 2.5rem;
   height: 2.5rem;
@@ -1672,88 +1672,88 @@ html:not(.celerik-js) .celerik-chip-remove {
   }
 }
 
-.celerik-skeleton-image {
+.caelrik-skeleton-image {
   width: 100%;
   aspect-ratio: 16 / 9;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .celerik-progress-bar:indeterminate,
-  .celerik-progress-circle.is-indeterminate svg,
-  .celerik-skeleton .placeholder {
+  .caelrik-progress-bar:indeterminate,
+  .caelrik-progress-circle.is-indeterminate svg,
+  .caelrik-skeleton .placeholder {
     animation: none;
   }
 
-  .celerik-progress-bar:indeterminate {
+  .caelrik-progress-bar:indeterminate {
     background-position: 50% 0;
   }
 }
 
 @media (forced-colors: active) {
-  .celerik-avatar-status {
+  .caelrik-avatar-status {
     forced-color-adjust: none;
     border-color: Canvas;
     background-color: Canvas;
     box-shadow: inset 0 0 0 2px CanvasText;
   }
 
-  .celerik-avatar-status-online,
-  .celerik-avatar-status-busy {
+  .caelrik-avatar-status-online,
+  .caelrik-avatar-status-busy {
     background-color: CanvasText;
   }
 
-  .celerik-avatar-status-away {
+  .caelrik-avatar-status-away {
     background-image: linear-gradient(to top, CanvasText 50%, transparent 50%);
   }
 
-  .celerik-avatar-status-busy::after {
+  .caelrik-avatar-status-busy::after {
     background-color: Canvas;
   }
 
-  .celerik-tooltip,
-  .celerik-popover-panel,
-  .celerik-chip {
+  .caelrik-tooltip,
+  .caelrik-popover-panel,
+  .caelrik-chip {
     border: 1px solid CanvasText;
   }
 
-  .celerik-progress-arc {
+  .caelrik-progress-arc {
     stroke: Highlight;
   }
 
-  .celerik-progress-track {
+  .caelrik-progress-track {
     stroke: GrayText;
   }
 }
 
 // Sparkline (Components\Sparkline): the size of a word, 4 wide for 1 high.
-.celerik-sparkline {
-  --celerik-sparkline-color: var(--bs-primary-text-emphasis);
+.caelrik-sparkline {
+  --caelrik-sparkline-color: var(--bs-primary-text-emphasis);
   display: inline-block;
   width: 6em;
   height: 1.5em;
   overflow: visible;
-  color: var(--celerik-sparkline-color);
+  color: var(--caelrik-sparkline-color);
   vertical-align: middle;
 }
 
-.celerik-sparkline-sm {
+.caelrik-sparkline-sm {
   width: 4em;
   height: 1em;
 }
 
-.celerik-sparkline-lg {
+.caelrik-sparkline-lg {
   width: 10em;
   height: 2.5em;
 }
 
 // Text-emphasis colors keep 3:1 against the page (WCAG 1.4.11), in both modes.
 @each $color in primary, secondary, success, danger, warning, info {
-  .celerik-sparkline-#{$color} {
-    --celerik-sparkline-color: var(--bs-#{$color}-text-emphasis);
+  .caelrik-sparkline-#{$color} {
+    --caelrik-sparkline-color: var(--bs-#{$color}-text-emphasis);
   }
 }
 
-.celerik-sparkline-line {
+.caelrik-sparkline-line {
   stroke: currentColor;
   stroke-width: 2;
   stroke-linejoin: round;
@@ -1761,18 +1761,18 @@ html:not(.celerik-js) .celerik-chip-remove {
   vector-effect: non-scaling-stroke;
 }
 
-.celerik-sparkline-area {
+.caelrik-sparkline-area {
   fill: currentColor;
   opacity: 0.15;
 }
 
-.celerik-sparkline-dot,
-.celerik-sparkline-bar {
+.caelrik-sparkline-dot,
+.caelrik-sparkline-bar {
   fill: currentColor;
 }
 
 // Negative bars are lighter as well as below the line.
-.celerik-sparkline-bar.is-negative {
+.caelrik-sparkline-bar.is-negative {
   fill: none;
   stroke: currentColor;
   stroke-width: 1.5;
@@ -1780,32 +1780,32 @@ html:not(.celerik-js) .celerik-chip-remove {
 }
 
 // Gauge (Components\Gauge): a meter drawn as a semicircle or a bar.
-.celerik-gauge {
-  --celerik-gauge-track: var(--bs-secondary-bg);
+.caelrik-gauge {
+  --caelrik-gauge-track: var(--bs-secondary-bg);
   margin-bottom: 1rem;
 }
 
-.celerik-gauge-label {
+.caelrik-gauge-label {
   margin: 0 0 0.25rem;
   font-weight: 600;
 }
 
-.celerik-gauge-reading {
+.caelrik-gauge-reading {
   margin: 0;
   line-height: 1.2;
 }
 
-.celerik-gauge-value {
+.caelrik-gauge-value {
   font-weight: 600;
   font-variant-numeric: tabular-nums;
 }
 
-.celerik-gauge-band {
+.caelrik-gauge-band {
   color: var(--bs-secondary-color);
   font-size: 0.875em;
 }
 
-.celerik-gauge-scale {
+.caelrik-gauge-scale {
   display: flex;
   justify-content: space-between;
   margin: 0.125rem 0 0;
@@ -1814,23 +1814,23 @@ html:not(.celerik-js) .celerik-chip-remove {
   font-variant-numeric: tabular-nums;
 }
 
-.celerik-gauge-svg {
+.caelrik-gauge-svg {
   display: block;
   width: 100%;
   overflow: visible;
 }
 
-.celerik-gauge-track {
+.caelrik-gauge-track {
   fill: none;
-  stroke: var(--celerik-gauge-track);
+  stroke: var(--caelrik-gauge-track);
 }
 
-.celerik-gauge-range,
-.celerik-gauge-fill {
+.caelrik-gauge-range,
+.caelrik-gauge-fill {
   fill: none;
 }
 
-.celerik-gauge-target {
+.caelrik-gauge-target {
   stroke: var(--bs-emphasis-color);
   stroke-width: 2;
   stroke-linecap: round;
@@ -1845,39 +1845,39 @@ html:not(.celerik-js) .celerik-chip-remove {
   'warning': var(--bs-warning-text-emphasis),
   'info': var(--bs-info-text-emphasis)
 ) {
-  .celerik-gauge-#{$color} {
+  .caelrik-gauge-#{$color} {
     stroke: $value;
   }
 
-  .celerik-gauge-linear .celerik-gauge-#{$color} {
+  .caelrik-gauge-linear .caelrik-gauge-#{$color} {
     fill: $value;
     stroke: none;
   }
 }
 
 // The semicircle: the value in its middle, the scale's ends under its ends.
-.celerik-gauge-arc {
+.caelrik-gauge-arc {
   width: 9rem;
   max-width: 100%;
   text-align: center;
 
-  &.celerik-gauge-sm { width: 6rem; }
-  &.celerik-gauge-lg { width: 13rem; }
+  &.caelrik-gauge-sm { width: 6rem; }
+  &.caelrik-gauge-lg { width: 13rem; }
 
-  .celerik-gauge-body {
+  .caelrik-gauge-body {
     position: relative;
   }
 
-  .celerik-gauge-track,
-  .celerik-gauge-fill {
+  .caelrik-gauge-track,
+  .caelrik-gauge-fill {
     stroke-width: 10;
   }
 
-  .celerik-gauge-range {
+  .caelrik-gauge-range {
     stroke-width: 3;
   }
 
-  .celerik-gauge-reading {
+  .caelrik-gauge-reading {
     position: absolute;
     inset-inline: 0;
     bottom: 0;
@@ -1886,24 +1886,24 @@ html:not(.celerik-js) .celerik-chip-remove {
     align-items: center;
   }
 
-  .celerik-gauge-value {
+  .caelrik-gauge-value {
     font-size: 1.25rem;
   }
 
-  &.celerik-gauge-sm .celerik-gauge-value { font-size: 0.875rem; }
-  &.celerik-gauge-lg .celerik-gauge-value { font-size: 1.75rem; }
+  &.caelrik-gauge-sm .caelrik-gauge-value { font-size: 0.875rem; }
+  &.caelrik-gauge-lg .caelrik-gauge-value { font-size: 1.75rem; }
 
   // The band's name stays, smaller: it is the sign that is not a color.
-  &.celerik-gauge-sm .celerik-gauge-band { font-size: 0.6875rem; }
+  &.caelrik-gauge-sm .caelrik-gauge-band { font-size: 0.6875rem; }
 
-  .celerik-gauge-scale {
+  .caelrik-gauge-scale {
     padding-inline: 0.25rem;
   }
 }
 
 // The bar: the label and the value on one line above it.
-.celerik-gauge-linear {
-  .celerik-gauge-head {
+.caelrik-gauge-linear {
+  .caelrik-gauge-head {
     display: flex;
     flex-wrap: wrap;
     align-items: baseline;
@@ -1912,72 +1912,72 @@ html:not(.celerik-js) .celerik-chip-remove {
     margin-bottom: 0.25rem;
   }
 
-  .celerik-gauge-label {
+  .caelrik-gauge-label {
     margin: 0;
   }
 
-  .celerik-gauge-svg {
+  .caelrik-gauge-svg {
     height: 0.75rem;
   }
 
-  &.celerik-gauge-sm .celerik-gauge-svg { height: 0.5rem; }
-  &.celerik-gauge-lg .celerik-gauge-svg { height: 1.125rem; }
+  &.caelrik-gauge-sm .caelrik-gauge-svg { height: 0.5rem; }
+  &.caelrik-gauge-lg .caelrik-gauge-svg { height: 1.125rem; }
 
-  .celerik-gauge-track {
-    fill: var(--celerik-gauge-track);
+  .caelrik-gauge-track {
+    fill: var(--caelrik-gauge-track);
     stroke: none;
   }
 }
 
 @media (forced-colors: active) {
-  .celerik-sparkline {
+  .caelrik-sparkline {
     color: CanvasText !important;
   }
 
-  .celerik-sparkline-area {
+  .caelrik-sparkline-area {
     display: none;
   }
 
-  .celerik-gauge-svg {
+  .caelrik-gauge-svg {
     forced-color-adjust: none;
   }
 
-  .celerik-gauge-track {
+  .caelrik-gauge-track {
     stroke: GrayText;
   }
 
-  .celerik-gauge-linear .celerik-gauge-track {
+  .caelrik-gauge-linear .caelrik-gauge-track {
     fill: GrayText;
   }
 
-  .celerik-gauge-fill {
+  .caelrik-gauge-fill {
     stroke: Highlight;
   }
 
-  .celerik-gauge-linear .celerik-gauge-fill {
+  .caelrik-gauge-linear .caelrik-gauge-fill {
     fill: Highlight;
   }
 
-  .celerik-gauge-range {
+  .caelrik-gauge-range {
     stroke: CanvasText;
   }
 
-  .celerik-gauge-linear .celerik-gauge-range {
+  .caelrik-gauge-linear .caelrik-gauge-range {
     fill: CanvasText;
   }
 
-  .celerik-gauge-target {
+  .caelrik-gauge-target {
     stroke: CanvasText;
   }
 }
 
 // Gantt chart (Components\Gantt): a table whose last column is the timeline. It scrolls
 // sideways; the task names stay in view.
-.celerik-gantt {
+.caelrik-gantt {
   margin-bottom: 1rem;
 }
 
-.celerik-gantt-scroll {
+.caelrik-gantt-scroll {
   overflow-x: auto;
   border: var(--bs-border-width) solid var(--bs-border-color);
   border-radius: var(--bs-border-radius);
@@ -1988,13 +1988,13 @@ html:not(.celerik-js) .celerik-chip-remove {
   }
 }
 
-.celerik-gantt-canvas {
+.caelrik-gantt-canvas {
   position: relative;
   width: max-content;
   min-width: 100%;
 }
 
-.celerik-gantt-table {
+.caelrik-gantt-table {
   border-collapse: separate;
   border-spacing: 0;
   font-size: 0.875rem;
@@ -2026,13 +2026,13 @@ html:not(.celerik-js) .celerik-chip-remove {
   }
 }
 
-.celerik-gantt-label {
+.caelrik-gantt-label {
   margin: 0 0 0.5rem;
   font-weight: 600;
 }
 
 // The task names stay at the start while the timeline scrolls.
-.celerik-gantt-table th:first-child {
+.caelrik-gantt-table th:first-child {
   position: sticky;
   inset-inline-start: 0;
   z-index: 2;
@@ -2042,65 +2042,65 @@ html:not(.celerik-js) .celerik-chip-remove {
   text-overflow: ellipsis;
 }
 
-.celerik-gantt-table thead th:first-child {
+.caelrik-gantt-table thead th:first-child {
   background-color: var(--bs-tertiary-bg);
 }
 
-.celerik-gantt-name {
+.caelrik-gantt-name {
   font-weight: 500;
 }
 
-.celerik-gantt-table .celerik-gantt-timeline {
+.caelrik-gantt-table .caelrik-gantt-timeline {
   padding: 0;
   border-inline-start: var(--bs-border-width) solid var(--bs-border-color);
 }
 
-.celerik-gantt-row,
-.celerik-gantt-scale {
+.caelrik-gantt-row,
+.caelrik-gantt-scale {
   display: block;
 }
 
-.celerik-gantt-row {
+.caelrik-gantt-row {
   margin-block: 0.25rem;
 }
 
-.celerik-gantt-scale text {
+.caelrik-gantt-scale text {
   fill: var(--bs-secondary-color);
   font-size: 11px;
 }
 
-.celerik-gantt-grid {
+.caelrik-gantt-grid {
   stroke: var(--bs-border-color-translucent);
   stroke-width: 1;
 }
 
-.celerik-gantt-weekend {
+.caelrik-gantt-weekend {
   fill: var(--bs-tertiary-bg);
 }
 
-.celerik-gantt-today {
+.caelrik-gantt-today {
   stroke: var(--bs-danger-text-emphasis);
   stroke-width: 2;
 }
 
 // A bar: a light fill with a border in its color (3:1), the done part filled.
 @each $color in primary, secondary, success, danger, warning, info {
-  .celerik-gantt-bar.celerik-gantt-#{$color} {
+  .caelrik-gantt-bar.caelrik-gantt-#{$color} {
     fill: var(--bs-#{$color}-bg-subtle);
     stroke: var(--bs-#{$color}-text-emphasis);
   }
 
-  .celerik-gantt-done.celerik-gantt-#{$color},
-  .celerik-gantt-milestone.celerik-gantt-#{$color} {
+  .caelrik-gantt-done.caelrik-gantt-#{$color},
+  .caelrik-gantt-milestone.caelrik-gantt-#{$color} {
     fill: var(--bs-#{$color}-text-emphasis);
   }
 }
 
-.celerik-gantt-bar {
+.caelrik-gantt-bar {
   stroke-width: 1.5;
 }
 
-.celerik-gantt-arrows {
+.caelrik-gantt-arrows {
   position: absolute;
   top: 0;
   left: 0;
@@ -2109,61 +2109,61 @@ html:not(.celerik-js) .celerik-chip-remove {
   pointer-events: none;
 }
 
-.celerik-gantt-link {
+.caelrik-gantt-link {
   fill: none;
   stroke: var(--bs-secondary-color);
   stroke-width: 1.5;
 }
 
-.celerik-gantt-arrowhead {
+.caelrik-gantt-arrowhead {
   fill: var(--bs-secondary-color);
 }
 
 @media (forced-colors: active) {
-  .celerik-gantt-row,
-  .celerik-gantt-scale,
-  .celerik-gantt-arrows {
+  .caelrik-gantt-row,
+  .caelrik-gantt-scale,
+  .caelrik-gantt-arrows {
     forced-color-adjust: none;
   }
 
-  .celerik-gantt-scale text {
+  .caelrik-gantt-scale text {
     fill: CanvasText;
   }
 
-  .celerik-gantt-bar[class] {
+  .caelrik-gantt-bar[class] {
     fill: Canvas;
     stroke: CanvasText;
   }
 
-  .celerik-gantt-done[class],
-  .celerik-gantt-milestone[class] {
+  .caelrik-gantt-done[class],
+  .caelrik-gantt-milestone[class] {
     fill: CanvasText;
   }
 
-  .celerik-gantt-weekend {
+  .caelrik-gantt-weekend {
     fill: Canvas;
   }
 
-  .celerik-gantt-grid {
+  .caelrik-gantt-grid {
     stroke: GrayText;
   }
 
-  .celerik-gantt-today,
-  .celerik-gantt-link {
+  .caelrik-gantt-today,
+  .caelrik-gantt-link {
     stroke: Highlight;
   }
 
-  .celerik-gantt-arrowhead {
+  .caelrik-gantt-arrowhead {
     fill: Highlight;
   }
 }
 
 // Map (Components\Map, Leaflet): a named region and, under it, the list of its places.
-.celerik-map {
+.caelrik-map {
   margin-bottom: 1rem;
 }
 
-.celerik-map-canvas {
+.caelrik-map-canvas {
   position: relative;
   z-index: 0;
   height: 22.5rem;
@@ -2172,8 +2172,8 @@ html:not(.celerik-js) .celerik-chip-remove {
   background-color: var(--bs-tertiary-bg);
   font: inherit;
 
-  &.celerik-map-sm { height: 15rem; }
-  &.celerik-map-lg { height: 30rem; }
+  &.caelrik-map-sm { height: 15rem; }
+  &.caelrik-map-lg { height: 30rem; }
 
   &:focus-visible {
     outline: 2px solid var(--bs-focus-ring-color, var(--bs-primary));
@@ -2209,7 +2209,7 @@ html:not(.celerik-js) .celerik-chip-remove {
   }
 
   // A solid background keeps the attribution readable over any tile (AA). Leaflet's
-  // stylesheet loads after Celerik's: these rules are one class more specific than its own.
+  // stylesheet loads after Caelrik's: these rules are one class more specific than its own.
   &.leaflet-container .leaflet-control-attribution {
     background-color: var(--bs-body-bg);
     color: var(--bs-body-color);
@@ -2251,7 +2251,7 @@ html:not(.celerik-js) .celerik-chip-remove {
     }
   }
 
-  :is(.leaflet-bar a, .leaflet-popup-close-button, .leaflet-control-attribution a, .celerik-map-popup a):focus-visible {
+  :is(.leaflet-bar a, .leaflet-popup-close-button, .leaflet-control-attribution a, .caelrik-map-popup a):focus-visible {
     outline: 2px solid var(--bs-focus-ring-color, var(--bs-primary));
     outline-offset: 1px;
   }
@@ -2261,34 +2261,34 @@ html:not(.celerik-js) .celerik-chip-remove {
     color: var(--bs-link-color);
   }
 
-  &.leaflet-container .celerik-map-popup p {
+  &.leaflet-container .caelrik-map-popup p {
     margin: 0 0 0.25rem;
   }
 }
 
 // Darker tiles in dark mode.
-[data-bs-theme='dark'] .celerik-map-canvas .leaflet-tile-pane {
+[data-bs-theme='dark'] .caelrik-map-canvas .leaflet-tile-pane {
   filter: invert(1) hue-rotate(180deg) brightness(0.9) contrast(0.9);
 }
 
-.celerik-map-noscript {
+.caelrik-map-noscript {
   margin: 0;
   padding: 1rem;
   color: var(--bs-secondary-color);
 }
 
-.celerik-map-popup-name {
+.caelrik-map-popup-name {
   margin: 0 0 0.25rem;
   font-weight: 600;
 }
 
-.celerik-map-popup-description {
+.caelrik-map-popup-description {
   margin: 0 0 0.25rem;
 }
 
 // A pin drawn with CSS: a round head on a point, with a white ring (3:1 on any tile).
-.celerik-map-marker {
-  --celerik-map-pin: var(--bs-primary);
+.caelrik-map-marker {
+  --caelrik-map-pin: var(--bs-primary);
   border-radius: 50%;
   background: none;
   border: 0;
@@ -2299,7 +2299,7 @@ html:not(.celerik-js) .celerik-chip-remove {
   }
 }
 
-.celerik-map-pin {
+.caelrik-map-pin {
   position: absolute;
   top: 2px;
   left: 4px;
@@ -2307,7 +2307,7 @@ html:not(.celerik-js) .celerik-chip-remove {
   height: 20px;
   border: 2px solid #fff;
   border-radius: 50% 50% 50% 0;
-  background-color: var(--celerik-map-pin);
+  background-color: var(--caelrik-map-pin);
   box-shadow: 0 1px 3px rgb(0 0 0 / 0.5);
   transform: rotate(-45deg);
 
@@ -2331,14 +2331,14 @@ html:not(.celerik-js) .celerik-chip-remove {
   'warning': #b78103,
   'info': #087990
 ) {
-  .celerik-map-marker-#{$color},
-  .celerik-map-place-#{$color} {
-    --celerik-map-pin: #{$value};
+  .caelrik-map-marker-#{$color},
+  .caelrik-map-place-#{$color} {
+    --caelrik-map-pin: #{$value};
   }
 }
 
 // The list of places: a pin's color beside each name, as on the map.
-.celerik-map-places {
+.caelrik-map-places {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
   gap: 0.5rem 1rem;
@@ -2347,7 +2347,7 @@ html:not(.celerik-js) .celerik-chip-remove {
   list-style: none;
 }
 
-.celerik-map-place {
+.caelrik-map-place {
   position: relative;
   padding: 0.5rem 0.75rem 0.5rem 1.5rem;
   border: var(--bs-border-width) solid var(--bs-border-color);
@@ -2361,22 +2361,22 @@ html:not(.celerik-js) .celerik-chip-remove {
     width: 0.5rem;
     height: 0.5rem;
     border-radius: 50%;
-    background-color: var(--celerik-map-pin);
+    background-color: var(--caelrik-map-pin);
   }
 }
 
-.celerik-map-place-name {
+.caelrik-map-place-name {
   margin: 0;
   font-weight: 600;
 }
 
-.celerik-map-place-description {
+.caelrik-map-place-description {
   margin: 0;
   color: var(--bs-secondary-color);
   font-size: 0.875rem;
 }
 
-.celerik-map-place-actions {
+.caelrik-map-place-actions {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -2385,12 +2385,12 @@ html:not(.celerik-js) .celerik-chip-remove {
   font-size: 0.875rem;
 }
 
-html:not(.celerik-js) .celerik-map-show {
+html:not(.caelrik-js) .caelrik-map-show {
   display: none;
 }
 
 @media (forced-colors: active) {
-  .celerik-map-pin {
+  .caelrik-map-pin {
     forced-color-adjust: none;
     border-color: Canvas;
     background-color: CanvasText;
@@ -2400,27 +2400,27 @@ html:not(.celerik-js) .celerik-map-show {
     }
   }
 
-  .celerik-map-canvas .leaflet-bar a,
-  .celerik-map-canvas .leaflet-popup-content-wrapper {
+  .caelrik-map-canvas .leaflet-bar a,
+  .caelrik-map-canvas .leaflet-popup-content-wrapper {
     border: 1px solid CanvasText;
   }
 }
 
 // Org chart (Components\OrgChart): nested lists drawn as a tree. The connectors are borders
 // (kept in forced-colors mode); a narrow container shows an indented list instead.
-.celerik-orgchart {
-  --celerik-orgchart-line: var(--bs-secondary-color);
-  --celerik-orgchart-step: 1.25rem;
+.caelrik-orgchart {
+  --caelrik-orgchart-line: var(--bs-secondary-color);
+  --caelrik-orgchart-step: 1.25rem;
   container-type: inline-size;
   margin-bottom: 1rem;
 }
 
-.celerik-orgchart-label {
+.caelrik-orgchart-label {
   margin: 0 0 0.5rem;
   font-weight: 600;
 }
 
-.celerik-orgchart-scroll {
+.caelrik-orgchart-scroll {
   overflow-x: auto;
   padding: 0.25rem 0 0.5rem;
 
@@ -2430,8 +2430,8 @@ html:not(.celerik-js) .celerik-map-show {
   }
 }
 
-.celerik-orgchart-tree,
-.celerik-orgchart-team {
+.caelrik-orgchart-tree,
+.caelrik-orgchart-team {
   display: flex;
   justify-content: center;
   margin: 0;
@@ -2439,15 +2439,15 @@ html:not(.celerik-js) .celerik-map-show {
   list-style: none;
 }
 
-.celerik-orgchart-tree {
+.caelrik-orgchart-tree {
   width: max-content;
   min-width: 100%;
   gap: 1.5rem;
 }
 
-.celerik-orgchart-team {
+.caelrik-orgchart-team {
   position: relative;
-  padding-top: var(--celerik-orgchart-step);
+  padding-top: var(--caelrik-orgchart-step);
 
   &[hidden] {
     display: none;
@@ -2459,21 +2459,21 @@ html:not(.celerik-js) .celerik-map-show {
     position: absolute;
     top: 0;
     left: 50%;
-    height: var(--celerik-orgchart-step);
-    border-left: 2px solid var(--celerik-orgchart-line);
+    height: var(--caelrik-orgchart-step);
+    border-left: 2px solid var(--caelrik-orgchart-line);
   }
 }
 
-.celerik-orgchart-item {
+.caelrik-orgchart-item {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
 // Each member of a team: half of the line over the team on each side, and a line down.
-.celerik-orgchart-team > .celerik-orgchart-item {
+.caelrik-orgchart-team > .caelrik-orgchart-item {
   position: relative;
-  padding: var(--celerik-orgchart-step) 0.375rem 0;
+  padding: var(--caelrik-orgchart-step) 0.375rem 0;
 
   &::before,
   &::after {
@@ -2482,14 +2482,14 @@ html:not(.celerik-js) .celerik-map-show {
     top: 0;
     right: 50%;
     width: 50%;
-    height: var(--celerik-orgchart-step);
-    border-top: 2px solid var(--celerik-orgchart-line);
+    height: var(--caelrik-orgchart-step);
+    border-top: 2px solid var(--caelrik-orgchart-line);
   }
 
   &::after {
     right: auto;
     left: 50%;
-    border-left: 2px solid var(--celerik-orgchart-line);
+    border-left: 2px solid var(--caelrik-orgchart-line);
   }
 
   &:first-child::before,
@@ -2498,7 +2498,7 @@ html:not(.celerik-js) .celerik-map-show {
   }
 
   &:last-child::before {
-    border-right: 2px solid var(--celerik-orgchart-line);
+    border-right: 2px solid var(--caelrik-orgchart-line);
     border-radius: 0 0.375rem 0 0;
   }
 
@@ -2517,7 +2517,7 @@ html:not(.celerik-js) .celerik-map-show {
 }
 
 // A person: their picture, name and job title, and the button for their team.
-.celerik-orgchart-node {
+.caelrik-orgchart-node {
   position: relative;
   display: inline-flex;
   align-items: center;
@@ -2532,29 +2532,29 @@ html:not(.celerik-js) .celerik-map-show {
   text-align: start;
 }
 
-.celerik-orgchart-text {
+.caelrik-orgchart-text {
   flex: 1 1 auto;
   min-width: 0;
 }
 
-.celerik-orgchart-name,
-.celerik-orgchart-title {
+.caelrik-orgchart-name,
+.caelrik-orgchart-title {
   margin: 0;
   overflow-wrap: anywhere;
 }
 
-.celerik-orgchart-name {
+.caelrik-orgchart-name {
   font-weight: 600;
   line-height: 1.3;
 }
 
-.celerik-orgchart-title {
+.caelrik-orgchart-title {
   color: var(--bs-secondary-color);
   font-size: 0.8125rem;
 }
 
 // A 24px target (WCAG 2.5.8), with the team's size and a chevron that turns.
-.celerik-orgchart-toggle {
+.caelrik-orgchart-toggle {
   display: inline-flex;
   flex: 0 0 auto;
   align-items: center;
@@ -2579,7 +2579,7 @@ html:not(.celerik-js) .celerik-map-show {
   }
 }
 
-.celerik-orgchart-chevron {
+.caelrik-orgchart-chevron {
   width: 0.4rem;
   height: 0.4rem;
   border-right: 2px solid currentColor;
@@ -2591,25 +2591,25 @@ html:not(.celerik-js) .celerik-map-show {
   }
 }
 
-html:not(.celerik-js) .celerik-orgchart-toggle {
+html:not(.caelrik-js) .caelrik-orgchart-toggle {
   display: none;
 }
 
 // A narrow container: an indented list, each team along a line under its manager.
 @container (max-width: 36rem) {
-  .celerik-orgchart-tree,
-  .celerik-orgchart-team {
+  .caelrik-orgchart-tree,
+  .caelrik-orgchart-team {
     display: block;
   }
 
-  .celerik-orgchart-tree {
+  .caelrik-orgchart-tree {
     width: auto;
   }
 
-  .celerik-orgchart-team {
+  .caelrik-orgchart-team {
     margin-inline-start: 1rem;
     padding: 0 0 0 0.75rem;
-    border-inline-start: 2px solid var(--celerik-orgchart-line);
+    border-inline-start: 2px solid var(--caelrik-orgchart-line);
 
     &[hidden] {
       display: none;
@@ -2620,15 +2620,15 @@ html:not(.celerik-js) .celerik-orgchart-toggle {
     }
   }
 
-  .celerik-orgchart-item {
+  .caelrik-orgchart-item {
     align-items: stretch;
   }
 
-  .celerik-orgchart-tree > .celerik-orgchart-item + .celerik-orgchart-item {
+  .caelrik-orgchart-tree > .caelrik-orgchart-item + .caelrik-orgchart-item {
     margin-top: 0.5rem;
   }
 
-  .celerik-orgchart-team > .celerik-orgchart-item {
+  .caelrik-orgchart-team > .caelrik-orgchart-item {
     padding: 0.5rem 0 0;
 
     &::before,
@@ -2637,54 +2637,54 @@ html:not(.celerik-js) .celerik-orgchart-toggle {
     }
   }
 
-  .celerik-orgchart-node {
+  .caelrik-orgchart-node {
     display: flex;
     max-width: none;
   }
 }
 
 @media (forced-colors: active) {
-  .celerik-orgchart {
-    --celerik-orgchart-line: CanvasText;
+  .caelrik-orgchart {
+    --caelrik-orgchart-line: CanvasText;
   }
 
-  .celerik-orgchart-toggle {
+  .caelrik-orgchart-toggle {
     border-color: ButtonText;
   }
 }
 
 // Diagram (Components\Diagram): a flowchart drawn by PHP, and its steps as text.
-.celerik-diagram {
+.caelrik-diagram {
   margin: 0 0 1rem;
 }
 
 // The drawing shrinks to its container; it never grows past its own size.
-.celerik-diagram-svg {
+.caelrik-diagram-svg {
   display: block;
   max-width: 100%;
   height: auto;
   margin-inline: auto;
 }
 
-.celerik-diagram-shape {
+.caelrik-diagram-shape {
   fill: var(--bs-tertiary-bg);
   stroke: var(--bs-secondary-color);
   stroke-width: 1.5;
 }
 
 @each $color in primary, secondary, success, danger, warning, info {
-  .celerik-diagram-#{$color} {
+  .caelrik-diagram-#{$color} {
     fill: var(--bs-#{$color}-bg-subtle);
     stroke: var(--bs-#{$color}-text-emphasis);
   }
 }
 
-.celerik-diagram-text {
+.caelrik-diagram-text {
   fill: var(--bs-body-color);
   font-size: 13px;
 }
 
-.celerik-diagram-edge {
+.caelrik-diagram-edge {
   fill: none;
   stroke: var(--bs-secondary-color);
   stroke-width: 1.5;
@@ -2694,11 +2694,11 @@ html:not(.celerik-js) .celerik-orgchart-toggle {
   }
 }
 
-.celerik-diagram-arrowhead {
+.caelrik-diagram-arrowhead {
   fill: var(--bs-secondary-color);
 }
 
-.celerik-diagram-edge-label {
+.caelrik-diagram-edge-label {
   rect {
     fill: var(--bs-body-bg);
     stroke: var(--bs-border-color);
@@ -2710,14 +2710,14 @@ html:not(.celerik-js) .celerik-orgchart-toggle {
   }
 }
 
-.celerik-diagram-caption {
+.caelrik-diagram-caption {
   margin-top: 0.5rem;
   color: var(--bs-secondary-color);
   font-size: 0.875rem;
   text-align: center;
 }
 
-.celerik-diagram-details {
+.caelrik-diagram-details {
   margin-top: 0.5rem;
 
   > summary {
@@ -2732,7 +2732,7 @@ html:not(.celerik-js) .celerik-orgchart-toggle {
   }
 }
 
-.celerik-diagram-steps {
+.caelrik-diagram-steps {
   margin: 0.5rem 0 0;
 
   li {
@@ -2744,38 +2744,38 @@ html:not(.celerik-js) .celerik-orgchart-toggle {
   }
 }
 
-.celerik-diagram-step {
+.caelrik-diagram-step {
   font-weight: 600;
 }
 
-.celerik-diagram-tag {
+.caelrik-diagram-tag {
   color: var(--bs-secondary-color);
   font-size: 0.875em;
 }
 
-.celerik-diagram-links {
+.caelrik-diagram-links {
   display: block;
   font-size: 0.875rem;
 }
 
 @media (forced-colors: active) {
-  .celerik-diagram-svg {
+  .caelrik-diagram-svg {
     forced-color-adjust: none;
   }
 
-  .celerik-diagram-shape[class],
-  .celerik-diagram-edge-label rect {
+  .caelrik-diagram-shape[class],
+  .caelrik-diagram-edge-label rect {
     fill: Canvas;
     stroke: CanvasText;
   }
 
-  .celerik-diagram-text,
-  .celerik-diagram-edge-label text,
-  .celerik-diagram-arrowhead {
+  .caelrik-diagram-text,
+  .caelrik-diagram-edge-label text,
+  .caelrik-diagram-arrowhead {
     fill: CanvasText;
   }
 
-  .celerik-diagram-edge {
+  .caelrik-diagram-edge {
     stroke: CanvasText;
   }
 }
@@ -2783,8 +2783,8 @@ html:not(.celerik-js) .celerik-orgchart-toggle {
 // QR code and barcode (Components\QrCode, Components\Barcode): drawn by PHP, with their value
 // as text. The code stays dark on a light tile in dark mode and in forced colors: scanners
 // need that contrast.
-.celerik-qrcode,
-.celerik-barcode {
+.caelrik-qrcode,
+.caelrik-barcode {
   display: inline-flex;
   flex-direction: column;
   align-items: center;
@@ -2794,55 +2794,55 @@ html:not(.celerik-js) .celerik-orgchart-toggle {
   vertical-align: top;
 }
 
-.celerik-qrcode-image,
-.celerik-barcode-image {
+.caelrik-qrcode-image,
+.caelrik-barcode-image {
   display: block;
   max-width: 100%;
   height: auto;
   forced-color-adjust: none;
 }
 
-.celerik-qrcode-image {
+.caelrik-qrcode-image {
   border-radius: var(--bs-border-radius-sm);
 }
 
-.celerik-qrcode-light,
-.celerik-barcode-light {
+.caelrik-qrcode-light,
+.caelrik-barcode-light {
   fill: #fff;
 }
 
-.celerik-qrcode-dark,
-.celerik-barcode-dark {
+.caelrik-qrcode-dark,
+.caelrik-barcode-dark {
   fill: #000;
 }
 
 // The caption takes the width of the code, however long the value.
-.celerik-qrcode-caption,
-.celerik-barcode-caption {
+.caelrik-qrcode-caption,
+.caelrik-barcode-caption {
   inline-size: 0;
   min-inline-size: 100%;
   text-align: center;
   overflow-wrap: anywhere;
 }
 
-.celerik-qrcode-label,
-.celerik-barcode-label {
+.caelrik-qrcode-label,
+.caelrik-barcode-label {
   display: block;
   font-weight: 600;
 }
 
-.celerik-qrcode-value,
-.celerik-barcode-value {
+.caelrik-qrcode-value,
+.caelrik-barcode-value {
   display: block;
   font-family: var(--bs-font-monospace);
   font-size: 0.875rem;
 }
 
-.celerik-barcode-value {
+.caelrik-barcode-value {
   letter-spacing: 0.1em;
 }
 
-a.celerik-qrcode-value {
+a.caelrik-qrcode-value {
   padding-block: 0.125rem;
   line-height: 1.25rem;
 }
@@ -2851,11 +2851,11 @@ a.celerik-qrcode-value {
 // mode and in forced colors too, with a line to sign on. The pad is drawn with the pointer
 // only (touch-action: none keeps a finger from scrolling the page); the name input is the
 // way for keyboards and screen readers.
-.celerik-signature {
+.caelrik-signature {
   max-width: 36rem;
 }
 
-.celerik-signature-surface {
+.caelrik-signature-surface {
   position: relative;
   border: 1px solid var(--bs-border-color);
   border-radius: var(--bs-border-radius);
@@ -2874,7 +2874,7 @@ a.celerik-qrcode-value {
   }
 }
 
-.celerik-signature-canvas {
+.caelrik-signature-canvas {
   display: block;
   width: 100%;
   aspect-ratio: 3 / 1;
@@ -2882,20 +2882,20 @@ a.celerik-qrcode-value {
   touch-action: none;
 }
 
-.celerik-signature-clear {
+.caelrik-signature-clear {
   min-height: 24px;
   margin: 0.5rem 0 0.75rem;
 }
 
 @media (forced-colors: active) {
-  .celerik-signature-surface {
+  .caelrik-signature-surface {
     border-color: CanvasText;
   }
 }
 
 // PDF viewer (Components\PdfViewer): a title and a download link, a toolbar, and the pages in
 // a scrolling area. Pages stay white like paper in dark mode; PDF.js sizes them by the CSSOM.
-.celerik-pdf {
+.caelrik-pdf {
   display: flex;
   flex-direction: column;
   margin-bottom: 1rem;
@@ -2904,8 +2904,8 @@ a.celerik-qrcode-value {
   overflow: hidden;
 }
 
-.celerik-pdf-header,
-.celerik-pdf-toolbar {
+.caelrik-pdf-header,
+.caelrik-pdf-toolbar {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -2916,40 +2916,40 @@ a.celerik-qrcode-value {
   background: var(--bs-body-bg);
 }
 
-.celerik-pdf-toolbar[hidden] {
+.caelrik-pdf-toolbar[hidden] {
   display: none;
 }
 
-.celerik-pdf-title {
+.caelrik-pdf-title {
   margin: 0;
   font-weight: 600;
   overflow-wrap: anywhere;
 }
 
-.celerik-pdf-tools {
+.caelrik-pdf-tools {
   display: flex;
   align-items: center;
   gap: 0.375rem;
 }
 
-.celerik-pdf-page-label {
+.caelrik-pdf-page-label {
   margin: 0;
 }
 
-.celerik-pdf-page-input {
+.caelrik-pdf-page-input {
   width: 4.5rem;
 }
 
-.celerik-pdf-zoom {
+.caelrik-pdf-zoom {
   width: auto;
 }
 
-.celerik-pdf-tools .btn {
+.caelrik-pdf-tools .btn {
   min-width: 2rem;
   min-height: 2rem;
 }
 
-.celerik-pdf-viewport {
+.caelrik-pdf-viewport {
   position: relative;
   height: 40rem;
   max-height: 85vh;
@@ -2959,19 +2959,19 @@ a.celerik-qrcode-value {
 
   &:focus-visible {
     outline: 0;
-    box-shadow: inset var(--celerik-focus-ring);
+    box-shadow: inset var(--caelrik-focus-ring);
   }
 }
 
-.celerik-pdf-sm .celerik-pdf-viewport {
+.caelrik-pdf-sm .caelrik-pdf-viewport {
   height: 24rem;
 }
 
-.celerik-pdf-lg .celerik-pdf-viewport {
+.caelrik-pdf-lg .caelrik-pdf-viewport {
   height: 60rem;
 }
 
-.celerik-pdf-page {
+.caelrik-pdf-page {
   position: relative;
   margin: 0 auto 1rem;
   background: #fff;
@@ -2982,13 +2982,13 @@ a.celerik-qrcode-value {
   }
 }
 
-.celerik-pdf-canvas {
+.caelrik-pdf-canvas {
   display: block;
 }
 
 // Messages (loading, an error, no JavaScript) sit on the page's background, where links keep
 // their contrast.
-.celerik-pdf-message {
+.caelrik-pdf-message {
   max-width: 40rem;
   margin: 0 auto;
   padding: 0.75rem 1rem;
@@ -2997,7 +2997,7 @@ a.celerik-qrcode-value {
 }
 
 @media (forced-colors: active) {
-  .celerik-pdf-page {
+  .caelrik-pdf-page {
     border: 1px solid CanvasText;
     forced-color-adjust: none;
   }
@@ -3005,7 +3005,7 @@ a.celerik-qrcode-value {
 
 // The text layer of PDF.js (pdf_viewer.css, Apache-2.0): transparent text over the canvas, at
 // the place and size of the drawn text, for selection, search and screen readers.
-.celerik-pdf .textLayer {
+.caelrik-pdf .textLayer {
   --min-font-size: 1;
   --text-scale-factor: calc(var(--total-scale-factor) * var(--min-font-size));
   --min-font-size-inv: calc(1 / var(--min-font-size));
@@ -3072,7 +3072,7 @@ a.celerik-qrcode-value {
 
 // Media player (Components\MediaPlayer): Plyr in the theme's colors, its caption and the
 // transcript. The line being spoken is marked by a bar and bold text, not by color alone.
-.celerik-media {
+.caelrik-media {
   --plyr-color-main: var(--bs-primary);
   --plyr-font-family: var(--bs-body-font-family);
   --plyr-audio-controls-background: var(--bs-body-bg);
@@ -3083,7 +3083,7 @@ a.celerik-qrcode-value {
   margin: 0 0 1rem;
 }
 
-.celerik-media-frame {
+.caelrik-media-frame {
   overflow: hidden;
   border-radius: var(--bs-border-radius);
   background: #000;
@@ -3094,7 +3094,7 @@ a.celerik-qrcode-value {
   }
 }
 
-.celerik-media-audio .celerik-media-frame {
+.caelrik-media-audio .caelrik-media-frame {
   border: 1px solid var(--bs-border-color);
   background: var(--bs-body-bg);
 
@@ -3104,12 +3104,12 @@ a.celerik-qrcode-value {
   }
 }
 
-.celerik-media-caption {
+.caelrik-media-caption {
   margin-top: 0.5rem;
   font-weight: 600;
 }
 
-.celerik-media-transcript {
+.caelrik-media-transcript {
   margin-top: 0.5rem;
 
   > summary {
@@ -3120,7 +3120,7 @@ a.celerik-qrcode-value {
   }
 }
 
-.celerik-media-cues {
+.caelrik-media-cues {
   max-height: 16rem;
   margin: 0.5rem 0 0;
   padding: 0;
@@ -3128,7 +3128,7 @@ a.celerik-qrcode-value {
   list-style: none;
 }
 
-.celerik-media-cue {
+.caelrik-media-cue {
   display: flex;
   align-items: baseline;
   gap: 0.5rem;
@@ -3142,7 +3142,7 @@ a.celerik-qrcode-value {
   }
 }
 
-.celerik-media-seek {
+.caelrik-media-seek {
   min-width: 3.5rem;
   min-height: 24px;
   padding: 0 0.25rem;
@@ -3151,28 +3151,28 @@ a.celerik-qrcode-value {
   text-align: start;
 }
 
-.celerik-media-time {
+.caelrik-media-time {
   font-variant-numeric: tabular-nums;
 }
 
-.celerik-media-speaker {
+.caelrik-media-speaker {
   font-weight: 600;
 }
 
 @media (forced-colors: active) {
-  .celerik-media-cue[aria-current='true'] {
+  .caelrik-media-cue[aria-current='true'] {
     border-left-color: Highlight;
   }
 }
 
 // Markdown field (Field::markdown()): Write and Preview tabs and a formatting toolbar above
 // the textarea, in one bordered box. The selected tab is marked by a bar and bold text.
-.celerik-markdown {
-  border: var(--bs-border-width) solid var(--celerik-input-border, var(--bs-border-color));
+.caelrik-markdown {
+  border: var(--bs-border-width) solid var(--caelrik-input-border, var(--bs-border-color));
   border-radius: var(--bs-border-radius);
   background: var(--bs-body-bg);
 
-  .celerik-markdown-source {
+  .caelrik-markdown-source {
     border: 0;
     border-radius: 0 0 var(--bs-border-radius) var(--bs-border-radius);
   }
@@ -3184,11 +3184,11 @@ a.celerik-qrcode-value {
 
 // The server error follows the box, not the textarea (Bootstrap shows it after an invalid
 // control).
-.celerik-markdown:has(.is-invalid) ~ .invalid-feedback {
+.caelrik-markdown:has(.is-invalid) ~ .invalid-feedback {
   display: block;
 }
 
-.celerik-markdown-bar {
+.caelrik-markdown-bar {
   display: flex;
   flex-wrap: wrap;
   align-items: flex-end;
@@ -3200,11 +3200,11 @@ a.celerik-qrcode-value {
   background: var(--bs-tertiary-bg);
 }
 
-.celerik-markdown-tabs {
+.caelrik-markdown-tabs {
   display: flex;
 }
 
-.celerik-markdown-tab {
+.caelrik-markdown-tab {
   min-height: 2rem;
   padding: 0.25rem 0.75rem;
   border: 0;
@@ -3218,7 +3218,7 @@ a.celerik-qrcode-value {
   }
 }
 
-.celerik-markdown-toolbar {
+.caelrik-markdown-toolbar {
   display: flex;
   flex-wrap: wrap;
   gap: 0.125rem;
@@ -3229,7 +3229,7 @@ a.celerik-qrcode-value {
   }
 }
 
-.celerik-markdown-action {
+.caelrik-markdown-action {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -3251,7 +3251,7 @@ a.celerik-qrcode-value {
   }
 }
 
-.celerik-markdown-preview {
+.caelrik-markdown-preview {
   padding: 0.375rem 0.75rem;
   overflow-wrap: anywhere;
 
@@ -3276,12 +3276,12 @@ a.celerik-qrcode-value {
   }
 }
 
-.celerik-markdown-empty {
+.caelrik-markdown-empty {
   color: var(--bs-secondary-color);
 }
 
 @media (forced-colors: active) {
-  .celerik-markdown-tab[aria-selected='true'] {
+  .caelrik-markdown-tab[aria-selected='true'] {
     border-bottom-color: Highlight;
   }
 }
@@ -3289,27 +3289,27 @@ a.celerik-qrcode-value {
 // Code field (Field::code(), CodeMirror 6): a bordered box with the field's focus ring and
 // error border. Syntax colors keep 4.5:1 on the page in light and dark mode, and the theme of
 // form-code.js uses these variables.
-.celerik-code {
-  --celerik-code-selection: #b6d4fe;
-  --celerik-code-active-line: rgb(13 110 253 / 0.06);
-  --celerik-code-match: #fff3cd;
-  --celerik-code-keyword: #cf222e;
-  --celerik-code-string: #0a3069;
-  --celerik-code-comment: #57606a;
-  --celerik-code-number: #0550ae;
-  --celerik-code-function: #8250df;
-  --celerik-code-type: #953800;
-  --celerik-code-tag: #116329;
-  --celerik-code-property: #0550ae;
-  --celerik-code-link: #0969da;
+.caelrik-code {
+  --caelrik-code-selection: #b6d4fe;
+  --caelrik-code-active-line: rgb(13 110 253 / 0.06);
+  --caelrik-code-match: #fff3cd;
+  --caelrik-code-keyword: #cf222e;
+  --caelrik-code-string: #0a3069;
+  --caelrik-code-comment: #57606a;
+  --caelrik-code-number: #0550ae;
+  --caelrik-code-function: #8250df;
+  --caelrik-code-type: #953800;
+  --caelrik-code-tag: #116329;
+  --caelrik-code-property: #0550ae;
+  --caelrik-code-link: #0969da;
 
   overflow: hidden;
-  border: var(--bs-border-width) solid var(--celerik-input-border, var(--bs-border-color));
+  border: var(--bs-border-width) solid var(--caelrik-input-border, var(--bs-border-color));
   border-radius: var(--bs-border-radius);
 
   &:focus-within {
     border-color: var(--bs-primary);
-    box-shadow: var(--celerik-focus-ring, 0 0 0 0.25rem rgb(13 110 253 / 0.25));
+    box-shadow: var(--caelrik-focus-ring, 0 0 0 0.25rem rgb(13 110 253 / 0.25));
   }
 
   &.is-invalid {
@@ -3326,36 +3326,36 @@ a.celerik-qrcode-value {
   }
 }
 
-[data-bs-theme='dark'] .celerik-code {
-  --celerik-code-selection: #1f4c8f;
-  --celerik-code-active-line: rgb(255 255 255 / 0.05);
-  --celerik-code-match: #5c4813;
-  --celerik-code-keyword: #ff7b72;
-  --celerik-code-string: #a5d6ff;
-  --celerik-code-comment: #8b949e;
-  --celerik-code-number: #79c0ff;
-  --celerik-code-function: #d2a8ff;
-  --celerik-code-type: #ffa657;
-  --celerik-code-tag: #7ee787;
-  --celerik-code-property: #79c0ff;
-  --celerik-code-link: #58a6ff;
+[data-bs-theme='dark'] .caelrik-code {
+  --caelrik-code-selection: #1f4c8f;
+  --caelrik-code-active-line: rgb(255 255 255 / 0.05);
+  --caelrik-code-match: #5c4813;
+  --caelrik-code-keyword: #ff7b72;
+  --caelrik-code-string: #a5d6ff;
+  --caelrik-code-comment: #8b949e;
+  --caelrik-code-number: #79c0ff;
+  --caelrik-code-function: #d2a8ff;
+  --caelrik-code-type: #ffa657;
+  --caelrik-code-tag: #7ee787;
+  --caelrik-code-property: #79c0ff;
+  --caelrik-code-link: #58a6ff;
 }
 
-.celerik-code-keyword { color: var(--celerik-code-keyword); }
-.celerik-code-string { color: var(--celerik-code-string); }
-.celerik-code-comment { color: var(--celerik-code-comment); font-style: italic; }
-.celerik-code-number { color: var(--celerik-code-number); }
-.celerik-code-function { color: var(--celerik-code-function); }
-.celerik-code-type { color: var(--celerik-code-type); }
-.celerik-code-tag { color: var(--celerik-code-tag); }
-.celerik-code-property { color: var(--celerik-code-property); }
-.celerik-code-strong { font-weight: 700; }
-.celerik-code-emphasis { font-style: italic; }
-.celerik-code-link { color: var(--celerik-code-link); text-decoration: underline; }
-.celerik-code-invalid { text-decoration: underline wavy var(--bs-danger); }
+.caelrik-code-keyword { color: var(--caelrik-code-keyword); }
+.caelrik-code-string { color: var(--caelrik-code-string); }
+.caelrik-code-comment { color: var(--caelrik-code-comment); font-style: italic; }
+.caelrik-code-number { color: var(--caelrik-code-number); }
+.caelrik-code-function { color: var(--caelrik-code-function); }
+.caelrik-code-type { color: var(--caelrik-code-type); }
+.caelrik-code-tag { color: var(--caelrik-code-tag); }
+.caelrik-code-property { color: var(--caelrik-code-property); }
+.caelrik-code-strong { font-weight: 700; }
+.caelrik-code-emphasis { font-style: italic; }
+.caelrik-code-link { color: var(--caelrik-code-link); text-decoration: underline; }
+.caelrik-code-invalid { text-decoration: underline wavy var(--bs-danger); }
 
 @media (forced-colors: active) {
-  .celerik-code {
+  .caelrik-code {
     border-color: CanvasText;
   }
 }
@@ -3364,14 +3364,14 @@ a.celerik-qrcode-value {
 // rest darkened), and the crop's numbers. The crop area has dark, light and dark lines inside
 // its edges, seen on any picture (thicker with focus), and corners of 24px inside it: nothing
 // is cut by the picture's edges.
-.celerik-image-editor {
+.caelrik-image-editor {
   margin-top: 0.75rem;
   padding: 0.75rem;
   border: var(--bs-border-width) solid var(--bs-border-color);
   border-radius: var(--bs-border-radius);
 }
 
-.celerik-image-tools {
+.caelrik-image-tools {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -3395,7 +3395,7 @@ a.celerik-qrcode-value {
   }
 }
 
-.celerik-image-ratio-group {
+.caelrik-image-ratio-group {
   display: inline-flex;
   align-items: center;
   gap: 0.375rem;
@@ -3405,11 +3405,11 @@ a.celerik-qrcode-value {
   }
 }
 
-.celerik-image-ratio {
+.caelrik-image-ratio {
   width: auto;
 }
 
-.celerik-image-stage {
+.caelrik-image-stage {
   position: relative;
   max-width: 100%;
   overflow: hidden;
@@ -3418,13 +3418,13 @@ a.celerik-qrcode-value {
   user-select: none;
 }
 
-.celerik-image-canvas {
+.caelrik-image-canvas {
   display: block;
   width: 100%;
   height: auto;
 }
 
-.celerik-image-crop {
+.caelrik-image-crop {
   position: absolute;
   box-shadow: inset 0 0 0 1px #000, inset 0 0 0 3px #fff, inset 0 0 0 4px #000, 0 0 0 100vmax rgb(0 0 0 / 0.5);
   cursor: move;
@@ -3435,7 +3435,7 @@ a.celerik-qrcode-value {
   }
 }
 
-.celerik-image-handle {
+.caelrik-image-handle {
   position: absolute;
   width: 24px;
   height: 24px;
@@ -3448,7 +3448,7 @@ a.celerik-qrcode-value {
   &-se { right: 0; bottom: 0; cursor: nwse-resize; }
 }
 
-.celerik-image-numbers {
+.caelrik-image-numbers {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(6rem, 1fr));
   gap: 0.5rem;
@@ -3460,34 +3460,34 @@ a.celerik-qrcode-value {
   }
 }
 
-.celerik-image-result {
+.caelrik-image-result {
   margin: 0.5rem 0 0;
 }
 
 @media (forced-colors: active) {
-  .celerik-image-crop {
+  .caelrik-image-crop {
     outline: 3px solid Highlight;
     outline-offset: -3px;
   }
 
-  .celerik-image-handle {
+  .caelrik-image-handle {
     border-color: CanvasText;
     background: Canvas;
   }
 }
 
 // Timeline (Components\Timeline): an ordered list along a line. Plain HTML.
-.celerik-timeline {
-  --celerik-timeline-rail: 1.75rem;
+.caelrik-timeline {
+  --caelrik-timeline-rail: 1.75rem;
   margin: 0 0 1rem;
   padding: 0;
   list-style: none;
 }
 
-.celerik-timeline-event {
+.caelrik-timeline-event {
   position: relative;
   display: grid;
-  grid-template-columns: var(--celerik-timeline-rail) minmax(0, 1fr);
+  grid-template-columns: var(--caelrik-timeline-rail) minmax(0, 1fr);
   column-gap: 0.75rem;
   padding-bottom: 1.5rem;
 
@@ -3497,7 +3497,7 @@ a.celerik-qrcode-value {
     position: absolute;
     top: 0.75rem;
     bottom: -0.75rem;
-    inset-inline-start: calc(var(--celerik-timeline-rail) / 2 - 1px);
+    inset-inline-start: calc(var(--caelrik-timeline-rail) / 2 - 1px);
     border-inline-start: 2px solid var(--bs-border-color);
   }
 
@@ -3510,7 +3510,7 @@ a.celerik-qrcode-value {
   }
 }
 
-.celerik-timeline-marker {
+.caelrik-timeline-marker {
   position: relative;
   z-index: 1;
   justify-self: center;
@@ -3526,8 +3526,8 @@ a.celerik-qrcode-value {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: var(--celerik-timeline-rail);
-    height: var(--celerik-timeline-rail);
+    width: var(--caelrik-timeline-rail);
+    height: var(--caelrik-timeline-rail);
     margin-top: 0;
     border-color: var(--bs-primary-border-subtle);
     background-color: var(--bs-primary-bg-subtle);
@@ -3539,7 +3539,7 @@ a.celerik-qrcode-value {
 }
 
 @each $color in primary, secondary, success, danger, warning, info {
-  .celerik-timeline-marker-#{$color} {
+  .caelrik-timeline-marker-#{$color} {
     border-color: var(--bs-#{$color});
     background-color: var(--bs-#{$color});
 
@@ -3552,36 +3552,36 @@ a.celerik-qrcode-value {
 }
 
 // The current step: a ring around its marker (not only a color) and a bold title.
-.celerik-timeline-event.is-current {
-  .celerik-timeline-marker {
+.caelrik-timeline-event.is-current {
+  .caelrik-timeline-marker {
     outline: 2px solid var(--bs-emphasis-color);
     outline-offset: 2px;
   }
 
-  .celerik-timeline-title {
+  .caelrik-timeline-title {
     font-weight: 700;
   }
 }
 
-.celerik-timeline-body {
+.caelrik-timeline-body {
   min-width: 0;
 }
 
-.celerik-timeline-title {
+.caelrik-timeline-title {
   margin: 0;
   font-size: 1rem;
   font-weight: 600;
   line-height: 1.5;
 }
 
-.celerik-timeline-time {
+.caelrik-timeline-time {
   display: block;
   margin: 0;
   color: var(--bs-secondary-color);
   font-size: 0.875rem;
 }
 
-.celerik-timeline-content {
+.caelrik-timeline-content {
   margin-top: 0.25rem;
 
   > :last-child {
@@ -3591,24 +3591,24 @@ a.celerik-qrcode-value {
 
 // Both sides of the line on wide screens; one side on phones.
 @media (min-width: 768px) {
-  .celerik-timeline-alternate .celerik-timeline-event {
-    grid-template-columns: minmax(0, 1fr) var(--celerik-timeline-rail) minmax(0, 1fr);
+  .caelrik-timeline-alternate .caelrik-timeline-event {
+    grid-template-columns: minmax(0, 1fr) var(--caelrik-timeline-rail) minmax(0, 1fr);
 
     &::before {
       inset-inline-start: calc(50% - 1px);
     }
 
-    .celerik-timeline-marker {
+    .caelrik-timeline-marker {
       grid-row: 1;
       grid-column: 2;
     }
 
-    .celerik-timeline-body {
+    .caelrik-timeline-body {
       grid-row: 1;
       grid-column: 3;
     }
 
-    &:nth-child(even) .celerik-timeline-body {
+    &:nth-child(even) .caelrik-timeline-body {
       grid-column: 1;
       text-align: end;
     }
@@ -3617,14 +3617,14 @@ a.celerik-qrcode-value {
 
 // Carousel (Components\Carousel): its controls come first (the rotation button is reached
 // before the slides) and are shown under the slides.
-.celerik-carousel {
+.caelrik-carousel {
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
   margin-bottom: 1rem;
 }
 
-.celerik-carousel-controls {
+.caelrik-carousel-controls {
   display: flex;
   flex-wrap: wrap;
   order: 1;
@@ -3633,19 +3633,19 @@ a.celerik-qrcode-value {
   gap: 0.5rem;
 }
 
-html:not(.celerik-js) .celerik-carousel-controls {
+html:not(.caelrik-js) .caelrik-carousel-controls {
   display: none;
 }
 
 // Without JavaScript the slides are shown one under the other. With it, they share one
 // cell: the carousel keeps the height of its tallest slide, and only one is shown.
-.celerik-carousel-slides {
+.caelrik-carousel-slides {
   display: grid;
   gap: 1rem;
   min-width: 0;
 }
 
-.celerik-js .celerik-carousel-slide {
+.caelrik-js .caelrik-carousel-slide {
   grid-area: 1 / 1;
   min-width: 0;
   visibility: hidden;
@@ -3659,9 +3659,9 @@ html:not(.celerik-js) .celerik-carousel-controls {
   }
 }
 
-.celerik-carousel-previous,
-.celerik-carousel-next,
-.celerik-carousel-rotate {
+.caelrik-carousel-previous,
+.caelrik-carousel-next,
+.caelrik-carousel-rotate {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -3674,24 +3674,24 @@ html:not(.celerik-js) .celerik-carousel-controls {
   }
 }
 
-.celerik-carousel:not(.is-playing) .celerik-carousel-icon-pause,
-.celerik-carousel.is-playing .celerik-carousel-icon-play {
+.caelrik-carousel:not(.is-playing) .caelrik-carousel-icon-pause,
+.caelrik-carousel.is-playing .caelrik-carousel-icon-play {
   display: none;
 }
 
-[dir='rtl'] .celerik-carousel-previous .celerik-carousel-icon,
-[dir='rtl'] .celerik-carousel-next .celerik-carousel-icon {
+[dir='rtl'] .caelrik-carousel-previous .caelrik-carousel-icon,
+[dir='rtl'] .caelrik-carousel-next .caelrik-carousel-icon {
   transform: scaleX(-1);
 }
 
-.celerik-carousel-picker {
+.caelrik-carousel-picker {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
 }
 
 // A 24px target (WCAG 2.5.8); the current slide's dot is filled, the others are rings.
-.celerik-carousel-dot {
+.caelrik-carousel-dot {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -3732,11 +3732,11 @@ html:not(.celerik-js) .celerik-carousel-controls {
   }
 }
 
-.celerik-carousel-figure {
+.caelrik-carousel-figure {
   margin: 0;
 }
 
-.celerik-carousel-image {
+.caelrik-carousel-image {
   display: block;
   width: 100%;
   height: auto;
@@ -3746,12 +3746,12 @@ html:not(.celerik-js) .celerik-carousel-controls {
 }
 
 @each $name, $ratio in ('4x3': 4 / 3, '3x2': 3 / 2, '21x9': 21 / 9, '1x1': 1) {
-  .celerik-carousel-ratio-#{$name} .celerik-carousel-image {
+  .caelrik-carousel-ratio-#{$name} .caelrik-carousel-image {
     aspect-ratio: $ratio;
   }
 }
 
-.celerik-carousel-caption {
+.caelrik-carousel-caption {
   margin-top: 0.5rem;
   color: var(--bs-secondary-color);
   font-size: 0.875rem;
@@ -3759,29 +3759,29 @@ html:not(.celerik-js) .celerik-carousel-controls {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .celerik-js .celerik-carousel-slide,
-  .celerik-js .celerik-carousel-slide.is-active {
+  .caelrik-js .caelrik-carousel-slide,
+  .caelrik-js .caelrik-carousel-slide.is-active {
     transition: none;
   }
 }
 
 @media (forced-colors: active) {
-  .celerik-timeline-marker {
+  .caelrik-timeline-marker {
     forced-color-adjust: none;
     border-color: CanvasText;
     background-color: Canvas;
     color: CanvasText;
   }
 
-  .celerik-timeline-marker[class*='celerik-timeline-marker-']:not(.has-text) {
+  .caelrik-timeline-marker[class*='caelrik-timeline-marker-']:not(.has-text) {
     background-color: CanvasText;
   }
 
-  .celerik-timeline-event.is-current .celerik-timeline-marker {
+  .caelrik-timeline-event.is-current .caelrik-timeline-marker {
     outline-color: Highlight;
   }
 
-  .celerik-carousel-dot {
+  .caelrik-carousel-dot {
     forced-color-adjust: none;
     color: CanvasText;
 
@@ -3793,76 +3793,76 @@ html:not(.celerik-js) .celerik-carousel-controls {
 
 // Small screens: one column, each tile as high as its content.
 @media (max-width: 767.98px) {
-  .celerik-tilelayout {
+  .caelrik-tilelayout {
     grid-template-columns: minmax(0, 1fr);
     grid-auto-rows: auto;
 
-    > .celerik-tile {
+    > .caelrik-tile {
       grid-column: auto;
       grid-row: auto;
     }
   }
 
-  .celerik-tile-grip {
+  .caelrik-tile-grip {
     display: none;
   }
 }
 
 // A grid's empty state (Grid::emptyState()) and its "no rows match" state, in the table's
 // only row.
-.celerik-grid .celerik-grid-empty {
+.caelrik-grid .caelrik-grid-empty {
   padding: 1.5rem 1rem;
   text-align: center;
   white-space: normal;
 }
 
-.celerik-grid-empty-title {
+.caelrik-grid-empty-title {
   margin-bottom: 0.25rem;
   font-weight: 600;
 }
 
-.celerik-grid-empty-description {
+.caelrik-grid-empty-description {
   margin-bottom: 0;
   color: var(--bs-secondary-color);
 }
 
-.celerik-grid-empty-action {
+.caelrik-grid-empty-action {
   margin-top: 0.75rem;
 }
 
 // Column totals (Column::total()) in the footer and in group headings (Grid::groupBy()).
-.celerik-grid tfoot td {
+.caelrik-grid tfoot td {
   border-top: 2px solid var(--bs-border-color);
   font-weight: 600;
 }
 
-.celerik-grid-total {
+.caelrik-grid-total {
   white-space: nowrap;
 }
 
-.celerik-grid-total-label {
+.caelrik-grid-total-label {
   margin-right: 0.25rem;
   color: var(--bs-secondary-color);
   font-size: 0.875em;
   font-weight: 400;
 }
 
-.celerik-grid-total-value {
+.caelrik-grid-total-value {
   font-variant-numeric: tabular-nums;
 }
 
 // A group's heading row: its name, its row count and its totals.
-.celerik-grid .celerik-grid-group > * {
+.caelrik-grid .caelrik-grid-group > * {
   background-color: var(--bs-tertiary-bg);
   --bs-table-bg-type: var(--bs-tertiary-bg);
   --bs-table-bg-state: var(--bs-tertiary-bg);
 }
 
-.celerik-grid-group th {
+.caelrik-grid-group th {
   font-weight: 600;
 }
 
-.celerik-grid-group-count {
+.caelrik-grid-group-count {
   margin-left: 0.25rem;
   color: var(--bs-secondary-color);
   font-size: 0.875em;
@@ -3870,17 +3870,17 @@ html:not(.celerik-js) .celerik-carousel-controls {
 }
 
 // An action that opens a form (Action::form()) needs JavaScript: hidden without it.
-html:not(.celerik-js) form[data-celerik-form-modal] {
+html:not(.caelrik-js) form[data-caelrik-form-modal] {
   display: none;
 }
 
 // Inline editing (Column::editable()): the edit button shows once DataTables runs, as it needs
 // the grid's JavaScript. It is 24px for WCAG 2.5.8, beside the value.
-.celerik-grid:not(.dataTable) .celerik-grid-edit {
+.caelrik-grid:not(.dataTable) .caelrik-grid-edit {
   display: none;
 }
 
-.celerik-grid-edit {
+.caelrik-grid-edit {
   min-width: 1.5rem;
   min-height: 1.5rem;
   margin-left: 0.25rem;
@@ -3895,7 +3895,7 @@ html:not(.celerik-js) form[data-celerik-form-modal] {
   }
 }
 
-.celerik-grid-editor {
+.caelrik-grid-editor {
   min-width: 8rem;
 
   .invalid-feedback {
@@ -3903,17 +3903,17 @@ html:not(.celerik-js) form[data-celerik-form-modal] {
   }
 }
 
-td[aria-busy='true'] .celerik-grid-editor {
+td[aria-busy='true'] .caelrik-grid-editor {
   opacity: 0.65;
 }
 
 // A grid's Columns menu (Grid::columnToggle()): a panel of checkboxes under its button.
-.celerik-grid-columns {
+.caelrik-grid-columns {
   position: relative;
   display: inline-block;
 }
 
-.celerik-grid-columns-panel {
+.caelrik-grid-columns-panel {
   position: absolute;
   top: calc(100% + 0.25rem);
   left: 0;
@@ -3926,7 +3926,7 @@ td[aria-busy='true'] .celerik-grid-editor {
   color: var(--bs-body-color);
   background-color: var(--bs-body-bg);
   border: var(--bs-border-width) solid var(--bs-border-color);
-  border-radius: var(--celerik-radius);
+  border-radius: var(--caelrik-radius);
 
   .form-check:last-child {
     margin-bottom: 0;
@@ -3934,12 +3934,12 @@ td[aria-busy='true'] .celerik-grid-editor {
 }
 
 // A grid's actions column: as narrow as its buttons, which stay on one line when they fit.
-.celerik-grid .celerik-grid-actions {
+.caelrik-grid .caelrik-grid-actions {
   width: 1%;
   white-space: nowrap;
 }
 
-.celerik-grid-action-list {
+.caelrik-grid-action-list {
   display: flex;
   flex-wrap: wrap;
   gap: 0.25rem;
@@ -3948,14 +3948,14 @@ td[aria-busy='true'] .celerik-grid-editor {
 // The grid's filter bar (Column::filter()). Clear filters: Bootstrap's outline-secondary
 // text is #6c757d, 3.3:1 on its dark background; the body color and the field border
 // (3:1) keep it readable in both modes.
-.celerik-grid-filters {
+.caelrik-grid-filters {
   legend {
     float: none;
   }
 
   .btn-outline-secondary {
     --bs-btn-color: var(--bs-body-color);
-    --bs-btn-border-color: var(--celerik-input-border);
+    --bs-btn-border-color: var(--caelrik-input-border);
   }
 }
 
@@ -3964,18 +3964,18 @@ td[aria-busy='true'] .celerik-grid-editor {
 .dt-container th.dt-orderable-desc {
   &:focus-visible {
     outline: 0;
-    box-shadow: var(--celerik-focus-ring);
+    box-shadow: var(--caelrik-focus-ring);
   }
 }
 
-.celerik-chart {
+.caelrik-chart {
   margin: 0 0 1rem;
-  border-radius: var(--celerik-radius);
-  box-shadow: var(--celerik-surface-shadow);
+  border-radius: var(--caelrik-radius);
+  box-shadow: var(--caelrik-surface-shadow);
 
   &__canvas {
     position: relative;
-    min-height: var(--celerik-chart-min-height);
+    min-height: var(--caelrik-chart-min-height);
   }
 
   // Without a fixed height, the container keeps the chart's shape as its width changes.
@@ -3989,12 +3989,12 @@ td[aria-busy='true'] .celerik-grid-editor {
 }
 
 // FullCalendar reads its colors from CSS variables: map them to Bootstrap's.
-.celerik-scheduler {
+.caelrik-scheduler {
   --fc-border-color: var(--bs-border-color);
   --fc-page-bg-color: var(--bs-body-bg);
   --fc-neutral-bg-color: var(--bs-tertiary-bg);
   --fc-list-event-hover-bg-color: var(--bs-tertiary-bg);
-  --fc-today-bg-color: var(--celerik-scheduler-today-bg);
+  --fc-today-bg-color: var(--caelrik-scheduler-today-bg);
   // FullCalendar's default is a fixed light grey, which shows as pale blocks in dark mode.
   --fc-non-business-color: rgba(var(--bs-emphasis-color-rgb), 0.05);
   --fc-highlight-color: rgba(var(--bs-primary-rgb), 0.15);
@@ -4003,11 +4003,11 @@ td[aria-busy='true'] .celerik-grid-editor {
   // The toolbar buttons are flat (see _flat.scss).
 
   .fc-button:focus-visible {
-    box-shadow: var(--celerik-focus-ring);
+    box-shadow: var(--caelrik-focus-ring);
   }
 
   .fc-toolbar-title {
-    font-size: var(--celerik-scheduler-title-font-size);
+    font-size: var(--caelrik-scheduler-title-font-size);
   }
 
   // FullCalendar fades days of other months to 30% opacity, far below 4.5:1 (WCAG 1.4.3).
@@ -4035,14 +4035,14 @@ td[aria-busy='true'] .celerik-grid-editor {
 
 // Event dialog (scheduler-dialog.js): a native <dialog> in the top layer, on Bootstrap colors.
 // The scheduler's event dialog and an action's confirmation (action.js).
-.celerik-scheduler-dialog,
-.celerik-action-dialog {
+.caelrik-scheduler-dialog,
+.caelrik-action-dialog {
   width: min(28rem, calc(100vw - 2rem));
   padding: 1.5rem;
   color: var(--bs-body-color);
   background-color: var(--bs-body-bg);
   border: var(--bs-border-width) solid var(--bs-border-color);
-  border-radius: var(--celerik-radius);
+  border-radius: var(--caelrik-radius);
   box-shadow: var(--bs-box-shadow-lg);
 
   &::backdrop {
@@ -4057,15 +4057,15 @@ td[aria-busy='true'] .celerik-grid-editor {
   }
 }
 
-.celerik-form {
-  .celerik-required {
-    color: var(--celerik-required-color);
+.caelrik-form {
+  .caelrik-required {
+    color: var(--caelrik-required-color);
   }
 
   // Tab reaches the browser's calendar or clock button inside a date or time input: the
   // input is then not :focus, only :focus-within, and Bootstrap's focus ring disappears.
   .form-control:is([type='date'], [type='time'], [type='datetime-local']):focus-within {
-    box-shadow: var(--celerik-focus-ring);
+    box-shadow: var(--caelrik-focus-ring);
   }
 
   // Bootstrap compiles the slider thumb's color: follow the theme's primary color.
@@ -4080,7 +4080,7 @@ td[aria-busy='true'] .celerik-grid-editor {
     }
 
     &:focus::-webkit-slider-thumb {
-      box-shadow: var(--celerik-focus-ring);
+      box-shadow: var(--caelrik-focus-ring);
     }
 
     &::-moz-range-thumb {
@@ -4092,24 +4092,24 @@ td[aria-busy='true'] .celerik-grid-editor {
     }
 
     &:focus::-moz-range-thumb {
-      box-shadow: var(--celerik-focus-ring);
+      box-shadow: var(--caelrik-focus-ring);
     }
   }
 
   // Sections and fieldsets (Section::make(), Section::fieldset()). Their last field's
   // margin is the bottom padding.
-  .celerik-form-section > .card-body:not(summary) {
+  .caelrik-form-section > .card-body:not(summary) {
     padding-bottom: 0;
   }
 
-  .celerik-form-fieldset {
+  .caelrik-form-fieldset {
     padding: 0.25rem 1rem 0;
     border: var(--bs-border-width) solid var(--bs-border-color);
-    border-radius: var(--celerik-radius);
+    border-radius: var(--caelrik-radius);
   }
 
   // Bootstrap's legend floats across the full width: put it back on the border.
-  .celerik-form-legend {
+  .caelrik-form-legend {
     float: none;
     width: auto;
     padding: 0 0.5rem;
@@ -4119,7 +4119,7 @@ td[aria-busy='true'] .celerik-grid-editor {
   }
 
   // A collapsible section's summary is both its heading and its button.
-  .celerik-form-summary {
+  .caelrik-form-summary {
     display: flex;
     gap: 0.75rem;
     align-items: center;
@@ -4146,7 +4146,7 @@ td[aria-busy='true'] .celerik-grid-editor {
 
     &:focus-visible {
       outline: 0;
-      box-shadow: var(--celerik-focus-ring);
+      box-shadow: var(--caelrik-focus-ring);
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -4158,7 +4158,7 @@ td[aria-busy='true'] .celerik-grid-editor {
 
   // Repeater (Repeater::make()): a card per row, its name on the left and its buttons on
   // the right, then its fields. The last field's margin is the bottom padding.
-  .celerik-repeater-items {
+  .caelrik-repeater-items {
     display: grid;
     gap: 0.75rem;
     padding: 0;
@@ -4170,25 +4170,25 @@ td[aria-busy='true'] .celerik-grid-editor {
     }
   }
 
-  .celerik-repeater-item > .card-body {
+  .caelrik-repeater-item > .card-body {
     padding-bottom: 0;
   }
 
   // Remove: Bootstrap's outline-danger text is #dc3545, under 4.5:1 on dark backgrounds
-  // (see .celerik-scheduler-dialog).
-  .celerik-repeater-actions .btn-outline-danger {
+  // (see .caelrik-scheduler-dialog).
+  .caelrik-repeater-actions .btn-outline-danger {
     --bs-btn-color: var(--bs-danger-text-emphasis);
     --bs-btn-border-color: var(--bs-danger-text-emphasis);
   }
 
   // Add: the same for outline-primary, 3.4:1 on Bootstrap's dark background.
-  .celerik-repeater > fieldset > .btn-outline-primary,
-  .celerik-key-value .btn-outline-primary {
+  .caelrik-repeater > fieldset > .btn-outline-primary,
+  .caelrik-key-value .btn-outline-primary {
     --bs-btn-color: var(--bs-primary-text-emphasis);
     --bs-btn-border-color: var(--bs-primary-text-emphasis);
   }
 
-  .celerik-repeater-label {
+  .caelrik-repeater-label {
     float: left;
     width: auto;
     margin: 0 0 0.75rem;
@@ -4197,7 +4197,7 @@ td[aria-busy='true'] .celerik-grid-editor {
     line-height: 2rem;
   }
 
-  .celerik-repeater-actions {
+  .caelrik-repeater-actions {
     display: flex;
     float: right;
     // Bootstrap's reboot clears whatever follows a legend.
@@ -4212,7 +4212,7 @@ td[aria-busy='true'] .celerik-grid-editor {
 
   // Wizard (Form::wizard()): the step indicator, numbers joined by a line. The current
   // step uses the theme's subtle primary pair, which has enough contrast in both modes.
-  .celerik-wizard-steps {
+  .caelrik-wizard-steps {
     display: flex;
     gap: 0.5rem;
     padding: 0;
@@ -4250,7 +4250,7 @@ td[aria-busy='true'] .celerik-grid-editor {
     }
   }
 
-  .celerik-wizard-number {
+  .caelrik-wizard-number {
     display: inline-flex;
     flex-shrink: 0;
     align-items: center;
@@ -4261,23 +4261,23 @@ td[aria-busy='true'] .celerik-grid-editor {
     border-radius: 50%;
   }
 
-  .celerik-wizard-steps .is-complete .celerik-wizard-number {
+  .caelrik-wizard-steps .is-complete .caelrik-wizard-number {
     color: var(--bs-primary-text-emphasis);
     border-color: var(--bs-primary);
   }
 
-  .celerik-wizard-steps [aria-current='step'] .celerik-wizard-number {
+  .caelrik-wizard-steps [aria-current='step'] .caelrik-wizard-number {
     color: var(--bs-primary-text-emphasis);
     background-color: var(--bs-primary-bg-subtle);
     border-color: var(--bs-primary);
   }
 
   // A step's heading takes focus to be announced; it is not a control, so no focus mark.
-  .celerik-wizard-step [tabindex='-1']:focus {
+  .caelrik-wizard-step [tabindex='-1']:focus {
     outline: 0;
   }
 
-  .celerik-wizard-label {
+  .caelrik-wizard-label {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -4285,7 +4285,7 @@ td[aria-busy='true'] .celerik-grid-editor {
 
   // On phones, only the current step is named.
   @media (width < 576px) {
-    .celerik-wizard-steps > li:not([aria-current='step']) .celerik-wizard-label {
+    .caelrik-wizard-steps > li:not([aria-current='step']) .caelrik-wizard-label {
       position: absolute;
       width: 1px;
       height: 1px;
@@ -4295,19 +4295,19 @@ td[aria-busy='true'] .celerik-grid-editor {
     }
   }
 
-  .celerik-wizard-nav {
+  .caelrik-wizard-nav {
     display: flex;
     gap: 0.5rem;
 
     // Next and submit on the right, Back on the left.
-    [data-celerik-wizard='next'],
+    [data-caelrik-wizard='next'],
     [type='submit'] {
       margin-left: auto;
     }
   }
 
   // Open: as close to its content as a section heading.
-  .celerik-form-section[open] > .celerik-form-summary {
+  .caelrik-form-section[open] > .caelrik-form-summary {
     padding-bottom: 0.25rem;
 
     &::before {
@@ -4316,7 +4316,7 @@ td[aria-busy='true'] .celerik-grid-editor {
   }
 
   // One-time code (Field::otp()). Without JavaScript: a short input as wide as the code.
-  .celerik-otp-input {
+  .caelrik-otp-input {
     width: auto;
     font-variant-numeric: tabular-nums;
     letter-spacing: 0.25em;
@@ -4324,18 +4324,18 @@ td[aria-busy='true'] .celerik-grid-editor {
 
   // With form-otp.js: a box per character, the input transparent on top of them. The
   // boxes shrink to fit a narrow screen.
-  .celerik-otp {
+  .caelrik-otp {
     position: relative;
     width: 100%;
-    max-width: calc(var(--celerik-otp-length) * 3.25rem - 0.5rem);
+    max-width: calc(var(--caelrik-otp-length) * 3.25rem - 0.5rem);
   }
 
-  .celerik-otp-slots {
+  .caelrik-otp-slots {
     display: flex;
     gap: 0.5rem;
   }
 
-  .celerik-otp-slot {
+  .caelrik-otp-slot {
     display: flex;
     flex: 1 1 0;
     align-items: center;
@@ -4351,7 +4351,7 @@ td[aria-busy='true'] .celerik-grid-editor {
     transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
   }
 
-  .celerik-otp > .celerik-otp-input {
+  .caelrik-otp > .caelrik-otp-input {
     position: absolute;
     inset: 0;
     width: 100%;
@@ -4361,47 +4361,47 @@ td[aria-busy='true'] .celerik-grid-editor {
     opacity: 0;
   }
 
-  .celerik-otp:focus-within .celerik-otp-slot.is-active {
+  .caelrik-otp:focus-within .caelrik-otp-slot.is-active {
     border-color: var(--bs-primary);
-    box-shadow: var(--celerik-focus-ring);
+    box-shadow: var(--caelrik-focus-ring);
   }
 
   // The caret, in the empty box being filled.
-  .celerik-otp:focus-within .celerik-otp-slot.is-active:empty::after {
+  .caelrik-otp:focus-within .caelrik-otp-slot.is-active:empty::after {
     width: 1px;
     height: 1.25rem;
     content: '';
     background-color: currentColor;
-    animation: celerik-otp-caret 1s step-end infinite;
+    animation: caelrik-otp-caret 1s step-end infinite;
   }
 
-  .celerik-otp:has(.is-invalid) .celerik-otp-slot {
+  .caelrik-otp:has(.is-invalid) .caelrik-otp-slot {
     border-color: var(--bs-form-invalid-border-color);
   }
 
   // The server error follows the boxes, not the input (Bootstrap shows it after an
   // invalid input).
-  .celerik-otp:has(.is-invalid) ~ .invalid-feedback {
+  .caelrik-otp:has(.is-invalid) ~ .invalid-feedback {
     display: block;
   }
 
   // Key-value list (Field::keyValue()): a row per pair, key | value | Remove. The column
   // names line up with the inputs; the Remove button is as tall as an input.
-  .celerik-key-value-head,
-  .celerik-key-value-row {
+  .caelrik-key-value-head,
+  .caelrik-key-value-row {
     display: grid;
     grid-template-columns: minmax(0, 2fr) minmax(0, 3fr) calc(1.5em + 0.75rem + var(--bs-border-width) * 2);
     gap: 0.5rem;
     align-items: start;
   }
 
-  .celerik-key-value-head {
+  .caelrik-key-value-head {
     margin-bottom: 0.25rem;
     font-size: 0.875em;
     color: var(--bs-secondary-color);
   }
 
-  .celerik-key-value-rows {
+  .caelrik-key-value-rows {
     display: grid;
     gap: 0.5rem;
     padding: 0;
@@ -4409,7 +4409,7 @@ td[aria-busy='true'] .celerik-grid-editor {
     list-style: none;
   }
 
-  .celerik-key-value-row {
+  .caelrik-key-value-row {
     position: relative;
 
     // A key's message (form.js) spans the row, under its inputs.
@@ -4419,7 +4419,7 @@ td[aria-busy='true'] .celerik-grid-editor {
     }
   }
 
-  .celerik-key-value-remove {
+  .caelrik-key-value-remove {
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -4431,18 +4431,18 @@ td[aria-busy='true'] .celerik-grid-editor {
   // Rating (Field::rating()): radio buttons, visually hidden, labelled by stars. The stars
   // up to the checked one are filled, and up to the hovered one while the pointer is on
   // them. Each star is a 2rem target (WCAG 2.5.8).
-  .celerik-rating-stars {
+  .caelrik-rating-stars {
     display: inline-flex;
     align-items: center;
     vertical-align: middle;
   }
 
-  .celerik-rating-star {
+  .caelrik-rating-star {
     display: inline-flex;
     width: 2rem;
     height: 2rem;
     padding: 0.125rem;
-    color: var(--celerik-rating-color);
+    color: var(--caelrik-rating-color);
     cursor: pointer;
     border-radius: var(--bs-border-radius-sm);
 
@@ -4457,8 +4457,8 @@ td[aria-busy='true'] .celerik-grid-editor {
   }
 
   @for $n from 1 through 10 {
-    .celerik-rating-stars:has(> .celerik-rating-input:nth-of-type(#{$n}):checked)
-      > .celerik-rating-star:nth-of-type(-n + #{$n})
+    .caelrik-rating-stars:has(> .caelrik-rating-input:nth-of-type(#{$n}):checked)
+      > .caelrik-rating-star:nth-of-type(-n + #{$n})
       svg {
       fill: currentColor;
     }
@@ -4466,27 +4466,27 @@ td[aria-busy='true'] .celerik-grid-editor {
 
   // Hover previews the rating: empty every star, then fill up to the hovered one. As
   // specific as the checked rule above, and after it.
-  .celerik-rating-stars:has(> .celerik-rating-star:nth-of-type(n):hover) > .celerik-rating-star:nth-of-type(n) svg {
+  .caelrik-rating-stars:has(> .caelrik-rating-star:nth-of-type(n):hover) > .caelrik-rating-star:nth-of-type(n) svg {
     fill: transparent;
   }
 
   @for $n from 1 through 10 {
-    .celerik-rating-stars:has(> .celerik-rating-star:nth-of-type(#{$n}):hover)
-      > .celerik-rating-star:nth-of-type(-n + #{$n})
+    .caelrik-rating-stars:has(> .caelrik-rating-star:nth-of-type(#{$n}):hover)
+      > .caelrik-rating-star:nth-of-type(-n + #{$n})
       svg {
       fill: currentColor;
     }
   }
 
-  .celerik-rating-input:focus-visible + .celerik-rating-star {
-    box-shadow: var(--celerik-focus-ring);
+  .caelrik-rating-input:focus-visible + .caelrik-rating-star {
+    box-shadow: var(--caelrik-focus-ring);
   }
 
-  .celerik-rating-input.is-invalid + .celerik-rating-star {
+  .caelrik-rating-input.is-invalid + .caelrik-rating-star {
     color: var(--bs-form-invalid-color);
   }
 
-  .celerik-rating-clear {
+  .caelrik-rating-clear {
     display: inline-block;
     margin-left: 0.75rem;
     vertical-align: middle;
@@ -4499,24 +4499,24 @@ td[aria-busy='true'] .celerik-grid-editor {
     }
   }
 
-  .celerik-rating-input:checked + label:not(.celerik-rating-star) {
+  .caelrik-rating-input:checked + label:not(.caelrik-rating-star) {
     color: var(--bs-body-color);
     text-decoration: none;
   }
 
-  .celerik-rating-input:focus-visible + label:not(.celerik-rating-star) {
+  .caelrik-rating-input:focus-visible + label:not(.caelrik-rating-star) {
     border-radius: var(--bs-border-radius-sm);
-    box-shadow: var(--celerik-focus-ring);
+    box-shadow: var(--caelrik-focus-ring);
   }
 }
 
 // Searchable selects (Tom Select, Bootstrap 5 theme). Its stylesheet loads with its chunk,
-// after celerik.css, so these selectors are one class more specific. Its focus ring and
+// after caelrik.css, so these selectors are one class more specific. Its focus ring and
 // tag separators are fixed Bootstrap colors: follow the theme and the mode.
-.celerik-form .ts-wrapper {
+.caelrik-form .ts-wrapper {
   &.focus .ts-control {
     border-color: color-mix(in srgb, var(--bs-primary) 50%, var(--bs-body-bg));
-    box-shadow: var(--celerik-focus-ring);
+    box-shadow: var(--caelrik-focus-ring);
   }
 
   // The matched text: Bootstrap's <mark> colors, which follow the mode (Tom Select's
@@ -4539,20 +4539,20 @@ td[aria-busy='true'] .celerik-grid-editor {
 }
 
 // Rich text editor (Quill, snow theme) in Bootstrap form styling.
-.celerik-editor {
+.caelrik-editor {
   background-color: var(--bs-body-bg);
-  border-bottom-left-radius: var(--celerik-radius);
-  border-bottom-right-radius: var(--celerik-radius);
+  border-bottom-left-radius: var(--caelrik-radius);
+  border-bottom-right-radius: var(--caelrik-radius);
 
   .ql-editor {
-    min-height: var(--celerik-editor-min-height);
+    min-height: var(--caelrik-editor-min-height);
     font-size: 1rem;
   }
 }
 
 .ql-toolbar.ql-snow {
-  border-top-left-radius: var(--celerik-radius);
-  border-top-right-radius: var(--celerik-radius);
+  border-top-left-radius: var(--caelrik-radius);
+  border-top-right-radius: var(--caelrik-radius);
 }
 
 .ql-toolbar.ql-snow,
@@ -4561,11 +4561,11 @@ td[aria-busy='true'] .celerik-grid-editor {
 }
 
 .ql-container.ql-snow:focus-within {
-  box-shadow: var(--celerik-focus-ring);
+  box-shadow: var(--caelrik-focus-ring);
 }
 
 // Quill's icons and placeholder use fixed dark greys: follow the theme (dark mode).
-// Quill's stylesheet loads after celerik.css, so these are one class more specific.
+// Quill's stylesheet loads after caelrik.css, so these are one class more specific.
 .ql-toolbar.ql-snow {
   .ql-stroke,
   .ql-stroke-miter {
@@ -4586,7 +4586,7 @@ td[aria-busy='true'] .celerik-grid-editor {
   }
 }
 
-.celerik-editor.ql-snow .ql-editor.ql-blank::before {
+.caelrik-editor.ql-snow .ql-editor.ql-blank::before {
   color: var(--bs-secondary-color);
 }
 
@@ -4614,14 +4614,14 @@ td[aria-busy='true'] .celerik-grid-editor {
 }
 
 // Toasts (Notyf) on Bootstrap colors, with text colors that keep a 4.5:1 contrast.
-.notyf__toast.celerik-toast {
+.notyf__toast.caelrik-toast {
   color: #fff;
   font-family: inherit;
-  border-radius: var(--celerik-radius);
+  border-radius: var(--caelrik-radius);
 }
 
-.notyf__toast.celerik-toast-warning,
-.notyf__toast.celerik-toast-info {
+.notyf__toast.caelrik-toast-warning,
+.notyf__toast.caelrik-toast-info {
   color: #000;
 
   .notyf__dismiss-btn::before,
@@ -4637,17 +4637,17 @@ td[aria-busy='true'] .celerik-grid-editor {
 
 // Containers a custom theme can elevate or outline (its shadow token).
 .dt-container,
-.celerik-scheduler,
-.celerik-filemanager {
-  border-radius: var(--celerik-radius);
-  box-shadow: var(--celerik-surface-shadow);
+.caelrik-scheduler,
+.caelrik-filemanager {
+  border-radius: var(--caelrik-radius);
+  box-shadow: var(--caelrik-surface-shadow);
 }
 
 // elFinder shows the selected folder grey on grey (3.2:1) while it does not have focus
-// (.elfinder-disabled). Its theme.css loads after celerik.css, so these selectors are
+// (.elfinder-disabled). Its theme.css loads after caelrik.css, so these selectors are
 // one class more specific than elFinder's. elFinder has no dark mode (its panels stay
 // light), so the selection stays light too: dark text on a light tint of the primary.
-.celerik-filemanager.elfinder {
+.caelrik-filemanager.elfinder {
   .elfinder-navbar .elfinder-navbar-dir.ui-state-active,
   .elfinder-navbar .elfinder-navbar-dir.ui-state-hover,
   .elfinder-cwd .elfinder-cwd-filename.ui-state-hover,
@@ -4661,7 +4661,7 @@ td[aria-busy='true'] .celerik-grid-editor {
 // elFinder's folder-tree expand arrow is 12 x 14 px: give it a 24 x 24 px hit area without
 // changing how it looks (WCAG 2.5.8, Target Size). The root folder's arrow is only 6 px
 // from the tree's edge, so the area also covers the edge of the folder icon next to it.
-.celerik-filemanager.elfinder .elfinder-navbar-arrow::after {
+.caelrik-filemanager.elfinder .elfinder-navbar-arrow::after {
   position: absolute;
   inset: -5px -6px;
   z-index: 1;
@@ -4669,7 +4669,7 @@ td[aria-busy='true'] .celerik-grid-editor {
 }
 
 // Theme builder: controls beside the preview on wide screens, stacked on small ones.
-.celerik-theme-builder {
+.caelrik-theme-builder {
   display: grid;
   gap: 1.5rem;
 
@@ -4683,7 +4683,7 @@ td[aria-busy='true'] .celerik-grid-editor {
     color: var(--bs-body-color);
     background-color: var(--bs-body-bg);
     border: var(--bs-border-width) solid var(--bs-border-color);
-    border-radius: var(--celerik-radius);
+    border-radius: var(--caelrik-radius);
   }
 
   &__color .form-control-color {
@@ -4695,7 +4695,7 @@ td[aria-busy='true'] .celerik-grid-editor {
   }
 }
 
-@keyframes celerik-otp-caret {
+@keyframes caelrik-otp-caret {
   50% {
     opacity: 0;
   }
@@ -4714,12 +4714,12 @@ td[aria-busy='true'] .celerik-grid-editor {
     animation-delay: 0s !important;
   }
 
-  .celerik-otp-slot::after {
+  .caelrik-otp-slot::after {
     animation: none !important;
   }
 
-  .celerik-scheduler *,
-  .celerik-filemanager *,
+  .caelrik-scheduler *,
+  .caelrik-filemanager *,
   .filepond--root * {
     transition-duration: 1ms !important;
     scroll-behavior: auto !important;
@@ -4731,97 +4731,97 @@ td[aria-busy='true'] .celerik-grid-editor {
 // and selection with system colors (WCAG 2.4.7, 1.4.11).
 @media (forced-colors: active) {
   // !important: FullCalendar and elFinder remove outlines with more specific selectors.
-  :is(.dt-container, .celerik-grid-filters, .celerik-form, .celerik-scheduler, .celerik-scheduler-dialog, .celerik-tabs,
-    .celerik-filemanager, .celerik-theme-builder, .celerik-action-dialog,
-    .celerik-modal, .celerik-listview, .celerik-treelist, .celerik-board, .celerik-admin, .celerik-nav,
-    .celerik-usermenu, .celerik-menubutton, .celerik-splitbutton, .celerik-toolbar, .celerik-menu-list,
-    .celerik-accordion, .celerik-splitter, .celerik-tilelayout, .celerik-chip-check, .celerik-popover, .celerik-carousel, .celerik-gantt, .celerik-map, .celerik-orgchart, .celerik-diagram,
-    .celerik-qrcode, .celerik-pdf, .celerik-media, .celerik-markdown, .celerik-code, .celerik-image-editor, .notyf)
+  :is(.dt-container, .caelrik-grid-filters, .caelrik-form, .caelrik-scheduler, .caelrik-scheduler-dialog, .caelrik-tabs,
+    .caelrik-filemanager, .caelrik-theme-builder, .caelrik-action-dialog,
+    .caelrik-modal, .caelrik-listview, .caelrik-treelist, .caelrik-board, .caelrik-admin, .caelrik-nav,
+    .caelrik-usermenu, .caelrik-menubutton, .caelrik-splitbutton, .caelrik-toolbar, .caelrik-menu-list,
+    .caelrik-accordion, .caelrik-splitter, .caelrik-tilelayout, .caelrik-chip-check, .caelrik-popover, .caelrik-carousel, .caelrik-gantt, .caelrik-map, .caelrik-orgchart, .caelrik-diagram,
+    .caelrik-qrcode, .caelrik-pdf, .caelrik-media, .caelrik-markdown, .caelrik-code, .caelrik-image-editor, .notyf)
     :focus-visible,
-  .celerik-action-button:focus-visible,
+  .caelrik-action-button:focus-visible,
   // A date field's focus is on its day, month and year parts or its calendar button,
   // inside the field: it matches :focus-within, not always :focus-visible.
-  .celerik-grid-filters input[type='date']:focus-within,
+  .caelrik-grid-filters input[type='date']:focus-within,
   [aria-haspopup='dialog'][data-bs-toggle='modal']:focus-visible {
     outline: 2px solid Highlight !important;
     outline-offset: 2px;
   }
 
-  .celerik-tree [role='treeitem']:focus-visible {
+  .caelrik-tree [role='treeitem']:focus-visible {
     outline: 2px solid Highlight;
     outline-offset: 1px;
   }
 
-  .celerik-tree [role='treeitem'][aria-selected='true'] {
+  .caelrik-tree [role='treeitem'][aria-selected='true'] {
     forced-color-adjust: none;
     color: HighlightText;
     background-color: Highlight;
   }
 
   // A picked-up card: a dashed system-colored outline (its dashed primary one is not painted).
-  .celerik-board-card.is-grabbed {
+  .caelrik-board-card.is-grabbed {
     outline: 3px dashed Highlight;
   }
 
   .ql-container.ql-snow:focus-within,
-  .celerik-modal:focus-visible .modal-content {
+  .caelrik-modal:focus-visible .modal-content {
     outline: 2px solid Highlight;
   }
 
-  // Date and time inputs: see .celerik-form above.
-  .celerik-form :is(input[type='date'], input[type='time'], input[type='datetime-local']):focus-within {
+  // Date and time inputs: see .caelrik-form above.
+  .caelrik-form :is(input[type='date'], input[type='time'], input[type='datetime-local']):focus-within {
     outline: 2px solid Highlight;
     outline-offset: 2px;
   }
 
   // A one-time code: the box being filled shows the focus (the input is transparent).
-  .celerik-otp:focus-within .celerik-otp-slot.is-active {
+  .caelrik-otp:focus-within .caelrik-otp-slot.is-active {
     outline: 2px solid Highlight;
     outline-offset: 2px;
   }
 
   // A rating's focused star: its label shows the focus, not the hidden radio.
-  .celerik-rating-input:focus-visible + label {
+  .caelrik-rating-input:focus-visible + label {
     outline: 2px solid Highlight;
     outline-offset: 2px;
   }
 
   // A wizard's current and completed steps: their fill and color are not painted.
-  .celerik-wizard-steps [aria-current='step'] .celerik-wizard-number {
+  .caelrik-wizard-steps [aria-current='step'] .caelrik-wizard-number {
     border-width: 3px;
     border-color: Highlight;
   }
 
-  .celerik-wizard-steps .is-complete::after {
+  .caelrik-wizard-steps .is-complete::after {
     background-color: Highlight;
   }
 
   // A searchable select's search box is a small input inside the control: outline the
   // control, like its focus ring does.
-  .celerik-form .ts-wrapper.focus .ts-control {
+  .caelrik-form .ts-wrapper.focus .ts-control {
     outline: 2px solid Highlight;
     outline-offset: 2px;
   }
 
-  .celerik-tabs .nav-link.active {
+  .caelrik-tabs .nav-link.active {
     border-bottom: 3px solid Highlight;
   }
 
-  .celerik-scheduler .fc-day-today {
+  .caelrik-scheduler .fc-day-today {
     outline: 2px solid Highlight;
     outline-offset: -2px;
   }
 
-  .celerik-grid .page-item.active .page-link,
+  .caelrik-grid .page-item.active .page-link,
   .dt-container .page-item.active .page-link,
-  .celerik-listview-pager .page-item.active .page-link {
+  .caelrik-listview-pager .page-item.active .page-link {
     forced-color-adjust: none;
     color: HighlightText;
     background-color: Highlight;
   }
 
-  .celerik-filemanager.elfinder .ui-state-active,
-  .celerik-filemanager.elfinder .ui-selected {
+  .caelrik-filemanager.elfinder .ui-state-active,
+  .caelrik-filemanager.elfinder .ui-selected {
     forced-color-adjust: none;
     color: HighlightText;
     background: Highlight;

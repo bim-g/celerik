@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Celerik\Ui\Tests\Components;
+namespace Caelrik\Ui\Tests\Components;
 
-use Celerik\Ui\Components\Grid;
-use Celerik\Ui\Components\ThemeBuilder;
-use Celerik\Ui\Support\Html;
-use Celerik\Ui\Theme\Contrast;
-use Celerik\Ui\Theme\Theme;
+use Caelrik\Ui\Components\Grid;
+use Caelrik\Ui\Components\ThemeBuilder;
+use Caelrik\Ui\Support\Html;
+use Caelrik\Ui\Theme\Contrast;
+use Caelrik\Ui\Theme\Theme;
 use DOMDocument;
 use DOMElement;
 use DOMXPath;
@@ -33,7 +33,7 @@ final class ThemeBuilderTest extends TestCase
         $html = ThemeBuilder::make('builder')->theme($theme)->render();
         $xpath = $this->dom($html);
 
-        self::assertStringStartsWith('<div id="builder" class="celerik-theme-builder" data-celerik="themebuilder"', $html);
+        self::assertStringStartsWith('<div id="builder" class="caelrik-theme-builder" data-caelrik="themebuilder"', $html);
         self::assertSame('builder-title', $xpath->query('//form')->item(0)?->getAttribute('aria-labelledby'));
         foreach (['light', 'dark'] as $mode) {
             foreach (Theme::TOKENS as $token) {
@@ -42,10 +42,10 @@ final class ThemeBuilderTest extends TestCase
                 self::assertSame($theme->palette($mode)[$token], $input->getAttribute('value'));
             }
         }
-        self::assertSame(2, $xpath->query('//fieldset[@data-celerik-mode]/legend')->length);
+        self::assertSame(2, $xpath->query('//fieldset[@data-caelrik-mode]/legend')->length);
         // Bootstrap is the only look: no base select, no preset picker.
         self::assertSame(0, $xpath->query('//*[@name="theme[base]"]')->length);
-        self::assertSame(0, $xpath->query('//*[contains(@class, "celerik-theme-builder__preset")]')->length);
+        self::assertSame(0, $xpath->query('//*[contains(@class, "caelrik-theme-builder__preset")]')->length);
         self::assertSame('elevated', $xpath->query('//select[@name="theme[shadow]"]/option[@selected]')->item(0)?->getAttribute('value'));
         self::assertSame('0.75', $xpath->query('//input[@name="theme[radius]"]')->item(0)?->getAttribute('value'));
     }
@@ -75,13 +75,13 @@ final class ThemeBuilderTest extends TestCase
         $theme = Theme::preset('bootstrap')->color('light', 'danger', '#dd3545')->color('dark', 'inputBorder', '#495057');
         $xpath = $this->dom(ThemeBuilder::make('b')->theme($theme)->render());
 
-        self::assertSame(2 * count(Contrast::pairs()), $xpath->query('//li[contains(@class, "celerik-theme-builder__pair")]')->length);
+        self::assertSame(2 * count(Contrast::pairs()), $xpath->query('//li[contains(@class, "caelrik-theme-builder__pair")]')->length);
         self::assertSame('2 pairs are below their minimum.', trim((string) $xpath->query('//p[contains(@class, "__summary")]')->item(0)?->textContent));
         $failed = $xpath->query('//li[contains(@class, "is-fail")]');
         self::assertSame(2, $failed->length);
         // Text, not only color, says it failed (WCAG 1.4.1); ratios are truncated, never rounded up.
         self::assertSame('Fail Light · Error messages: 4.49:1 (needs 4.5:1)', trim((string) $failed->item(0)?->textContent));
-        self::assertSame('light.danger.bodyBg', $failed->item(0)?->getAttribute('data-celerik-pair'));
+        self::assertSame('light.danger.bodyBg', $failed->item(0)?->getAttribute('data-caelrik-pair'));
 
         $one = $this->dom(ThemeBuilder::make('c')->theme(Theme::preset('bootstrap')->color('light', 'danger', '#dd3545'))->render());
         self::assertSame('1 pair is below its minimum.', trim((string) $one->query('//p[contains(@class, "__summary")]')->item(0)?->textContent));
@@ -105,7 +105,7 @@ final class ThemeBuilderTest extends TestCase
         $xpath = $this->dom(ThemeBuilder::make('b')->render());
 
         foreach (['__history', '__export', '__modes'] as $part) {
-            $element = $xpath->query(sprintf('//*[contains(@class, "celerik-theme-builder%s")]', $part))->item(0);
+            $element = $xpath->query(sprintf('//*[contains(@class, "caelrik-theme-builder%s")]', $part))->item(0);
             self::assertInstanceOf(DOMElement::class, $element, $part);
             self::assertTrue($element->hasAttribute('hidden'), $part);
         }
@@ -116,7 +116,7 @@ final class ThemeBuilderTest extends TestCase
         $grid = Grid::make('users')->caption('Users')->column('name')->rows([['name' => 'Ada']]);
         $html = ThemeBuilder::make('b')->preview($grid, '<script>alert(1)</script>', Html::raw('<p class="lead">Trusted</p>'))->render();
 
-        self::assertStringContainsString('<div class="celerik-theme-builder__canvas" data-bs-theme="light">', $html);
+        self::assertStringContainsString('<div class="caelrik-theme-builder__canvas" data-bs-theme="light">', $html);
         self::assertStringContainsString('<table id="users"', $html);
         self::assertStringContainsString('&lt;script&gt;alert(1)&lt;/script&gt;', $html);
         self::assertStringContainsString('<p class="lead">Trusted</p>', $html);
@@ -129,7 +129,7 @@ final class ThemeBuilderTest extends TestCase
             // The labels of the removed base look and preset controls are ignored.
             ->labels(['save' => 'Enregistrer', 'primary' => 'Principale', 'base' => 'Look', 'loadPreset' => 'Charger'])
             // Deprecated, without effect.
-            ->assetsUrl('/vendor/celerik/')
+            ->assetsUrl('/vendor/caelrik/')
             ->toArray();
 
         self::assertSame('Acme', $options['theme']['name']);

@@ -9,7 +9,7 @@ People and who they report to, drawn as a tree. Under the drawing it is nested l
 ## Usage
 
 ```php
-use Celerik\Ui\Components\OrgChart;
+use Caelrik\Ui\Components\OrgChart;
 
 OrgChart::make('team')
     ->label('Engineering')
@@ -28,7 +28,7 @@ OrgChart::make('company')->label('Company')->fromRows($employees, parent: 'manag
 - **`labels()`** translates the buttons' names: `team` ("{name}'s team, {count} people") and `teamOne` ("{name}'s team, 1 person").
 - A manager who does not exist, or a loop (A reports to B who reports to A), throws an error that names the people.
 
-From JavaScript, `celerik:toggle` gives the team's list `id` and whether it is `expanded`.
+From JavaScript, `caelrik:toggle` gives the team's list `id` and whether it is `expanded`.
 
 ## Accessibility
 

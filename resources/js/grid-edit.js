@@ -83,9 +83,9 @@ function name(template, column, rowTitle) {
 // The same markup as Grid::renderEditable(), for rows a grid draws in the browser.
 export function editableCellHtml(column, row, edit, rowTitle) {
   const label = name(edit.labels.edit, column, toText(read(row, rowTitle ?? column.field)));
-  return `<span class="celerik-grid-value">${escapeHtml(editText(column.editor, read(row, column.field), edit.labels))}</span>`
-    + `<button type="button" class="btn btn-link btn-sm celerik-grid-edit" aria-label="${escapeHtml(label)}"`
-    + ` data-celerik-edit="${escapeHtml(column.field)}">${PENCIL}</button>`;
+  return `<span class="caelrik-grid-value">${escapeHtml(editText(column.editor, read(row, column.field), edit.labels))}</span>`
+    + `<button type="button" class="btn btn-link btn-sm caelrik-grid-edit" aria-label="${escapeHtml(label)}"`
+    + ` data-caelrik-edit="${escapeHtml(column.field)}">${PENCIL}</button>`;
 }
 
 // As Editor::parse(), without the conversion: a message, or null when the value is fine.
@@ -228,13 +228,13 @@ export function enableInlineEdit(grid, element, options, deps = {}) {
   // The row's name, as its title cell shows it.
   const rowTitle = (tr) => {
     const node = grid.cell(tr, index(titleField)).node();
-    return (node?.querySelector('.celerik-grid-value') ?? node)?.textContent.trim() ?? '';
+    return (node?.querySelector('.caelrik-grid-value') ?? node)?.textContent.trim() ?? '';
   };
 
   const close = (state, refocus) => {
     state.done = true;
     if (refocus) {
-      state.td.querySelector('[data-celerik-edit]')?.focus();
+      state.td.querySelector('[data-caelrik-edit]')?.focus();
     }
   };
 
@@ -337,12 +337,12 @@ export function enableInlineEdit(grid, element, options, deps = {}) {
       td.removeAttribute('aria-busy');
       field.removeAttribute('aria-disabled');
     }
-    td.dispatchEvent(new CustomEvent('celerik:edit', { bubbles: true, detail }));
+    td.dispatchEvent(new CustomEvent('caelrik:edit', { bubbles: true, detail }));
   };
 
   const start = (td, field) => {
     const column = columns.get(field);
-    if (!column || td.querySelector('.celerik-grid-editor')) {
+    if (!column || td.querySelector('.caelrik-grid-editor')) {
       return;
     }
     const tr = td.closest('tr');
@@ -356,11 +356,11 @@ export function enableInlineEdit(grid, element, options, deps = {}) {
     state.control.setAttribute('aria-label', name(labels.editField, column, title));
     state.error = document.createElement('div');
     editors += 1;
-    state.error.id = `celerik-edit-error-${editors}`;
+    state.error.id = `caelrik-edit-error-${editors}`;
     state.error.className = 'invalid-feedback';
     state.control.setAttribute('aria-describedby', state.error.id);
     const wrapper = document.createElement('div');
-    wrapper.className = 'celerik-grid-editor';
+    wrapper.className = 'caelrik-grid-editor';
     wrapper.append(state.control, state.error);
     td.replaceChildren(wrapper);
 
@@ -386,16 +386,16 @@ export function enableInlineEdit(grid, element, options, deps = {}) {
   };
 
   element.addEventListener('click', (event) => {
-    const button = event.target.closest('[data-celerik-edit]');
+    const button = event.target.closest('[data-caelrik-edit]');
     if (button && element.contains(button)) {
-      start(button.closest('td'), button.dataset.celerikEdit);
+      start(button.closest('td'), button.dataset.caelrikEdit);
     }
   });
   element.addEventListener('dblclick', (event) => {
-    const td = event.target.closest('td.celerik-grid-editable');
-    const button = td?.querySelector('[data-celerik-edit]');
-    if (button && !event.target.closest('.celerik-grid-editor')) {
-      start(td, button.dataset.celerikEdit);
+    const td = event.target.closest('td.caelrik-grid-editable');
+    const button = td?.querySelector('[data-caelrik-edit]');
+    if (button && !event.target.closest('.caelrik-grid-editor')) {
+      start(td, button.dataset.caelrikEdit);
     }
   });
 }

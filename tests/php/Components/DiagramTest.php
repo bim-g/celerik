@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Celerik\Ui\Tests\Components;
+namespace Caelrik\Ui\Tests\Components;
 
-use Celerik\Ui\Components\Diagram;
+use Caelrik\Ui\Components\Diagram;
 use InvalidArgumentException;
 use LogicException;
 use PHPUnit\Framework\Attributes\DataProvider;
@@ -30,33 +30,33 @@ final class DiagramTest extends TestCase
         $html = $this->signup()->render();
 
         self::assertStringStartsWith(
-            '<figure id="signup" class="celerik-diagram" data-celerik="diagram" data-celerik-options="{}">'
-            . '<div class="celerik-diagram-scroll"><svg class="celerik-diagram-svg" width="',
+            '<figure id="signup" class="caelrik-diagram" data-caelrik="diagram" data-caelrik-options="{}">'
+            . '<div class="caelrik-diagram-scroll"><svg class="caelrik-diagram-svg" width="',
             $html,
         );
         self::assertStringContainsString(
             'role="img" aria-label="Sign-up &lt;flow&gt;. The steps are written as text below."><defs>'
             . '<marker id="signup-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" '
-            . 'orient="auto-start-reverse"><path class="celerik-diagram-arrowhead" d="M0 0L10 5L0 10z"></path></marker></defs>',
+            . 'orient="auto-start-reverse"><path class="caelrik-diagram-arrowhead" d="M0 0L10 5L0 10z"></path></marker></defs>',
             $html,
         );
         self::assertStringContainsString(
-            '<figcaption class="celerik-diagram-caption">Sign-up &lt;flow&gt;</figcaption>'
-            . '<details class="celerik-diagram-details"><summary>Steps as text</summary><ol class="celerik-diagram-steps">'
-            . '<li id="signup-step-visit"><span class="celerik-diagram-step">Visit the site</span> '
-            . '<span class="celerik-diagram-tag">(Start)</span><span class="celerik-diagram-links">Next: '
+            '<figcaption class="caelrik-diagram-caption">Sign-up &lt;flow&gt;</figcaption>'
+            . '<details class="caelrik-diagram-details"><summary>Steps as text</summary><ol class="caelrik-diagram-steps">'
+            . '<li id="signup-step-visit"><span class="caelrik-diagram-step">Visit the site</span> '
+            . '<span class="caelrik-diagram-tag">(Start)</span><span class="caelrik-diagram-links">Next: '
             . '<a href="#signup-step-form">Fill in the sign-up form</a></span></li>',
             $html,
         );
         self::assertStringContainsString(
-            '<li id="signup-step-valid"><span class="celerik-diagram-step">Is the form valid?</span>'
-            . '<span class="celerik-diagram-links">Yes: <a href="#signup-step-done">Account &lt;created&gt;</a> · '
+            '<li id="signup-step-valid"><span class="caelrik-diagram-step">Is the form valid?</span>'
+            . '<span class="caelrik-diagram-links">Yes: <a href="#signup-step-done">Account &lt;created&gt;</a> · '
             . 'No: <a href="#signup-step-form">Fill in the sign-up form</a></span></li>',
             $html,
         );
         self::assertStringContainsString(
-            '<li id="signup-step-done"><span class="celerik-diagram-step">Account &lt;created&gt;</span> '
-            . '<span class="celerik-diagram-tag">(End)</span></li>',
+            '<li id="signup-step-done"><span class="caelrik-diagram-step">Account &lt;created&gt;</span> '
+            . '<span class="caelrik-diagram-tag">(End)</span></li>',
             $html,
         );
         self::assertStringNotContainsString('style=', $html);
@@ -76,16 +76,16 @@ final class DiagramTest extends TestCase
         self::assertTrue($tops['visit'] < $tops['form'] && $tops['form'] < $tops['valid'] && $tops['valid'] < $tops['done']);
 
         // A terminal is a pill, a decision a diamond; a long text wraps.
-        self::assertMatchesRegularExpression('/data-step="visit"><rect class="celerik-diagram-shape celerik-diagram-default"[^>]*rx="18"/', $html);
-        self::assertStringContainsString('data-step="valid"><polygon class="celerik-diagram-shape celerik-diagram-default"', $html);
-        self::assertStringContainsString('class="celerik-diagram-shape celerik-diagram-success"', $html);
+        self::assertMatchesRegularExpression('/data-step="visit"><rect class="caelrik-diagram-shape caelrik-diagram-default"[^>]*rx="18"/', $html);
+        self::assertStringContainsString('data-step="valid"><polygon class="caelrik-diagram-shape caelrik-diagram-default"', $html);
+        self::assertStringContainsString('class="caelrik-diagram-shape caelrik-diagram-success"', $html);
         self::assertMatchesRegularExpression('/<tspan[^>]*>Fill in the sign-up<\/tspan><tspan[^>]*>form<\/tspan>/', $html);
 
         // The loop back to the form is drawn around the side, dashed by its class; one arrow has it.
-        self::assertSame(1, substr_count($html, 'celerik-diagram-edge is-loop'));
+        self::assertSame(1, substr_count($html, 'caelrik-diagram-edge is-loop'));
         self::assertSame(4, substr_count($html, 'marker-end="url(#signup-arrow)"'));
         // Edge labels: a background and the text.
-        self::assertMatchesRegularExpression('/<g class="celerik-diagram-edge-label"><rect [^>]*><\/rect><text [^>]*>Yes<\/text><\/g>/', $html);
+        self::assertMatchesRegularExpression('/<g class="caelrik-diagram-edge-label"><rect [^>]*><\/rect><text [^>]*>Yes<\/text><\/g>/', $html);
     }
 
     public function testAnArrowAcrossRanksGoesAroundTheStepsBetween(): void
@@ -100,7 +100,7 @@ final class DiagramTest extends TestCase
             ->render();
 
         preg_match('/data-step="wait"><rect [^>]*y="([\d.]+)" width="[\d.]+" height="([\d.]+)"/', $html, $wait);
-        preg_match_all('/<path class="celerik-diagram-edge" d="([^"]+)"/', $html, $paths);
+        preg_match_all('/<path class="caelrik-diagram-edge" d="([^"]+)"/', $html, $paths);
         // The first arrow (stock to ship) passes through a waypoint: the end of its first curve.
         preg_match('/^M[\d.]+ [\d.]+C(?:[\d.]+ ){5}([\d.]+)C/', $paths[1][0], $waypoint);
         self::assertNotEmpty($waypoint);
@@ -110,7 +110,7 @@ final class DiagramTest extends TestCase
             sprintf('The arrow crosses the step: %s within %s + %s.', $y, $wait[1], $wait[2]),
         );
         // Waypoints are neither drawn as steps nor written as text.
-        self::assertSame(3, substr_count($html, 'class="celerik-diagram-node"'));
+        self::assertSame(3, substr_count($html, 'class="caelrik-diagram-node"'));
         self::assertSame(3, substr_count($html, '<li id="order-step-'));
     }
 

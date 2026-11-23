@@ -74,7 +74,7 @@ describe('form helpers', () => {
     holder.innerHTML = html;
     const form = holder.querySelector('form');
 
-    expect(form.dataset.celerikFormModal).toBe('person-form-modal');
+    expect(form.dataset.caelrikFormModal).toBe('person-form-modal');
     expect(form.dataset.title).toBe('Edit Grace "G"');
     expect(JSON.parse(form.dataset.values)).toEqual({ name: 'Grace "G"', role: 'admin' });
     expect(form.querySelector('button').getAttribute('aria-haspopup')).toBe('dialog');
@@ -100,7 +100,7 @@ describe('an action that opens a form', () => {
     grid.destroy();
   });
 
-  const trigger = (name) => table.querySelector(`form[data-celerik-form-modal] button[aria-label="Edit ${name}"]`)
+  const trigger = (name) => table.querySelector(`form[data-caelrik-form-modal] button[aria-label="Edit ${name}"]`)
     ?.closest('form');
   const submit = () => form.dispatchEvent(new Event('submit', { bubbles: true, cancelable: true }));
   const open = async (name, deps) => {
@@ -112,7 +112,7 @@ describe('an action that opens a form', () => {
   test('PHP renders the modal once, after the table', () => {
     expect(document.querySelectorAll('#person-form-modal')).toHaveLength(1);
     expect(modal.querySelector('.modal-title').textContent).toBe('Edit');
-    expect(modal.querySelector('[data-celerik-form-submit]').getAttribute('form')).toBe('person-form');
+    expect(modal.querySelector('[data-caelrik-form-submit]').getAttribute('form')).toBe('person-form');
     expect(form.querySelector('button[type=submit]')).toBeNull();
   });
 
@@ -141,7 +141,7 @@ describe('an action that opens a form', () => {
     const fetch = jest.fn().mockResolvedValue(answer(200, { message: 'Ada was updated.', data: { name: 'Ada King' } }));
     const notify = jest.fn();
     const events = [];
-    table.addEventListener('celerik:action', (event) => events.push(event.detail));
+    table.addEventListener('caelrik:action', (event) => events.push(event.detail));
     const button = trigger('Ada').querySelector('button');
     button.focus();
 

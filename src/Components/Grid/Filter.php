@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Celerik\Ui\Components\Grid;
+namespace Caelrik\Ui\Components\Grid;
 
 use InvalidArgumentException;
 

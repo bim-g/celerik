@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Celerik\Ui\Components;
+namespace Caelrik\Ui\Components;
 
-use Celerik\Ui\Component;
-use Celerik\Ui\Support\Html;
+use Caelrik\Ui\Component;
+use Caelrik\Ui\Support\Html;
 use InvalidArgumentException;
 use LogicException;
 
@@ -163,19 +163,19 @@ final class Sparkline extends Component
             $line = implode(' ', $points);
             $shapes = $this->type === 'area'
                 ? Html::tag('polygon', [
-                    'class' => 'celerik-sparkline-area',
+                    'class' => 'caelrik-sparkline-area',
                     'points' => '0,' . self::HEIGHT . ' ' . $line . ' ' . self::WIDTH . ',' . self::HEIGHT,
                 ], '')
                 : '';
             $shapes .= Html::tag('polyline', [
-                'class' => 'celerik-sparkline-line',
+                'class' => 'caelrik-sparkline-line',
                 'points' => $line,
                 'fill' => 'none',
             ], '');
             if ($this->markLast) {
                 [$x, $y] = explode(',', $points[count($points) - 1]);
                 $shapes .= Html::tag('circle', [
-                    'class' => 'celerik-sparkline-dot',
+                    'class' => 'caelrik-sparkline-dot',
                     'cx' => $x,
                     'cy' => $y,
                     'r' => '2.5',
@@ -186,9 +186,9 @@ final class Sparkline extends Component
         return Html::tag('svg', array_merge($this->attributes, [
             'id' => $this->id,
             'class' => Html::classes([
-                'celerik-sparkline',
-                'celerik-sparkline-' . $this->size,
-                'celerik-sparkline-' . $this->color,
+                'caelrik-sparkline',
+                'caelrik-sparkline-' . $this->size,
+                'caelrik-sparkline-' . $this->color,
                 ...$this->classes,
             ]),
             'viewBox' => '0 0 ' . self::WIDTH . ' ' . self::HEIGHT,
@@ -277,7 +277,7 @@ final class Sparkline extends Component
             // A zero still shows as a thin bar.
             $height = max(1.0, abs($scale($value) - $zero));
             $bars .= Html::tag('rect', [
-                'class' => 'celerik-sparkline-bar' . ($value < 0 ? ' is-negative' : ''),
+                'class' => 'caelrik-sparkline-bar' . ($value < 0 ? ' is-negative' : ''),
                 'x' => self::coordinate($index * $slot + $slot * 0.15),
                 'y' => self::coordinate($value < 0 ? $zero : min($top, $zero - $height)),
                 'width' => self::coordinate($slot * 0.7),

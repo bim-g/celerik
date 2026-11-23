@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Celerik\Ui\Components;
+namespace Caelrik\Ui\Components;
 
-use Celerik\Ui\Component;
-use Celerik\Ui\Support\Html;
+use Caelrik\Ui\Component;
+use Caelrik\Ui\Support\Html;
 use InvalidArgumentException;
 use LogicException;
 
@@ -13,7 +13,7 @@ use LogicException;
  * A chip: a compact label, plain, removable or selectable.
  * - removable(): a Remove button ("Remove PHP") takes the chip and its hidden field away
  *   (JavaScript; without it the button is hidden), moves focus to the next chip's button,
- *   says so, and fires a cancelable celerik:remove.
+ *   says so, and fires a cancelable caelrik:remove.
  * - checkbox(): a filter chip, a real checkbox posted with its form, with or without
  *   JavaScript.
  *
@@ -110,11 +110,11 @@ final class Chip extends Component
             throw new LogicException('A chip needs a label.');
         }
         $text = ($this->avatar ?? '')
-            . Html::tag('span', ['class' => 'celerik-chip-label'], Html::escape($this->label));
+            . Html::tag('span', ['class' => 'caelrik-chip-label'], Html::escape($this->label));
 
         if ($this->checkbox) {
             return Html::tag('span', array_merge($this->attributes, [
-                'class' => Html::classes(['celerik-chip-check', ...$this->classes]),
+                'class' => Html::classes(['caelrik-chip-check', ...$this->classes]),
             ]), Html::tag('input', [
                 'type' => 'checkbox',
                 'class' => 'btn-check',
@@ -123,12 +123,12 @@ final class Chip extends Component
                 'value' => $this->value,
                 'checked' => $this->checked,
                 'autocomplete' => 'off',
-            ]) . Html::tag('label', ['class' => 'celerik-chip', 'for' => $this->id], $text));
+            ]) . Html::tag('label', ['class' => 'caelrik-chip', 'for' => $this->id], $text));
         }
 
         if (!$this->removable) {
             return Html::tag('span', array_merge($this->attributes, [
-                'class' => Html::classes(['celerik-chip', ...$this->classes]),
+                'class' => Html::classes(['caelrik-chip', ...$this->classes]),
             ]), $text);
         }
 
@@ -137,10 +137,10 @@ final class Chip extends Component
             : Html::tag('input', ['type' => 'hidden', 'name' => $this->field, 'value' => $this->value]);
         $button = Html::tag('button', [
             'type' => 'button',
-            'class' => 'celerik-chip-remove',
+            'class' => 'caelrik-chip-remove',
             'aria-label' => strtr($this->labels['remove'], ['{label}' => $this->label]),
         ], '<span aria-hidden="true">×</span>');
 
-        return Html::tag('span', $this->rootAttributes(['celerik-chip']), $text . $hidden . $button);
+        return Html::tag('span', $this->rootAttributes(['caelrik-chip']), $text . $hidden . $button);
     }
 }

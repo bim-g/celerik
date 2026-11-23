@@ -19,7 +19,7 @@ A [Quill 2](https://quilljs.com/) editor in a form field. It submits HTML, which
 The browser can send anything: sanitize the HTML before you store it or show it.
 
 ```php
-use Celerik\Ui\Support\EditorHtml;
+use Caelrik\Ui\Support\EditorHtml;
 
 $html = EditorHtml::sanitize((string) $_POST['body']);
 ```

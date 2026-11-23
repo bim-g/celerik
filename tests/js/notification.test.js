@@ -28,7 +28,7 @@ describe('notification config', () => {
     expect(config.position).toEqual({ x: 'center', y: 'bottom' });
     expect(types.success).toMatchObject({ duration: 3000, dismissible: false, background: 'var(--bs-success)' });
     expect(types.error).toMatchObject({ duration: 0, dismissible: true, background: 'var(--bs-danger)' });
-    expect(types.warning.className).toBe('celerik-toast celerik-toast-warning');
+    expect(types.warning.className).toBe('caelrik-toast caelrik-toast-warning');
   });
 });
 
@@ -119,16 +119,16 @@ describe('notification integration (Notyf)', () => {
 
     // Notyf marks expired toasts as disappearing (removal waits for animationend,
     // which jsdom never fires).
-    const disappearing = (type) => document.querySelector(`.celerik-toast-${type}`).classList.contains('notyf__toast--disappear');
+    const disappearing = (type) => document.querySelector(`.caelrik-toast-${type}`).classList.contains('notyf__toast--disappear');
     expect(disappearing('success')).toBe(true);
     expect(disappearing('warning')).toBe(true);
     expect(disappearing('error')).toBe(false);
-    expect(document.querySelector('.celerik-toast-error .notyf__dismiss-btn')).not.toBeNull();
+    expect(document.querySelector('.caelrik-toast-error .notyf__dismiss-btn')).not.toBeNull();
   });
 
   test('a toast waits while hovered or focused, then closes after the time left', () => {
     notify('success', 'Saved.');
-    const toast = document.querySelector('.celerik-toast-success');
+    const toast = document.querySelector('.caelrik-toast-success');
     const disappearing = () => toast.classList.contains('notyf__toast--disappear');
 
     jest.advanceTimersByTime(3000);
@@ -161,7 +161,7 @@ describe('notification integration (Notyf)', () => {
     expect(results.violations.map((v) => `${v.id}: ${v.nodes.map((n) => n.target.join(' ')).join(', ')}`)).toEqual([]);
   });
 
-  test('Celerik.notify works without a Notification component on the page', () => {
+  test('Caelrik.notify works without a Notification component on the page', () => {
     document.body.innerHTML = '<main></main>';
 
     notify('success', 'Saved <again>');

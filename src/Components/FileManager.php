@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Celerik\Ui\Components;
+namespace Caelrik\Ui\Components;
 
-use Celerik\Ui\Component;
-use Celerik\Ui\Support\Html;
+use Caelrik\Ui\Component;
+use Caelrik\Ui\Support\Html;
 use InvalidArgumentException;
 use LogicException;
 
@@ -13,7 +13,7 @@ use LogicException;
  * File manager (elFinder). The connector endpoint runs FileManagerConnector::run().
  *
  * elFinder's own JS and CSS are loaded from assetsUrl() (copy them from
- * vendor/studio-42/elfinder: css, img, js, sounds); jQuery UI comes with the Celerik
+ * vendor/studio-42/elfinder: css, img, js, sounds); jQuery UI comes with the Caelrik
  * chunk, which is loaded only on pages with a file manager.
  */
 final class FileManager extends Component
@@ -126,7 +126,7 @@ final class FileManager extends Component
             throw new LogicException(sprintf('File manager "%s" has no connector url().', $this->id));
         }
 
-        return Html::tag('div', array_merge($this->rootAttributes(['celerik-filemanager']), [
+        return Html::tag('div', array_merge($this->rootAttributes(['caelrik-filemanager']), [
             'role' => 'region',
             'aria-label' => $this->title,
         ]), Html::tag('noscript', [], Html::tag('p', [], 'JavaScript is required to use the file manager.')));

@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Celerik\Ui\Tests\Support;
+namespace Caelrik\Ui\Tests\Support;
 
-use Celerik\Ui\Support\QrMatrix;
+use Caelrik\Ui\Support\QrMatrix;
 use InvalidArgumentException;
 use LengthException;
 use PHPUnit\Framework\Attributes\DataProvider;
@@ -45,7 +45,7 @@ final class QrMatrixTest extends TestCase
     {
         foreach (['L' => 1, 'M' => 0, 'Q' => 3, 'H' => 2] as $level => $bits) {
             foreach (range(0, 7) as $mask) {
-                $matrix = QrMatrix::encode('celerik', $level, mask: $mask);
+                $matrix = QrMatrix::encode('caelrik', $level, mask: $mask);
                 $format = 0;
                 // The first copy, bits 0 to 14, around the top-left finder.
                 $cells = [[8, 0], [8, 1], [8, 2], [8, 3], [8, 4], [8, 5], [8, 7], [8, 8], [7, 8], [5, 8], [4, 8],
@@ -61,7 +61,7 @@ final class QrMatrixTest extends TestCase
     public function testTheVersionInformation(): void
     {
         // Version 7 is written as 000111 110010 010100 (ISO/IEC 18004, annex D).
-        $matrix = QrMatrix::encode('celerik', 'M', 7);
+        $matrix = QrMatrix::encode('caelrik', 'M', 7);
         $size = count($matrix);
         self::assertSame(45, $size);
         $bits = 0;
@@ -75,7 +75,7 @@ final class QrMatrixTest extends TestCase
     public function testAlignmentPatterns(): void
     {
         // Version 32: centers at 6, 34, 60, 86, 112 and 138.
-        $matrix = QrMatrix::encode('celerik', 'L', 32);
+        $matrix = QrMatrix::encode('caelrik', 'L', 32);
         foreach ([[34, 60], [86, 112], [138, 138], [60, 6]] as [$x, $y]) {
             self::assertTrue($matrix[$y][$x]);
             self::assertFalse($matrix[$y][$x + 1]);

@@ -156,8 +156,8 @@ test.describe('grid', () => {
   test('a grouped server-side grid heads each group, totals the filtered rows and keeps groups when sorted', async ({ page }) => {
     const grid = page.locator('#budget');
     const slow = { timeout: 15_000 };
-    const headings = grid.locator('tbody tr.celerik-grid-group');
-    const items = () => grid.locator('tbody tr:not(.celerik-grid-group) td:nth-child(2)').allTextContents();
+    const headings = grid.locator('tbody tr.caelrik-grid-group');
+    const items = () => grid.locator('tbody tr:not(.caelrik-grid-group) td:nth-child(2)').allTextContents();
 
     await expect(headings).toHaveCount(2, slow);
     // The row counts come from the endpoint's meta.
@@ -183,7 +183,7 @@ test.describe('grid', () => {
   test('a cell is edited in place from the keyboard: refused values keep the field, Escape cancels, Enter saves', async ({ page }) => {
     const grid = page.locator('#budget');
     const slow = { timeout: 15_000 };
-    await expect(grid.locator('tr.celerik-grid-group')).toHaveCount(2, slow);
+    await expect(grid.locator('tr.caelrik-grid-group')).toHaveCount(2, slow);
 
     // The editor checks the value first: the message is the field's description.
     const edit = grid.getByRole('button', { name: 'Edit Amount of Fonts' });
@@ -448,8 +448,8 @@ test.describe('tree list', () => {
 });
 
 test.describe('task board', () => {
-  const card = (page, title) => page.locator('#sprint .celerik-board-card').filter({ hasText: title });
-  const titles = (page, column) => page.locator(`#sprint .celerik-board-cards[data-column="${column}"] .celerik-board-card-title`)
+  const card = (page, title) => page.locator('#sprint .caelrik-board-card').filter({ hasText: title });
+  const titles = (page, column) => page.locator(`#sprint .caelrik-board-cards[data-column="${column}"] .caelrik-board-card-title`)
     .allTextContents();
   const said = (page) => page.locator('#sprint > [role=status]');
 
@@ -481,7 +481,7 @@ test.describe('task board', () => {
   });
 
   test('cards are dragged between columns, not into a full one', async ({ page }) => {
-    await card(page, 'Fix login').dragTo(page.locator('#sprint .celerik-board-cards[data-column="done"]'));
+    await card(page, 'Fix login').dragTo(page.locator('#sprint .caelrik-board-cards[data-column="done"]'));
     await expect.poll(() => titles(page, 'done')).toContain('Fix login');
     await expect(said(page)).toHaveText(/^Moved Fix login to Done/, { timeout: 15_000 });
 
@@ -509,7 +509,7 @@ test.describe('form', () => {
     await form.getByRole('button', { name: 'Publish' }).focus();
     await page.keyboard.press('Enter');
 
-    const summary = form.locator('.celerik-error-summary');
+    const summary = form.locator('.caelrik-error-summary');
     await expect(summary).toBeVisible();
     await expect(summary).toBeFocused();
     await expect(summary.getByRole('heading', { name: 'There is a problem' })).toBeVisible();
@@ -558,7 +558,7 @@ test.describe('scheduler', () => {
 test.describe('notification', () => {
   test('a toast can be dismissed from the keyboard', async ({ page }) => {
     // The error toast stays until dismissed; the others may expire during the test.
-    const toast = page.locator('.celerik-toast-error');
+    const toast = page.locator('.caelrik-toast-error');
     const dismiss = toast.getByRole('button', { name: /Dismiss/i });
     await expect(dismiss).toBeVisible();
     await dismiss.focus();
@@ -570,10 +570,10 @@ test.describe('notification', () => {
 test.describe('one-time code', () => {
   test('typing and pasting fill the boxes, Backspace empties them, and the box being filled shows the focus', async ({ page }) => {
     const input = page.getByRole('textbox', { name: 'Pairing code' });
-    const boxes = () => page.locator('.celerik-otp:has(#preferences-pairing) .celerik-otp-slot').evaluateAll(
+    const boxes = () => page.locator('.caelrik-otp:has(#preferences-pairing) .caelrik-otp-slot').evaluateAll(
       (slots) => slots.map((slot) => slot.textContent).join('|'),
     );
-    const activeRing = () => page.locator('.celerik-otp:has(#preferences-pairing) .celerik-otp-slot.is-active').evaluate(
+    const activeRing = () => page.locator('.caelrik-otp:has(#preferences-pairing) .caelrik-otp-slot.is-active').evaluate(
       (slot) => getComputedStyle(slot).boxShadow,
     );
 
@@ -594,7 +594,7 @@ test.describe('one-time code', () => {
     expect(await boxes()).toBe('4|8|1|2|0|');
     // The input covers the boxes: a click on one focuses it.
     await page.locator('h1').click();
-    const first = page.locator('.celerik-otp:has(#preferences-pairing) .celerik-otp-slot').first();
+    const first = page.locator('.caelrik-otp:has(#preferences-pairing) .caelrik-otp-slot').first();
     await first.scrollIntoViewIfNeeded();
     const box = await first.boundingBox();
     await page.mouse.click(box.x + box.width / 2, box.y + box.height / 2);
@@ -650,7 +650,7 @@ test.describe('rating', () => {
     // The radio is hidden: its star shows the focus ring, and four stars are filled.
     const star = page.locator('label[for="preferences-satisfaction-4"]');
     expect(await star.evaluate((label) => getComputedStyle(label).boxShadow)).not.toBe('none');
-    const filled = () => page.locator('#preferences-satisfaction-group .celerik-rating-star svg').evaluateAll(
+    const filled = () => page.locator('#preferences-satisfaction-group .caelrik-rating-star svg').evaluateAll(
       (svgs) => svgs.map((svg) => getComputedStyle(svg).fill !== 'transparent' && getComputedStyle(svg).fill !== 'rgba(0, 0, 0, 0)'),
     );
     expect(await filled()).toEqual([true, true, true, true, false]);
@@ -664,7 +664,7 @@ test.describe('rating', () => {
 
   test('a click on a star rates, hovering previews', async ({ page }) => {
     const value = () => page.locator('#preferences').evaluate((form) => new FormData(form).get('satisfaction'));
-    const filled = () => page.locator('#preferences-satisfaction-group .celerik-rating-star svg').evaluateAll(
+    const filled = () => page.locator('#preferences-satisfaction-group .caelrik-rating-star svg').evaluateAll(
       (svgs) => svgs.filter((svg) => !['transparent', 'rgba(0, 0, 0, 0)'].includes(getComputedStyle(svg).fill)).length,
     );
     const star = (n) => page.locator(`label[for="preferences-satisfaction-${n}"]`);
@@ -775,7 +775,7 @@ test.describe('form wizard', () => {
   test('moves through the steps from the keyboard, checking each one', async ({ page }) => {
     const name = page.getByLabel('Full name');
     const team = page.getByLabel('Team name');
-    const next = page.locator('#join [data-celerik-wizard="next"]');
+    const next = page.locator('#join [data-caelrik-wizard="next"]');
 
     // Enter on an empty step: it stays, with the error.
     await name.focus();
@@ -799,7 +799,7 @@ test.describe('form wizard', () => {
     await expect(page.locator('#join [type="submit"]')).toBeVisible();
 
     // Back, with Space.
-    await page.locator('#join [data-celerik-wizard="previous"]').focus();
+    await page.locator('#join [data-caelrik-wizard="previous"]').focus();
     await page.keyboard.press('Space');
     await expect(heading).toBeFocused();
     await expect(team).toHaveValue('Analytical Engine');
@@ -813,7 +813,7 @@ test.describe('form repeater', () => {
     await page.getByLabel('Full name').fill('Ada Lovelace');
     await page.getByLabel('Full name').press('Enter');
     const add = page.getByRole('button', { name: 'Add a member' });
-    const members = page.locator('#join-members .celerik-repeater-items > li');
+    const members = page.locator('#join-members .caelrik-repeater-items > li');
 
     await add.focus();
     await page.keyboard.press('Enter');

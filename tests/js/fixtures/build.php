@@ -7,66 +7,66 @@
 
 declare(strict_types=1);
 
-use Celerik\Ui\Components\Barcode;
-use Celerik\Ui\Components\Chart;
-use Celerik\Ui\Components\MediaPlayer;
-use Celerik\Ui\Components\PdfViewer;
-use Celerik\Ui\Components\QrCode;
-use Celerik\Ui\Support\QrMatrix;
-use Celerik\Ui\Components\ContextMenu;
-use Celerik\Ui\Components\FileManager;
-use Celerik\Ui\Components\Form;
-use Celerik\Ui\Components\Form\Field;
-use Celerik\Ui\Components\Form\Repeater;
-use Celerik\Ui\Components\Form\Section;
-use Celerik\Ui\Components\Accordion;
-use Celerik\Ui\Components\Action;
-use Celerik\Ui\Components\AdminLayout;
-use Celerik\Ui\Components\Breadcrumb;
-use Celerik\Ui\Components\Card;
-use Celerik\Ui\Components\Navigation;
-use Celerik\Ui\Components\UserMenu;
-use Celerik\Ui\Components\Grid;
-use Celerik\Ui\Components\Grid\Column;
-use Celerik\Ui\Components\Grid\Editor;
-use Celerik\Ui\Components\Grid\Filter;
-use Celerik\Ui\Components\ListView;
-use Celerik\Ui\Components\MenuButton;
-use Celerik\Ui\Components\Modal;
-use Celerik\Ui\Components\Notification;
-use Celerik\Ui\Components\Scheduler;
-use Celerik\Ui\Components\SplitButton;
-use Celerik\Ui\Components\Splitter;
-use Celerik\Ui\Components\Avatar;
-use Celerik\Ui\Components\Badge;
-use Celerik\Ui\Components\Chip;
-use Celerik\Ui\Components\Loader;
-use Celerik\Ui\Components\Popover;
-use Celerik\Ui\Components\Progress;
-use Celerik\Ui\Components\Skeleton;
-use Celerik\Ui\Components\Tooltip;
-use Celerik\Ui\Components\Stat;
-use Celerik\Ui\Components\Stats;
-use Celerik\Ui\Components\Tabs;
-use Celerik\Ui\Components\TaskBoard;
-use Celerik\Ui\Components\TreeList;
-use Celerik\Ui\Components\TreeView;
-use Celerik\Ui\Components\RecordView;
-use Celerik\Ui\Components\RecordView\Entry;
-use Celerik\Ui\Components\ThemeBuilder;
-use Celerik\Ui\Components\TileLayout;
-use Celerik\Ui\Components\Toolbar;
-use Celerik\Ui\Components\Gantt;
-use Celerik\Ui\Components\Map;
-use Celerik\Ui\Components\Diagram;
-use Celerik\Ui\Components\OrgChart;
-use Celerik\Ui\Components\Gauge;
-use Celerik\Ui\Components\Sparkline;
-use Celerik\Ui\Components\Timeline;
-use Celerik\Ui\Components\Carousel;
-use Celerik\Ui\Support\Html;
-use Celerik\Ui\Theme\Theme;
-use Celerik\Ui\Upload\UploadRules;
+use Caelrik\Ui\Components\Barcode;
+use Caelrik\Ui\Components\Chart;
+use Caelrik\Ui\Components\MediaPlayer;
+use Caelrik\Ui\Components\PdfViewer;
+use Caelrik\Ui\Components\QrCode;
+use Caelrik\Ui\Support\QrMatrix;
+use Caelrik\Ui\Components\ContextMenu;
+use Caelrik\Ui\Components\FileManager;
+use Caelrik\Ui\Components\Form;
+use Caelrik\Ui\Components\Form\Field;
+use Caelrik\Ui\Components\Form\Repeater;
+use Caelrik\Ui\Components\Form\Section;
+use Caelrik\Ui\Components\Accordion;
+use Caelrik\Ui\Components\Action;
+use Caelrik\Ui\Components\AdminLayout;
+use Caelrik\Ui\Components\Breadcrumb;
+use Caelrik\Ui\Components\Card;
+use Caelrik\Ui\Components\Navigation;
+use Caelrik\Ui\Components\UserMenu;
+use Caelrik\Ui\Components\Grid;
+use Caelrik\Ui\Components\Grid\Column;
+use Caelrik\Ui\Components\Grid\Editor;
+use Caelrik\Ui\Components\Grid\Filter;
+use Caelrik\Ui\Components\ListView;
+use Caelrik\Ui\Components\MenuButton;
+use Caelrik\Ui\Components\Modal;
+use Caelrik\Ui\Components\Notification;
+use Caelrik\Ui\Components\Scheduler;
+use Caelrik\Ui\Components\SplitButton;
+use Caelrik\Ui\Components\Splitter;
+use Caelrik\Ui\Components\Avatar;
+use Caelrik\Ui\Components\Badge;
+use Caelrik\Ui\Components\Chip;
+use Caelrik\Ui\Components\Loader;
+use Caelrik\Ui\Components\Popover;
+use Caelrik\Ui\Components\Progress;
+use Caelrik\Ui\Components\Skeleton;
+use Caelrik\Ui\Components\Tooltip;
+use Caelrik\Ui\Components\Stat;
+use Caelrik\Ui\Components\Stats;
+use Caelrik\Ui\Components\Tabs;
+use Caelrik\Ui\Components\TaskBoard;
+use Caelrik\Ui\Components\TreeList;
+use Caelrik\Ui\Components\TreeView;
+use Caelrik\Ui\Components\RecordView;
+use Caelrik\Ui\Components\RecordView\Entry;
+use Caelrik\Ui\Components\ThemeBuilder;
+use Caelrik\Ui\Components\TileLayout;
+use Caelrik\Ui\Components\Toolbar;
+use Caelrik\Ui\Components\Gantt;
+use Caelrik\Ui\Components\Map;
+use Caelrik\Ui\Components\Diagram;
+use Caelrik\Ui\Components\OrgChart;
+use Caelrik\Ui\Components\Gauge;
+use Caelrik\Ui\Components\Sparkline;
+use Caelrik\Ui\Components\Timeline;
+use Caelrik\Ui\Components\Carousel;
+use Caelrik\Ui\Support\Html;
+use Caelrik\Ui\Theme\Theme;
+use Caelrik\Ui\Upload\UploadRules;
 
 require dirname(__DIR__, 3) . '/vendor/autoload.php';
 
@@ -469,7 +469,7 @@ $fixtures = [
         ->edge('valid', 'form', 'No'),
 
     'mediaplayer' => MediaPlayer::make('podcast')->audio()->label('Episode 12')->source('/media/12.mp3', 'audio/mpeg')
-        ->transcript([[0, 'Welcome back.', 'Ada'], [65, 'Today: Celerik.'], [130, 'Goodbye.']]),
+        ->transcript([[0, 'Welcome back.', 'Ada'], [65, 'Today: Caelrik.'], [130, 'Goodbye.']]),
     'pdfviewer' => PdfViewer::make('report')->url('/files/report.pdf')->label('Annual report 2026'),
     'qrcode' => QrCode::make('site')->value('https://example.com/?a=1&b=2')->label('Our <website>'),
     'qrcode-hidden' => QrCode::make('wifi')->value('WIFI:T:WPA;S:Office;P:Grüße;;')->label('Office Wi-Fi')

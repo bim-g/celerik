@@ -1,9 +1,9 @@
 <?php
 
-use Celerik\Ui\Components\Action;
-use Celerik\Ui\Components\Form;
-use Celerik\Ui\Components\Form\Field;
-use Celerik\Ui\Support\Html;
+use Caelrik\Ui\Components\Action;
+use Caelrik\Ui\Components\Form;
+use Caelrik\Ui\Components\Form\Field;
+use Caelrik\Ui\Support\Html;
 
 // Actions on their own, e.g. in a page's toolbar. The demo's requests are answered in the
 // browser: nothing is saved.

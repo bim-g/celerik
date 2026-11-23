@@ -28,7 +28,7 @@ test('exported JSON imports back to the same theme', () => {
 });
 
 test('the PHP snippet rebuilds the same theme in PHP', () => {
-  const dir = mkdtempSync(join(tmpdir(), 'celerik-snippet-'));
+  const dir = mkdtempSync(join(tmpdir(), 'caelrik-snippet-'));
   try {
     const file = join(dir, 'snippet.php');
     const autoload = join(root, 'vendor/autoload.php').replaceAll('\\', '/');

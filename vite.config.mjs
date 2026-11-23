@@ -2,9 +2,9 @@ import { fileURLToPath } from 'node:url';
 import { defineConfig } from 'vite';
 
 // Builds the bundle shipped with the Composer package:
-//   public/celerik.js     ES module entry (registry + lazy initializers)
+//   public/caelrik.js     ES module entry (registry + lazy initializers)
 //   public/chunks/*.js    one chunk per component library, loaded only when used
-//   public/celerik.css
+//   public/caelrik.css
 // jQuery is a peer dependency: `jquery` resolves to the page's window.jQuery.
 //
 // A regular build is used rather than library mode, which never minifies ES output.
@@ -36,13 +36,13 @@ export default defineConfig({
       },
       preserveEntrySignatures: 'exports-only',
       output: {
-        entryFileNames: 'celerik.js',
+        entryFileNames: 'caelrik.js',
         chunkFileNames: 'chunks/[name]-[hash].js',
         // The entry stylesheet keeps its stable name; chunk stylesheets are hashed. The PDF.js
         // worker (an ES module) is named .js: every server sends that as JavaScript, which a
         // module worker needs, while some send .mjs as a download.
         assetFileNames: (asset) => {
-          if (asset.names?.includes('index.css')) return 'celerik.css';
+          if (asset.names?.includes('index.css')) return 'caelrik.css';
           return asset.names?.some((name) => name.endsWith('.mjs')) ? 'chunks/[name]-[hash].js' : 'chunks/[name]-[hash][extname]';
         },
       },

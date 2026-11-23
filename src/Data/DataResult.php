@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Celerik\Ui\Data;
+namespace Caelrik\Ui\Data;
 
 use JsonSerializable;
 
 /**
- * One page of rows plus the metadata every Celerik endpoint returns:
+ * One page of rows plus the metadata every Caelrik endpoint returns:
  *
  *     {"data": [...], "meta": {"page", "perPage", "total", "filtered", "draw", "sort", "search", "filters",
  *     "conditions"}}

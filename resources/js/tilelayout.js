@@ -6,7 +6,7 @@
 // - The Arrange button can be dragged onto another tile's place, the corner grip to a size.
 // Tiles move in the page, so the reading and focus order follow what is seen. Spans are
 // classes (no inline styles, for a strict CSP). Each change is announced, kept in the browser
-// on request (remember), and fired as celerik:change with the layout.
+// on request (remember), and fired as caelrik:change with the layout.
 export const LABELS = {
   moved: '{tile}: position {position} of {count}.',
   resized: '{tile}: width {cols} of {columns}, height {rows} of {maxRows}.',
@@ -34,9 +34,9 @@ export function initTileLayout(element, options = {}) {
   const columns = Number(options.columns ?? 3);
   const reorderable = Boolean(options.reorderable);
   const resizable = Boolean(options.resizable);
-  const storageKey = `celerik-tilelayout:${element.id}`;
-  const tiles = () => [...element.children].filter((child) => child.classList.contains('celerik-tile'));
-  const titleOf = (tile) => tile.querySelector('.celerik-tile-title')?.textContent.trim() ?? '';
+  const storageKey = `caelrik-tilelayout:${element.id}`;
+  const tiles = () => [...element.children].filter((child) => child.classList.contains('caelrik-tile'));
+  const titleOf = (tile) => tile.querySelector('.caelrik-tile-title')?.textContent.trim() ?? '';
   const spanOf = (tile) => ({ cols: Number(tile.dataset.cols ?? 1), rows: Number(tile.dataset.rows ?? 1) });
 
   const layout = () => tiles().map((tile) => ({ key: tile.dataset.tile, ...spanOf(tile) }));
@@ -66,8 +66,8 @@ export function initTileLayout(element, options = {}) {
 
   const setSpan = (tile, cols, rows) => {
     const old = spanOf(tile);
-    tile.classList.remove(`celerik-tile-cols-${old.cols}`, `celerik-tile-rows-${old.rows}`);
-    tile.classList.add(`celerik-tile-cols-${cols}`, `celerik-tile-rows-${rows}`);
+    tile.classList.remove(`caelrik-tile-cols-${old.cols}`, `caelrik-tile-rows-${old.rows}`);
+    tile.classList.add(`caelrik-tile-cols-${cols}`, `caelrik-tile-rows-${rows}`);
     tile.dataset.cols = String(cols);
     tile.dataset.rows = String(rows);
   };
@@ -119,7 +119,7 @@ export function initTileLayout(element, options = {}) {
         // Storage may be off: the layout lasts until the page is left.
       }
     }
-    element.dispatchEvent(new CustomEvent('celerik:change', { bubbles: true, detail: { tiles: current } }));
+    element.dispatchEvent(new CustomEvent('caelrik:change', { bubbles: true, detail: { tiles: current } }));
   };
 
   const announceMove = (tile) => announce(format(labels.moved, {
@@ -192,8 +192,8 @@ export function initTileLayout(element, options = {}) {
   };
 
   for (const tile of tiles()) {
-    const handle = tile.querySelector('.celerik-tile-handle');
-    const tools = tile.querySelector('.celerik-tile-tools');
+    const handle = tile.querySelector('.caelrik-tile-handle');
+    const tools = tile.querySelector('.caelrik-tile-tools');
     if (!handle || !tools) {
       continue;
     }
@@ -263,7 +263,7 @@ export function initTileLayout(element, options = {}) {
             dragging = true;
             tile.classList.add('is-dragging');
           }
-          const over = document.elementFromPoint(moveEvent.clientX, moveEvent.clientY)?.closest('.celerik-tile');
+          const over = document.elementFromPoint(moveEvent.clientX, moveEvent.clientY)?.closest('.caelrik-tile');
           if (over && over !== tile && over.parentElement === element) {
             moveTo(tile, tiles().indexOf(over));
           }
@@ -290,7 +290,7 @@ export function initTileLayout(element, options = {}) {
     }
 
     // Dragging the corner grip: the tile spans the columns and rows it reaches.
-    const grip = tile.querySelector('.celerik-tile-grip');
+    const grip = tile.querySelector('.caelrik-tile-grip');
     if (resizable && grip) {
       grip.addEventListener('pointerdown', (event) => {
         if (event.button !== 0) {

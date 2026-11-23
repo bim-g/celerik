@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Celerik\Ui\Components\Form;
+namespace Caelrik\Ui\Components\Form;
 
-use Celerik\Ui\Data\DataRequest;
-use Celerik\Ui\Data\DataResult;
-use Celerik\Ui\Data\DataSourceInterface;
-use Celerik\Ui\Support\Arr;
-use Celerik\Ui\Support\Html;
-use Celerik\Ui\Upload\UploadRules;
+use Caelrik\Ui\Data\DataRequest;
+use Caelrik\Ui\Data\DataResult;
+use Caelrik\Ui\Data\DataSourceInterface;
+use Caelrik\Ui\Support\Arr;
+use Caelrik\Ui\Support\Html;
+use Caelrik\Ui\Upload\UploadRules;
 use InvalidArgumentException;
 use LogicException;
 
@@ -24,7 +24,7 @@ final class Field
     private const INPUT_TYPES = [
         'text', 'email', 'password', 'number', 'tel', 'url', 'date', 'time', 'datetime-local', 'search', 'hidden',
     ];
-    public const REQUIRED_MARKER = ' <span class="celerik-required" aria-hidden="true">*</span>';
+    public const REQUIRED_MARKER = ' <span class="caelrik-required" aria-hidden="true">*</span>';
     private const TOOLBARS = ['basic', 'standard', 'full'];
     private const PERIOD_TYPES = ['date', 'time', 'datetime-local'];
 
@@ -1116,7 +1116,7 @@ final class Field
             'aria-invalid' => $error === null ? null : 'true',
             'data-parsley-equalto' => $this->equalTo === null ? null : '#' . self::fieldId($formId, $this->equalTo),
             'data-parsley-error-message' => $this->message,
-            'data-celerik-mask' => $this->mask,
+            'data-caelrik-mask' => $this->mask,
         ]);
 
         $control = match ($this->type) {
@@ -1132,7 +1132,7 @@ final class Field
                     'multiple' => $this->multiple,
                     // Tom Select shows the placeholder in its search box.
                     'placeholder' => $this->searchable ? null : $attributes['placeholder'],
-                    'data-celerik-select' => $this->searchable ? self::json([
+                    'data-caelrik-select' => $this->searchable ? self::json([
                         'url' => $this->remote['url'] ?? null,
                         'placeholder' => $this->placeholder,
                         'tags' => $this->tags ? true : null,
@@ -1148,9 +1148,9 @@ final class Field
             'editor' => Html::tag(
                 'textarea',
                 $attributes + [
-                    'class' => $this->controlClass('form-control celerik-editor-source', $error),
+                    'class' => $this->controlClass('form-control caelrik-editor-source', $error),
                     'rows' => 8,
-                    'data-celerik-editor' => self::json([
+                    'data-caelrik-editor' => self::json([
                         'toolbar' => $this->toolbar,
                         'placeholder' => $this->placeholder,
                     ]),
@@ -1160,22 +1160,22 @@ final class Field
             'markdown' => Html::tag(
                 'textarea',
                 $attributes + [
-                    'class' => $this->controlClass('form-control celerik-markdown-source', $error),
+                    'class' => $this->controlClass('form-control caelrik-markdown-source', $error),
                     'rows' => 8,
-                    'data-celerik-markdown' => self::json($this->markdownLabels),
+                    'data-caelrik-markdown' => self::json($this->markdownLabels),
                 ],
                 Html::escape(Arr::toText($value)),
             ),
             'code' => Html::tag(
                 'textarea',
                 $attributes + [
-                    'class' => $this->controlClass('form-control font-monospace celerik-code-source', $error),
+                    'class' => $this->controlClass('form-control font-monospace caelrik-code-source', $error),
                     'rows' => 10,
                     'spellcheck' => 'false',
                     'autocapitalize' => 'off',
                     'autocomplete' => 'off',
                     'wrap' => 'off',
-                    'data-celerik-code' => self::json([
+                    'data-caelrik-code' => self::json([
                         'language' => $this->codeLanguage,
                         'tabIndents' => $this->tabIndents,
                         'keys' => $this->tabIndents ? $this->codeLabels['tabKeys'] : $this->codeLabels['keys'],
@@ -1211,10 +1211,10 @@ final class Field
                 'spellcheck' => 'false',
                 'maxlength' => $this->codeLength,
                 'pattern' => sprintf($this->alphanumeric ? '[A-Za-z0-9]{%d}' : '[0-9]{%d}', $this->codeLength),
-                'class' => $this->controlClass('form-control celerik-otp-input', $error),
+                'class' => $this->controlClass('form-control caelrik-otp-input', $error),
                 // The width of the code without JavaScript (no style attribute: CSP).
                 'size' => $this->codeLength,
-                'data-celerik-otp' => $this->codeLength,
+                'data-caelrik-otp' => $this->codeLength,
             ]),
             'color' => Html::tag('input', $attributes + [
                 'type' => 'color',
@@ -1249,7 +1249,7 @@ final class Field
             : Html::tag('div', ['id' => $helpId, 'class' => 'form-text'], Html::escape($helpText));
         $feedback = $errorId === null ? '' : Html::tag(
             'div',
-            ['id' => $errorId, 'class' => 'invalid-feedback celerik-server-error'],
+            ['id' => $errorId, 'class' => 'invalid-feedback caelrik-server-error'],
             Html::escape($error),
         );
 
@@ -1337,7 +1337,7 @@ final class Field
         // The inputs are not siblings of the message: show it explicitly (d-block).
         $feedback = $errorId === null ? '' : Html::tag(
             'div',
-            ['id' => $errorId, 'class' => 'invalid-feedback d-block celerik-server-error'],
+            ['id' => $errorId, 'class' => 'invalid-feedback d-block caelrik-server-error'],
             Html::escape($error),
         );
         $help = $helpId === null
@@ -1375,7 +1375,7 @@ final class Field
                 'required' => $this->required,
                 'data-parsley-error-message' => $index === 0 ? $this->message : null,
                 'aria-invalid' => $error === null ? null : 'true',
-                'class' => $this->controlClass('visually-hidden celerik-rating-input', $error),
+                'class' => $this->controlClass('visually-hidden caelrik-rating-input', $error),
             ]));
         };
 
@@ -1385,18 +1385,18 @@ final class Field
             $name = sprintf($this->starLabel, $count, $this->stars);
             $stars .= $radio($inputId, (string) $count, $count - 1) . Html::tag(
                 'label',
-                ['for' => $inputId, 'class' => 'celerik-rating-star'],
+                ['for' => $inputId, 'class' => 'caelrik-rating-star'],
                 $star . Html::tag('span', ['class' => 'visually-hidden'], Html::escape($name)),
             );
         }
-        $content = Html::tag('div', ['class' => 'celerik-rating-stars'], $stars);
+        $content = Html::tag('div', ['class' => 'caelrik-rating-stars'], $stars);
 
         // Not required: a choice that clears the rating, so mouse users can undo theirs.
         if (!$this->required) {
             $clearId = $id . '-none';
             $content .= Html::tag(
                 'div',
-                ['class' => 'celerik-rating-clear'],
+                ['class' => 'caelrik-rating-clear'],
                 $radio($clearId, '', $this->stars)
                     . Html::tag('label', ['for' => $clearId], Html::escape($this->clearLabel)),
             );
@@ -1409,13 +1409,13 @@ final class Field
         );
         $fieldset = Html::tag('fieldset', [
             'id' => $id . '-group',
-            'class' => 'celerik-rating',
+            'class' => 'caelrik-rating',
             'aria-describedby' => Html::classes([$helpId, $errorId]),
         ], $legend . $content);
 
         $feedback = $errorId === null ? '' : Html::tag(
             'div',
-            ['id' => $errorId, 'class' => 'invalid-feedback d-block celerik-server-error'],
+            ['id' => $errorId, 'class' => 'invalid-feedback d-block caelrik-server-error'],
             Html::escape($error),
         );
         $help = $helpId === null
@@ -1442,17 +1442,17 @@ final class Field
         $typed = $image === null && $value !== null ? Arr::toText($value) : null;
         $labels = $this->signatureLabels;
 
-        $pad = Html::tag('div', ['class' => 'celerik-signature-pad', 'hidden' => true], Html::tag(
+        $pad = Html::tag('div', ['class' => 'caelrik-signature-pad', 'hidden' => true], Html::tag(
             'p',
             ['id' => $id . '-draw', 'class' => 'form-text mt-0 mb-1'],
             Html::escape($labels['draw']),
-        ) . Html::tag('div', ['class' => 'celerik-signature-surface'], Html::tag('canvas', [
-            'class' => 'celerik-signature-canvas',
+        ) . Html::tag('div', ['class' => 'caelrik-signature-surface'], Html::tag('canvas', [
+            'class' => 'caelrik-signature-canvas',
             'role' => 'img',
             'aria-label' => $labels['empty'],
         ], '')) . Html::tag('button', [
             'type' => 'button',
-            'class' => 'btn btn-sm celerik-action-button btn-outline-secondary celerik-signature-clear',
+            'class' => 'btn btn-sm caelrik-action-button btn-outline-secondary caelrik-signature-clear',
         ], Html::escape($labels['clear'])));
 
         $input = Html::tag('input', array_merge($this->attributes, [
@@ -1466,12 +1466,12 @@ final class Field
             'aria-describedby' => Html::classes([$helpId, $errorId]),
             'aria-invalid' => $error === null ? null : 'true',
             'data-parsley-error-message' => $this->message ?? $labels['missing'],
-            'class' => $this->controlClass('form-control celerik-signature-typed', $error),
+            'class' => $this->controlClass('form-control caelrik-signature-typed', $error),
         ]));
         $hidden = Html::tag('input', [
             'type' => 'hidden',
             'id' => $id . '-image',
-            'class' => 'celerik-signature-value',
+            'class' => 'caelrik-signature-value',
             'value' => $image,
         ]);
 
@@ -1483,13 +1483,13 @@ final class Field
         $label = Html::tag('label', ['for' => $id, 'class' => 'form-label'], Html::escape($labels['type']));
         $fieldset = Html::tag('fieldset', [
             'id' => $id . '-group',
-            'class' => 'celerik-signature',
-            'data-celerik-signature' => self::json(['empty' => $labels['empty'], 'signed' => $labels['signed']]),
+            'class' => 'caelrik-signature',
+            'data-caelrik-signature' => self::json(['empty' => $labels['empty'], 'signed' => $labels['signed']]),
         ], $legend . $pad . $label . $input . $hidden);
 
         $feedback = $errorId === null ? '' : Html::tag(
             'div',
-            ['id' => $errorId, 'class' => 'invalid-feedback d-block celerik-server-error'],
+            ['id' => $errorId, 'class' => 'invalid-feedback d-block caelrik-server-error'],
             Html::escape($error),
         );
         $help = $helpId === null
@@ -1532,14 +1532,14 @@ final class Field
         // The column names, for sighted users: each input has its own (hidden) label.
         $head = Html::tag(
             'div',
-            ['class' => 'celerik-key-value-head', 'aria-hidden' => 'true'],
+            ['class' => 'caelrik-key-value-head', 'aria-hidden' => 'true'],
             Html::tag('span', [], Html::escape($this->pairLabels['key']))
                 . Html::tag('span', [], Html::escape($this->pairLabels['value'])),
         );
         $add = Html::tag('button', [
             'type' => 'button',
             'class' => 'btn btn-sm btn-outline-primary',
-            'data-celerik-key-value-add' => true,
+            'data-caelrik-key-value-add' => true,
         ], Html::escape($this->pairLabels['add']));
         $template = Html::tag(
             'template',
@@ -1558,12 +1558,12 @@ final class Field
         $fieldset = Html::tag('fieldset', [
             'id' => $id . '-group',
             'aria-describedby' => Html::classes([$helpId, $errorId]),
-        ], $legend . $head . Html::tag('ol', ['class' => 'celerik-key-value-rows'], $rows)
+        ], $legend . $head . Html::tag('ol', ['class' => 'caelrik-key-value-rows'], $rows)
             . $add . $template . $datalist);
 
         $feedback = $errorId === null ? '' : Html::tag(
             'div',
-            ['id' => $errorId, 'class' => 'invalid-feedback d-block celerik-server-error'],
+            ['id' => $errorId, 'class' => 'invalid-feedback d-block caelrik-server-error'],
             Html::escape($error),
         );
         $help = $helpId === null
@@ -1571,8 +1571,8 @@ final class Field
             : Html::tag('div', ['id' => $helpId, 'class' => 'form-text'], Html::escape($helpText));
 
         return Html::tag('div', [
-            'class' => 'mb-3 celerik-key-value',
-            'data-celerik-key-value' => self::json([
+            'class' => 'mb-3 caelrik-key-value',
+            'data-caelrik-key-value' => self::json([
                 'id' => $id,
                 'required' => $this->required,
                 'key' => $this->pairLabels['key'],
@@ -1611,14 +1611,14 @@ final class Field
             'data-parsley-keyunique' => 'true',
             'data-parsley-keyunique-message' => $this->pairLabels['duplicate'],
             'data-parsley-error-message' => $this->message,
-            'class' => 'form-control celerik-key-value-key',
+            'class' => 'form-control caelrik-key-value-key',
         ]));
         $value = Html::tag('input', array_merge($this->attributes, [
             'type' => 'text',
             'id' => $valueId,
             'name' => $name . '[value]',
             'value' => $pair['value'] === '' ? null : $pair['value'],
-            'class' => 'form-control celerik-key-value-value',
+            'class' => 'form-control caelrik-key-value-value',
         ]));
         $hiddenLabel = static fn (string $for, string $text): string => Html::tag(
             'label',
@@ -1627,8 +1627,8 @@ final class Field
         );
         $remove = Html::tag('button', [
             'type' => 'button',
-            'class' => 'btn btn-outline-secondary celerik-key-value-remove',
-            'data-celerik-key-value-remove' => true,
+            'class' => 'btn btn-outline-secondary caelrik-key-value-remove',
+            'data-caelrik-key-value-remove' => true,
         ], '<svg aria-hidden="true" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor"'
             . ' stroke-width="2" stroke-linecap="round"><path d="M4 4l8 8M12 4l-8 8"/></svg>'
             . Html::tag(
@@ -1639,7 +1639,7 @@ final class Field
 
         return Html::tag(
             'li',
-            ['class' => 'celerik-key-value-row', 'data-celerik-index' => $index],
+            ['class' => 'caelrik-key-value-row', 'data-caelrik-index' => $index],
             $hiddenLabel($keyId, $this->pairLabels['key']) . $key
                 . $hiddenLabel($valueId, $this->pairLabels['value']) . $value . $remove,
         );
@@ -1720,7 +1720,7 @@ final class Field
 
         $feedback = $errorId === null ? '' : Html::tag(
             'div',
-            ['id' => $errorId, 'class' => 'invalid-feedback d-block celerik-server-error'],
+            ['id' => $errorId, 'class' => 'invalid-feedback d-block caelrik-server-error'],
             Html::escape($error),
         );
         $help = $helpId === null
@@ -1750,7 +1750,7 @@ final class Field
 
         return ': ' . Html::tag('output', [
             'for' => $id,
-            'class' => 'celerik-range-value',
+            'class' => 'caelrik-range-value',
             'aria-hidden' => 'true',
         ], Html::escape(Arr::toText($value)));
     }
@@ -1827,8 +1827,8 @@ final class Field
             'accept' => $rules->accept(),
             'multiple' => $multiple,
             'class' => $this->controlClass('form-control', $error),
-            'data-celerik-upload' => $upload,
-            'data-celerik-image-editor' => $this->imageEditor === null ? null : self::json([
+            'data-caelrik-upload' => $upload,
+            'data-caelrik-image-editor' => $this->imageEditor === null ? null : self::json([
                 'ratios' => $this->imageEditor['ratios'],
                 'maxSize' => $this->imageEditor['maxSize'],
                 'labels' => $this->imageEditorLabels,

@@ -5,7 +5,7 @@ import { axeViolations, MODES, openComponents } from './helpers.mjs';
 const open = async (page, options = {}) => (await openComponents(page, { path: '/pdf', ...options }))
   .filter((error) => !error.includes('missing.pdf') && !error.includes('404'));
 
-const pageWidth = (page, number) => page.locator(`#report .celerik-pdf-page[data-page="${number}"]`)
+const pageWidth = (page, number) => page.locator(`#report .caelrik-pdf-page[data-page="${number}"]`)
   .evaluate((element) => element.getBoundingClientRect().width);
 
 test.describe('PDF viewer', () => {
@@ -16,13 +16,13 @@ test.describe('PDF viewer', () => {
     await expect(viewer).toBeVisible();
     await expect(viewer.getByRole('link', { name: 'Download the PDF' })).toHaveAttribute('href', '/files/report.pdf');
     await expect(viewer.getByRole('group', { name: 'Page 1 of 3' })).toBeVisible();
-    await expect(viewer.locator('.celerik-pdf-total')).toHaveText('of 3');
+    await expect(viewer.locator('.caelrik-pdf-total')).toHaveText('of 3');
 
     // The text layer: screen readers read it, and the browser's search finds it on every page.
     await expect(viewer.getByRole('group', { name: 'Page 3 of 3' })).toContainText('Page 3. Outlook');
     await expect(viewer.getByRole('group', { name: 'Page 1 of 3' }).locator('canvas')).toHaveAttribute('aria-hidden', 'true');
     // The first page is drawn: not a blank canvas.
-    const inked = await viewer.locator('.celerik-pdf-page[data-page="1"] canvas').evaluate((canvas) => {
+    const inked = await viewer.locator('.caelrik-pdf-page[data-page="1"] canvas').evaluate((canvas) => {
       const { data } = canvas.getContext('2d').getImageData(0, 0, canvas.width, canvas.height);
       let dark = 0;
       for (let i = 0; i < data.length; i += 4) dark += data[i] < 128 ? 1 : 0;
@@ -77,18 +77,18 @@ test.describe('PDF viewer', () => {
   test('a document that cannot be opened says so, with a download link', async ({ page }) => {
     await open(page);
     const viewer = page.locator('#missing');
-    await expect(viewer.locator('.celerik-pdf-viewport')).toContainText('This document could not be opened. Download it instead.');
-    await expect(viewer.locator('.celerik-pdf-viewport').getByRole('link', { name: 'Download the PDF' })).toBeVisible();
-    await expect(viewer.locator('.celerik-pdf-toolbar')).toBeHidden();
+    await expect(viewer.locator('.caelrik-pdf-viewport')).toContainText('This document could not be opened. Download it instead.');
+    await expect(viewer.locator('.caelrik-pdf-viewport').getByRole('link', { name: 'Download the PDF' })).toBeVisible();
+    await expect(viewer.locator('.caelrik-pdf-toolbar')).toBeHidden();
   });
 
   test('without JavaScript, a message and the download link', async ({ browser }) => {
     const context = await browser.newContext({ javaScriptEnabled: false });
     const page = await context.newPage();
     await page.goto('/pdf');
-    await expect(page.locator('#report .celerik-pdf-viewport'))
+    await expect(page.locator('#report .caelrik-pdf-viewport'))
       .toContainText('The document is shown here with JavaScript. Download it instead.');
-    await expect(page.locator('#report .celerik-pdf-toolbar')).toBeHidden();
+    await expect(page.locator('#report .caelrik-pdf-toolbar')).toBeHidden();
     await context.close();
   });
 
@@ -96,7 +96,7 @@ test.describe('PDF viewer', () => {
     await page.setViewportSize({ width: 360, height: 800 });
     await open(page);
     expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(360);
-    const viewport = await page.locator('#report .celerik-pdf-viewport').boundingBox();
+    const viewport = await page.locator('#report .caelrik-pdf-viewport').boundingBox();
     expect(await pageWidth(page, 1)).toBeLessThanOrEqual(viewport.width);
   });
 

@@ -1,6 +1,6 @@
 # Getting started
 
-Celerik UI is a set of PHP components that render accessible Bootstrap 5 markup. A small JavaScript bundle then enhances them with proven open-source libraries (DataTables, Chart.js, Parsley.js, FullCalendar, Quill, FilePond, Notyf, Leaflet, elFinder), each loaded only on the pages that use it.
+Caelrik UI is a set of PHP components that render accessible Bootstrap 5 markup. A small JavaScript bundle then enhances them with proven open-source libraries (DataTables, Chart.js, Parsley.js, FullCalendar, Quill, FilePond, Notyf, Leaflet, elFinder), each loaded only on the pages that use it.
 
 You build a component in PHP, print it in your template, and, for server-side data, answer its requests with the same definition.
 
@@ -13,7 +13,7 @@ You build a component in PHP, print it in your template, and, for server-side da
 ## Install
 
 ```bash
-composer require celerik/ui
+composer require caelrik/ui
 ```
 
 Then make the bundle (the package's `public/` folder) available to the browser:
@@ -21,50 +21,50 @@ Then make the bundle (the package's `public/` folder) available to the browser:
 ::: code-group
 
 ```bash [Laravel]
-php artisan vendor:publish --tag=celerik-assets   # copies it to public/vendor/celerik
+php artisan vendor:publish --tag=caelrik-assets   # copies it to public/vendor/caelrik
 ```
 
 ```bash [Symfony]
-# Register Celerik\Ui\Adapters\Symfony\CelerikUiBundle in config/bundles.php, then:
-php bin/console assets:install                    # copies it to public/bundles/celerikui
+# Register Caelrik\Ui\Adapters\Symfony\CaelrikUiBundle in config/bundles.php, then:
+php bin/console assets:install                    # copies it to public/bundles/caelrik
 ```
 
 ```bash [Plain PHP]
-cp -r vendor/celerik/ui/public public/vendor/celerik
+cp -r vendor/caelrik/ui/public public/vendor/caelrik
 ```
 
 :::
 
-Publish the assets again after every Celerik update. Releases include the built bundle, so no Node.js is needed.
+Publish the assets again after every Caelrik update. Releases include the built bundle, so no Node.js is needed.
 
 ### Or use the CDN or npm
 
 Instead of publishing the assets, load the bundle of the installed version from jsDelivr:
 
 ```php
-<?= Celerik\Ui\Assets::tags(Celerik\Ui\Assets::cdnUrl()) ?>
+<?= Caelrik\Ui\Assets::tags(Caelrik\Ui\Assets::cdnUrl()) ?>
 ```
 
 ```blade
-<x-celerik-assets :base-url="Celerik\Ui\Assets::cdnUrl()" />
+<x-caelrik-assets :base-url="Caelrik\Ui\Assets::cdnUrl()" />
 ```
 
 Allow `https://cdn.jsdelivr.net` in `script-src` and `style-src` if you use a [Content Security Policy](./csp). With a JavaScript bundler (Vite, webpack), install it from npm instead:
 
 ```bash
-npm install @celerikui/ui
+npm install @caelrik/ui
 ```
 
 ```js
-import '@celerikui/ui';                       // registers the components and starts them
-import '@celerikui/ui/celerik.css';
+import '@caelrik/ui';                       // registers the components and starts them
+import '@caelrik/ui/caelrik.css';
 ```
 
 The PHP version and the npm version must match: the components and the bundle change together.
 
 ## Load the assets
 
-Load Bootstrap and jQuery first, then the Celerik tags in the `<head>`:
+Load Bootstrap and jQuery first, then the Caelrik tags in the `<head>`:
 
 ::: code-group
 
@@ -72,26 +72,26 @@ Load Bootstrap and jQuery first, then the Celerik tags in the `<head>`:
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
 <script src="https://cdn.jsdelivr.net/npm/jquery@4.0.0/dist/jquery.min.js" defer></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" defer></script>
-<x-celerik-assets />
+<x-caelrik-assets />
 ```
 
 ```twig [Twig]
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
 <script src="https://cdn.jsdelivr.net/npm/jquery@4.0.0/dist/jquery.min.js" defer></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" defer></script>
-{{ celerik_assets() }}
+{{ caelrik_assets() }}
 ```
 
 ```php [Plain PHP]
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
 <script src="https://cdn.jsdelivr.net/npm/jquery@4.0.0/dist/jquery.min.js" defer></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" defer></script>
-<?= Celerik\Ui\Assets::tags('/vendor/celerik') ?>
+<?= Caelrik\Ui\Assets::tags('/vendor/caelrik') ?>
 ```
 
 :::
 
-The tags are a stylesheet and one ES module (`celerik.js`). Module scripts are deferred, so they run after jQuery and Bootstrap.
+The tags are a stylesheet and one ES module (`caelrik.js`). Module scripts are deferred, so they run after jQuery and Bootstrap.
 
 ## Your first component
 
@@ -104,11 +104,11 @@ Print it in your template:
 ::: code-group
 
 ```blade [Blade]
-<x-celerik :component="$grid" />
+<x-caelrik :component="$grid" />
 ```
 
 ```twig [Twig]
-{{ celerik(grid) }}
+{{ caelrik(grid) }}
 ```
 
 ```php [Plain PHP]

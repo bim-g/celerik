@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Celerik\Ui\Data;
+namespace Caelrik\Ui\Data;
 
-use Celerik\Ui\Support\Arr;
+use Caelrik\Ui\Support\Arr;
 
 /**
  * In-memory data source for plain PHP arrays (framework-free apps, fixtures, tests).

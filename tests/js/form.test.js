@@ -48,12 +48,12 @@ describe('form integration (Parsley + Inputmask)', () => {
   });
 
   test('removes the server-side error once the field is re-validated', () => {
-    expect(form.querySelector('.celerik-server-error')).not.toBeNull();
+    expect(form.querySelector('.caelrik-server-error')).not.toBeNull();
 
     field('email').value = 'ada@example.com';
     parsley.validate();
 
-    expect(form.querySelector('.celerik-server-error')).toBeNull();
+    expect(form.querySelector('.caelrik-server-error')).toBeNull();
     expect(field('email').hasAttribute('aria-invalid')).toBe(false);
   });
 
@@ -74,7 +74,7 @@ describe('error summary', () => {
 
   afterEach(() => parsley.destroy());
 
-  const summary = () => form.querySelector('.celerik-error-summary');
+  const summary = () => form.querySelector('.caelrik-error-summary');
   const submit = () => form.dispatchEvent(new Event('submit', { bubbles: true, cancelable: true }));
 
   test('a failed submit lists each error with a link, focuses the summary only', () => {
@@ -99,14 +99,14 @@ describe('error summary', () => {
     expect(document.activeElement.id).toBe('order-email');
 
     summary().querySelector('a[href="#order-notes"]').click();
-    expect(document.activeElement).toBe(form.querySelector('#order-notes').celerikEditor.root);
+    expect(document.activeElement).toBe(form.querySelector('#order-notes').caelrikEditor.root);
   });
 
   test('a successful validation hides it again', () => {
     submit();
     form.querySelector('[name="name"]').value = 'Ada';
     form.querySelector('[name="email"]').value = 'ada@example.com';
-    form.querySelector('#order-notes').celerikEditor.setText('Two please', 'user');
+    form.querySelector('#order-notes').caelrikEditor.setText('Two please', 'user');
     expect(parsley.validate()).toBe(true);
     expect(summary().hidden).toBe(true);
   });
@@ -134,11 +134,11 @@ describe('radio, checkbox group, switch, range and color fields', () => {
       expect(inputs(name).every((input) => input.getAttribute('aria-invalid') === 'true')).toBe(true);
       const group = inputs(name)[0].closest('.mb-3');
       expect(group.querySelector('fieldset')).not.toBeNull();
-      expect(group.querySelector('.parsley-errors-list, .invalid-feedback:not(.celerik-server-error)').textContent)
+      expect(group.querySelector('.parsley-errors-list, .invalid-feedback:not(.caelrik-server-error)').textContent)
         .toMatch(/required/i);
     }
     // The server error is replaced by Parsley's.
-    expect(form.querySelector('.celerik-server-error')).toBeNull();
+    expect(form.querySelector('.caelrik-server-error')).toBeNull();
   });
 
   test('one radio and one checkbox are enough', () => {
@@ -154,7 +154,7 @@ describe('radio, checkbox group, switch, range and color fields', () => {
   test('the range value follows the slider, and a reset', () => {
     jest.useFakeTimers();
     const range = inputs('volume')[0];
-    const output = form.querySelector('output.celerik-range-value');
+    const output = form.querySelector('output.caelrik-range-value');
     expect(output.textContent).toBe('4');
 
     range.value = '7';
@@ -172,7 +172,7 @@ describe('radio, checkbox group, switch, range and color fields', () => {
     const stars = inputs('score');
     expect(stars.length).toBe(5);
     expect(stars.every((input) => input.classList.contains('is-invalid'))).toBe(true);
-    expect(stars[0].closest('.mb-3').querySelector('.invalid-feedback:not(.celerik-server-error)').textContent)
+    expect(stars[0].closest('.mb-3').querySelector('.invalid-feedback:not(.caelrik-server-error)').textContent)
       .toMatch(/required/i);
 
     stars[3].checked = true;
@@ -408,7 +408,7 @@ describe('sections', () => {
 
   afterEach(() => parsley.destroy());
 
-  const company = () => form.querySelector('details.celerik-form-section');
+  const company = () => form.querySelector('details.caelrik-form-section');
   const fillNames = () => {
     form.querySelector('[name="first_name"]').value = 'Ada';
     form.querySelector('[name="last_name"]').value = 'Lovelace';
@@ -421,7 +421,7 @@ describe('sections', () => {
     form.dispatchEvent(new Event('submit', { bubbles: true, cancelable: true }));
 
     expect(company().open).toBe(true);
-    const link = form.querySelector('.celerik-error-summary a');
+    const link = form.querySelector('.caelrik-error-summary a');
     expect(link.getAttribute('href')).toBe('#signup-vat');
   });
 
@@ -429,7 +429,7 @@ describe('sections', () => {
     form.dispatchEvent(new Event('submit', { bubbles: true, cancelable: true }));
     company().open = false;
 
-    form.querySelector('.celerik-error-summary a[href="#signup-vat"]').click();
+    form.querySelector('.caelrik-error-summary a[href="#signup-vat"]').click();
 
     expect(company().open).toBe(true);
     expect(document.activeElement).toBe(form.querySelector('#signup-vat'));
@@ -454,10 +454,10 @@ describe('wizard', () => {
 
   afterEach(() => parsley.destroy());
 
-  const button = (name) => form.querySelector(`[data-celerik-wizard="${name}"]`);
-  const submitButton = () => form.querySelector('.celerik-wizard-nav [type="submit"]');
-  const visibleStep = () => [...form.querySelectorAll('[data-celerik-step]')].findIndex((step) => !step.hidden);
-  const current = () => form.querySelector('.celerik-wizard-steps [aria-current="step"]').textContent;
+  const button = (name) => form.querySelector(`[data-caelrik-wizard="${name}"]`);
+  const submitButton = () => form.querySelector('.caelrik-wizard-nav [type="submit"]');
+  const visibleStep = () => [...form.querySelectorAll('[data-caelrik-step]')].findIndex((step) => !step.hidden);
+  const current = () => form.querySelector('.caelrik-wizard-steps [aria-current="step"]').textContent;
   const fill = (values) => {
     for (const [name, value] of Object.entries(values)) {
       const input = form.querySelector(`[name="${name}"]`);
@@ -491,7 +491,7 @@ describe('wizard', () => {
     expect(document.activeElement.textContent).toBe('Step 2 of 3: Team');
     expect(current()).toMatch(/^2Team/);
     // "(completed)", for screen readers, on the steps before the current one only.
-    const done = [...form.querySelectorAll('.celerik-wizard-done')].map((span) => !span.hidden);
+    const done = [...form.querySelectorAll('.caelrik-wizard-done')].map((span) => !span.hidden);
     expect(done).toEqual([true, false, false]);
     expect(button('previous').hidden).toBe(false);
   });
@@ -510,7 +510,7 @@ describe('wizard', () => {
     expect(visibleStep()).toBe(1);
     expect(invalid()).toEqual([]);
     expect(submitButton().hidden).toBe(true);
-    expect(form.querySelector('.celerik-wizard-steps li:nth-child(3) .celerik-wizard-done').hidden).toBe(true);
+    expect(form.querySelector('.caelrik-wizard-steps li:nth-child(3) .caelrik-wizard-done').hidden).toBe(true);
   });
 
   test('Enter in a field means Next before the last step', async () => {
@@ -544,7 +544,7 @@ describe('wizard', () => {
 
   test('with an error summary: a step lists its errors there, and the links show their step', async () => {
     await setUp('form-wizard-summary');
-    const summary = form.querySelector('.celerik-error-summary');
+    const summary = form.querySelector('.caelrik-error-summary');
 
     button('next').click();
     expect(summary.hidden).toBe(false);
@@ -585,7 +585,7 @@ describe('one-time code', () => {
   afterEach(() => parsley.destroy());
 
   const input = (name) => form.querySelector(`input[name="${name}"]`);
-  const boxes = (name) => [...input(name).closest('.celerik-otp').querySelectorAll('.celerik-otp-slot')]
+  const boxes = (name) => [...input(name).closest('.caelrik-otp').querySelectorAll('.caelrik-otp-slot')]
     .map((slot) => slot.textContent);
   const type = (name, value) => {
     input(name).value = value;
@@ -600,9 +600,9 @@ describe('one-time code', () => {
   });
 
   test('one input over a box per character, the boxes hidden from assistive technology', () => {
-    const wrapper = input('code').closest('.celerik-otp');
-    expect(wrapper.style.getPropertyValue('--celerik-otp-length')).toBe('6');
-    expect(wrapper.querySelector('.celerik-otp-slots').getAttribute('aria-hidden')).toBe('true');
+    const wrapper = input('code').closest('.caelrik-otp');
+    expect(wrapper.style.getPropertyValue('--caelrik-otp-length')).toBe('6');
+    expect(wrapper.querySelector('.caelrik-otp-slots').getAttribute('aria-hidden')).toBe('true');
     expect(boxes('code')).toEqual(['', '', '', '', '', '']);
     expect(boxes('backup')).toEqual(['a', 'b', '1', '2', '', '', '', '']);
     expect(form.querySelectorAll('input[name="code"]').length).toBe(1);
@@ -613,7 +613,7 @@ describe('one-time code', () => {
     type('code', '123 456');
     expect(input('code').value).toBe('123456');
     expect(boxes('code')).toEqual(['1', '2', '3', '4', '5', '6']);
-    const slots = [...input('code').closest('.celerik-otp').querySelectorAll('.celerik-otp-slot')];
+    const slots = [...input('code').closest('.caelrik-otp').querySelectorAll('.caelrik-otp-slot')];
     expect(slots.findIndex((slot) => slot.classList.contains('is-active'))).toBe(5);
 
     type('code', '12');
@@ -624,7 +624,7 @@ describe('one-time code', () => {
 
   test('the code must be complete; the server error stays until then', () => {
     type('code', '123');
-    expect(input('code').closest('.mb-3').querySelector('.celerik-server-error')).toBeNull();
+    expect(input('code').closest('.mb-3').querySelector('.caelrik-server-error')).toBeNull();
     expect(form.querySelector('#verify-backup-error').textContent).toBe('This code has expired.');
     expect(parsley.validate()).toBe(false);
     expect(input('code').classList.contains('is-invalid')).toBe(true);
@@ -658,10 +658,10 @@ describe('repeater', () => {
 
   afterEach(() => parsley.destroy());
 
-  const rows = () => [...form.querySelectorAll('.celerik-repeater-items > li')];
-  const keys = () => rows().map((row) => row.getAttribute('data-celerik-key'));
+  const rows = () => [...form.querySelectorAll('.caelrik-repeater-items > li')];
+  const keys = () => rows().map((row) => row.getAttribute('data-caelrik-key'));
   const labels = () => rows().map((row) => row.querySelector('legend').textContent);
-  const add = () => form.querySelector('[data-celerik-repeater-add]');
+  const add = () => form.querySelector('[data-caelrik-repeater-add]');
   const addRow = async () => {
     add().click();
     // The row's searchable select is set up asynchronously.
@@ -695,19 +695,19 @@ describe('repeater', () => {
     await addRow();
 
     expect(parsley.validate()).toBe(false);
-    const links = [...form.querySelectorAll('.celerik-error-summary a')].map((a) => a.getAttribute('href'));
+    const links = [...form.querySelectorAll('.caelrik-error-summary a')].map((a) => a.getAttribute('href'));
     expect(links).toEqual(['#order-lines-0-product', '#order-lines-0-qty', '#order-lines-1-product', '#order-lines-1-qty']);
   });
 
   test('min and max: Remove and Add are disabled at the limits', async () => {
     await setUp();
-    expect(within(rows()[0], '[data-celerik-repeater-remove]').disabled).toBe(true);
+    expect(within(rows()[0], '[data-caelrik-repeater-remove]').disabled).toBe(true);
 
     await addRow();
     await addRow();
     expect(rows()).toHaveLength(3);
     expect(add().disabled).toBe(true);
-    expect(rows().every((row) => !within(row, '[data-celerik-repeater-remove]').disabled)).toBe(true);
+    expect(rows().every((row) => !within(row, '[data-caelrik-repeater-remove]').disabled)).toBe(true);
   });
 
   test('Remove deletes the row, renames the others and moves focus to the next row', async () => {
@@ -715,7 +715,7 @@ describe('repeater', () => {
     await addRow();
     await addRow();
 
-    within(rows()[1], '[data-celerik-repeater-remove]').click();
+    within(rows()[1], '[data-caelrik-repeater-remove]').click();
 
     expect(keys()).toEqual(['0', '2']);
     expect(labels()).toEqual(['Line 1', 'Line 2']);
@@ -734,7 +734,7 @@ describe('repeater', () => {
     await setUp();
     await addRow();
     const second = rows()[1];
-    const up = within(second, '[data-celerik-repeater-move="up"]');
+    const up = within(second, '[data-caelrik-repeater-move="up"]');
     up.focus();
 
     up.click();
@@ -743,7 +743,7 @@ describe('repeater', () => {
     expect(labels()).toEqual(['Line 1', 'Line 2']);
     // Up is now disabled at the top: focus moves to Down.
     expect(up.disabled).toBe(true);
-    expect(document.activeElement).toBe(within(second, '[data-celerik-repeater-move="down"]'));
+    expect(document.activeElement).toBe(within(second, '[data-caelrik-repeater-move="down"]'));
 
     document.activeElement.click();
     expect(keys()).toEqual(['0', '1']);
@@ -751,16 +751,16 @@ describe('repeater', () => {
 
   test('a wizard step checks the rows added to it', async () => {
     await setUp('form-wizard-repeater');
-    const next = form.querySelector('[data-celerik-wizard="next"]');
+    const next = form.querySelector('[data-caelrik-wizard="next"]');
     await addRow();
 
     next.click();
-    expect(form.querySelector('[data-celerik-step="0"]').hidden).toBe(false);
+    expect(form.querySelector('[data-caelrik-step="0"]').hidden).toBe(false);
     expect(form.querySelector('[name="people[0][name]"]').classList.contains('is-invalid')).toBe(true);
 
     form.querySelector('[name="people[0][name]"]').value = 'Ada';
     next.click();
-    expect(form.querySelector('[data-celerik-step="1"]').hidden).toBe(false);
+    expect(form.querySelector('[data-caelrik-step="1"]').hidden).toBe(false);
   });
 });
 
@@ -775,10 +775,10 @@ describe('key-value list', () => {
 
   afterEach(() => parsley.destroy());
 
-  const list = (name) => form.querySelector(`#webhook-${name}-group`).closest('.celerik-key-value');
-  const rows = (name) => [...list(name).querySelectorAll('.celerik-key-value-rows > li')];
-  const keys = (name) => rows(name).map((row) => row.querySelector('.celerik-key-value-key'));
-  const values = (name) => rows(name).map((row) => row.querySelector('.celerik-key-value-value'));
+  const list = (name) => form.querySelector(`#webhook-${name}-group`).closest('.caelrik-key-value');
+  const rows = (name) => [...list(name).querySelectorAll('.caelrik-key-value-rows > li')];
+  const keys = (name) => rows(name).map((row) => row.querySelector('.caelrik-key-value-key'));
+  const values = (name) => rows(name).map((row) => row.querySelector('.caelrik-key-value-value'));
   const type = (input, value) => {
     input.value = value;
     input.dispatchEvent(new Event('input', { bubbles: true }));
@@ -793,20 +793,20 @@ describe('key-value list', () => {
   });
 
   test('adds a row with the next index, numbered by position, and focuses its key', () => {
-    list('meta').querySelector('[data-celerik-key-value-add]').click();
+    list('meta').querySelector('[data-caelrik-key-value-add]').click();
 
     expect(rows('meta').length).toBe(3);
     const key = keys('meta')[2];
     expect(key.name).toBe('meta[2][key]');
     expect(document.activeElement).toBe(key);
     expect(form.querySelector(`label[for="${key.id}"]`).textContent).toBe('Key 3');
-    expect(rows('meta')[2].querySelector('[data-celerik-key-value-remove]').textContent).toBe('Remove row 3');
+    expect(rows('meta')[2].querySelector('[data-caelrik-key-value-remove]').textContent).toBe('Remove row 3');
     expect(key.getAttribute('list')).toBeNull();
     expect(keys('headers')[0].getAttribute('list')).toBe('webhook-headers-keys');
   });
 
   test('removes a row, renumbers the others and moves the focus', () => {
-    rows('meta')[0].querySelector('[data-celerik-key-value-remove]').click();
+    rows('meta')[0].querySelector('[data-caelrik-key-value-remove]').click();
 
     expect(keys('meta').map((key) => key.value)).toEqual(['team']);
     expect(form.querySelector(`label[for="${keys('meta')[0].id}"]`).textContent).toBe('Key 1');
@@ -814,11 +814,11 @@ describe('key-value list', () => {
     expect(keys('meta')[0].id).toBe('webhook-meta');
     expect(document.activeElement).toBe(keys('meta')[0]);
     // The server error on the list is stale.
-    expect(list('meta').querySelector('.celerik-server-error')).toBeNull();
+    expect(list('meta').querySelector('.caelrik-server-error')).toBeNull();
 
-    rows('meta')[0].querySelector('[data-celerik-key-value-remove]').click();
+    rows('meta')[0].querySelector('[data-caelrik-key-value-remove]').click();
     expect(rows('meta').length).toBe(0);
-    expect(document.activeElement).toBe(list('meta').querySelector('[data-celerik-key-value-add]'));
+    expect(document.activeElement).toBe(list('meta').querySelector('[data-caelrik-key-value-add]'));
     expect(new FormData(form).has('meta[1][key]')).toBe(false);
   });
 
@@ -827,7 +827,7 @@ describe('key-value list', () => {
     expect(keys('headers')[0].classList.contains('is-invalid')).toBe(true);
     expect(message(keys('headers')[0])).toBe('Enter a key for this value.');
 
-    rows('headers')[0].querySelector('[data-celerik-key-value-remove]').click();
+    rows('headers')[0].querySelector('[data-caelrik-key-value-remove]').click();
     expect(rows('headers').length).toBe(1);
     expect(keys('headers')[0].required).toBe(true);
     expect(document.activeElement).toBe(keys('headers')[0]);

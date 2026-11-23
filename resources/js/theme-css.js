@@ -16,62 +16,62 @@ export const SHADOWS = {
 };
 
 // Bootstrap compiles these components with its default blue: bind them to the theme.
-// The calendar follows --bs-primary and --celerik-on-primary through celerik.css.
+// The calendar follows --bs-primary and --caelrik-on-primary through caelrik.css.
 const BOOTSTRAP_BINDINGS = `.btn-primary {
-  --bs-btn-color: var(--celerik-on-primary);
-  --bs-btn-bg: var(--celerik-primary);
-  --bs-btn-border-color: var(--celerik-primary);
-  --bs-btn-hover-color: var(--celerik-on-primary);
-  --bs-btn-hover-bg: var(--celerik-primary-hover);
-  --bs-btn-hover-border-color: var(--celerik-primary-hover);
-  --bs-btn-active-color: var(--celerik-on-primary);
-  --bs-btn-active-bg: var(--celerik-primary-hover);
-  --bs-btn-active-border-color: var(--celerik-primary-hover);
-  --bs-btn-disabled-color: var(--celerik-on-primary);
-  --bs-btn-disabled-bg: var(--celerik-primary);
-  --bs-btn-disabled-border-color: var(--celerik-primary);
+  --bs-btn-color: var(--caelrik-on-primary);
+  --bs-btn-bg: var(--caelrik-primary);
+  --bs-btn-border-color: var(--caelrik-primary);
+  --bs-btn-hover-color: var(--caelrik-on-primary);
+  --bs-btn-hover-bg: var(--caelrik-primary-hover);
+  --bs-btn-hover-border-color: var(--caelrik-primary-hover);
+  --bs-btn-active-color: var(--caelrik-on-primary);
+  --bs-btn-active-bg: var(--caelrik-primary-hover);
+  --bs-btn-active-border-color: var(--caelrik-primary-hover);
+  --bs-btn-disabled-color: var(--caelrik-on-primary);
+  --bs-btn-disabled-bg: var(--caelrik-primary);
+  --bs-btn-disabled-border-color: var(--caelrik-primary);
   --bs-btn-focus-shadow-rgb: var(--bs-primary-rgb);
 }
 
 .btn-outline-primary {
-  --bs-btn-color: var(--celerik-primary);
-  --bs-btn-border-color: var(--celerik-primary);
-  --bs-btn-hover-color: var(--celerik-on-primary);
-  --bs-btn-hover-bg: var(--celerik-primary);
-  --bs-btn-hover-border-color: var(--celerik-primary);
-  --bs-btn-active-color: var(--celerik-on-primary);
-  --bs-btn-active-bg: var(--celerik-primary-hover);
-  --bs-btn-active-border-color: var(--celerik-primary-hover);
+  --bs-btn-color: var(--caelrik-primary);
+  --bs-btn-border-color: var(--caelrik-primary);
+  --bs-btn-hover-color: var(--caelrik-on-primary);
+  --bs-btn-hover-bg: var(--caelrik-primary);
+  --bs-btn-hover-border-color: var(--caelrik-primary);
+  --bs-btn-active-color: var(--caelrik-on-primary);
+  --bs-btn-active-bg: var(--caelrik-primary-hover);
+  --bs-btn-active-border-color: var(--caelrik-primary-hover);
   --bs-btn-focus-shadow-rgb: var(--bs-primary-rgb);
 }
 
 .form-control,
 .form-select,
 .form-check-input {
-  border-color: var(--celerik-input-border);
+  border-color: var(--caelrik-input-border);
 }
 
 .form-control:focus,
 .form-select:focus,
 .form-check-input:focus {
-  border-color: var(--celerik-primary);
+  border-color: var(--caelrik-primary);
   box-shadow: 0 0 0 0.25rem rgba(var(--bs-primary-rgb), 0.25);
 }
 
 .form-check-input:checked {
-  background-color: var(--celerik-primary);
-  border-color: var(--celerik-primary);
+  background-color: var(--caelrik-primary);
+  border-color: var(--caelrik-primary);
 }
 
 .nav-pills {
-  --bs-nav-pills-link-active-bg: var(--celerik-primary);
-  --bs-nav-pills-link-active-color: var(--celerik-on-primary);
+  --bs-nav-pills-link-active-bg: var(--caelrik-primary);
+  --bs-nav-pills-link-active-color: var(--caelrik-on-primary);
 }
 
 .pagination {
-  --bs-pagination-active-bg: var(--celerik-primary);
-  --bs-pagination-active-border-color: var(--celerik-primary);
-  --bs-pagination-active-color: var(--celerik-on-primary);
+  --bs-pagination-active-bg: var(--caelrik-primary);
+  --bs-pagination-active-border-color: var(--caelrik-primary);
+  --bs-pagination-active-color: var(--caelrik-on-primary);
   --bs-pagination-focus-box-shadow: 0 0 0 0.25rem rgba(var(--bs-primary-rgb), 0.25);
 }`;
 
@@ -105,16 +105,16 @@ function palette(theme, mode) {
     '--bs-form-invalid-color': color.danger,
     '--bs-form-invalid-border-color': color.danger,
     '--bs-danger-text-emphasis': color.danger,
-    '--celerik-primary': color.primary,
-    '--celerik-on-primary': color.onPrimary,
-    '--celerik-primary-hover': color.primaryHover,
-    '--celerik-input-border': color.inputBorder,
+    '--caelrik-primary': color.primary,
+    '--caelrik-on-primary': color.onPrimary,
+    '--caelrik-primary-hover': color.primaryHover,
+    '--caelrik-input-border': color.inputBorder,
   };
 }
 
 // The theme's stylesheet: the same text as Theme::toCss() for a valid theme.
 export function themeToCss(theme) {
-  let css = `/* Celerik UI theme "${theme.name}". Load it after celerik.css. */\n`;
+  let css = `/* Caelrik UI theme "${theme.name}". Load it after caelrik.css. */\n`;
   css += block(':root,\n[data-bs-theme=light]', palette(theme, 'light'));
   css += `\n${block('[data-bs-theme=dark]', palette(theme, 'dark'))}`;
 
@@ -122,13 +122,13 @@ export function themeToCss(theme) {
   if (theme.radius !== undefined && theme.radius !== null) {
     const radius = `${Math.round(theme.radius * 1000) / 1000}rem`;
     shape['--bs-border-radius'] = radius;
-    shape['--celerik-radius'] = radius;
+    shape['--caelrik-radius'] = radius;
   }
   if (theme.fontFamily) {
     shape['--bs-body-font-family'] = theme.fontFamily;
   }
   if (theme.shadow) {
-    shape['--celerik-surface-shadow'] = SHADOWS[theme.shadow];
+    shape['--caelrik-surface-shadow'] = SHADOWS[theme.shadow];
   }
   if (Object.keys(shape).length > 0) {
     css += `\n${block(':root', shape)}`;
@@ -187,7 +187,7 @@ export function validateTheme(data) {
   if (data.base !== undefined && data.base !== 'bootstrap') {
     return {
       error: ['material', 'tailwind'].includes(data.base)
-        ? `The ${data.base[0].toUpperCase()}${data.base.slice(1)} look was removed in Celerik UI 0.2.0: Celerik UI is `
+        ? `The ${data.base[0].toUpperCase()}${data.base.slice(1)} look was removed in Caelrik UI 0.2.0: Caelrik UI is `
           + 'Bootstrap only. Use "bootstrap", and a custom theme (Theme::toCss()) for your colors, radius and font.'
         : 'The theme base can only be "bootstrap".',
     };

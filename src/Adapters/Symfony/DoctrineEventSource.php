@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Celerik\Ui\Adapters\Symfony;
+namespace Caelrik\Ui\Adapters\Symfony;
 
-use Celerik\Ui\Data\DataRequest;
-use Celerik\Ui\Data\DateRange;
-use Celerik\Ui\Data\Event;
-use Celerik\Ui\Data\EventSourceInterface;
+use Caelrik\Ui\Data\DataRequest;
+use Caelrik\Ui\Data\DateRange;
+use Caelrik\Ui\Data\Event;
+use Caelrik\Ui\Data\EventSourceInterface;
 use Doctrine\ORM\QueryBuilder;
 use InvalidArgumentException;
 
@@ -64,21 +64,21 @@ final class DoctrineEventSource implements EventSourceInterface
         $alias = $query->getRootAliases()[0];
         $start = $alias . '.' . $this->fields['start'];
 
-        $query->andWhere($start . ' < :celerik_range_end')->setParameter('celerik_range_end', $range->end);
+        $query->andWhere($start . ' < :caelrik_range_end')->setParameter('caelrik_range_end', $range->end);
 
         if ($this->fields['end'] === null) {
-            $query->andWhere($start . ' >= :celerik_range_start');
+            $query->andWhere($start . ' >= :caelrik_range_start');
         } else {
             $end = $alias . '.' . $this->fields['end'];
             // Ends after the range starts, or has no end and starts inside the range.
             $query->andWhere(sprintf(
-                '(%2$s > :celerik_range_start OR (%2$s IS NULL AND %1$s >= :celerik_range_start))',
+                '(%2$s > :caelrik_range_start OR (%2$s IS NULL AND %1$s >= :caelrik_range_start))',
                 $start,
                 $end,
             ));
         }
 
-        $query->setParameter('celerik_range_start', $range->start)->addOrderBy($start);
+        $query->setParameter('caelrik_range_start', $range->start)->addOrderBy($start);
 
         $events = [];
         foreach ($query->getQuery()->getArrayResult() as $row) {

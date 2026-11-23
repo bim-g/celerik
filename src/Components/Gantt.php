@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Celerik\Ui\Components;
+namespace Caelrik\Ui\Components;
 
-use Celerik\Ui\Component;
-use Celerik\Ui\Support\Html;
+use Caelrik\Ui\Component;
+use Caelrik\Ui\Support\Html;
 use DateTimeImmutable;
 use DateTimeInterface;
 use InvalidArgumentException;
@@ -198,7 +198,7 @@ final class Gantt extends Component
             . Html::tag('th', ['scope' => 'col'], Html::escape($this->labels['depends']))
             . Html::tag(
                 'th',
-                ['scope' => 'col', 'class' => 'celerik-gantt-timeline'],
+                ['scope' => 'col', 'class' => 'caelrik-gantt-timeline'],
                 Html::tag('span', ['class' => 'visually-hidden'], Html::escape($this->labels['timeline']))
                 . $this->scaleSvg($from, $to, $width),
             ));
@@ -211,20 +211,20 @@ final class Gantt extends Component
         // The name stays above the scrolling region: it names the region and the table.
         $table = Html::tag(
             'table',
-            ['class' => 'celerik-gantt-table', 'aria-labelledby' => $labelId],
+            ['class' => 'caelrik-gantt-table', 'aria-labelledby' => $labelId],
             Html::tag('thead', [], $head) . Html::tag('tbody', [], $rows),
         );
 
         return Html::tag('div', $this->rootAttributes([
-            'celerik-gantt',
-            'celerik-gantt-' . $this->scale,
-        ]), Html::tag('p', ['id' => $labelId, 'class' => 'celerik-gantt-label'], Html::escape($this->label))
+            'caelrik-gantt',
+            'caelrik-gantt-' . $this->scale,
+        ]), Html::tag('p', ['id' => $labelId, 'class' => 'caelrik-gantt-label'], Html::escape($this->label))
             . Html::tag('div', [
-                'class' => 'celerik-gantt-scroll',
+                'class' => 'caelrik-gantt-scroll',
                 'role' => 'region',
                 'aria-labelledby' => $labelId,
                 'tabindex' => '0',
-            ], Html::tag('div', ['class' => 'celerik-gantt-canvas'], $table)));
+            ], Html::tag('div', ['class' => 'caelrik-gantt-canvas'], $table)));
     }
 
     /**
@@ -268,13 +268,13 @@ final class Gantt extends Component
         $dayWidth = self::DAY_WIDTH[$this->scale];
         $x = self::days($from, $task['start']) * $dayWidth;
         $length = (self::days($task['start'], $task['end']) + 1) * $dayWidth;
-        $class = 'celerik-gantt-' . $task['color'];
+        $class = 'caelrik-gantt-' . $task['color'];
 
         if ($task['milestone']) {
             $cx = $x + $dayWidth / 2;
             $mid = self::ROW / 2;
             $shape = Html::tag('polygon', [
-                'class' => 'celerik-gantt-milestone ' . $class,
+                'class' => 'caelrik-gantt-milestone ' . $class,
                 'points' => sprintf(
                     '%s,%d %s,%d %s,%d %s,%d',
                     self::n($cx),
@@ -290,7 +290,7 @@ final class Gantt extends Component
             ], '');
         } else {
             $shape = Html::tag('rect', [
-                'class' => 'celerik-gantt-bar ' . $class,
+                'class' => 'caelrik-gantt-bar ' . $class,
                 'x' => self::n($x + 1),
                 'y' => '6',
                 'width' => self::n(max(2, $length - 2)),
@@ -300,7 +300,7 @@ final class Gantt extends Component
             ], '');
             if (($task['progress'] ?? 0) > 0) {
                 $shape .= Html::tag('rect', [
-                    'class' => 'celerik-gantt-done ' . $class,
+                    'class' => 'caelrik-gantt-done ' . $class,
                     'x' => self::n($x + 1),
                     'y' => '6',
                     'width' => self::n(max(2, $length - 2) * $task['progress'] / 100),
@@ -319,13 +319,13 @@ final class Gantt extends Component
             'class' => $task['milestone'] ? 'is-milestone' : null,
             'data-task' => $id,
             'data-depends' => $task['depends'] === [] ? null : implode(' ', $task['depends']),
-        ], Html::tag('th', ['scope' => 'row', 'class' => 'celerik-gantt-name'], Html::escape($task['name']))
+        ], Html::tag('th', ['scope' => 'row', 'class' => 'caelrik-gantt-name'], Html::escape($task['name']))
             . Html::tag('td', [], $this->time($task['start']))
             . Html::tag('td', [], $this->time($task['end']))
             . Html::tag('td', [], $progress)
             . Html::tag('td', [], Html::escape(implode(', ', $names)))
-            . Html::tag('td', ['class' => 'celerik-gantt-timeline'], Html::tag('svg', [
-                'class' => 'celerik-gantt-row',
+            . Html::tag('td', ['class' => 'caelrik-gantt-timeline'], Html::tag('svg', [
+                'class' => 'caelrik-gantt-row',
                 'width' => (string) $width,
                 'height' => (string) self::ROW,
                 'viewBox' => '0 0 ' . $width . ' ' . self::ROW,
@@ -366,7 +366,7 @@ final class Gantt extends Component
         }
 
         return Html::tag('svg', [
-            'class' => 'celerik-gantt-scale',
+            'class' => 'caelrik-gantt-scale',
             'width' => (string) $width,
             'height' => (string) self::HEAD,
             'viewBox' => '0 0 ' . $width . ' ' . self::HEAD,
@@ -386,7 +386,7 @@ final class Gantt extends Component
             $x = self::days($from, $day) * $dayWidth;
             if ($this->scale === 'day' && (int) $day->format('N') >= 6) {
                 $lines .= Html::tag('rect', [
-                    'class' => 'celerik-gantt-weekend',
+                    'class' => 'caelrik-gantt-weekend',
                     'x' => (string) $x,
                     'y' => '0',
                     'width' => (string) $dayWidth,
@@ -400,7 +400,7 @@ final class Gantt extends Component
             };
             if ($boundary && $day != $from) {
                 $lines .= Html::tag('line', [
-                    'class' => 'celerik-gantt-grid',
+                    'class' => 'caelrik-gantt-grid',
                     'x1' => (string) $x,
                     'y1' => '0',
                     'x2' => (string) $x,
@@ -424,7 +424,7 @@ final class Gantt extends Component
         }
 
         return Html::tag('line', [
-            'class' => 'celerik-gantt-today',
+            'class' => 'caelrik-gantt-today',
             'x1' => self::n($x),
             'y1' => '0',
             'x2' => self::n($x),

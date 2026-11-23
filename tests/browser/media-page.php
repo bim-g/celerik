@@ -7,8 +7,8 @@
 
 declare(strict_types=1);
 
-use Celerik\Ui\Assets;
-use Celerik\Ui\Components\MediaPlayer;
+use Caelrik\Ui\Assets;
+use Caelrik\Ui\Components\MediaPlayer;
 
 $mode = ($_GET['mode'] ?? '') === 'dark' ? 'dark' : 'light';
 $transcript = [[0, 'A soft tone starts.', 'Narrator'], [2, 'The tone goes on.'], ['0:04', 'The tone fades out.']];

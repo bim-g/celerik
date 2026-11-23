@@ -13,9 +13,9 @@
 
 declare(strict_types=1);
 
-use Celerik\Ui\Components\Scheduler;
-use Celerik\Ui\Data\ArrayEventSource;
-use Celerik\Ui\Data\Event;
+use Caelrik\Ui\Components\Scheduler;
+use Caelrik\Ui\Data\ArrayEventSource;
+use Caelrik\Ui\Data\Event;
 
 /** @var string $path */
 

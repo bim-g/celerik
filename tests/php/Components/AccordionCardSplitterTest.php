@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Celerik\Ui\Tests\Components;
+namespace Caelrik\Ui\Tests\Components;
 
-use Celerik\Ui\Components\Accordion;
-use Celerik\Ui\Components\Action;
-use Celerik\Ui\Components\Card;
-use Celerik\Ui\Components\Form;
-use Celerik\Ui\Components\Splitter;
-use Celerik\Ui\Support\Html;
+use Caelrik\Ui\Components\Accordion;
+use Caelrik\Ui\Components\Action;
+use Caelrik\Ui\Components\Card;
+use Caelrik\Ui\Components\Form;
+use Caelrik\Ui\Components\Splitter;
+use Caelrik\Ui\Support\Html;
 use InvalidArgumentException;
 use LogicException;
 use PHPUnit\Framework\TestCase;
@@ -23,7 +23,7 @@ final class AccordionCardSplitterTest extends TestCase
             ->panel('Returns', Html::raw('<p>Thirty days.</p>'));
         $html = $accordion->render();
 
-        self::assertStringContainsString('<div id="faq" class="accordion celerik-accordion" data-celerik="accordion"', $html);
+        self::assertStringContainsString('<div id="faq" class="accordion caelrik-accordion" data-caelrik="accordion"', $html);
         self::assertStringContainsString(
             '<h4 class="accordion-header"><button type="button" class="accordion-button" id="faq-button-1" '
             . 'aria-expanded="true" aria-controls="faq-panel-1">Shipping &lt;fast&gt;</button></h4>',
@@ -51,14 +51,14 @@ final class AccordionCardSplitterTest extends TestCase
             ->footer('Updated today')
             ->render();
 
-        self::assertStringContainsString('<div id="revenue" class="card celerik-card" data-celerik="card"', $html);
+        self::assertStringContainsString('<div id="revenue" class="card caelrik-card" data-caelrik="card"', $html);
         self::assertStringContainsString(
-            '<h2 class="card-title h5"><a class="stretched-link celerik-card-link" href="/reports/revenue">Revenue &lt;Q4&gt;</a></h2>',
+            '<h2 class="card-title h5"><a class="stretched-link caelrik-card-link" href="/reports/revenue">Revenue &lt;Q4&gt;</a></h2>',
             $html,
         );
         self::assertStringContainsString('<p class="card-subtitle mb-2 text-body-secondary">November</p><p class="card-text">Up 12%.</p><canvas></canvas>', $html);
         self::assertStringNotContainsString('<img', $html);
-        self::assertStringContainsString('<div class="celerik-card-actions">', $html);
+        self::assertStringContainsString('<div class="caelrik-card-actions">', $html);
         self::assertStringContainsString('<div class="card-footer text-body-secondary">Updated today</div>', $html);
         self::assertSame(1, substr_count($html, 'id="rename-report-modal"'));
 
@@ -74,10 +74,10 @@ final class AccordionCardSplitterTest extends TestCase
             ->pane('Details', label: 'Details');
         $html = $splitter->render();
 
-        self::assertStringContainsString('class="celerik-splitter celerik-splitter-vertical" data-celerik="splitter"', $html);
-        self::assertStringContainsString('<div class="celerik-splitter-pane" id="mail-pane-1" data-size="30" data-min="20" data-max="60">Folders</div>', $html);
+        self::assertStringContainsString('class="caelrik-splitter caelrik-splitter-vertical" data-caelrik="splitter"', $html);
+        self::assertStringContainsString('<div class="caelrik-splitter-pane" id="mail-pane-1" data-size="30" data-min="20" data-max="60">Folders</div>', $html);
         self::assertStringContainsString(
-            '<div class="celerik-splitter-handle" role="separator" tabindex="0" aria-orientation="horizontal" '
+            '<div class="caelrik-splitter-handle" role="separator" tabindex="0" aria-orientation="horizontal" '
             . 'aria-controls="mail-pane-1" aria-valuemin="20" aria-valuemax="60" aria-valuenow="30" aria-label="Resize Folders"></div>',
             $html,
         );

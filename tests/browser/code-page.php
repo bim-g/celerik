@@ -7,9 +7,9 @@
 
 declare(strict_types=1);
 
-use Celerik\Ui\Assets;
-use Celerik\Ui\Components\Form;
-use Celerik\Ui\Components\Form\Field;
+use Caelrik\Ui\Assets;
+use Caelrik\Ui\Components\Form;
+use Caelrik\Ui\Components\Form\Field;
 
 $mode = ($_GET['mode'] ?? '') === 'dark' ? 'dark' : 'light';
 $php = "<?php\n\n// Greets someone.\nfunction greet(string \$name): string\n{\n    return \"Hello, {\$name}!\";\n}\n\necho greet('Ada') . 42;\n";
@@ -20,12 +20,12 @@ $php = "<?php\n\n// Greets someone.\nfunction greet(string \$name): string\n{\n 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="Content-Security-Policy"
-          content="default-src 'self'; script-src 'self' 'nonce-celerik-test'; style-src 'self' 'nonce-celerik-test'; img-src 'self' data:">
+          content="default-src 'self'; script-src 'self' 'nonce-caelrik-test'; style-src 'self' 'nonce-caelrik-test'; img-src 'self' data:">
     <link rel="icon" href="data:,">
     <title>Code (<?= $mode ?>)</title>
     <link rel="stylesheet" href="/vendor/bootstrap/css/bootstrap.min.css">
     <script src="/vendor/jquery/jquery.min.js" defer></script>
-    <?= Assets::tags('/assets', 'celerik-test') ?>
+    <?= Assets::tags('/assets', 'caelrik-test') ?>
 </head>
 <body>
 <main class="container py-3">

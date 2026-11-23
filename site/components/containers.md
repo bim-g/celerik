@@ -51,5 +51,5 @@ Splitter::make('mail')
 - **The [WAI-ARIA window splitter](https://www.w3.org/WAI/ARIA/apg/patterns/windowsplitter/)**: each divider is a focusable `separator` named "Resize Folders" (`labels(['resize' => ...])`), valued by the size of the pane before it.
 - **Keyboard**: Left and Right (Up and Down when vertical) resize by 5%, Home and End go to the pane's limits, Enter collapses it to its minimum and back.
 - **Pointer**: drag the divider with a mouse, pen or finger. Its target is 24px wide.
-- **The splitter fires `celerik:resize`** with the panes' sizes.
+- **The splitter fires `caelrik:resize`** with the panes' sizes.
 - **No inline styles**: sizes are set from JavaScript, so pages keep a strict Content Security Policy. Without JavaScript the panes share the space and the dividers are hidden.

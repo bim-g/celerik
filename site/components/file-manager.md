@@ -8,15 +8,15 @@ It needs a server, so there is no live demo on this site: see `examples/plain/fi
 
 ```bash
 composer require studio-42/elfinder
-php artisan vendor:publish --tag=celerik-elfinder   # Laravel: elFinder's assets in public/vendor/elfinder
+php artisan vendor:publish --tag=caelrik-elfinder   # Laravel: elFinder's assets in public/vendor/elfinder
 ```
 
 In Symfony or plain PHP, serve `vendor/studio-42/elfinder/{css,img,js,sounds}` under a URL, for example `/elfinder/`.
 
 ```php
-use Celerik\Ui\Components\FileManager;
-use Celerik\Ui\FileManager\{FileManagerConfig, FileManagerConnector};
-use Celerik\Ui\Upload\UploadRules;
+use Caelrik\Ui\Components\FileManager;
+use Caelrik\Ui\FileManager\{FileManagerConfig, FileManagerConnector};
+use Caelrik\Ui\Upload\UploadRules;
 
 // The page
 $fileManager = FileManager::make('files')

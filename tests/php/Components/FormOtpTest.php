@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Celerik\Ui\Tests\Components;
+namespace Caelrik\Ui\Tests\Components;
 
-use Celerik\Ui\Components\Form;
-use Celerik\Ui\Components\Form\Field;
-use Celerik\Ui\Components\Form\Repeater;
+use Caelrik\Ui\Components\Form;
+use Caelrik\Ui\Components\Form\Field;
+use Caelrik\Ui\Components\Form\Repeater;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 
@@ -19,10 +19,10 @@ final class FormOtpTest extends TestCase
         )->render();
 
         self::assertStringContainsString(
-            '<div class="mb-3"><label for="f-code" class="form-label">Verification code <span class="celerik-required" aria-hidden="true">*</span></label>'
+            '<div class="mb-3"><label for="f-code" class="form-label">Verification code <span class="caelrik-required" aria-hidden="true">*</span></label>'
             . '<input id="f-code" name="code" required aria-describedby="f-code-help" data-parsley-error-message="Enter the 6-digit code."'
             . ' type="text" inputmode="numeric" autocomplete="one-time-code"'
-            . ' autocapitalize="off" spellcheck="false" maxlength="6" pattern="[0-9]{6}" class="form-control celerik-otp-input" size="6" data-celerik-otp="6">',
+            . ' autocapitalize="off" spellcheck="false" maxlength="6" pattern="[0-9]{6}" class="form-control caelrik-otp-input" size="6" data-caelrik-otp="6">',
             $html,
         );
         // No inline style: a strict Content Security Policy blocks style attributes.
@@ -39,10 +39,10 @@ final class FormOtpTest extends TestCase
 
         self::assertStringContainsString(
             'value="K7M2QX9A" inputmode="text" autocomplete="one-time-code" autocapitalize="off" spellcheck="false" maxlength="8" pattern="[A-Za-z0-9]{8}"'
-            . ' class="form-control celerik-otp-input is-invalid" size="8" data-celerik-otp="8">',
+            . ' class="form-control caelrik-otp-input is-invalid" size="8" data-caelrik-otp="8">',
             $html,
         );
-        self::assertStringContainsString('<div id="f-code-error" class="invalid-feedback celerik-server-error">This code has expired.</div>', $html);
+        self::assertStringContainsString('<div id="f-code-error" class="invalid-feedback caelrik-server-error">This code has expired.</div>', $html);
         self::assertStringContainsString('data-parsley-error-message="Enter the 8-character code."', $html);
 
         // message() replaces the default message, e.g. to translate it.

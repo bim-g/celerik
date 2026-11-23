@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Celerik\Ui\Components;
+namespace Caelrik\Ui\Components;
 
-use Celerik\Ui\Component;
-use Celerik\Ui\Support\Html;
+use Caelrik\Ui\Component;
+use Caelrik\Ui\Support\Html;
 use InvalidArgumentException;
 use LogicException;
 use Stringable;
@@ -101,6 +101,6 @@ final class Accordion extends Component
             $html .= Html::tag('div', ['class' => 'accordion-item'], $heading . $body);
         }
 
-        return Html::tag('div', $this->rootAttributes(['accordion', 'celerik-accordion']), $html);
+        return Html::tag('div', $this->rootAttributes(['accordion', 'caelrik-accordion']), $html);
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-use Celerik\Ui\Components\Notification;
+use Caelrik\Ui\Components\Notification;
 
 // Usually filled from the session: Notification::make('flash')->fromFlash($flash).
 return Notification::make('flash')

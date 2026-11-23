@@ -1,6 +1,6 @@
 // Chips and tooltips (PHP: Components\Chip, Components\Tooltip).
 // - A removable chip's Remove button takes the chip (and its hidden field) away, after a
-//   cancelable celerik:remove; focus goes to the next chip's Remove button, or the previous
+//   cancelable caelrik:remove; focus goes to the next chip's Remove button, or the previous
 //   one, and the removal is announced.
 // - A tooltip (the WAI-ARIA tooltip pattern, WCAG 1.4.13): its control is described by it;
 //   it shows on hover and focus, stays while the pointer is on the control or on it, hides
@@ -12,10 +12,10 @@ const format = (template, values) => Object.entries(values)
 
 // One status region for the page's chip removals.
 function announcer() {
-  let status = document.getElementById('celerik-chip-status');
+  let status = document.getElementById('caelrik-chip-status');
   if (!status) {
     status = document.createElement('div');
-    status.id = 'celerik-chip-status';
+    status.id = 'caelrik-chip-status';
     status.className = 'visually-hidden';
     status.setAttribute('role', 'status');
     document.body.append(status);
@@ -28,16 +28,16 @@ function announcer() {
 
 export function initChip(element, options = {}) {
   const labels = { removed: '{label} removed.', ...options.labels };
-  const button = element.querySelector('.celerik-chip-remove');
-  const label = element.querySelector('.celerik-chip-label')?.textContent.trim() ?? '';
+  const button = element.querySelector('.caelrik-chip-remove');
+  const label = element.querySelector('.caelrik-chip-label')?.textContent.trim() ?? '';
   const remove = () => {
     const value = element.querySelector('input[type=hidden]')?.value ?? label;
-    const event = new CustomEvent('celerik:remove', { bubbles: true, cancelable: true, detail: { label, value } });
+    const event = new CustomEvent('caelrik:remove', { bubbles: true, cancelable: true, detail: { label, value } });
     if (!element.dispatchEvent(event)) {
       return false;
     }
     // The next chip among the following elements of the same parent, else the previous one.
-    const siblings = [...(element.parentElement?.querySelectorAll('.celerik-chip-remove') ?? [])];
+    const siblings = [...(element.parentElement?.querySelectorAll('.caelrik-chip-remove') ?? [])];
     const index = siblings.indexOf(button);
     const next = siblings[index + 1] ?? siblings[index - 1] ?? null;
     element.remove();
@@ -53,7 +53,7 @@ const HIDE_DELAY = 150;
 const MARGIN = 8;
 
 export function initTooltip(element, options = {}) {
-  const tip = element.querySelector(':scope > .celerik-tooltip');
+  const tip = element.querySelector(':scope > .caelrik-tooltip');
   const control = element.querySelector('a[href], button, input, select, textarea, summary, [tabindex]:not([tabindex="-1"])');
   if (!tip || !control) {
     return null;

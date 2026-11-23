@@ -3,7 +3,7 @@
 const jQuery = window.jQuery;
 
 if (!jQuery) {
-  throw new Error('Celerik: load jQuery before celerik.js.');
+  throw new Error('Caelrik: load jQuery before caelrik.js.');
 }
 
 export default jQuery;
