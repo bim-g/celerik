@@ -13,9 +13,9 @@ name: Release
 # source-only. Source maps are not in the package: they are attached to the GitHub
 # release as a zip.
 #
-# With an NPM_TOKEN secret (an npm granular access token with read and write access to
-# the @caelrik scope and "Bypass two-factor authentication"), the same
-# bundle is published to npm as @caelrik/ui, which jsDelivr serves: Assets::cdnUrl().
+# With npm trusted publishing (the repository variable NPM_TRUSTED_PUBLISHING set to true)
+# or an NPM_TOKEN secret, the same bundle is published to npm as @caelrik/ui, which
+# jsDelivr serves: Assets::cdnUrl(). .github/scripts/npm-publish.sh says how to set either.
 
 on:
   workflow_dispatch:
@@ -143,11 +143,10 @@ jobs:
             $([[ "$VERSION" == *-* ]] && echo --prerelease)
 
       - name: Publish to npm
-        if: env.NPM_TOKEN != ''
+        if: env.NPM_TOKEN != '' || vars.NPM_TRUSTED_PUBLISHING == 'true'
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: |
-          # Pre-releases go to the "next" tag, so they never become "latest".
-          # If this step fails, the tag and the release exist: fix NPM_TOKEN, then run
-          # Actions > Publish to npm with the same version.
-          npm publish --provenance --access public $([[ "$VERSION" == *-* ]] && echo --tag next)
+          NPM_TRUSTED_PUBLISHING: ${{ vars.NPM_TRUSTED_PUBLISHING }}
+        # If this step fails, the tag and the release exist: fix the npm access, then run
+        # Actions > Publish to npm with the same version.
+        run: bash .github/scripts/npm-publish.sh "$VERSION"
