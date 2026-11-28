@@ -15,7 +15,9 @@ We welcome contributions from developers, designers and AI agents.
 
 ## Pull request titles
 
-Commit messages and pull request titles start with a tag, then the component or area when there is one: `[TAG] scope: summary`, e.g. `[NEW] grid: column filters`, `[FIX] a11y: focus ring on tabs` or `[REL] 0.8.0`. A change of two kinds takes both tags, e.g. `[FIX][SEC] upload: check the file type`.
+Commit messages and pull request titles start with a tag, then the component or area when there is one: `[TAG] scope: summary`, e.g. `[NEW] grid: column filters`, `[FIX] a11y: focus ring on tabs` or `[REL] 0.8.0`. A change of two kinds takes both tags, e.g. `[FIX][SEC] upload: check the file type`. Tags are in capitals.
+
+The **Commit tags** check fails a pull request whose title, or one of whose commits, does not start with a tag from the table below; merge commits are not checked. Fix a title by editing it, and commit messages with `git rebase -i` (reword) and a force-push.
 
 | Tag | Use it for |
 |---|---|

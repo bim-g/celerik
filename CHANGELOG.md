@@ -8,7 +8,7 @@ The same version is published on Packagist (`caelrik/ui`) and npm (`@caelrik/ui`
 
 ### Development
 
-- Commit messages and pull request titles start with a tag instead of a Conventional Commits type: `[NEW] grid: column filters`, `[FIX] a11y: focus ring on tabs`. [CONTRIBUTING.md](CONTRIBUTING.md) lists the tags; the pull request labels, the release notes (with new **Enhancements** and **Security** sections), Dependabot and the release commit follow them.
+- Commit messages and pull request titles start with a tag instead of a Conventional Commits type: `[NEW] grid: column filters`, `[FIX] a11y: focus ring on tabs`. [CONTRIBUTING.md](CONTRIBUTING.md) lists the tags; the pull request labels, the release notes (with new **Enhancements** and **Security** sections), Dependabot and the release commit follow them, and the **Commit tags** check fails a pull request whose title or commits do not start with a tag.
 
 ## [0.7.4] - 2026-11-28
 
