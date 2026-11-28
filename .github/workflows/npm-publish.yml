@@ -6,8 +6,10 @@ name: Publish to npm
 # exists, so it cannot be run again.
 #
 # The tag's commit holds the built bundle and package.json at the version: it is
-# published as it is, nothing is built. NPM_TOKEN must be an npm granular access token
-# with read and write access to the @caelrik scope and "Bypass two-factor authentication".
+# published as it is, nothing is built. npm access: trusted publishing (the repository
+# variable NPM_TRUSTED_PUBLISHING set to true) or an NPM_TOKEN secret, as
+# .github/scripts/npm-publish.sh says. The script is taken from main, so that a tag
+# released before it can still be published.
 
 on:
   workflow_dispatch:
@@ -41,6 +43,12 @@ jobs:
         with:
           ref: refs/tags/v${{ inputs.version }}
 
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ github.event.repository.default_branch }}
+          path: .ci
+          sparse-checkout: .github/scripts
+
       - uses: actions/setup-node@v7
         with:
           node-version: '24'
@@ -66,18 +74,5 @@ jobs:
       - name: Publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: |
-          if [[ -z "$NODE_AUTH_TOKEN" ]]; then
-            echo "::error::Add an NPM_TOKEN secret first."
-            exit 1
-          fi
-          # Pre-releases go to the "next" tag, so they never become "latest"; so does a
-          # version older than the one npm has as "latest" (0.7.0 published after 0.7.1).
-          latest=$(npm view "$(node -p "require('./package.json').name")" dist-tags.latest 2> /dev/null || true)
-          tag=latest
-          if [[ "$VERSION" == *-* ]]; then
-            tag=next
-          elif [[ -n "$latest" && "$(printf '%s\n%s\n' "$latest" "$VERSION" | sort -V | tail -1)" != "$VERSION" ]]; then
-            tag=previous
-          fi
-          npm publish --provenance --access public --tag "$tag"
+          NPM_TRUSTED_PUBLISHING: ${{ vars.NPM_TRUSTED_PUBLISHING }}
+        run: bash .ci/.github/scripts/npm-publish.sh "$VERSION"

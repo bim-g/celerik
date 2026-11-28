@@ -6,6 +6,18 @@ The same version is published on Packagist (`caelrik/ui`) and npm (`@caelrik/ui`
 
 ## [Unreleased]
 
+## [0.7.4] - 2026-11-28
+
+The first version of `@caelrik/ui` on npm, and so on jsDelivr (`Assets::cdnUrl()`): the npm step of the 0.7.0 and 0.7.1 releases stopped on a one-time password (EOTP). The code is the same as 0.7.1. There is no 0.7.2 or 0.7.3: the release of 0.7.2 failed before tagging, and the tag of 0.7.3 was deleted.
+
+### Added
+
+- **Publish to npm** workflow (Actions, with a version), for maintainers: it publishes a released tag to npm as it is, when the npm step of its release failed, older tags included. A version older than npm's `latest` goes to the `previous` tag.
+
+### Fixed
+
+- Releases publish `@caelrik/ui` to npm without a one-time password: with npm trusted publishing (GitHub's OIDC token, no secret and no 2FA prompt) or an access token that bypasses two-factor authentication. When npm asks for a one-time password, the run says which token to create.
+
 ## [0.7.1] - 2026-11-23
 
 The repository and its documentation follow the rename: they are now `kivudesign/caelrik` and <https://kivudesign.github.io/caelrik/>. The code and the names in it do not change.
@@ -314,7 +326,8 @@ The Phase 1 MVP ([#11](https://github.com/kivudesign/caelrik/pull/11)).
 - Bootstrap SCSS theme and JS wrappers.
 - Examples for plain PHP, Laravel and Symfony.
 
-[Unreleased]: https://github.com/kivudesign/caelrik/compare/v0.7.1...HEAD
+[Unreleased]: https://github.com/kivudesign/caelrik/compare/v0.7.4...HEAD
+[0.7.4]: https://github.com/kivudesign/caelrik/compare/v0.7.1...v0.7.4
 [0.7.1]: https://github.com/kivudesign/caelrik/compare/v0.7.0...v0.7.1
 [0.7.0]: https://github.com/kivudesign/caelrik/compare/v0.6.0...v0.7.0
 [0.6.0]: https://github.com/kivudesign/caelrik/compare/v0.5.0...v0.6.0
